@@ -6,6 +6,7 @@
 
 ## EXAM Assignment
 
+My idea for this assignment:
 Create an application where you can search for pokemon cards from the TCG series. Search for the sets, cards, artists and more. Create collections to see which ones you own and have left in sets or even create a collection with your favorite pokemon.
 
 ### Purpose
@@ -74,4 +75,5 @@ To get it up and running follow these steps:
 ### Screenshots
 
 ### Accessibility screenshots
+
 # exsqrtl
