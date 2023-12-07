@@ -20,17 +20,17 @@ export async function getAllOwnedCards(req, res) {
     const result = await pool.query("SELECT * FROM cards WHERE user_id = ?", [
       req.params.userId,
     ]);
-    console.log(result[0]);
-    return result[0];
+    console.log(result);
+    return result;
   } catch (error) {
     console.error(error);
   }
 }
-export async function getAllCards(req, res) {
+export async function getAllCards() {
   try {
     const result = await pool.query("SELECT * FROM cards");
-    console.log(result[0]);
-    return result[0];
+    console.log(result);
+    return result;
   } catch (error) {
     console.error(error);
   }

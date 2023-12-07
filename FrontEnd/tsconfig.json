@@ -20,7 +20,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "../BackEnd/src/routes", "../BackEnd/src/mockData", "../BackEnd/src/database", "../BackEnd/src/controllers"],
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }],
   "exclude":[""]
 }

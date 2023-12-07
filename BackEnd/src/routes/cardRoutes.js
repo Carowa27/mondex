@@ -7,9 +7,9 @@ import {
 } from "../controllers/cardController.js";
 const router = express.Router();
 
-router.get("/cards/", getAllCards);
-router.get("/cards/:userId", getAllOwnedCards);
-router.get("/cards/:cardId", getOwnedCardById);
+router.get("/", getAllCards);
+router.get("/:userId", getAllOwnedCards);
+router.get("/:cardId", getOwnedCardById);
 
 // router.put("/cards/:cardId", updateAmountOfCard);
 
