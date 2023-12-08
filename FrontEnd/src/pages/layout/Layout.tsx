@@ -1,14 +1,16 @@
 import { Outlet } from "react-router-dom";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
-import { theme } from "../../globals/theme";
+import { ThemeContext } from "../../globals/theme";
+import { useContext } from "react";
 
 export const Layout = () => {
+  const { theme } = useContext(ThemeContext);
   return (
     <div
       style={{
         minHeight: "100vh",
-        background: `${theme.light.primaryColors.squirtle}`,
+        background: `${theme.primaryColors.squirtle}`,
       }}
       className="d-flex flex-column p-2"
     >
