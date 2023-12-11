@@ -10,7 +10,7 @@ export const Layout = () => {
     <div
       style={{
         minHeight: "100vh",
-        background: `${theme.primaryColors.squirtle}`,
+        background: `rgb(${theme.primaryColors.squirtle})`,
       }}
       className="d-flex flex-column p-2"
     >

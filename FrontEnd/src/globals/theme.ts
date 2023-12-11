@@ -5,21 +5,17 @@ export const colorModes = {
   Light: {
     name: "light",
     primaryColors: {
-      blastoise: "#8fa9d8",
-      squirtle: "#89c1ce",
-      lt_squirtle: "#B6D9E0",
-      dk_squirtle: "#567880",
-      shell: "#cf7a2f",
+      blastoise: "143,169,216",
+      squirtle: "137,193,206",
+      shell: "207,122,47",
     },
   },
   Dark: {
     name: "dark",
     primaryColors: {
-      blastoise: "#8fa9d8",
-      squirtle: "#3e5f66",
-      lt_squirtle: "#B6D9E0",
-      dk_squirtle: "#567880",
-      shell: "#64360e",
+      blastoise: "94,117,158",
+      squirtle: "86,120,128",
+      shell: "100,54,14",
     },
   },
 };

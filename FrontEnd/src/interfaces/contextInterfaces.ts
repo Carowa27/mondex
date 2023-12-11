@@ -10,8 +10,6 @@ export interface IColorMode {
   primaryColors: {
     blastoise: string;
     squirtle: string;
-    lt_squirtle: string;
-    dk_squirtle: string;
     shell: string;
   };
 }

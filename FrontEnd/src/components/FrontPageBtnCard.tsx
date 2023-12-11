@@ -26,7 +26,7 @@ export const FrontPageBtnCard = ({
           ? {
               width: "32%",
               height: "100%",
-              backgroundColor: `${theme.primaryColors.shell}`,
+              backgroundColor: `rgb(${theme.primaryColors.shell})`,
               textOverflow: "ellipsis",
               overflow: "hidden",
               whiteSpace: "nowrap",
@@ -35,7 +35,7 @@ export const FrontPageBtnCard = ({
           : {
               width: "95%",
               height: "32%",
-              backgroundColor: `${theme.primaryColors.shell}`,
+              backgroundColor: `rgb(${theme.primaryColors.shell})`,
               textOverflow: "ellipsis",
               overflow: "hidden",
               whiteSpace: "nowrap",

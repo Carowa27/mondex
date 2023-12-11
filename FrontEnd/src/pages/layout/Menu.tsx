@@ -24,7 +24,7 @@ export const Menu = () => {
             <span
               className="pl-2"
               style={{
-                borderLeft: `2px solid ${theme.primaryColors.blastoise}`,
+                borderLeft: `2px solid rgb(${theme.primaryColors.blastoise})`,
               }}
             >
               {language.lang_code.word_search}
@@ -40,7 +40,11 @@ export const Menu = () => {
           </span>
           {isLangMenuOpen ? (
             <>
-              <div style={{ backgroundColor: theme.primaryColors.squirtle }}>
+              <div
+                style={{
+                  backgroundColor: ` rgb(${theme.primaryColors.squirtle})`,
+                }}
+              >
                 <div
                   onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
                   className="pl-2"
@@ -111,13 +115,13 @@ export const Menu = () => {
                 cursor: "pointer",
                 zIndex: "200",
                 width: "110px",
-                backgroundColor: theme.primaryColors.squirtle,
-                border: `2px solid ${theme.primaryColors.blastoise}`,
+                backgroundColor: `rgb(${theme.primaryColors.squirtle})`,
+                border: `2px solid rgb(${theme.primaryColors.blastoise})`,
               }}
             >
               <div onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
                 <span> Menu</span>
-                <i className="bi bi-chevron-compact-up pl-3"></i>
+                <i className="bi bi-chevron-compact-up pl-2"></i>
               </div>
 
               <Link to="./search">
@@ -157,7 +161,7 @@ export const Menu = () => {
                 cursor: "pointer",
                 zIndex: "200",
                 width: "110px",
-                borderLeft: `2px solid ${theme.primaryColors.blastoise}`,
+                borderLeft: `2px solid rgb(${theme.primaryColors.blastoise})`,
                 // backgroundColor: theme.primaryColors.squirtle,
               }}
             >
@@ -168,11 +172,14 @@ export const Menu = () => {
                 }}
               >
                 <span>Menu</span>
-                <i className="bi bi-chevron-compact-down pl-3"></i>
+                <i className="bi bi-chevron-compact-down pl-2"></i>
               </div>
             </div>
           )}
-          <div className="pl-3" style={{ zIndex: 300 }}>
+          <div
+            className="pl-3 mr-4"
+            style={{ zIndex: 300, position: "absolute", right: 0 }}
+          >
             {theme.name === "light" ? (
               <i
                 onClick={() => changeColorMode("dark")}
