@@ -8,9 +8,16 @@ export interface IThemeContext {
 export interface IColorMode {
   name: string;
   primaryColors: {
-    blastoise: string;
-    squirtle: string;
-    shell: string;
+    rgb: {
+      blastoise: string;
+      squirtle: string;
+      shell: string;
+    };
+    hex: {
+      blastoise: string;
+      squirtle: string;
+      shell: string;
+    };
   };
 }
 

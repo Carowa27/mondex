@@ -24,7 +24,7 @@ export const Menu = () => {
             <span
               className="pl-2"
               style={{
-                borderLeft: `2px solid rgb(${theme.primaryColors.blastoise})`,
+                borderLeft: `2px solid ${theme.primaryColors.hex.blastoise}`,
               }}
             >
               {language.lang_code.word_search}
@@ -42,7 +42,7 @@ export const Menu = () => {
             <>
               <div
                 style={{
-                  backgroundColor: ` rgb(${theme.primaryColors.squirtle})`,
+                  backgroundColor: `${theme.primaryColors.hex.squirtle}`,
                 }}
               >
                 <div
@@ -115,8 +115,8 @@ export const Menu = () => {
                 cursor: "pointer",
                 zIndex: "200",
                 width: "110px",
-                backgroundColor: `rgb(${theme.primaryColors.squirtle})`,
-                border: `2px solid rgb(${theme.primaryColors.blastoise})`,
+                backgroundColor: `${theme.primaryColors.hex.squirtle}`,
+                border: `2px solid ${theme.primaryColors.hex.blastoise}`,
               }}
             >
               <div onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
@@ -161,7 +161,7 @@ export const Menu = () => {
                 cursor: "pointer",
                 zIndex: "200",
                 width: "110px",
-                borderLeft: `2px solid rgb(${theme.primaryColors.blastoise})`,
+                borderLeft: `2px solid ${theme.primaryColors.hex.blastoise}`,
                 // backgroundColor: theme.primaryColors.squirtle,
               }}
             >
