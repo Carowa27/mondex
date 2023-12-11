@@ -177,7 +177,7 @@ export const Menu = () => {
             </div>
           )}
           <div
-            className="pl-3 mr-4"
+            className="pl-3 mr-3"
             style={{ zIndex: 300, position: "absolute", right: 0 }}
           >
             {theme.name === "light" ? (
