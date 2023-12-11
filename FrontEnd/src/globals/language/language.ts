@@ -4,11 +4,11 @@ import { ILanguageContext } from "../../interfaces/contextInterfaces";
 
 export const lang = {
   SE: {
-    locale: SE,
+    lang_code: SE,
     name: "Svenska",
   },
   EN: {
-    locale: EN,
+    lang_code: EN,
     name: "English",
   },
 };

@@ -6,6 +6,7 @@ export interface IThemeContext {
   changeColorMode: (wantedColorMode: string) => void;
 }
 export interface IColorMode {
+  name: string;
   primaryColors: {
     blastoise: string;
     squirtle: string;
@@ -21,6 +22,6 @@ export interface ILanguageContext {
   changeLanguage: (wantedLanguage: string) => void;
 }
 export interface ILanguage {
-  locale: ILanguageVariables;
+  lang_code: ILanguageVariables;
   name: string;
 }

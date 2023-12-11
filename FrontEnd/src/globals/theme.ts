@@ -3,6 +3,7 @@ import { IThemeContext } from "../interfaces/contextInterfaces";
 
 export const colorModes = {
   Light: {
+    name: "light",
     primaryColors: {
       blastoise: "#8fa9d8",
       squirtle: "#89c1ce",
@@ -12,6 +13,7 @@ export const colorModes = {
     },
   },
   Dark: {
+    name: "dark",
     primaryColors: {
       blastoise: "#8fa9d8",
       squirtle: "#3e5f66",

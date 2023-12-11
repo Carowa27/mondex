@@ -2,9 +2,12 @@ import { useMediaQuery } from "react-responsive";
 import { FrontPageBtnCard } from "../components/FrontPageBtnCard";
 import { Link } from "react-router-dom";
 import { variables } from "../globals/variables";
+import { useContext } from "react";
+import { LanguageContext } from "../globals/language/language";
 
 export const Home = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
+  const { language } = useContext(LanguageContext);
   return (
     <>
       <div
@@ -16,18 +19,20 @@ export const Home = () => {
         style={{ height: "90vh" }}
       >
         {/* <Link to="./about"></Link> */}
-        <FrontPageBtnCard header="Fast about">
+        <FrontPageBtnCard header={language.lang_code.about_about_project}>
           <div>test</div>
         </FrontPageBtnCard>
-        <FrontPageBtnCard header="Search">
+        <FrontPageBtnCard header={language.lang_code.word_search}>
           <div>test</div>
           <Link to="./search">Go search now</Link>
         </FrontPageBtnCard>
-        <FrontPageBtnCard header="Create Account">
-          <div>If you have an account you could....</div>
-          <div className="d-flex justify-content-around">
-            <button>create an account</button>
-            <button>login</button>
+        <FrontPageBtnCard header={language.lang_code.word_account}>
+          <div>{language.lang_code.account_description}</div>
+          <div className="d-flex justify-content-around py-5">
+            <button className="btn">
+              {language.lang_code.account_create_account}
+            </button>
+            <button className="btn">{language.lang_code.account_login}</button>
           </div>
         </FrontPageBtnCard>
       </div>

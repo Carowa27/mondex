@@ -31,9 +31,9 @@ function App() {
     },
   });
   language.changeLanguage = (wantedLanguage: string) => {
-    let active = lang.SV;
-    if (wantedLanguage === "sv") {
-      active = lang.SV;
+    let active = lang.SE;
+    if (wantedLanguage === "SE") {
+      active = lang.SE;
     } else {
       active = lang.EN;
     }
