@@ -1,7 +1,18 @@
+import { Link } from "react-router-dom";
+import { Menu } from "./Menu";
+
 export const Header = () => {
   return (
     <>
-      <h3>Header</h3>
+      <div
+        className="d-flex justify-content-between px-2 pb-2 pt-2"
+        style={{ height: "3.5rem" }}
+      >
+        <Link to="./">
+          <span>logo&namn</span>
+        </Link>
+        <Menu />
+      </div>
     </>
   );
 };
