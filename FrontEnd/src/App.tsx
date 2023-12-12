@@ -1,14 +1,17 @@
 import { RouterProvider } from "react-router-dom";
 import { Router } from "./Router";
 import { ThemeContext, colorModes } from "./globals/theme";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LanguageContext, lang } from "./globals/language/language";
 import {
   ILanguageContext,
   IThemeContext,
 } from "./interfaces/contextInterfaces";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function App() {
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const [bearerToken, setBearerToken] = useState("");
   const [theme, setTheme] = useState<IThemeContext>({
     theme: colorModes.Light,
     changeColorMode: (wantedColorMode: string) => {
@@ -39,6 +42,15 @@ function App() {
     }
     setLanguage({ ...language, language: active });
   };
+
+  useEffect(() => {
+    const getToken = async () => {
+      const token = isAuthenticated ? await getAccessTokenSilently() : "";
+      setBearerToken(token);
+    };
+    getToken();
+  }, [getAccessTokenSilently, isAuthenticated]);
+
   return (
     <>
       <LanguageContext.Provider value={language}>

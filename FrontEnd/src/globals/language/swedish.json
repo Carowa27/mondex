@@ -3,8 +3,8 @@
   "word_account": "konto",
   "word_language": "språk",
   "word_search": "sök",
-  "account_create_account": "skapa konto",
   "account_description": "Med ett konto kan du...",
   "account_login": "logga in",
+  "account_logout": "logga ut",
   "about_about_project": "om EXsqrtl"
 }

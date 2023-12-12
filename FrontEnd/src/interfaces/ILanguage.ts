@@ -5,9 +5,9 @@ export interface ILanguageVariables {
   word_account: string;
   word_language: string;
   word_search: string;
-  account_create_account: string;
   account_description: string;
   account_login: string;
+  account_logout: string;
   about_about_project: string;
 }
 export const SE: ILanguageVariables = swedish;

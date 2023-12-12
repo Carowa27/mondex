@@ -4,10 +4,17 @@ import { Link } from "react-router-dom";
 import { variables } from "../globals/variables";
 import { useContext } from "react";
 import { LanguageContext } from "../globals/language/language";
+import { useAuth0 } from "@auth0/auth0-react";
+import { LoginBtn } from "../components/LoginBtn";
+import { LogoutBtn } from "../components/LogoutBtn";
+import { CollectionBanner } from "../components/CollectionBanner";
 
 export const Home = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { language } = useContext(LanguageContext);
+  const { isLoading, isAuthenticated, user, error } = useAuth0();
+
+  console.log("user home", user);
   return (
     <>
       <div
@@ -19,22 +26,40 @@ export const Home = () => {
         style={{ height: "90vh" }}
       >
         {/* <Link to="./about"></Link> */}
-        <FrontPageBtnCard header={language.lang_code.about_about_project}>
+        <FrontPageBtnCard>
+          <h4>{language.lang_code.about_about_project}</h4>
           <div>test</div>
         </FrontPageBtnCard>
-        <FrontPageBtnCard header={language.lang_code.word_search}>
+        <FrontPageBtnCard>
+          <h4>{language.lang_code.word_search}</h4>
           <div>test</div>
           <Link to="./search">Go search now</Link>
         </FrontPageBtnCard>
-        <FrontPageBtnCard header={language.lang_code.word_account}>
-          <div>{language.lang_code.account_description}</div>
-          <div className="d-flex justify-content-around py-5">
-            <button className="btn">
-              {language.lang_code.account_create_account}
-            </button>
-            <button className="btn">{language.lang_code.account_login}</button>
-          </div>
-        </FrontPageBtnCard>
+        {error && <p>Error with authentication</p>}
+        {!error && isLoading ? (
+          <div>Loading...</div>
+        ) : (
+          <>
+            <FrontPageBtnCard
+              footer={
+                <>
+                  <LoginBtn />
+                  <LogoutBtn />
+                </>
+              }
+            >
+              {isAuthenticated ? (
+                <h4>{`Welcome Back, ${user?.given_name}!`}</h4>
+              ) : (
+                <>
+                  <h4>{language.lang_code.word_account}</h4>
+                  <p>{language.lang_code.account_description}</p>
+                </>
+              )}
+              <CollectionBanner />
+            </FrontPageBtnCard>
+          </>
+        )}
       </div>
     </>
   );
