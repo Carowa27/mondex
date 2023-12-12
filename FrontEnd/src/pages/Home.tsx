@@ -1,17 +1,19 @@
 import { useMediaQuery } from "react-responsive";
+import { variables } from "../globals/variables";
 import { FrontPageBtnCard } from "../components/FrontPageBtnCard";
 import { Link } from "react-router-dom";
-import { variables } from "../globals/variables";
 import { useContext } from "react";
 import { LanguageContext } from "../globals/language/language";
 import { useAuth0 } from "@auth0/auth0-react";
 import { LoginBtn } from "../components/LoginBtn";
 import { LogoutBtn } from "../components/LogoutBtn";
 import { CollectionBanner } from "../components/CollectionBanner";
+import { ThemeContext } from "../globals/theme";
 
 export const Home = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { language } = useContext(LanguageContext);
+  const { theme } = useContext(ThemeContext);
   const { isLoading, isAuthenticated, user, error } = useAuth0();
 
   console.log("user home", user);
@@ -20,17 +22,36 @@ export const Home = () => {
       <div
         className={
           isDesktop
-            ? "row m-1" //d-flex flex-row justify-content-around
+            ? "row my-1" //d-flex flex-row justify-content-around
             : "row d-flex justify-content-center" //"d-flex flex-column justify-content-around align-items-center"
         }
-        style={{ height: "90vh" }}
       >
-        {/* <Link to="./about"></Link> */}
-        <FrontPageBtnCard>
+        <FrontPageBtnCard
+          footer={
+            <Link to="./about">
+              <i>{language.lang_code.read_more}</i>
+            </Link>
+          }
+          bkcolor={`${theme.primaryColors.hex.shell}`}
+        >
           <h4>{language.lang_code.about_about_project}</h4>
-          <div>test</div>
+          {isDesktop ? (
+            <>
+              <h5>{language.lang_code.about_exam}</h5>
+              <p>{language.lang_code.about_description_exam}</p>
+              <h5>{language.lang_code.word_purpose}</h5>
+              <p>{language.lang_code.about_description_purpose}</p>
+              <h5>{language.lang_code.word_goal}</h5>
+              <p className="m-0">{language.lang_code.about_description_goal}</p>
+            </>
+          ) : (
+            <>
+              <h5>{language.lang_code.about_exam}</h5>
+              <p className="m-0">{language.lang_code.about_description_exam}</p>
+            </>
+          )}
         </FrontPageBtnCard>
-        <FrontPageBtnCard>
+        <FrontPageBtnCard bkcolor={`${theme.primaryColors.hex.shell}`}>
           <h4>{language.lang_code.word_search}</h4>
           <div>test</div>
           <Link to="./search">Go search now</Link>
@@ -41,6 +62,7 @@ export const Home = () => {
         ) : (
           <>
             <FrontPageBtnCard
+              bkcolor={`${theme.primaryColors.hex.shell}`}
               footer={
                 <>
                   <LoginBtn />

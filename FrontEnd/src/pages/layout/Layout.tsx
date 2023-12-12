@@ -15,7 +15,9 @@ export const Layout = () => {
       className="d-flex flex-column p-2"
     >
       <Header></Header>
-      <Outlet></Outlet>
+      <main className="mx-2">
+        <Outlet></Outlet>
+      </main>
       <Footer></Footer>
     </div>
   );

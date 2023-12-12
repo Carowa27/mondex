@@ -5,8 +5,8 @@ export const Header = () => {
   return (
     <>
       <div
-        className="d-flex justify-content-between px-2 pb-2 pt-2"
-        style={{ height: "3.5rem" }}
+        className="d-flex justify-content-between px-2 py-2"
+        style={{ height: "3rem" }}
       >
         <Link to="./">
           <span>logo&namn</span>

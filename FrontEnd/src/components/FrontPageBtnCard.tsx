@@ -1,43 +1,45 @@
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
-import { ThemeContext } from "../globals/theme";
-import { useContext } from "react";
 
 export const FrontPageBtnCard = ({
   children,
   footer,
+  bkcolor,
 }: {
   children: React.ReactNode;
   footer?: React.ReactNode;
+  bkcolor?: string;
 }) => {
-  const { theme } = useContext(ThemeContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   return (
     <div
       className={
         isDesktop
-          ? "p-2 col mx-2 d-flex flex-column"
-          : "p-2 col-11 d-flex align-items-start flex-column"
+          ? "px-4 py-3 col mx-2 d-flex flex-column"
+          : "p-2 col-11 mb-2 d-flex align-items-start flex-column"
       }
       style={
         isDesktop
           ? {
               width: "32%",
-              height: "100%",
-              backgroundColor: `${theme.primaryColors.hex.shell}`,
+              minHeight: "100%",
+              backgroundColor: `${bkcolor}`,
               textOverflow: "ellipsis",
               overflow: "hidden",
               whiteSpace: "nowrap",
               borderRadius: "1rem",
+              textWrap: "wrap",
             }
           : {
-              width: "95%",
-              height: "32%",
-              backgroundColor: `${theme.primaryColors.hex.shell}`,
+              width: "100%",
+              minHeight: "29vh",
+              height: "auto",
+              backgroundColor: `${bkcolor}`,
               textOverflow: "ellipsis",
               overflow: "hidden",
               whiteSpace: "nowrap",
               borderRadius: "0.8rem",
+              textWrap: "wrap",
             }
       }
     >

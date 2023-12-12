@@ -19,7 +19,7 @@ export const Menu = () => {
         <div
           className="d-flex justify-content-around"
           style={{
-            width: "300px",
+            width: "400px",
           }}
         >
           <Link to="./search">
