@@ -4,6 +4,7 @@ import { variables } from "../../globals/variables";
 import { useContext, useState } from "react";
 import { LanguageContext } from "../../globals/language/language";
 import { ThemeContext } from "../../globals/theme";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const Menu = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -11,6 +12,7 @@ export const Menu = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { language, changeLanguage } = useContext(LanguageContext);
   const { theme, changeColorMode } = useContext(ThemeContext);
+  const { isAuthenticated } = useAuth0();
   return (
     <>
       {isDesktop ? (
@@ -35,9 +37,14 @@ export const Menu = () => {
               {language.lang_code.about_about_project}
             </span>
           </Link>
-          <span className="pl-2" title="logga in/skapa konto/mina sidor">
-            {language.lang_code.account_login}
-          </span>
+          {isAuthenticated ? (
+            <span className="pl-2">
+              {/* {language.lang_code.account_login} */}
+              <Link to="./userpage">UserPage</Link>
+            </span>
+          ) : (
+            <span className="pl-2">{language.lang_code.account_login}</span>
+          )}
           {isLangMenuOpen ? (
             <>
               <div
