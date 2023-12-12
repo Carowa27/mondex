@@ -1,7 +1,5 @@
 #be
 backend/.env
-backend/package-lock.json
-backend/.package-lock.json
 backend/node_modules
 
 

@@ -4,10 +4,15 @@ import { Link } from "react-router-dom";
 import { variables } from "../globals/variables";
 import { useContext } from "react";
 import { LanguageContext } from "../globals/language/language";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const Home = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { language } = useContext(LanguageContext);
+  const { isLoading, isAuthenticated, loginWithRedirect, user, logout } =
+    useAuth0();
+
+  console.log("user home", user);
   return (
     <>
       <div
@@ -26,15 +31,26 @@ export const Home = () => {
           <div>test</div>
           <Link to="./search">Go search now</Link>
         </FrontPageBtnCard>
-        <FrontPageBtnCard header={language.lang_code.word_account}>
-          <div>{language.lang_code.account_description}</div>
-          <div className="d-flex justify-content-around py-5">
-            <button className="btn">
-              {language.lang_code.account_create_account}
+        {isAuthenticated ? (
+          <FrontPageBtnCard header={`Welcome Back, ${user?.given_name}!`}>
+            <p>test</p>
+            <button className="btn" onClick={() => logout()}>
+              Logout
             </button>
-            <button className="btn">{language.lang_code.account_login}</button>
-          </div>
-        </FrontPageBtnCard>
+          </FrontPageBtnCard>
+        ) : (
+          <FrontPageBtnCard header={language.lang_code.word_account}>
+            <div>{language.lang_code.account_description}</div>
+            <div className="d-flex justify-content-around py-5">
+              <button className="btn">
+                {language.lang_code.account_create_account}
+              </button>
+              <button className="btn" onClick={() => loginWithRedirect()}>
+                {language.lang_code.account_login}
+              </button>
+            </div>
+          </FrontPageBtnCard>
+        )}
       </div>
     </>
   );

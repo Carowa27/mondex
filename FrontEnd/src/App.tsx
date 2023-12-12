@@ -39,6 +39,7 @@ function App() {
     }
     setLanguage({ ...language, language: active });
   };
+
   return (
     <>
       <LanguageContext.Provider value={language}>
