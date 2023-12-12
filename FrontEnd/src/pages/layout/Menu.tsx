@@ -12,7 +12,7 @@ export const Menu = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { language, changeLanguage } = useContext(LanguageContext);
   const { theme, changeColorMode } = useContext(ThemeContext);
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
   return (
     <>
       {isDesktop ? (
@@ -38,12 +38,21 @@ export const Menu = () => {
             </span>
           </Link>
           {isAuthenticated ? (
-            <span className="pl-2">
-              {/* {language.lang_code.account_login} */}
-              <Link to="./userpage">UserPage</Link>
-            </span>
+            <>
+              <span className="pl-2">
+                {/* {language.lang_code.account_login} */}
+                <Link to="./userpage">
+                  {language.lang_code.my_pages_my_pages}
+                </Link>
+              </span>
+              <span className="pl-2" onClick={() => logout()}>
+                {language.lang_code.account_logout}
+              </span>
+            </>
           ) : (
-            <span className="pl-2">{language.lang_code.account_login}</span>
+            <span className="pl-2" onClick={() => loginWithRedirect()}>
+              {language.lang_code.account_login}
+            </span>
           )}
           {isLangMenuOpen ? (
             <>
@@ -137,9 +146,23 @@ export const Menu = () => {
               <Link to="./about">
                 <span>{language.lang_code.about_about_project}</span>
               </Link>
-              <span title="logga in/skapa konto/mina sidor">
-                {language.lang_code.account_login}
-              </span>
+              {isAuthenticated ? (
+                <>
+                  <span>
+                    {/* {language.lang_code.account_login} */}
+                    <Link to="./userpage">
+                      {language.lang_code.my_pages_my_pages}
+                    </Link>
+                  </span>
+                  <span onClick={() => logout()}>
+                    {language.lang_code.account_logout}
+                  </span>
+                </>
+              ) : (
+                <span onClick={() => loginWithRedirect()}>
+                  {language.lang_code.account_login}
+                </span>
+              )}
               <div className="d-flex justify-content-around pt-1">
                 <span
                   style={

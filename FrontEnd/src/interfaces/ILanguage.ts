@@ -15,6 +15,7 @@ export interface ILanguageVariables {
   about_description_exam: string;
   about_description_goal: string;
   about_description_purpose: string;
+  my_pages_my_pages: string;
   read_more: string;
 }
 export const SE: ILanguageVariables = swedish;
