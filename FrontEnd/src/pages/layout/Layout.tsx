@@ -9,8 +9,11 @@ export const Layout = () => {
   const { theme } = useContext(ThemeContext);
 
   const MainStyle = styled.div`
-    color: ${theme.primaryColors.eeveelution.hex};
-    background-color: ${theme.primaryColors.sqrtlEV.hex};
+    color: ${theme.primaryColors.text.hex};
+    background-color: ${theme.primaryColors.background.hex};
+    a {
+      color: ${theme.primaryColors.link.hex};
+    }
   `;
 
   return (

@@ -5,21 +5,23 @@ export const colorModes = {
   Light: {
     name: "light",
     primaryColors: {
-      eeveelution: { rgb: "59,67,70", hex: "#3b4346" }, //umbreon
-      sqrtlEV: { rgb: "137,193,206", hex: "#89c1ce" }, // sqrtl
-      bulbasaurEV: { rgb: "132,189,163", hex: "#84bda3" }, //bulbasaur
-      charmanderEV: { rgb: "233,174,128", hex: "#e9ae80" }, //charmander
-      sunmoon: { rgb: "85,77,66", hex: "#554d42" }, //moon
+      sunmoon: { rgb: "85,77,66", hex: "#554d42" },
+      text: { hex: "#3b4346" },
+      link: { hex: "#2B375C" },
+      background: { hex: "#89c1ce" },
+      border: { hex: "#649980" },
+      cardBackground: { hex: "#78AEBB" },
     },
   },
   Dark: {
     name: "dark",
     primaryColors: {
-      eeveelution: { rbg: "245,229,169", hex: "#FFF5D1" }, //leafeon
-      sqrtlEV: { rgb: "143,169,216", hex: "#8fa9d8" }, // blastoise
-      bulbasaurEV: { rgb: "67,131,136", hex: "#438388" }, //venusaur
-      charmanderEV: { rgb: "212,141,84", hex: "#d48d54" }, //charizard
-      sunmoon: { rgb: "255,217,82", hex: "#FFD952" }, //sun
+      sunmoon: { rgb: "255,217,82", hex: "#FFD952" },
+      text: { hex: "#E9F3FF" },
+      link: { hex: "#B0C5E0" },
+      background: { hex: "#25383C" },
+      border: { hex: "#84bda3" },
+      cardBackground: { hex: "#172528" },
     },
   },
 };

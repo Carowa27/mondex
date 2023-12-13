@@ -26,7 +26,7 @@ export const Menu = () => {
             <span
               className="pl-2"
               style={{
-                borderLeft: `2px solid ${theme.primaryColors.bulbasaurEV.hex}`,
+                borderLeft: `2px solid ${theme.primaryColors.border.hex}`,
               }}
             >
               {language.lang_code.word_search}
@@ -58,14 +58,14 @@ export const Menu = () => {
             <>
               <div
                 style={{
-                  backgroundColor: `${theme.primaryColors.sqrtlEV.hex}`,
+                  backgroundColor: `${theme.primaryColors.background.hex}`,
                 }}
               >
                 <div
                   onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
                   className="pl-2"
                   style={{
-                    borderLeft: `2px solid ${theme.primaryColors.bulbasaurEV.hex}`,
+                    borderLeft: `2px solid ${theme.primaryColors.border.hex}`,
                   }}
                 >
                   <span> {language.lang_code.word_language}</span>
@@ -76,8 +76,8 @@ export const Menu = () => {
                   style={{
                     zIndex: "200",
                     position: "absolute",
-                    border: `2px solid ${theme.primaryColors.bulbasaurEV.hex}`,
-                    backgroundColor: `${theme.primaryColors.sqrtlEV.hex}`,
+                    border: `2px solid ${theme.primaryColors.border.hex}`,
+                    backgroundColor: `${theme.primaryColors.background.hex}`,
                     width: "4.35rem",
                   }}
                 >
@@ -142,8 +142,8 @@ export const Menu = () => {
                 cursor: "pointer",
                 zIndex: "200",
                 width: "120px",
-                backgroundColor: `${theme.primaryColors.sqrtlEV.hex}`,
-                border: `2px solid ${theme.primaryColors.bulbasaurEV.hex}`,
+                backgroundColor: `${theme.primaryColors.background.hex}`,
+                border: `2px solid ${theme.primaryColors.border.hex}`,
               }}
             >
               <div onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
@@ -202,7 +202,7 @@ export const Menu = () => {
                 cursor: "pointer",
                 zIndex: "200",
                 width: "120px",
-                borderLeft: `2px solid ${theme.primaryColors.bulbasaurEV.hex}`,
+                borderLeft: `2px solid ${theme.primaryColors.border.hex}`,
                 // backgroundColor: theme.primaryColors.squirtle,
               }}
             >

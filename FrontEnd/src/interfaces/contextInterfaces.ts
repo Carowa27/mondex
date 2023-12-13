@@ -11,11 +11,12 @@ export interface IColorType {
 }
 
 export interface IPrimaryColors {
-  eeveelution: IColorType;
-  sqrtlEV: IColorType;
-  bulbasaurEV: IColorType;
-  charmanderEV: IColorType;
   sunmoon: IColorType;
+  text: IColorType;
+  link: IColorType;
+  background: IColorType;
+  border: IColorType;
+  cardBackground: IColorType;
 }
 
 export interface IColorMode {

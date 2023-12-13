@@ -32,7 +32,7 @@ export const Home = () => {
               <i>{language.lang_code.read_more}</i>
             </Link>
           }
-          bkcolor={`${theme.primaryColors.charmanderEV.hex}`}
+          bkcolor={`${theme.primaryColors.cardBackground.hex}`}
         >
           <Link to="/about">
             <h4>{language.lang_code.about_about_project}</h4>
@@ -53,7 +53,7 @@ export const Home = () => {
             </>
           )}
         </FrontPageBtnCard>
-        <FrontPageBtnCard bkcolor={`${theme.primaryColors.charmanderEV.hex}`}>
+        <FrontPageBtnCard bkcolor={`${theme.primaryColors.cardBackground.hex}`}>
           <Link to="/search">
             {" "}
             <h4>{language.lang_code.word_search}</h4>
@@ -63,7 +63,7 @@ export const Home = () => {
         </FrontPageBtnCard>
         {error && <p>Error with authentication</p>}
 
-        <FrontPageBtnCard bkcolor={`${theme.primaryColors.charmanderEV.hex}`}>
+        <FrontPageBtnCard bkcolor={`${theme.primaryColors.cardBackground.hex}`}>
           {!error && isLoading ? (
             <LoadingModule />
           ) : (
