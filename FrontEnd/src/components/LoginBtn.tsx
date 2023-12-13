@@ -8,7 +8,11 @@ export const LoginBtn = () => {
   return (
     <>
       {!isAuthenticated && (
-        <button className="btn m-2" onClick={() => loginWithRedirect()}>
+        <button
+          className="btn m-2 mw-50 d-flex align-self-center justify-content-center"
+          onClick={() => loginWithRedirect()}
+        >
+          {language.lang_code.account_create_account}/
           {language.lang_code.account_login}
         </button>
       )}

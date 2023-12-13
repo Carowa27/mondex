@@ -12,21 +12,21 @@ export const Menu = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { language, changeLanguage } = useContext(LanguageContext);
   const { theme, changeColorMode } = useContext(ThemeContext);
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
   return (
     <>
       {isDesktop ? (
         <div
           className="d-flex justify-content-around"
           style={{
-            width: "300px",
+            width: "400px",
           }}
         >
           <Link to="./search">
             <span
               className="pl-2"
               style={{
-                borderLeft: `2px solid ${theme.primaryColors.hex.blastoise}`,
+                borderLeft: `2px solid ${theme.primaryColors.border.hex}`,
               }}
             >
               {language.lang_code.word_search}
@@ -38,44 +38,64 @@ export const Menu = () => {
             </span>
           </Link>
           {isAuthenticated ? (
-            <span className="pl-2">
-              {/* {language.lang_code.account_login} */}
-              <Link to="./userpage">UserPage</Link>
-            </span>
+            <>
+              <span className="pl-2">
+                {/* {language.lang_code.account_login} */}
+                <Link to="./userpage">
+                  {language.lang_code.my_pages_my_pages}
+                </Link>
+              </span>
+              <span className="pl-2" onClick={() => logout()}>
+                {language.lang_code.account_logout}
+              </span>
+            </>
           ) : (
-            <span className="pl-2">{language.lang_code.account_login}</span>
+            <span className="pl-2" onClick={() => loginWithRedirect()}>
+              {language.lang_code.account_login}
+            </span>
           )}
           {isLangMenuOpen ? (
             <>
               <div
                 style={{
-                  backgroundColor: `${theme.primaryColors.hex.squirtle}`,
+                  backgroundColor: `${theme.primaryColors.background.hex}`,
                 }}
               >
                 <div
                   onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
                   className="pl-2"
+                  style={{
+                    borderLeft: `2px solid ${theme.primaryColors.border.hex}`,
+                  }}
                 >
                   <span> {language.lang_code.word_language}</span>
                   <i className="bi bi-chevron-compact-up pl-1"></i>
                 </div>
                 <div
-                  className="d-flex flex-wrap justify-content-around"
-                  style={{ zIndex: "200" }}
+                  className="d-flex flex-wrap justify-content-around p-2 rounded-bottom border-top-0 border-right-0"
+                  style={{
+                    zIndex: "200",
+                    position: "absolute",
+                    border: `2px solid ${theme.primaryColors.border.hex}`,
+                    backgroundColor: `${theme.primaryColors.background.hex}`,
+                    width: "4.35rem",
+                  }}
                 >
                   <span
-                    className="pl-2"
-                    style={
-                      language.name === "Svenska" ? { fontWeight: "bold" } : {}
+                    className={
+                      language.name === "Svenska"
+                        ? "font-weight-bold"
+                        : "font-weight-normal"
                     }
                     onClick={() => changeLanguage("SE")}
                   >
                     SE
                   </span>
                   <span
-                    className="pl-2"
-                    style={
-                      language.name === "English" ? { fontWeight: "bold" } : {}
+                    className={
+                      language.name === "English"
+                        ? "font-weight-bold"
+                        : "font-weight-normal"
                     }
                     onClick={() => changeLanguage("EN")}
                   >
@@ -121,9 +141,9 @@ export const Menu = () => {
                 right: 0,
                 cursor: "pointer",
                 zIndex: "200",
-                width: "110px",
-                backgroundColor: `${theme.primaryColors.hex.squirtle}`,
-                border: `2px solid ${theme.primaryColors.hex.blastoise}`,
+                width: "120px",
+                backgroundColor: `${theme.primaryColors.background.hex}`,
+                border: `2px solid ${theme.primaryColors.border.hex}`,
               }}
             >
               <div onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
@@ -137,10 +157,24 @@ export const Menu = () => {
               <Link to="./about">
                 <span>{language.lang_code.about_about_project}</span>
               </Link>
-              <span title="logga in/skapa konto/mina sidor">
-                {language.lang_code.account_login}
-              </span>
-              <div className="d-flex justify-content-around pt-1">
+              {isAuthenticated ? (
+                <>
+                  <span>
+                    {/* {language.lang_code.account_login} */}
+                    <Link to="./userpage">
+                      {language.lang_code.my_pages_my_pages}
+                    </Link>
+                  </span>
+                  <span onClick={() => logout()}>
+                    {language.lang_code.account_logout}
+                  </span>
+                </>
+              ) : (
+                <span onClick={() => loginWithRedirect()}>
+                  {language.lang_code.account_login}
+                </span>
+              )}
+              <div className="d-flex justify-content-around pt-1 pb-1">
                 <span
                   style={
                     language.name === "Svenska" ? { fontWeight: "bold" } : {}
@@ -167,8 +201,8 @@ export const Menu = () => {
                 right: 0,
                 cursor: "pointer",
                 zIndex: "200",
-                width: "110px",
-                borderLeft: `2px solid ${theme.primaryColors.hex.blastoise}`,
+                width: "120px",
+                borderLeft: `2px solid ${theme.primaryColors.border.hex}`,
                 // backgroundColor: theme.primaryColors.squirtle,
               }}
             >
@@ -197,7 +231,7 @@ export const Menu = () => {
               <i
                 onClick={() => changeColorMode("light")}
                 className="bi bi-brightness-high-fill"
-                style={{ color: "#FFC233" }}
+                style={{ color: theme.primaryColors.sunmoon.hex }}
               ></i>
             )}
           </div>

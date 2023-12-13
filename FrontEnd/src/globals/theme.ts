@@ -5,31 +5,23 @@ export const colorModes = {
   Light: {
     name: "light",
     primaryColors: {
-      rgb: {
-        blastoise: "143,169,216",
-        squirtle: "137,193,206",
-        shell: "207,122,47",
-      },
-      hex: {
-        blastoise: "#8fa9d8",
-        squirtle: "#89c1ce",
-        shell: "#cf7a2f",
-      },
+      sunmoon: { rgb: "85,77,66", hex: "#554d42" },
+      text: { hex: "#3b4346" },
+      link: { hex: "#2B375C" },
+      background: { hex: "#89c1ce" },
+      border: { hex: "#649980" },
+      cardBackground: { hex: "#78AEBB" },
     },
   },
   Dark: {
     name: "dark",
     primaryColors: {
-      rgb: {
-        blastoise: "94,117,158",
-        squirtle: "86,120,128",
-        shell: "100,54,14",
-      },
-      hex: {
-        blastoise: "#5e759e",
-        squirtle: "#567880",
-        shell: "#64360e",
-      },
+      sunmoon: { rgb: "255,217,82", hex: "#FFD952" },
+      text: { hex: "#E9F3FF" },
+      link: { hex: "#B0C5E0" },
+      background: { hex: "#25383C" },
+      border: { hex: "#84bda3" },
+      cardBackground: { hex: "#172528" },
     },
   },
 };
