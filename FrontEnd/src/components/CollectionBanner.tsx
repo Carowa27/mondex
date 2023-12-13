@@ -11,13 +11,21 @@ export const CollectionBanner = () => {
       {isAuthenticated && (
         <>
           {isDesktop ? (
-            <div style={{ outline: "2px blue solid" }} className="py-2">
+            <div
+              style={{ outline: "2px blue solid" }}
+              className={
+                window.location.pathname === "/"
+                  ? "py-2 my-3"
+                  : "py-2 my-3 col-5"
+              }
+            >
               <h6>collection name</h6>
               {/* smallPkmnCard Array of 5(?) */}
+
               <div className="row d-flex justify-content-around px-3">
                 <div
                   className="col-2"
-                  style={{ outline: "1px brown solid", height: "4rem" }}
+                  style={{ outline: "1px green solid", height: "4rem" }}
                 ></div>
                 <div
                   className="col-2"
@@ -40,7 +48,7 @@ export const CollectionBanner = () => {
           ) : (
             <div
               style={{ outline: "2px blue solid", width: "100%" }}
-              className="py-2"
+              className="py-2 my-2"
             >
               <h6>collection name</h6>
               {/* smallPkmnCard Array of 3(?) */}

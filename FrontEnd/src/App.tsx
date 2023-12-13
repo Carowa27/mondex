@@ -11,7 +11,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 function App() {
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
-  const [bearerToken, setBearerToken] = useState("");
+  // const [bearerToken, setBearerToken] = useState("");
   const [theme, setTheme] = useState<IThemeContext>({
     theme: colorModes.Light,
     changeColorMode: (wantedColorMode: string) => {
@@ -43,13 +43,13 @@ function App() {
     setLanguage({ ...language, language: active });
   };
 
-  useEffect(() => {
-    const getToken = async () => {
-      const token = isAuthenticated ? await getAccessTokenSilently() : "";
-      setBearerToken(token);
-    };
-    getToken();
-  }, [getAccessTokenSilently, isAuthenticated]);
+  // useEffect(() => {
+  //   const getToken = async () => {
+  //     const token = isAuthenticated ? await getAccessTokenSilently() : "";
+  //     setBearerToken(token);
+  //   };
+  //   getToken();
+  // }, [getAccessTokenSilently, isAuthenticated]);
 
   return (
     <>

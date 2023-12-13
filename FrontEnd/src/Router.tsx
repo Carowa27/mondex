@@ -5,6 +5,8 @@ import { Home } from "./pages/Home";
 import { Search } from "./pages/Search";
 import { UserMyPages } from "./pages/UserMyPages";
 import { AboutProject } from "./pages/AboutProject";
+import { CollectionPage } from "./pages/CollectionPage";
+import { CollectionListPage } from "./pages/CollectionListPage";
 
 export const Router = createBrowserRouter([
   {
@@ -16,7 +18,11 @@ export const Router = createBrowserRouter([
       { path: "/search", element: <Search></Search> },
       { path: "/about", element: <AboutProject></AboutProject> },
       { path: "/userpage", element: <UserMyPages></UserMyPages> },
-      //   {path:"/:collectionName", element:<CollectionPage></CollectionPage>},
+      { path: "/:collectionName", element: <CollectionPage></CollectionPage> },
+      {
+        path: "/all-collections",
+        element: <CollectionListPage></CollectionListPage>,
+      },
     ],
   },
 ]);

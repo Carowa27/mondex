@@ -34,7 +34,9 @@ export const Home = () => {
           }
           bkcolor={`${theme.primaryColors.charmanderEV.hex}`}
         >
-          <h4>{language.lang_code.about_about_project}</h4>
+          <Link to="/about">
+            <h4>{language.lang_code.about_about_project}</h4>
+          </Link>
           {isDesktop ? (
             <>
               <h5>{language.lang_code.about_exam}</h5>
@@ -52,7 +54,10 @@ export const Home = () => {
           )}
         </FrontPageBtnCard>
         <FrontPageBtnCard bkcolor={`${theme.primaryColors.charmanderEV.hex}`}>
-          <h4>{language.lang_code.word_search}</h4>
+          <Link to="/search">
+            {" "}
+            <h4>{language.lang_code.word_search}</h4>
+          </Link>
           <div>test</div>
           <Link to="./search">Go search now</Link>
         </FrontPageBtnCard>
@@ -64,7 +69,9 @@ export const Home = () => {
           ) : (
             <>
               {isAuthenticated ? (
-                <h4>{`Welcome Back, ${user?.given_name}!`}</h4>
+                <Link to="/userpage">
+                  <h4>{`Welcome Back, ${user?.given_name}!`}</h4>
+                </Link>
               ) : (
                 <>
                   <h4>{language.lang_code.word_account}</h4>

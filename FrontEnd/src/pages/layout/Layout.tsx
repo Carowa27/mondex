@@ -16,10 +16,10 @@ export const Layout = () => {
   return (
     <MainStyle>
       <div
-        // style={{
-        //   minHeight: "100vh",
-        // }}
-        className="d-flex flex-column p-2 mh-100"
+        style={{
+          minHeight: "100vh",
+        }}
+        className="d-flex flex-column p-2"
       >
         <Header></Header>
         <main className="mx-2">
