@@ -5,8 +5,10 @@ export interface ILanguageVariables {
   word_account: string;
   word_goal: string;
   word_language: string;
+  word_loading: string;
   word_purpose: string;
   word_search: string;
+  account_create_account: string;
   account_description: string;
   account_login: string;
   account_logout: string;

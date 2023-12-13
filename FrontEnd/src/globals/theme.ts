@@ -5,31 +5,21 @@ export const colorModes = {
   Light: {
     name: "light",
     primaryColors: {
-      rgb: {
-        blastoise: "143,169,216",
-        squirtle: "137,193,206",
-        shell: "207,122,47",
-      },
-      hex: {
-        blastoise: "#8fa9d8",
-        squirtle: "#89c1ce",
-        shell: "#cf7a2f",
-      },
+      eeveelution: { rgb: "59,67,70", hex: "#3b4346" }, //umbreon
+      sqrtlEV: { rgb: "137,193,206", hex: "#89c1ce" }, // sqrtl
+      bulbasaurEV: { rgb: "132,189,163", hex: "#84bda3" }, //bulbasaur
+      charmanderEV: { rgb: "233,174,128", hex: "#e9ae80" }, //charmander
+      sunmoon: { rgb: "85,77,66", hex: "#554d42" }, //moon
     },
   },
   Dark: {
     name: "dark",
     primaryColors: {
-      rgb: {
-        blastoise: "94,117,158",
-        squirtle: "86,120,128",
-        shell: "100,54,14",
-      },
-      hex: {
-        blastoise: "#5e759e",
-        squirtle: "#567880",
-        shell: "#64360e",
-      },
+      eeveelution: { rbg: "245,229,169", hex: "#FFF5D1" }, //leafeon
+      sqrtlEV: { rgb: "143,169,216", hex: "#8fa9d8" }, // blastoise
+      bulbasaurEV: { rgb: "67,131,136", hex: "#438388" }, //venusaur
+      charmanderEV: { rgb: "212,141,84", hex: "#d48d54" }, //charizard
+      sunmoon: { rgb: "255,217,82", hex: "#FFD952" }, //sun
     },
   },
 };

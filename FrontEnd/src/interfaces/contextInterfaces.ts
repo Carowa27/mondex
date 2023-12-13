@@ -5,20 +5,22 @@ export interface IThemeContext {
   theme: IColorMode;
   changeColorMode: (wantedColorMode: string) => void;
 }
+export interface IColorType {
+  hex: string;
+  rgb?: string;
+}
+
+export interface IPrimaryColors {
+  eeveelution: IColorType;
+  sqrtlEV: IColorType;
+  bulbasaurEV: IColorType;
+  charmanderEV: IColorType;
+  sunmoon: IColorType;
+}
+
 export interface IColorMode {
   name: string;
-  primaryColors: {
-    rgb: {
-      blastoise: string;
-      squirtle: string;
-      shell: string;
-    };
-    hex: {
-      blastoise: string;
-      squirtle: string;
-      shell: string;
-    };
-  };
+  primaryColors: IPrimaryColors;
 }
 
 //LanguageContext

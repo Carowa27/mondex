@@ -26,7 +26,7 @@ export const Menu = () => {
             <span
               className="pl-2"
               style={{
-                borderLeft: `2px solid ${theme.primaryColors.hex.blastoise}`,
+                borderLeft: `2px solid ${theme.primaryColors.bulbasaurEV.hex}`,
               }}
             >
               {language.lang_code.word_search}
@@ -58,33 +58,44 @@ export const Menu = () => {
             <>
               <div
                 style={{
-                  backgroundColor: `${theme.primaryColors.hex.squirtle}`,
+                  backgroundColor: `${theme.primaryColors.sqrtlEV.hex}`,
                 }}
               >
                 <div
                   onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
                   className="pl-2"
+                  style={{
+                    borderLeft: `2px solid ${theme.primaryColors.bulbasaurEV.hex}`,
+                  }}
                 >
                   <span> {language.lang_code.word_language}</span>
                   <i className="bi bi-chevron-compact-up pl-1"></i>
                 </div>
                 <div
-                  className="d-flex flex-wrap justify-content-around"
-                  style={{ zIndex: "200" }}
+                  className="d-flex flex-wrap justify-content-around p-2 rounded-bottom border-top-0 border-right-0"
+                  style={{
+                    zIndex: "200",
+                    position: "absolute",
+                    border: `2px solid ${theme.primaryColors.bulbasaurEV.hex}`,
+                    backgroundColor: `${theme.primaryColors.sqrtlEV.hex}`,
+                    width: "4.35rem",
+                  }}
                 >
                   <span
-                    className="pl-2"
-                    style={
-                      language.name === "Svenska" ? { fontWeight: "bold" } : {}
+                    className={
+                      language.name === "Svenska"
+                        ? "font-weight-bold"
+                        : "font-weight-normal"
                     }
                     onClick={() => changeLanguage("SE")}
                   >
                     SE
                   </span>
                   <span
-                    className="pl-2"
-                    style={
-                      language.name === "English" ? { fontWeight: "bold" } : {}
+                    className={
+                      language.name === "English"
+                        ? "font-weight-bold"
+                        : "font-weight-normal"
                     }
                     onClick={() => changeLanguage("EN")}
                   >
@@ -130,9 +141,9 @@ export const Menu = () => {
                 right: 0,
                 cursor: "pointer",
                 zIndex: "200",
-                width: "110px",
-                backgroundColor: `${theme.primaryColors.hex.squirtle}`,
-                border: `2px solid ${theme.primaryColors.hex.blastoise}`,
+                width: "120px",
+                backgroundColor: `${theme.primaryColors.sqrtlEV.hex}`,
+                border: `2px solid ${theme.primaryColors.bulbasaurEV.hex}`,
               }}
             >
               <div onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
@@ -163,7 +174,7 @@ export const Menu = () => {
                   {language.lang_code.account_login}
                 </span>
               )}
-              <div className="d-flex justify-content-around pt-1">
+              <div className="d-flex justify-content-around pt-1 pb-1">
                 <span
                   style={
                     language.name === "Svenska" ? { fontWeight: "bold" } : {}
@@ -190,8 +201,8 @@ export const Menu = () => {
                 right: 0,
                 cursor: "pointer",
                 zIndex: "200",
-                width: "110px",
-                borderLeft: `2px solid ${theme.primaryColors.hex.blastoise}`,
+                width: "120px",
+                borderLeft: `2px solid ${theme.primaryColors.bulbasaurEV.hex}`,
                 // backgroundColor: theme.primaryColors.squirtle,
               }}
             >
@@ -220,7 +231,7 @@ export const Menu = () => {
               <i
                 onClick={() => changeColorMode("light")}
                 className="bi bi-brightness-high-fill"
-                style={{ color: "#FFC233" }}
+                style={{ color: theme.primaryColors.sunmoon.hex }}
               ></i>
             )}
           </div>

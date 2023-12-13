@@ -16,13 +16,14 @@ export const FrontPageBtnCard = ({
       className={
         isDesktop
           ? "px-4 py-3 col mx-2 d-flex flex-column"
-          : "p-2 col-11 mb-2 d-flex align-items-start flex-column"
+          : "px-3 py-2 col-11 mb-2 d-flex align-items-start flex-column"
       }
       style={
         isDesktop
           ? {
               width: "32%",
-              minHeight: "100%",
+              minHeight: "85vh",
+              height: "auto",
               backgroundColor: `${bkcolor}`,
               textOverflow: "ellipsis",
               overflow: "hidden",

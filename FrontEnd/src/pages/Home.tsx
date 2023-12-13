@@ -6,9 +6,9 @@ import { useContext } from "react";
 import { LanguageContext } from "../globals/language/language";
 import { useAuth0 } from "@auth0/auth0-react";
 import { LoginBtn } from "../components/LoginBtn";
-import { LogoutBtn } from "../components/LogoutBtn";
 import { CollectionBanner } from "../components/CollectionBanner";
 import { ThemeContext } from "../globals/theme";
+import { LoadingModule } from "../components/LoadingModule";
 
 export const Home = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
@@ -32,7 +32,7 @@ export const Home = () => {
               <i>{language.lang_code.read_more}</i>
             </Link>
           }
-          bkcolor={`${theme.primaryColors.hex.shell}`}
+          bkcolor={`${theme.primaryColors.charmanderEV.hex}`}
         >
           <h4>{language.lang_code.about_about_project}</h4>
           {isDesktop ? (
@@ -51,37 +51,31 @@ export const Home = () => {
             </>
           )}
         </FrontPageBtnCard>
-        <FrontPageBtnCard bkcolor={`${theme.primaryColors.hex.shell}`}>
+        <FrontPageBtnCard bkcolor={`${theme.primaryColors.charmanderEV.hex}`}>
           <h4>{language.lang_code.word_search}</h4>
           <div>test</div>
           <Link to="./search">Go search now</Link>
         </FrontPageBtnCard>
         {error && <p>Error with authentication</p>}
-        {!error && isLoading ? (
-          <div>Loading...</div>
-        ) : (
-          <>
-            <FrontPageBtnCard
-              bkcolor={`${theme.primaryColors.hex.shell}`}
-              footer={
-                <>
-                  <LoginBtn />
-                  <LogoutBtn />
-                </>
-              }
-            >
+
+        <FrontPageBtnCard bkcolor={`${theme.primaryColors.charmanderEV.hex}`}>
+          {!error && isLoading ? (
+            <LoadingModule />
+          ) : (
+            <>
               {isAuthenticated ? (
                 <h4>{`Welcome Back, ${user?.given_name}!`}</h4>
               ) : (
                 <>
                   <h4>{language.lang_code.word_account}</h4>
                   <p>{language.lang_code.account_description}</p>
+                  <LoginBtn />
                 </>
               )}
-              <CollectionBanner />
-            </FrontPageBtnCard>
-          </>
-        )}
+            </>
+          )}
+          <CollectionBanner />
+        </FrontPageBtnCard>
       </div>
     </>
   );
