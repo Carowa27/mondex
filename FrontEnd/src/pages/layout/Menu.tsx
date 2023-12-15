@@ -24,6 +24,7 @@ export const Menu = () => {
         >
           <Link to="./search">
             <span
+              id="main-menu-searchpage"
               className="pl-2"
               style={{
                 borderLeft: `2px solid ${theme.primaryColors.border.hex}`,
@@ -33,24 +34,32 @@ export const Menu = () => {
             </span>
           </Link>
           <Link to="./about">
-            <span className="pl-2">
+            <span id="main-menu-about" className="pl-2">
               {language.lang_code.about_about_project}
             </span>
           </Link>
           {isAuthenticated ? (
             <>
-              <span className="pl-2">
+              <span id="main-menu-mypages" className="pl-2">
                 {/* {language.lang_code.account_login} */}
                 <Link to="./userpage">
                   {language.lang_code.my_pages_my_pages}
                 </Link>
               </span>
-              <span className="pl-2" onClick={() => logout()}>
+              <span
+                id="main-menu-logout"
+                className="pl-2"
+                onClick={() => logout()}
+              >
                 {language.lang_code.account_logout}
               </span>
             </>
           ) : (
-            <span className="pl-2" onClick={() => loginWithRedirect()}>
+            <span
+              id="main-menu-login"
+              className="pl-2"
+              onClick={() => loginWithRedirect()}
+            >
               {language.lang_code.account_login}
             </span>
           )}
@@ -68,7 +77,10 @@ export const Menu = () => {
                     borderLeft: `2px solid ${theme.primaryColors.border.hex}`,
                   }}
                 >
-                  <span> {language.lang_code.word_language}</span>
+                  <span id="main-menu-language">
+                    {" "}
+                    {language.lang_code.word_language}
+                  </span>
                   <i className="bi bi-chevron-compact-up pl-1"></i>
                 </div>
                 <div
@@ -82,6 +94,7 @@ export const Menu = () => {
                   }}
                 >
                   <span
+                    id="main-menu-language-se"
                     className={
                       language.name === "Svenska"
                         ? "font-weight-bold"
@@ -92,6 +105,7 @@ export const Menu = () => {
                     SE
                   </span>
                   <span
+                    id="main-menu-language-en"
                     className={
                       language.name === "English"
                         ? "font-weight-bold"
@@ -110,7 +124,9 @@ export const Menu = () => {
                 onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
                 className="pl-2"
               >
-                <span>{language.lang_code.word_language}</span>
+                <span id="main-menu-language">
+                  {language.lang_code.word_language}
+                </span>
                 <i className="bi bi-chevron-compact-down pl-1"></i>
               </div>
             </>
@@ -135,6 +151,7 @@ export const Menu = () => {
         <>
           {isMobileMenuOpen ? (
             <div
+              id="main-menu-container"
               className="d-flex flex-column mr-3 px-2 rounded-bottom border-top-0 border-right-0"
               style={{
                 position: "absolute",
@@ -147,45 +164,74 @@ export const Menu = () => {
               }}
             >
               <div onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-                <span> Menu</span>
+                <span id="main-menu"> Menu</span>
                 <i className="bi bi-chevron-compact-up pl-2"></i>
               </div>
 
-              <Link to="./search">
-                <span>{language.lang_code.word_search}</span>
+              <Link
+                to="./search"
+                onClick={() => {
+                  setIsMobileMenuOpen(!isMobileMenuOpen);
+                }}
+              >
+                <span id="main-menu-searchpage">
+                  {language.lang_code.word_search}
+                </span>
               </Link>
-              <Link to="./about">
-                <span>{language.lang_code.about_about_project}</span>
+              <Link
+                to="./about"
+                onClick={() => {
+                  setIsMobileMenuOpen(!isMobileMenuOpen);
+                }}
+              >
+                <span id="main-menu-about">
+                  {language.lang_code.about_about_project}
+                </span>
               </Link>
               {isAuthenticated ? (
                 <>
-                  <span>
-                    {/* {language.lang_code.account_login} */}
-                    <Link to="./userpage">
+                  <Link
+                    to="./userpage"
+                    onClick={() => {
+                      setIsMobileMenuOpen(!isMobileMenuOpen);
+                    }}
+                  >
+                    <span id="main-menu-mypages">
                       {language.lang_code.my_pages_my_pages}
-                    </Link>
-                  </span>
-                  <span onClick={() => logout()}>
+                    </span>
+                  </Link>
+                  <span id="main-menu-logout" onClick={() => logout()}>
                     {language.lang_code.account_logout}
                   </span>
                 </>
               ) : (
-                <span onClick={() => loginWithRedirect()}>
+                <span
+                  id="main-menu-login"
+                  onClick={() => (
+                    loginWithRedirect(), setIsMobileMenuOpen(!isMobileMenuOpen)
+                  )}
+                >
                   {language.lang_code.account_login}
                 </span>
               )}
               <div className="d-flex justify-content-around pt-1 pb-1">
                 <span
-                  style={
-                    language.name === "Svenska" ? { fontWeight: "bold" } : {}
+                  id="main-menu-language-se"
+                  className={
+                    language.name === "Svenska"
+                      ? "font-weight-bold"
+                      : "font-weight-normal"
                   }
                   onClick={() => changeLanguage("SE")}
                 >
                   SE
                 </span>
                 <span
-                  style={
-                    language.name === "English" ? { fontWeight: "bold" } : {}
+                  id="main-menu-language-en"
+                  className={
+                    language.name === "English"
+                      ? "font-weight-bold"
+                      : "font-weight-normal"
                   }
                   onClick={() => changeLanguage("EN")}
                 >
@@ -203,7 +249,6 @@ export const Menu = () => {
                 zIndex: "200",
                 width: "120px",
                 borderLeft: `2px solid ${theme.primaryColors.border.hex}`,
-                // backgroundColor: theme.primaryColors.squirtle,
               }}
             >
               <div
@@ -212,23 +257,26 @@ export const Menu = () => {
                   width: "110px",
                 }}
               >
-                <span>Menu</span>
+                <span id="main-menu">Menu</span>
                 <i className="bi bi-chevron-compact-down pl-2"></i>
               </div>
             </div>
           )}
           <div
+            id="main-menu-theme-container"
             className="pl-3 mr-3"
             style={{ zIndex: 300, position: "absolute", right: 0 }}
           >
             {theme.name === "light" ? (
               <i
+                id="main-menu-theme-light"
                 onClick={() => changeColorMode("dark")}
                 className="bi bi-moon-fill"
-                style={{ color: "#554d42" }}
+                style={{ color: theme.primaryColors.sunmoon.hex }}
               ></i>
             ) : (
               <i
+                id="main-menu-theme-light"
                 onClick={() => changeColorMode("light")}
                 className="bi bi-brightness-high-fill"
                 style={{ color: theme.primaryColors.sunmoon.hex }}

@@ -9,7 +9,7 @@ export const Header = () => {
         style={{ height: "3rem" }}
       >
         <Link to="./">
-          <span>logo&namn</span>
+          <span id="main-logo">logo&namn</span>
         </Link>
         <Menu />
       </div>

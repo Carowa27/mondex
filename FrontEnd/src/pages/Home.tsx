@@ -20,10 +20,11 @@ export const Home = () => {
   return (
     <>
       <div
+        id="homepage-container"
         className={
           isDesktop
             ? "row my-1" //d-flex flex-row justify-content-around
-            : "row d-flex justify-content-center" //"d-flex flex-column justify-content-around align-items-center"
+            : "column my-1" //row d-flex justify-content-center" //"d-flex flex-column justify-content-around align-items-center"
         }
       >
         <FrontPageBtnCard
@@ -35,11 +36,13 @@ export const Home = () => {
           bkcolor={`${theme.primaryColors.cardBackground.hex}`}
         >
           <Link to="/about">
-            <h4>{language.lang_code.about_about_project}</h4>
+            <h4 id="main-card-about-header">
+              {language.lang_code.about_about_project}
+            </h4>
           </Link>
           {isDesktop ? (
             <>
-              <h5>{language.lang_code.about_exam}</h5>
+              {/* <h5>{language.lang_code.about_exam}</h5> */}
               <p>{language.lang_code.about_description_exam}</p>
               <h5>{language.lang_code.word_purpose}</h5>
               <p>{language.lang_code.about_description_purpose}</p>
@@ -48,33 +51,36 @@ export const Home = () => {
             </>
           ) : (
             <>
-              <h5>{language.lang_code.about_exam}</h5>
+              {/* <h5>{language.lang_code.about_exam}</h5> */}
               <p className="m-0">{language.lang_code.about_description_exam}</p>
             </>
           )}
         </FrontPageBtnCard>
         <FrontPageBtnCard bkcolor={`${theme.primaryColors.cardBackground.hex}`}>
           <Link to="/search">
-            {" "}
-            <h4>{language.lang_code.word_search}</h4>
+            <h4 id="main-card-search-header">
+              {language.lang_code.word_search}
+            </h4>
           </Link>
           <div>test</div>
           <Link to="./search">Go search now</Link>
         </FrontPageBtnCard>
-        {error && <p>Error with authentication</p>}
 
         <FrontPageBtnCard bkcolor={`${theme.primaryColors.cardBackground.hex}`}>
+          {error && <p>Error with authentication</p>}
           {!error && isLoading ? (
             <LoadingModule />
           ) : (
             <>
               {isAuthenticated ? (
                 <Link to="/userpage">
-                  <h4>{`Welcome Back, ${user?.given_name}!`}</h4>
+                  <h4 id="main-card-account-header-user">{`Welcome Back, ${user?.given_name}!`}</h4>
                 </Link>
               ) : (
                 <>
-                  <h4>{language.lang_code.word_account}</h4>
+                  <h4 id="main-card-account-header">
+                    {language.lang_code.word_account}
+                  </h4>
                   <p>{language.lang_code.account_description}</p>
                   <LoginBtn />
                 </>

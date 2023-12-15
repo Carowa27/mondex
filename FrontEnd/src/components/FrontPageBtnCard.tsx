@@ -16,7 +16,7 @@ export const FrontPageBtnCard = ({
       className={
         isDesktop
           ? "px-4 py-3 col mx-2 d-flex flex-column"
-          : "px-3 py-2 col-11 mb-2 d-flex align-items-start flex-column"
+          : "px-3 py-2 col-12 mb-2 d-flex align-items-start flex-column"
       }
       style={
         isDesktop

@@ -1,10 +1,13 @@
 #be
 backend/.env
+backend/.env*
 backend/node_modules
 
 
 # fe
 frontend/.env
+frontend/.env*
+frontend/cypress.env.json
 # Logs
 frontend/logs
 frontend/*.log
