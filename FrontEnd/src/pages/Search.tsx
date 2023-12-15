@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
+import { LanguageContext } from "../globals/language/language";
 
 export const Search = () => {
   const [searchValue, setSearchValue] = useState<string>("");
   const [searchParam, setSearchParam] = useState<string>("pkmn");
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-
+  const { language } = useContext(LanguageContext);
   const handleSearchChange = (event: ChangeEvent) => {
     console.log(event.target.value);
     setSearchValue(event.target.value);
@@ -19,9 +20,10 @@ export const Search = () => {
   };
   return (
     <>
-      <h1>search</h1>
-      <form onSubmit={handleSubmit}>
+      <h2 id="search-header">{language.lang_code.word_search}</h2>
+      <form id="search-form" onSubmit={handleSubmit}>
         <div
+          id="search-form-container"
           className={
             isDesktop
               ? "d-flex justify-content-start"

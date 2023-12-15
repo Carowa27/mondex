@@ -11,6 +11,13 @@ export const Layout = () => {
   const MainStyle = styled.div`
     color: ${theme.primaryColors.text.hex};
     background-color: ${theme.primaryColors.background.hex};
+    overflow-y: hidden;
+    overflow-x: hidden;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
     a {
       color: ${theme.primaryColors.link.hex};
     }
