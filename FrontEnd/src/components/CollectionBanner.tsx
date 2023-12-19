@@ -1,13 +1,59 @@
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { useAuth0 } from "@auth0/auth0-react";
+import { getAllCards } from "../services/cardServices";
+import { useState, useEffect } from "react";
+import { ICardFromDB, ICollectionFromDB } from "../interfaces/dataFromDB";
+import axios from "axios";
+import { getAllOwnedCollections } from "../services/collectionServices";
+
+interface IProps {
+  type: string;
+}
 
 export const CollectionBanner = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  const { isAuthenticated } = useAuth0();
+  const { user, isAuthenticated } = useAuth0();
+  const [cards, setCards] = useState<ICardFromDB[]>([]);
+  const [collections, setCollections] = useState<ICollectionFromDB[]>([]);
 
+  const fetchData = async () => {
+    // getAllCards()
+    getAllOwnedCollections()
+      .then((res) => {
+        console.log(res.data);
+        // setCards(res.data);
+        setCollections(res.data);
+      })
+      .catch((error) => {
+        console.error("An error has occurred: ", error);
+      });
+  };
   return (
     <>
+      <button onClick={() => (fetchData(), console.log("btn clicked"))}>
+        get data
+      </button>
+      {/* {cards.length !== 0 ? (
+        <div>
+          <ul>
+            {cards.map((card) => (
+              <li key={card.id}>
+                {card.api_pkmn_name}, {card.api_card_id}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null} */}
+      {collections.length !== 0 ? (
+        <div>
+          <ul>
+            {collections.map((collection) => (
+              <li key={collection.id}>{collection.collection_name}</li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
       {isAuthenticated && (
         <>
           {isDesktop ? (

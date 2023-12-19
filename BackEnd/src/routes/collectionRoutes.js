@@ -6,8 +6,8 @@ import {
 } from "../controllers/collectionController.js";
 const router = express.Router();
 
-router.get("/collections/:userId", getAllOwnedCollections);
-router.get("/collections/:collectionId", getOwnedCollectionById);
+router.get("/user/:userId", getAllOwnedCollections);
+router.get("/:collectionId", getOwnedCollectionById);
 
 router.post("/", createCollection);
 

@@ -15,22 +15,24 @@ export async function createCard(req, res) {
   );
 }
 
+//working hardcode, havnt tried w get user
 export async function getAllOwnedCards(req, res) {
   try {
-    const result = await pool.query("SELECT * FROM cards WHERE user_id = ?", [
+    const [rows] = await pool.query("SELECT * FROM cards WHERE user_id = ?", [
       req.params.userId,
     ]);
-    console.log(result);
-    return result;
+    console.log(rows);
+    return res.send(rows);
   } catch (error) {
     console.error(error);
   }
 }
-export async function getAllCards() {
+//working
+export async function getAllCards(req, res) {
   try {
-    const result = await pool.query("SELECT * FROM cards");
-    console.log(result);
-    return result;
+    const [rows] = await pool.query("SELECT * FROM cards");
+    console.log(rows);
+    return res.send(rows);
   } catch (error) {
     console.error(error);
   }
@@ -41,7 +43,8 @@ export async function getOwnedCardById(req, res) {
       "SELECT * FROM cards WHERE user_id = ? AND id = ?",
       [req.params.userId, req.params.cardId]
     );
-    console.log(rows[0]);
+    console.log(rows);
+    return res.send(rows);
   } catch (error) {
     console.error(error);
   }
