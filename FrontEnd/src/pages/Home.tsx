@@ -85,9 +85,24 @@ export const Home = () => {
           ) : (
             <>
               {isAuthenticated ? (
-                <Link to="/userpage">
-                  <h4 id="main-card-account-header-user">{`Welcome Back, ${user?.given_name}!`}</h4>
-                </Link>
+                <>
+                  <Link to="/userpage">
+                    <h4 id="main-card-account-header-user">{`Welcome Back, ${user?.given_name}!`}</h4>
+                  </Link>
+
+                  {collections && collections.length !== 0 ? (
+                    <>
+                      {collections.map((coll) => (
+                        <CollectionBanner
+                          key={coll.id}
+                          collectionName={coll.collection_name}
+                        />
+                      ))}
+                    </>
+                  ) : (
+                    <>Something went wrong</>
+                  )}
+                </>
               ) : (
                 <>
                   <h4 id="main-card-account-header">
@@ -98,18 +113,6 @@ export const Home = () => {
                 </>
               )}
             </>
-          )}
-          {collections && collections.length !== 0 ? (
-            <>
-              {collections.map((coll) => (
-                <CollectionBanner
-                  key={coll.id}
-                  collectionName={coll.collection_name}
-                />
-              ))}
-            </>
-          ) : (
-            <>Something went wrong</>
           )}
         </FrontPageBtnCard>
       </div>
