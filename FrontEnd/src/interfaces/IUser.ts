@@ -5,6 +5,7 @@ export interface IUserAuth {
   nickname: string;
   name: string;
   picture: string;
+  email: string;
   locale: string;
   updated_at: Date;
 }

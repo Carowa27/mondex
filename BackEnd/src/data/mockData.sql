@@ -21,6 +21,7 @@ CREATE TABLE cards (
     api_card_img_src_small VARCHAR(255),
     api_card_img_src_large VARCHAR(255),
     api_pkmn_name VARCHAR(255),
+    collection_name VARCHAR(255),
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
@@ -47,11 +48,16 @@ INSERT INTO users (id,user_auth0_id,username, email, role) VALUES
 (1,'google-oauth2|100545501084792863843','GottaCatchThemAll', 'carolina.warntorp@gmail.com', 'USER'),
 (2,'google-oauth2|115054123556248398437','ProfOak', 'carolinaidaw@gmail.com', 'ADMIN');
 
-INSERT INTO cards (id,user_id,user_auth0_id, amount, api_card_id, api_card_img_src_small, api_card_img_src_large, api_pkmn_name)
+INSERT INTO cards (id,user_id,user_auth0_id, amount,collection_name, api_card_id, api_card_img_src_small, api_card_img_src_large, api_pkmn_name)
 VALUES
-   (1,1,'google-oauth2|100545501084792863843', 1, 'sv1-8', 'https://images.pokemontcg.io/sv1/8.png', 'https://images.pokemontcg.io/sv1/8_hires.png', 'Scatterbug'),
-   (2,1,'google-oauth2|100545501084792863843', 2, 'sv1-2', 'https://images.pokemontcg.io/sv1/2.png', 'https://images.pokemontcg.io/sv1/2_hires.png', 'Heracross'),
-   (3,1,'google-oauth2|100545501084792863843', 1, 'bw7-8', 'https://images.pokemontcg.io/bw7/8.png', 'https://images.pokemontcg.io/bw7/8_hires.png', 'Heracross');
+   (1,1,'google-oauth2|100545501084792863843', 1,'MasterCollection', 'sv1-8', 'https://images.pokemontcg.io/sv1/8.png', 'https://images.pokemontcg.io/sv1/8_hires.png', 'Scatterbug'),
+   (2,1,'google-oauth2|100545501084792863843', 1,'Scarlet & Violet 1', 'sv1-2', 'https://images.pokemontcg.io/sv1/2.png', 'https://images.pokemontcg.io/sv1/2_hires.png', 'Heracross'),
+   (4,1,'google-oauth2|100545501084792863843', 1,'Heracross', 'sv1-2', 'https://images.pokemontcg.io/sv1/2.png', 'https://images.pokemontcg.io/sv1/2_hires.png', 'Heracross'),
+   (3,1,'google-oauth2|100545501084792863843', 1,'Heracross', 'bw7-8', 'https://images.pokemontcg.io/bw7/8.png', 'https://images.pokemontcg.io/bw7/8_hires.png', 'Heracross'),
+(5,1,'google-oauth2|100545501084792863843', 1,'MasterCollection', 'sv1-2', 'https://images.pokemontcg.io/sv1/2.png', 'https://images.pokemontcg.io/sv1/2_hires.png', 'Heracross'),
+   (6,1,'google-oauth2|100545501084792863843', 1,'MasterCollection', 'sv1-2', 'https://images.pokemontcg.io/sv1/2.png', 'https://images.pokemontcg.io/sv1/2_hires.png', 'Heracross'),
+   (8,1,'google-oauth2|100545501084792863843', 1,'MasterCollection', 'swsh1-78', 'https://images.pokemontcg.io/swsh1/78.png', 'https://images.pokemontcg.io/swsh1/78_hires.png', 'Morpeko'),
+   (7,1,'google-oauth2|100545501084792863843', 1,'MasterCollection', 'bw7-8', 'https://images.pokemontcg.io/bw7/8.png', 'https://images.pokemontcg.io/bw7/8_hires.png', 'Heracross');
 
 INSERT INTO collections (id, user_id, collection_name, user_auth0_id)
 VALUES

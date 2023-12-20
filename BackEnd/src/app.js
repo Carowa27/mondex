@@ -9,6 +9,7 @@ app.use(
     methods: ["GET", "PUT", "POST", "DELETE", "OPTION"],
   })
 );
+//option??
 
 app.use("/api/v1", apiRoutes);
 

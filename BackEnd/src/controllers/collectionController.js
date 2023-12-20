@@ -16,7 +16,6 @@ export async function createCollection(req, res) {
 
 export async function getAllOwnedCollections(req, res) {
   try {
-    console.log("Request reached getAllOwnedCollections route handler");
     const [rows] = await pool.query(
       `SELECT * FROM collections WHERE user_id = ?`,
       [req.params.userId]

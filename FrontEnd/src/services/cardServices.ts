@@ -1,11 +1,13 @@
 import axios from "axios";
-import { ICardFromDB } from "../interfaces/dataFromDB";
+import { ICardFromDB, IUserFromDB } from "../interfaces/dataFromDB";
+import { getUser } from "./userServices";
+import { User } from "@auth0/auth0-react";
+import { IUserAuth } from "../interfaces/IUser";
 
 interface IGetAllOwnedCardsProps {
-  user: string[];
+  user: User;
 }
 const get = async <T>(url: string) => {
-  console.log(await axios.get<T>(url));
   return await axios.get<T>(url);
 };
 
@@ -22,18 +24,16 @@ export const getAllCards = async () => {
 };
 
 export const getAllOwnedCards = async (props: IGetAllOwnedCardsProps) => {
-  const user = props.user;
-  //get user from db
-  //if auth0_id === user.sub
-  //take user_id from user and save in variable
+  const email = props.user.email as string;
+  const user = await getUser({ email }).then((res) => {
+    return res?.data[0] as IUserFromDB;
+  });
   try {
     const result = await get<ICardFromDB[]>(
-      `${import.meta.env.VITE_CONNECTION_DB}/api/v1/cards/`
+      `${import.meta.env.VITE_CONNECTION_DB}/api/v1/cards/users/${user.id}`
     );
-    console.log(`${import.meta.env.VITE_CONNECTION_DB}/api/v1/cards/`);
 
-    console.log(await result);
-    return result;
+    return result.data;
   } catch (error) {
     console.error("An error has occurred: ", error);
   }

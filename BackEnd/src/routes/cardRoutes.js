@@ -8,8 +8,8 @@ import {
 const router = express.Router();
 
 router.get("/", getAllCards);
-router.get("/:userId", getAllOwnedCards);
-router.get("/:cardId", getOwnedCardById);
+router.get("/users/:userId", getAllOwnedCards);
+router.get("/users/:userId/:cardId", getOwnedCardById);
 
 // router.put("/cards/:cardId", updateAmountOfCard);
 

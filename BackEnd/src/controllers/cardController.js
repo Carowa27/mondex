@@ -15,7 +15,7 @@ export async function createCard(req, res) {
   );
 }
 
-//working hardcode, havnt tried w get user
+//working
 export async function getAllOwnedCards(req, res) {
   try {
     const [rows] = await pool.query("SELECT * FROM cards WHERE user_id = ?", [
@@ -27,6 +27,7 @@ export async function getAllOwnedCards(req, res) {
     console.error(error);
   }
 }
+
 //working
 export async function getAllCards(req, res) {
   try {
@@ -37,6 +38,8 @@ export async function getAllCards(req, res) {
     console.error(error);
   }
 }
+
+//working
 export async function getOwnedCardById(req, res) {
   try {
     const [rows, fields] = await pool.query(

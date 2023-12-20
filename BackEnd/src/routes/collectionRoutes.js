@@ -6,7 +6,7 @@ import {
 } from "../controllers/collectionController.js";
 const router = express.Router();
 
-router.get("/user/:userId", getAllOwnedCollections);
+router.get("/users/:userId", getAllOwnedCollections);
 router.get("/:collectionId", getOwnedCollectionById);
 
 router.post("/", createCollection);
