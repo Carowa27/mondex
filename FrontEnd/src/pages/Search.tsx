@@ -1,23 +1,77 @@
-import { useContext, useState } from "react";
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { LanguageContext } from "../globals/language/language";
+import { getPkmnFromApi } from "../services/pkmnApiServices";
+import { IPkmnCard } from "../interfaces/dataFromApi";
+import { LoadingModule } from "../components/LoadingModule";
 
 export const Search = () => {
   const [searchValue, setSearchValue] = useState<string>("");
   const [searchParam, setSearchParam] = useState<string>("pkmn");
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { language } = useContext(LanguageContext);
-  const handleSearchChange = (event: ChangeEvent) => {
-    console.log(event.target.value);
+  const [pkmnList, setPkmnList] = useState<IPkmnCard[]>([]);
+  const [setList, setSetList] = useState<IPkmnSet[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [noHits, setNoHits] = useState<boolean>(false);
+
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
+    setPkmnList([]);
   };
 
-  const handleSubmit = (event: FormEvent) => {
+  const searchWithPkmnApi = async (
+    searchParam: string,
+    searchValue: string
+  ) => {
+    let searchString = `https://api.pokemontcg.io/v2/cards`;
+    let searchTerm = searchValue;
+    if (searchValue.includes(" ")) {
+      searchTerm = searchValue.replace(/ /g, "%20");
+    }
+
+    if (searchParam !== "artist") {
+      if (searchParam === "set") {
+        searchString = `https://api.pokemontcg.io/v2/cards?q=!set.name:%22${searchTerm}%22&orderBy=number&pageSize=50&page=1`;
+      }
+      if (searchParam === "pkmn") {
+        searchString = `https://api.pokemontcg.io/v2/cards?q=name:${searchTerm}&orderBy=number&pageSize=50&page=1`;
+      }
+    } else {
+      searchString = `https://api.pokemontcg.io/v2/cards?q=artist:%22${searchTerm}%22&orderBy=number&pageSize=50&page=1`;
+    }
+
+    if (pkmnList.length === 0) {
+      await getPkmnFromApi(searchString).then((res) => {
+        if (!res || res.length === 0) {
+          setNoHits(true);
+          setIsLoading(false);
+        }
+        setPkmnList(res as IPkmnCard[]);
+      });
+    }
+  };
+
+  const handleSubmit = async (event: FormEvent) => {
     console.log("search for: ", searchValue);
     event.preventDefault();
-    // searchWithApi(searchParam, searchValue);
+    searchWithPkmnApi(searchParam, searchValue);
+    setIsLoading(true);
   };
+
+  useEffect(() => {
+    if (pkmnList.length !== 0) {
+      setIsLoading(false);
+      setNoHits(false);
+    }
+  }, [pkmnList]);
+
+  useEffect(() => {
+    if (searchValue === "") {
+      setPkmnList([]);
+    }
+  }, [searchValue]);
   return (
     <>
       <h2 id="search-header">{language.lang_code.word_search}</h2>
@@ -89,7 +143,67 @@ export const Search = () => {
         style={{ minHeight: "80vh", outline: "1px solid black" }}
         className="mt-3 p-2"
       >
-        search result box
+        {!isLoading ? (
+          <>
+            {noHits ? (
+              <>Got no hits, you have any type errors?</>
+            ) : (
+              <>
+                {pkmnList.length !== 0 ? (
+                  <>
+                    <ul
+                      className="d-flex flex-wrap justify-content-around"
+                      style={{ listStyle: "none", padding: 0 }}
+                    >
+                      {pkmnList.map((card) => (
+                        <li
+                          key={card.id}
+                          className="pt-2 px-1"
+                          onClick={() => {
+                            console.log(card.images.large);
+                          }}
+                        >
+                          <>
+                            {searchParam === "pkmn" ? (
+                              <p style={{ margin: "0" }}>{card.set.name}</p>
+                            ) : null}
+                            {searchParam === "artist" ? (
+                              <p style={{ margin: "0" }}>{card.name}</p>
+                            ) : null}
+                            {searchParam === "set" ? (
+                              <p style={{ margin: "0" }}>{card.name}</p>
+                            ) : null}
+                          </>
+                          <div
+                            style={{
+                              aspectRatio: "3/4",
+                              width: "100%",
+                              maxWidth: "12.5rem",
+                              maxHeight: "17.5rem",
+                            }}
+                          >
+                            <img
+                              style={{ width: "100%" }}
+                              src={card.images.small}
+                              alt={card.name}
+                            />
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="d-flex justify-content-center">
+                      Paginering
+                    </div>
+                  </>
+                ) : (
+                  <>Go ahead and search</>
+                )}
+              </>
+            )}
+          </>
+        ) : (
+          <LoadingModule />
+        )}
       </div>
     </>
   );
