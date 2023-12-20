@@ -74,11 +74,7 @@ export const UserMyPages = () => {
             >
               {/* map collections of user */}
               {/* max 5 */}
-              <CollectionBanner />
-              <CollectionBanner />
-              <CollectionBanner />
-              <CollectionBanner />
-              <CollectionBanner />
+              <CollectionBanner type="master" />
             </div>
             <Link to="/all-collections">
               {language.lang_code.my_pages_see_all_collections}

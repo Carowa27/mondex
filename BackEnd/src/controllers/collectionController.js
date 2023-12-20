@@ -16,14 +16,15 @@ export async function createCollection(req, res) {
 
 export async function getAllOwnedCollections(req, res) {
   try {
-    const [rows, fields] = await pool.query(
-      "SELECT * FROM collections WHERE user_id = ?",
+    const [rows] = await pool.query(
+      `SELECT * FROM collections WHERE user_id = ?`,
       [req.params.userId]
     );
     console.log(rows);
-    return rows;
+    return res.send(rows);
   } catch (error) {
-    console.error(error);
+    console.error("An error has occurred: ", error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 }
 
@@ -34,7 +35,7 @@ export async function getOwnedCollectionById(req, res) {
       [req.params.userId, req.params.collection_id]
     );
     console.log(rows[0]);
-    return rows[0];
+    return res.send(rows[0]);
   } catch (error) {
     console.error(error);
   }

@@ -1,7 +1,15 @@
 import express from "express";
 import apiRoutes from "../src/routes/index.js";
+import cors from "cors";
 
 const app = express();
+
+app.use(
+  cors({
+    methods: ["GET", "PUT", "POST", "DELETE", "OPTION"],
+  })
+);
+//option??
 
 app.use("/api/v1", apiRoutes);
 
@@ -14,6 +22,7 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something went wrong!");
 });
+
 const port = 4322;
 const run = async () => {
   try {
