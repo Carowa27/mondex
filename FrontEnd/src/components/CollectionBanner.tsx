@@ -54,7 +54,7 @@ export const CollectionBanner = (props: IProps) => {
               }
             >
               <h6>
-                <Link to="/collection/MasterCollection">
+                <Link to={`/collection/${props.collectionName}`}>
                   {props.collectionName}
                 </Link>
               </h6>

@@ -38,6 +38,7 @@ export const CollectionPage = ({ type }: IProps) => {
 
   return (
     <>
+      <h2>{collectionName}</h2>
       <div
         style={{ minHeight: "80vh", outline: "1px solid black" }}
         className="mt-3 p-2"
