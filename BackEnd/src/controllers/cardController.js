@@ -29,7 +29,6 @@ export async function createCard(req, res) {
       ]
     );
 
-    console.log(result);
     return res.send(result);
   } catch (error) {
     console.error(error);
@@ -44,7 +43,7 @@ export async function getAllOwnedCards(req, res) {
       "SELECT * FROM cards WHERE user_auth0_id = ?",
       [req.body.user_auth0_id]
     );
-    console.log(rows);
+
     return res.send(rows);
   } catch (error) {
     console.error(error);
@@ -55,7 +54,7 @@ export async function getAllOwnedCards(req, res) {
 export async function getAllCards(req, res) {
   try {
     const [rows] = await pool.query("SELECT * FROM cards");
-    console.log(rows);
+
     return res.send(rows);
   } catch (error) {
     console.error(error);
@@ -65,19 +64,18 @@ export async function getAllCards(req, res) {
 //working
 export async function getOwnedCardById(req, res) {
   try {
-    const [rows, fields] = await pool.query(
+    const [rows] = await pool.query(
       "SELECT * FROM cards WHERE user_id = ? AND id = ?",
       [req.params.userId, req.params.cardId]
     );
-    console.log(rows);
     return res.send(rows);
   } catch (error) {
     console.error(error);
   }
 }
 
+//working
 export async function getAllCardsFromCollectionById(req, res) {
-  console.log(req.body);
   try {
     const [rows] = await pool.query(
       `SELECT *
@@ -86,7 +84,6 @@ export async function getAllCardsFromCollectionById(req, res) {
       WHERE collections.collection_name = ? AND collections.user_auth0_id = ?`,
       [req.body.collection_name, req.body.user_auth0_id]
     );
-    console.log(rows);
     return res.send(rows);
   } catch (error) {
     console.error(error);

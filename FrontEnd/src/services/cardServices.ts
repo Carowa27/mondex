@@ -38,7 +38,7 @@ export const getAllCards = async () => {
 
 export const getAllCardsFromCollectionById = async (
   props: IGetAllCardsFromCollectionByIdProps
-): Promise<any> => {
+): Promise<ICardFromDB[] | undefined> => {
   const propData = {
     user_auth0_id: props.user.sub,
     collection_name: props.collectionName,
@@ -53,7 +53,7 @@ export const getAllCardsFromCollectionById = async (
         },
       }
     );
-    console.log(result);
+
     return result.data;
   } catch (error) {
     console.error("An error has occurred: ", error);

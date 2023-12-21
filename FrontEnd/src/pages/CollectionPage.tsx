@@ -30,7 +30,6 @@ export const CollectionPage = ({ collection_id }: IProps) => {
       const getData = async () => {
         await getAllCardsFromCollectionById({ collectionName, user }).then(
           (res) => {
-            console.log("test controller", res);
             setCardList(res as ICardFromDB[]);
           }
         );
