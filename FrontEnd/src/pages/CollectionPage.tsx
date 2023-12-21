@@ -6,14 +6,17 @@ import { useContext, useEffect, useState } from "react";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { LanguageContext } from "../globals/language/language";
 import { ThemeContext } from "../globals/theme";
-import { getAllOwnedCards } from "../services/cardServices";
+import {
+  getAllCardsFromCollectionById,
+  getAllOwnedCards,
+} from "../services/cardServices";
 import { ICardFromDB } from "../interfaces/dataFromDB";
 
 interface IProps {
-  type: string;
+  collection_id?: number;
 }
 
-export const CollectionPage = ({ type }: IProps) => {
+export const CollectionPage = ({ collection_id }: IProps) => {
   const { theme } = useContext(ThemeContext);
   const { language } = useContext(LanguageContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
@@ -23,14 +26,14 @@ export const CollectionPage = ({ type }: IProps) => {
   const collectionName = window.location.href.split("/")[4];
 
   useEffect(() => {
-    if (isAuthenticated && user) {
+    if (isAuthenticated && user && collectionName) {
       const getData = async () => {
-        await getAllOwnedCards({ user }).then((res) => {
-          const cardsInCollection = res.filter(
-            (card: ICardFromDB) => card.collection_name === collectionName
-          );
-          setCardList(cardsInCollection);
-        });
+        await getAllCardsFromCollectionById({ collectionName, user }).then(
+          (res) => {
+            console.log("test controller", res);
+            setCardList(res as ICardFromDB[]);
+          }
+        );
       };
       getData();
     }
@@ -51,9 +54,9 @@ export const CollectionPage = ({ type }: IProps) => {
                   className="d-flex flex-wrap justify-content-around"
                   style={{ listStyle: "none", padding: 0 }}
                 >
-                  {cardList.map((card: ICardFromDB) => (
+                  {cardList.map((card: ICardFromDB, i: number) => (
                     <li
-                      key={card.id}
+                      key={i}
                       className="pt-2 px-1"
                       onClick={() => {
                         console.log(card.api_card_img_src_large);

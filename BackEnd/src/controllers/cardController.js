@@ -75,3 +75,20 @@ export async function getOwnedCardById(req, res) {
     console.error(error);
   }
 }
+
+export async function getAllCardsFromCollectionById(req, res) {
+  console.log(req.body);
+  try {
+    const [rows] = await pool.query(
+      `SELECT *
+      FROM cards
+      JOIN collections ON cards.collection_id = collections.id
+      WHERE collections.collection_name = ? AND collections.user_auth0_id = ?`,
+      [req.body.collection_name, req.body.user_auth0_id]
+    );
+    console.log(rows);
+    return res.send(rows);
+  } catch (error) {
+    console.error(error);
+  }
+}
