@@ -10,12 +10,12 @@ export async function createCard(req, res) {
       api_card_img_src_small,
       api_card_img_src_large,
       api_pkmn_name,
-      collection_name,
+      collection_id,
     } = req.body;
 
     const result = await pool.query(
       `INSERT INTO cards 
-      (user_id, user_auth0_id, amount, api_card_id, api_card_img_src_small, api_card_img_src_large, api_pkmn_name, collection_name) 
+      (user_id, user_auth0_id, amount, api_card_id, api_card_img_src_small, api_card_img_src_large, api_pkmn_name, collection_id) 
       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         user_id,
@@ -25,7 +25,7 @@ export async function createCard(req, res) {
         api_card_img_src_small,
         api_card_img_src_large,
         api_pkmn_name,
-        collection_name,
+        collection_id,
       ]
     );
 

@@ -87,7 +87,7 @@ export const createCard = async ({
 }: ICreateCardProps): Promise<any> => {
   const amount = 1;
   const userId = 1;
-  const collection = "MasterCollection";
+  const collection = 1; //change to not hardcoded
   const cardData = {
     user_id: userId,
     user_auth0_id: user.sub,
@@ -96,7 +96,7 @@ export const createCard = async ({
     api_card_img_src_small: card.images.small,
     api_card_img_src_large: card.images.large,
     api_pkmn_name: card.name,
-    collection_name: collection,
+    collection_id: collection,
   };
   try {
     console.log(cardData);
