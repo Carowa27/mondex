@@ -6,10 +6,13 @@ const app = express();
 
 app.use(
   cors({
-    methods: ["GET", "PUT", "POST", "DELETE", "OPTION"],
+    // origin: ["http://localhost:5173/*"],
+    methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
   })
 );
 //option??
+
+app.use(express.json());
 
 app.use("/api/v1", apiRoutes);
 

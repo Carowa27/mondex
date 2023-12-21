@@ -4,6 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { getAllOwnedCards } from "../services/cardServices";
 import { useState, useEffect } from "react";
 import { ICardFromDB } from "../interfaces/dataFromDB";
+import { Link } from "react-router-dom";
 
 interface IProps {
   type?: string;
@@ -17,17 +18,20 @@ export const CollectionBanner = (props: IProps) => {
 
   useEffect(() => {
     if (isAuthenticated && user) {
-      getAllOwnedCards({ user }).then((res) => {
-        console.log("res", res);
-        const cardsInCollection = res.filter(
-          (card) => card.collection_name === props.collectionName
-        );
-        console.log(cardsInCollection);
-        setCards(cardsInCollection);
-      });
+      const getData = async () => {
+        await getAllOwnedCards({ user }).then((res) => {
+          console.log("res", res);
+          const cardsInCollection = res.filter(
+            (card: ICardFromDB) => card.collection_name === props.collectionName
+          );
+          console.log(cardsInCollection);
+          setCards(cardsInCollection);
+        });
+      };
+      getData();
     }
   }, [isAuthenticated]);
-  console.log("cardState", cards);
+  // console.log("cardState", cards);
   return (
     <>
       {/* {collections.length !== 0 ? (
@@ -49,7 +53,11 @@ export const CollectionBanner = (props: IProps) => {
                   : "py-2 my-3 col-5"
               }
             >
-              <h6>{props.collectionName}</h6>
+              <h6>
+                <Link to="/collection/MasterCollection">
+                  {props.collectionName}
+                </Link>
+              </h6>
 
               <div className="row d-flex justify-content-around px-3">
                 {cards.length !== 0 ? (
@@ -75,7 +83,9 @@ export const CollectionBanner = (props: IProps) => {
                       ))}
                     </ul>
                     <div className="w-100 d-flex justify-content-end">
-                      <i>See all cards</i>
+                      <Link to="/collection/MasterCollection">
+                        <i>See all cards</i>
+                      </Link>
                     </div>
                   </div>
                 ) : null}

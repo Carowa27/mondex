@@ -5,22 +5,45 @@ import { LanguageContext } from "../globals/language/language";
 import { getPkmnFromApi } from "../services/pkmnApiServices";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { LoadingModule } from "../components/LoadingModule";
+import { User, useAuth0 } from "@auth0/auth0-react";
+import { ThemeContext } from "../globals/theme";
+import { createCard } from "../services/cardServices";
+
+interface ICreateCardProps {
+  user: User;
+  card: IPkmnCard;
+}
 
 export const Search = () => {
-  const [searchValue, setSearchValue] = useState<string>("");
-  const [searchParam, setSearchParam] = useState<string>("pkmn");
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { language } = useContext(LanguageContext);
+  const { theme } = useContext(ThemeContext);
+  const { isAuthenticated, user } = useAuth0();
+  const [searchValue, setSearchValue] = useState<string>("");
+  const [searchParam, setSearchParam] = useState<string>("pkmn");
   const [pkmnList, setPkmnList] = useState<IPkmnCard[]>([]);
   const [setList, setSetList] = useState<IPkmnSet[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [noHits, setNoHits] = useState<boolean>(false);
+  const [showCardAlternatives, setShowCardAlternatives] = useState<string>("");
+  const [hoverBtn, setHoverBtn] = useState<boolean>(false);
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
     setPkmnList([]);
   };
-
+  const sendRequestCreateCard = async ({ user, card }: ICreateCardProps) => {
+    const response = await createCard({ user, card });
+    if (response?.status === 201 || response?.status === 200) {
+      console.log(response.status, response.statusText);
+    } else {
+      console.error(
+        "Something went wrong:",
+        response?.status,
+        response?.statusText
+      );
+    }
+  };
   const searchWithPkmnApi = async (
     searchParam: string,
     searchValue: string
@@ -52,7 +75,6 @@ export const Search = () => {
       });
     }
   };
-
   const handleSubmit = async (event: FormEvent) => {
     console.log("search for: ", searchValue);
     event.preventDefault();
@@ -93,7 +115,7 @@ export const Search = () => {
                   id="search_text"
                   value={searchValue}
                   onChange={handleSearchChange}
-                  className="btn" //"input-group-text"
+                  className="rounded" //"input-group-text"
                 />
               </label>
             </div>
@@ -136,7 +158,11 @@ export const Search = () => {
               </label>
             </div>
           </div>
-          <input className="btn m-2" type="submit" value="Submit" />
+          <input
+            className="btn btn-secondary m-2"
+            type="submit"
+            value="Submit"
+          />
         </div>
       </form>
       <div
@@ -155,33 +181,82 @@ export const Search = () => {
                       className="d-flex flex-wrap justify-content-around"
                       style={{ listStyle: "none", padding: 0 }}
                     >
-                      {pkmnList.map((card) => (
+                      {pkmnList.map((card: IPkmnCard) => (
                         <li
                           key={card.id}
                           className="pt-2 px-1"
                           onClick={() => {
                             console.log(card.images.large);
                           }}
+                          onMouseEnter={() => setShowCardAlternatives(card.id)}
+                          onMouseLeave={() => setShowCardAlternatives("")}
                         >
-                          <>
+                          <p className="fw-semibold ps-1 m-0">
                             {searchParam === "pkmn" ? (
-                              <p style={{ margin: "0" }}>{card.set.name}</p>
+                              <> {card.set.name}</>
                             ) : null}
-                            {searchParam === "artist" ? (
-                              <p style={{ margin: "0" }}>{card.name}</p>
-                            ) : null}
-                            {searchParam === "set" ? (
-                              <p style={{ margin: "0" }}>{card.name}</p>
-                            ) : null}
-                          </>
+                            {searchParam === "artist" ? <>{card.name}</> : null}
+                            {searchParam === "set" ? <>{card.name}</> : null}
+                          </p>
+
                           <div
                             style={{
                               aspectRatio: "3/4",
-                              width: "100%",
-                              maxWidth: "12.5rem",
-                              maxHeight: "17.5rem",
+                              width: "12.5rem",
                             }}
                           >
+                            {showCardAlternatives && isAuthenticated ? (
+                              <div
+                                style={
+                                  showCardAlternatives === card.id
+                                    ? {
+                                        display: "flex",
+                                        position: "absolute",
+                                        color: `${theme.primaryColors.text.hex}`,
+                                        aspectRatio: "3/4",
+                                        width: "12.5rem",
+                                        fontSize: "20pt",
+                                        alignItems: "end",
+                                        padding: "0.5rem",
+                                      }
+                                    : { display: "none" }
+                                }
+                              >
+                                <div
+                                  className="rounded-pill w-100"
+                                  style={{
+                                    backgroundColor: `${theme.primaryColors.background.hex}`,
+                                    border: "grey 1px solid",
+                                    padding: "0.3rem",
+                                  }}
+                                >
+                                  <span
+                                    style={
+                                      hoverBtn
+                                        ? {
+                                            backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                                            width: "25px",
+                                            height: "25px",
+                                          }
+                                        : {
+                                            backgroundColor: `${theme.primaryColors.border.hex}`,
+                                            width: "25px",
+                                            height: "25px",
+                                          }
+                                    }
+                                    className="rounded-circle d-flex align-items-center justify-content-center"
+                                    onMouseEnter={() => setHoverBtn(true)}
+                                    onMouseLeave={() => setHoverBtn(false)}
+                                    onClick={() =>
+                                      // console.log("clicked +")
+                                      sendRequestCreateCard({ user, card })
+                                    }
+                                  >
+                                    <i className="bi bi-plus m-0 p-0"></i>
+                                  </span>
+                                </div>
+                              </div>
+                            ) : null}
                             <img
                               style={{ width: "100%" }}
                               src={card.images.small}

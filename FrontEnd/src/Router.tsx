@@ -18,7 +18,10 @@ export const Router = createBrowserRouter([
       { path: "/search", element: <Search></Search> },
       { path: "/about", element: <AboutProject></AboutProject> },
       { path: "/userpage", element: <UserMyPages></UserMyPages> },
-      { path: "/:collectionName", element: <CollectionPage></CollectionPage> },
+      {
+        path: "/collection/:collectionName",
+        element: <CollectionPage></CollectionPage>,
+      },
       {
         path: "/all-collections",
         element: <AllCollectionsListPage></AllCollectionsListPage>,
