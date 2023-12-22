@@ -47,8 +47,7 @@ VALUES
    (2,1,'google-oauth2|100545501084792863843', 1,2,'Scarlet & Violet 1', 'sv1-2', 'https://images.pokemontcg.io/sv1/2.png', 'https://images.pokemontcg.io/sv1/2_hires.png', 'Heracross'),
    (4,1,'google-oauth2|100545501084792863843', 1,3,'Heracross', 'sv1-2', 'https://images.pokemontcg.io/sv1/2.png', 'https://images.pokemontcg.io/sv1/2_hires.png', 'Heracross'),
    (3,1,'google-oauth2|100545501084792863843', 1,3,'Heracross', 'bw7-8', 'https://images.pokemontcg.io/bw7/8.png', 'https://images.pokemontcg.io/bw7/8_hires.png', 'Heracross'),
-(5,1,'google-oauth2|100545501084792863843', 1,1,'MasterCollection', 'sv1-2', 'https://images.pokemontcg.io/sv1/2.png', 'https://images.pokemontcg.io/sv1/2_hires.png', 'Heracross'),
-   (6,1,'google-oauth2|100545501084792863843', 1,1,'MasterCollection', 'sv1-2', 'https://images.pokemontcg.io/sv1/2.png', 'https://images.pokemontcg.io/sv1/2_hires.png', 'Heracross'),
+(5,1,'google-oauth2|100545501084792863843', 3,1,'MasterCollection', 'sv1-2', 'https://images.pokemontcg.io/sv1/2.png', 'https://images.pokemontcg.io/sv1/2_hires.png', 'Heracross'),
    (8,1,'google-oauth2|100545501084792863843', 1,1,'MasterCollection', 'swsh1-78', 'https://images.pokemontcg.io/swsh1/78.png', 'https://images.pokemontcg.io/swsh1/78_hires.png', 'Morpeko'),
    (7,1,'google-oauth2|100545501084792863843', 1,1,'MasterCollection', 'bw7-8', 'https://images.pokemontcg.io/bw7/8.png', 'https://images.pokemontcg.io/bw7/8_hires.png', 'Heracross');
 

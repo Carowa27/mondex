@@ -5,6 +5,7 @@ import {
   createCard,
   getAllCards,
   getAllCardsFromCollectionById,
+  updateAmountOnCard,
 } from "../controllers/cardController.js";
 const router = express.Router();
 
@@ -14,7 +15,7 @@ router.get("/users/:userId/:cardId", getOwnedCardById);
 router.post("/users/", getAllOwnedCards);
 router.post("/collections/", getAllCardsFromCollectionById);
 
-// router.put("/:cardId", updateAmountOfCard);
+router.post("/updateCard", updateAmountOnCard);
 
 router.post("/", createCard);
 

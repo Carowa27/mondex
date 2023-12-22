@@ -20,6 +20,10 @@ interface IGetAllCardsFromCollectionByIdProps {
   collectionName: string;
   user: User;
 }
+interface IAddAmountOnCardProps {
+  user: User;
+  card: ICardFromDB;
+}
 
 const get = async <T>(url: string) => {
   return await axios.get<T>(url);
@@ -99,7 +103,6 @@ export const createCard = async ({
     collection_id: collection,
   };
   try {
-    console.log(cardData);
     const result = await axios.post(
       `${import.meta.env.VITE_CONNECTION_DB}/api/v1/cards/`,
       cardData,
@@ -109,8 +112,66 @@ export const createCard = async ({
         },
       }
     );
-    console.log(result);
     return result;
+  } catch (error) {
+    console.error("An error has occurred: ", error);
+  }
+};
+
+export const addAmountOnCard = async ({
+  user,
+  card,
+}: IAddAmountOnCardProps): Promise<any> => {
+  const newAmount = card.amount + 1;
+  const updateData = {
+    cardId: card.id,
+    user_auth0_id: user.sub,
+    amount: newAmount,
+  };
+  try {
+    const result = await axios.post(
+      `${import.meta.env.VITE_CONNECTION_DB}/api/v1/cards/updateCard/`,
+      updateData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return result;
+  } catch (error) {
+    console.error("An error has occurred: ", error);
+  }
+};
+
+export const subAmountOnCard = async ({
+  user,
+  card,
+}: IAddAmountOnCardProps): Promise<any> => {
+  const newAmount = card.amount - 1;
+  const updateData = {
+    cardId: card.id,
+    user_auth0_id: user.sub,
+    amount: newAmount,
+  };
+  try {
+    if (card.amount === 1) {
+      //delete card
+      //pop up? its your last card, want to delete it?
+      console.log("should delete card");
+    } else {
+      const result = await axios.post(
+        `${import.meta.env.VITE_CONNECTION_DB}/api/v1/cards/updateCard/`,
+        updateData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(result);
+      return result;
+    }
   } catch (error) {
     console.error("An error has occurred: ", error);
   }

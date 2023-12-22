@@ -5,6 +5,8 @@ export const colorModes = {
   Light: {
     name: "light",
     primaryColors: {
+      white: { hex: "#FAFBFB" },
+      black: { hex: "#1D201F" },
       sunmoon: { rgb: "85,77,66", hex: "#554d42" },
       text: { hex: "#3b4346" },
       link: { hex: "#2B375C" },
@@ -29,6 +31,8 @@ export const colorModes = {
   Dark: {
     name: "dark",
     primaryColors: {
+      white: { hex: "#FAFBFB" },
+      black: { hex: "#1D201F" },
       sunmoon: { rgb: "255,217,82", hex: "#FFD952" },
       text: { hex: "#E9F3FF" },
       link: { hex: "#B0C5E0" },

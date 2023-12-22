@@ -81,12 +81,31 @@ export async function getAllCardsFromCollectionById(req, res) {
     const [rows] = await pool.query(
       `SELECT *
       FROM cards
-      JOIN collections ON cards.collection_id = collections.id
-      WHERE collections.collection_name = ? AND collections.user_auth0_id = ?`,
+      WHERE collection_name = ? AND user_auth0_id = ?`,
       [req.body.collection_name, req.body.user_auth0_id]
     );
     return res.send(rows);
   } catch (error) {
     console.error(error);
+  }
+}
+
+//?
+export async function updateAmountOnCard(req, res) {
+  console.log(req.body);
+  try {
+    const { cardId, user_auth0_id, amount } = req.body;
+
+    const result = await pool.query(
+      `UPDATE cards
+      SET amount = ?
+      WHERE id = ? AND user_auth0_id = ?`,
+      [amount, cardId, user_auth0_id]
+    );
+
+    return res.send(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
   }
 }

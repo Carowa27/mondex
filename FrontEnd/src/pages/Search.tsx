@@ -94,6 +94,7 @@ export const Search = () => {
       setPkmnList([]);
     }
   }, [searchValue]);
+
   return (
     <>
       <h2 id="search-header">{language.lang_code.word_search}</h2>

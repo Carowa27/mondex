@@ -11,6 +11,8 @@ export interface IColorType {
 }
 
 export interface IPrimaryColors {
+  white: IColorType;
+  black: IColorType;
   sunmoon: IColorType;
   text: IColorType;
   link: IColorType;
