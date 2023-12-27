@@ -48,9 +48,7 @@ export const CollectionBanner = (props: IProps) => {
           {isDesktop ? (
             <div
               className={
-                window.location.pathname === "/"
-                  ? "py-2 my-3"
-                  : "py-2 my-3 col-5"
+                window.location.pathname === "/" ? "mb-2" : "py-2 my-3 col-5"
               }
             >
               <h6>

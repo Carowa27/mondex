@@ -87,7 +87,7 @@ export const Home = () => {
               {isAuthenticated ? (
                 <>
                   <Link to="/userpage">
-                    <h4 id="main-card-account-header-user">{`Welcome Back, ${user?.given_name}!`}</h4>
+                    <h4 id="main-card-account-header-user">{`Welcome, ${user?.given_name}!`}</h4>
                   </Link>
 
                   {collections && collections.length !== 0 ? (
