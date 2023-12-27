@@ -76,15 +76,12 @@ export const CollectionPage = ({ collection_id }: IProps) => {
     };
     getSetFromApi();
   }, [collection]);
-  const subAmount = (card: IPkmnCard) => {
-    for (let i = 0; i < cardList.length; i++) {
-      if (card.id === cardList[i].api_card_id) {
-        subAmountOnCard({ user, card, collectionName });
-        // console.log("sub");
-      } else {
-        console.log("nothing");
-      }
+  const subAmount = (cardFromApi: IPkmnCard) => {
+    const card = cardList.find((card) => card.api_card_id === cardFromApi.id);
+    if (card !== undefined) {
+      subAmountOnCard({ user, card, collectionName });
     }
+    //if amount===0 delete
     setTimeout(() => {
       getData();
     }, 100);
@@ -113,290 +110,315 @@ export const CollectionPage = ({ collection_id }: IProps) => {
           <>
             {cardList.length !== 0 ? (
               <>
-                <ul
-                  className="d-flex flex-wrap justify-content-around"
-                  style={{ listStyle: "none", padding: 0 }}
-                >
-                  {cardList.map((card: ICardFromDB) => (
-                    <li
-                      key={card.api_card_id}
-                      className="pt-2 px-1"
-                      onClick={() => {
-                        console.log(card.api_card_img_src_large);
-                      }}
-                      onMouseEnter={() =>
-                        setShowCardAlternatives(card.api_card_id)
-                      }
-                      onMouseLeave={() => setShowCardAlternatives("")}
-                    >
-                      <p className="fw-semibold ps-1 m-0">
-                        {card.api_pkmn_name}
-                      </p>
-                      <div
-                        style={{
-                          aspectRatio: "3/4",
-                          width: "12.5rem",
+                {collection && collection?.api_set_id === null ? (
+                  <ul
+                    className="d-flex flex-wrap justify-content-around"
+                    style={{ listStyle: "none", padding: 0 }}
+                  >
+                    {cardList.map((card: ICardFromDB) => (
+                      <li
+                        key={card.api_card_id}
+                        className="pt-2 px-1"
+                        onClick={() => {
+                          console.log(card.api_card_img_src_large);
                         }}
+                        onMouseEnter={() =>
+                          setShowCardAlternatives(card.api_card_id)
+                        }
+                        onMouseLeave={() => setShowCardAlternatives("")}
                       >
-                        {showCardAlternatives && isAuthenticated ? (
-                          <div
-                            className="px-2 py-3"
-                            style={
-                              showCardAlternatives === card.api_card_id
-                                ? {
-                                    display: "flex",
-                                    zIndex: 300,
-                                    position: "absolute",
-                                    color: `${theme.primaryColors.text.hex}`,
-                                    aspectRatio: "3/4",
-                                    width: "12.5rem",
-                                    fontSize: "20pt",
-                                    alignItems: "end",
-                                  }
-                                : { display: "none" }
-                            }
-                          >
-                            <div
-                              className="rounded-pill w-100 d-flex justify-content-around"
-                              style={{
-                                backgroundColor: `${theme.primaryColors.background.hex}`,
-                                border: "grey 1px solid",
-                                padding: "0.3rem",
-                              }}
-                            >
-                              <span
-                                style={
-                                  hoverPlusBtn
-                                    ? {
-                                        backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
-                                        width: "25px",
-                                        height: "25px",
-                                      }
-                                    : {
-                                        backgroundColor: `${theme.primaryColors.border.hex}`,
-                                        width: "25px",
-                                        height: "25px",
-                                      }
-                                }
-                                className="rounded-circle d-flex align-items-center justify-content-center"
-                                onMouseEnter={() => setHoverPlusBtn(true)}
-                                onMouseLeave={() => setHoverPlusBtn(false)}
-                                onClick={() => (
-                                  addAmountOnCard({ user, card }),
-                                  setTimeout(() => {
-                                    getData();
-                                  }, 100)
-                                )}
-                              >
-                                <i className="bi bi-plus m-0 p-0"></i>
-                              </span>
-                              <span
-                                style={
-                                  hoverMinusBtn
-                                    ? {
-                                        backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
-                                        width: "25px",
-                                        height: "25px",
-                                      }
-                                    : {
-                                        backgroundColor: `${theme.primaryColors.border.hex}`,
-                                        width: "25px",
-                                        height: "25px",
-                                      }
-                                }
-                                className="rounded-circle d-flex align-items-center justify-content-center"
-                                onMouseEnter={() => setHoverMinusBtn(true)}
-                                onMouseLeave={() => setHoverMinusBtn(false)}
-                                onClick={() => (
-                                  subAmountOnCard({ user, card }),
-                                  setTimeout(() => {
-                                    getData();
-                                  }, 100)
-                                )}
-                              >
-                                <i className="bi bi-dash m-0 p-0"></i>
-                              </span>
-                            </div>
-                          </div>
-                        ) : null}
+                        <p className="fw-semibold ps-1 m-0">
+                          {card.api_pkmn_name}
+                        </p>
                         <div
                           style={{
-                            display: "flex",
-                            position: "absolute",
-                            color: `${theme.primaryColors.text.hex}`,
-                            aspectRatio: "auto",
-                            width: "13.2rem",
-                            height: "18.2rem",
-                            fontSize: "16px",
-                            alignItems: "end",
-                            justifyContent: "end",
+                            aspectRatio: "3/4",
+                            width: "12.5rem",
                           }}
                         >
-                          <span
-                            style={{
-                              backgroundColor: `${theme.primaryColors.white.hex}`,
-                              width: "40px",
-                              height: "40px",
-                            }}
-                            className="rounded-circle d-flex align-items-center justify-content-center"
-                          >
-                            <i className="m-0 p-0">
-                              <span
+                          {showCardAlternatives && isAuthenticated ? (
+                            <div
+                              className="px-2 py-3"
+                              style={
+                                showCardAlternatives === card.api_card_id
+                                  ? {
+                                      display: "flex",
+                                      zIndex: 300,
+                                      position: "absolute",
+                                      color: `${theme.primaryColors.text.hex}`,
+                                      aspectRatio: "3/4",
+                                      width: "12.5rem",
+                                      fontSize: "20pt",
+                                      alignItems: "end",
+                                    }
+                                  : { display: "none" }
+                              }
+                            >
+                              <div
+                                className="rounded-pill w-100 d-flex justify-content-around"
                                 style={{
-                                  fontSize: "13px",
+                                  backgroundColor: `${theme.primaryColors.background.hex}`,
+                                  border: "grey 1px solid",
+                                  padding: "0.3rem",
                                 }}
                               >
-                                &#x2717;
-                              </span>{" "}
-                              {card.amount}
-                            </i>
-                          </span>
-                        </div>
-                        <img
-                          style={{ width: "100%" }}
-                          src={card.api_card_img_src_small}
-                          alt={card.api_pkmn_name}
-                        />
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-                --
-                <ul
-                  className="d-flex flex-wrap justify-content-around"
-                  style={{ listStyle: "none", padding: 0 }}
-                >
-                  {cardsFromApiList.map((card: IPkmnCard) => (
-                    <li
-                      key={card.id}
-                      className="pt-2 px-1"
-                      onClick={() => {
-                        console.log(card.images.small);
-                      }}
-                      onMouseEnter={() => setShowCardAlternatives(card.id)}
-                      onMouseLeave={() => setShowCardAlternatives("")}
-                    >
-                      <p className="fw-semibold ps-1 m-0">{card.name}</p>
-                      <div
-                        style={{
-                          aspectRatio: "3/4",
-                          width: "12.5rem",
-                        }}
-                      >
-                        {showCardAlternatives && isAuthenticated ? (
-                          <div
-                            className="px-2 py-3"
-                            style={
-                              showCardAlternatives === card.id
-                                ? {
-                                    display: "flex",
-                                    zIndex: 300,
-                                    position: "absolute",
-                                    color: `${theme.primaryColors.text.hex}`,
-                                    aspectRatio: "3/4",
-                                    width: "12.5rem",
-                                    fontSize: "20pt",
-                                    alignItems: "end",
+                                <span
+                                  style={
+                                    hoverPlusBtn
+                                      ? {
+                                          backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                                          width: "25px",
+                                          height: "25px",
+                                        }
+                                      : {
+                                          backgroundColor: `${theme.primaryColors.border.hex}`,
+                                          width: "25px",
+                                          height: "25px",
+                                        }
                                   }
-                                : { display: "none" }
-                            }
-                          >
-                            <div
-                              className="rounded-pill w-100 d-flex justify-content-around"
-                              style={{
-                                backgroundColor: `${theme.primaryColors.background.hex}`,
-                                border: "grey 1px solid",
-                                padding: "0.3rem",
-                              }}
-                            >
-                              <span
-                                style={
-                                  hoverPlusBtn
-                                    ? {
-                                        backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
-                                        width: "25px",
-                                        height: "25px",
-                                      }
-                                    : {
-                                        backgroundColor: `${theme.primaryColors.border.hex}`,
-                                        width: "25px",
-                                        height: "25px",
-                                      }
-                                }
-                                className="rounded-circle d-flex align-items-center justify-content-center"
-                                onMouseEnter={() => setHoverPlusBtn(true)}
-                                onMouseLeave={() => setHoverPlusBtn(false)}
-                                onClick={() => addAmount(card)}
-                              >
-                                <i className="bi bi-plus m-0 p-0"></i>
-                              </span>
-                              <span
-                                style={
-                                  hoverMinusBtn
-                                    ? {
-                                        backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
-                                        width: "25px",
-                                        height: "25px",
-                                      }
-                                    : {
-                                        backgroundColor: `${theme.primaryColors.border.hex}`,
-                                        width: "25px",
-                                        height: "25px",
-                                      }
-                                }
-                                className="rounded-circle d-flex align-items-center justify-content-center"
-                                onMouseEnter={() => setHoverMinusBtn(true)}
-                                onMouseLeave={() => setHoverMinusBtn(false)}
-                                onClick={() => subAmount(card)}
-                              >
-                                <i className="bi bi-dash m-0 p-0"></i>
-                              </span>
+                                  className="rounded-circle d-flex align-items-center justify-content-center"
+                                  onMouseEnter={() => setHoverPlusBtn(true)}
+                                  onMouseLeave={() => setHoverPlusBtn(false)}
+                                  onClick={() => (
+                                    addAmountOnCard({ user, card }),
+                                    setTimeout(() => {
+                                      getData();
+                                    }, 100)
+                                  )}
+                                >
+                                  <i className="bi bi-plus m-0 p-0"></i>
+                                </span>
+                                <span
+                                  style={
+                                    hoverMinusBtn
+                                      ? {
+                                          backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                                          width: "25px",
+                                          height: "25px",
+                                        }
+                                      : {
+                                          backgroundColor: `${theme.primaryColors.border.hex}`,
+                                          width: "25px",
+                                          height: "25px",
+                                        }
+                                  }
+                                  className="rounded-circle d-flex align-items-center justify-content-center"
+                                  onMouseEnter={() => setHoverMinusBtn(true)}
+                                  onMouseLeave={() => setHoverMinusBtn(false)}
+                                  onClick={() => (
+                                    subAmountOnCard({ user, card }),
+                                    setTimeout(() => {
+                                      getData();
+                                    }, 100)
+                                  )}
+                                >
+                                  <i className="bi bi-dash m-0 p-0"></i>
+                                </span>
+                              </div>
                             </div>
+                          ) : null}
+                          <div
+                            style={{
+                              display: "flex",
+                              position: "absolute",
+                              color: `${theme.primaryColors.text.hex}`,
+                              aspectRatio: "auto",
+                              width: "13.2rem",
+                              height: "18.2rem",
+                              fontSize: "16px",
+                              alignItems: "end",
+                              justifyContent: "end",
+                            }}
+                          >
+                            <span
+                              style={{
+                                backgroundColor: `${theme.primaryColors.white.hex}`,
+                                width: "40px",
+                                height: "40px",
+                              }}
+                              className="rounded-circle d-flex align-items-center justify-content-center"
+                            >
+                              <i className="m-0 p-0">
+                                <span
+                                  style={{
+                                    fontSize: "13px",
+                                  }}
+                                >
+                                  &#x2717;
+                                </span>{" "}
+                                {card.amount}
+                              </i>
+                            </span>
                           </div>
-                        ) : null}
+                          <img
+                            style={{ width: "100%" }}
+                            src={card.api_card_img_src_small}
+                            alt={card.api_pkmn_name}
+                          />
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <ul
+                    className="d-flex flex-wrap justify-content-around"
+                    style={{ listStyle: "none", padding: 0 }}
+                  >
+                    {cardsFromApiList.map((card: IPkmnCard) => (
+                      <li
+                        key={card.id}
+                        className="pt-2 px-1"
+                        onClick={() => {
+                          console.log(card.images.small);
+                        }}
+                        onMouseEnter={() => setShowCardAlternatives(card.id)}
+                        onMouseLeave={() => setShowCardAlternatives("")}
+                      >
+                        <p className="fw-semibold ps-1 m-0">{card.name}</p>
                         <div
                           style={{
-                            display: "flex",
-                            position: "absolute",
-                            color: `${theme.primaryColors.text.hex}`,
-                            aspectRatio: "auto",
-                            width: "13.2rem",
-                            height: "18.2rem",
-                            fontSize: "16px",
-                            alignItems: "end",
-                            justifyContent: "end",
+                            aspectRatio: "3/4",
+                            width: "12.5rem",
                           }}
                         >
-                          <span
-                            style={{
-                              backgroundColor: `${theme.primaryColors.white.hex}`,
-                              width: "40px",
-                              height: "40px",
-                              zIndex: 300,
-                            }}
-                            className="rounded-circle d-flex align-items-center justify-content-center"
-                          >
-                            {/* <i className="m-0 p-0">
-                              <span
+                          {showCardAlternatives && isAuthenticated ? (
+                            <div
+                              className="px-2 py-3"
+                              style={
+                                showCardAlternatives === card.id
+                                  ? {
+                                      display: "flex",
+                                      zIndex: 300,
+                                      position: "absolute",
+                                      color: `${theme.primaryColors.text.hex}`,
+                                      aspectRatio: "3/4",
+                                      width: "12.5rem",
+                                      fontSize: "20pt",
+                                      alignItems: "end",
+                                    }
+                                  : { display: "none" }
+                              }
+                            >
+                              <div
+                                className="rounded-pill w-100 d-flex justify-content-around"
                                 style={{
-                                  fontSize: "13px",
+                                  backgroundColor: `${theme.primaryColors.background.hex}`,
+                                  border: "grey 1px solid",
+                                  padding: "0.3rem",
                                 }}
                               >
-                                &#x2717;
-                              </span>
-                              {card.amount}
-                            </i> */}
-                          </span>
+                                <span
+                                  style={
+                                    hoverPlusBtn
+                                      ? {
+                                          backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                                          width: "25px",
+                                          height: "25px",
+                                        }
+                                      : {
+                                          backgroundColor: `${theme.primaryColors.border.hex}`,
+                                          width: "25px",
+                                          height: "25px",
+                                        }
+                                  }
+                                  className="rounded-circle d-flex align-items-center justify-content-center"
+                                  onMouseEnter={() => setHoverPlusBtn(true)}
+                                  onMouseLeave={() => setHoverPlusBtn(false)}
+                                  onClick={() => addAmount(card)}
+                                >
+                                  <i className="bi bi-plus m-0 p-0"></i>
+                                </span>
+                                <span
+                                  style={
+                                    hoverMinusBtn
+                                      ? {
+                                          backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                                          width: "25px",
+                                          height: "25px",
+                                        }
+                                      : {
+                                          backgroundColor: `${theme.primaryColors.border.hex}`,
+                                          width: "25px",
+                                          height: "25px",
+                                        }
+                                  }
+                                  className="rounded-circle d-flex align-items-center justify-content-center"
+                                  onMouseEnter={() => setHoverMinusBtn(true)}
+                                  onMouseLeave={() => setHoverMinusBtn(false)}
+                                  onClick={() => subAmount(card)}
+                                >
+                                  <i className="bi bi-dash m-0 p-0"></i>
+                                </span>
+                              </div>
+                            </div>
+                          ) : null}
+                          <div
+                            style={{
+                              display: "flex",
+                              position: "absolute",
+                              color: `${theme.primaryColors.text.hex}`,
+                              aspectRatio: "auto",
+                              width: "13.2rem",
+                              height: "18.2rem",
+                              fontSize: "16px",
+                              alignItems: "end",
+                              justifyContent: "end",
+                            }}
+                          >
+                            {cardList.find(
+                              (cardFromDb) => cardFromDb.api_card_id === card.id
+                            ) ? (
+                              <>
+                                <span
+                                  style={{
+                                    backgroundColor: `${theme.primaryColors.white.hex}`,
+                                    width: "40px",
+                                    height: "40px",
+                                    zIndex: 300,
+                                  }}
+                                  className="rounded-circle d-flex align-items-center justify-content-center"
+                                >
+                                  {" "}
+                                  <i className="m-0 p-0">
+                                    <span
+                                      style={{
+                                        fontSize: "13px",
+                                      }}
+                                    >
+                                      &#x2717;
+                                    </span>
+                                    {
+                                      cardList.find(
+                                        (cardFromDb) =>
+                                          cardFromDb.api_card_id === card.id
+                                      )?.amount
+                                    }
+                                  </i>
+                                </span>
+                              </>
+                            ) : null}
+                          </div>
+                          <img
+                            style={
+                              cardList.find(
+                                (cardFromDb) =>
+                                  cardFromDb.api_card_id === card.id
+                              )
+                                ? { width: "100%", opacity: 1 }
+                                : {
+                                    width: "100%",
+                                    opacity: 0.6,
+                                    filter: "grayscale(100%)",
+                                  }
+                            }
+                            src={card.images.small}
+                            alt={card.name}
+                          />
                         </div>
-                        <img
-                          style={{ width: "100%", opacity: 0.6 }}
-                          src={card.images.small}
-                          alt={card.name}
-                        />
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+                      </li>
+                    ))}
+                  </ul>
+                )}
                 <div className="d-flex justify-content-center">Paginering</div>
               </>
             ) : (
