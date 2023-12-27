@@ -95,7 +95,7 @@ export const CollectionBanner = (props: IProps) => {
               style={{ outline: "2px blue solid", width: "100%" }}
               className="py-2 my-2"
             >
-              <h6>{props.collectionName}</h6>
+              <h6>{collectionName}</h6>
 
               <div className="px-3">
                 {cards.length !== 0 ? (

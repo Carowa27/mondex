@@ -378,7 +378,6 @@ export const CollectionPage = ({ collection_id }: IProps) => {
                                   }}
                                   className="rounded-circle d-flex align-items-center justify-content-center"
                                 >
-                                  {" "}
                                   <i className="m-0 p-0">
                                     <span
                                       style={{
