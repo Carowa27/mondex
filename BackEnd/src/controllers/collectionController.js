@@ -28,11 +28,11 @@ export async function getAllOwnedCollections(req, res) {
   }
 }
 
-export async function getOwnedCollectionById(req, res) {
+export async function getOwnedCollectionByCollectionName(req, res) {
   try {
     const [rows, fields] = await pool.query(
-      "SELECT * FROM collections WHERE user_id = ? AND id = ?",
-      [req.params.userId, req.params.collection_id]
+      "SELECT * FROM collections WHERE user_auth0_id = ? AND collection_name = ?",
+      [req.body.user_auth0_id, req.body.collection_name]
     );
     console.log(rows[0]);
     return res.send(rows[0]);

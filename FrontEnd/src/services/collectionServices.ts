@@ -6,6 +6,10 @@ import { getUser } from "./userServices";
 interface IGetAllOwnedCollectionsProps {
   user: User;
 }
+interface IGetOwnedCollectionByIdProps {
+  user: User;
+  collectionName: string;
+}
 
 const get = async <T>(url: string) => {
   return await axios.get<T>(url);
@@ -24,6 +28,30 @@ export const getAllOwnedCollections = async (
         user.id
       }`
     );
+    return result.data;
+  } catch (error) {
+    console.error("An error has occurred: ", error);
+  }
+};
+
+export const getOwnedCollectionByCollectionName = async (
+  props: IGetOwnedCollectionByIdProps
+): Promise<ICollectionFromDB | undefined> => {
+  const propData = {
+    user_auth0_id: props.user.sub,
+    collection_name: props.collectionName,
+  };
+  try {
+    const result = await axios.post(
+      `${import.meta.env.VITE_CONNECTION_DB}/api/v1/collections/collection/`,
+      propData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(result.data);
     return result.data;
   } catch (error) {
     console.error("An error has occurred: ", error);

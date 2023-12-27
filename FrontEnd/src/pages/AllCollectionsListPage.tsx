@@ -3,6 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { LoadingModule } from "../components/LoadingModule";
 import { getAllOwnedCollections } from "../services/collectionServices";
 import { ICollectionFromDB } from "../interfaces/dataFromDB";
+import { Link } from "react-router-dom";
 
 export const AllCollectionsListPage = () => {
   const { isLoading, isAuthenticated, user, error } = useAuth0();
@@ -30,10 +31,12 @@ export const AllCollectionsListPage = () => {
               {collections && collections.length !== 0 ? (
                 <>
                   {collections.map((coll: ICollectionFromDB) => (
-                    <p>
-                      {coll.collection_name}
-                      {coll.api_set_id ? <>, {coll.api_set_id}</> : null}
-                    </p>
+                    <Link to={`/collection/${coll.collection_name}`}>
+                      <p>
+                        {coll.collection_name.replace(/_/g, " ")}
+                        {coll.api_set_id ? <>, {coll.api_set_id}</> : null}
+                      </p>
+                    </Link>
                   ))}
                 </>
               ) : (

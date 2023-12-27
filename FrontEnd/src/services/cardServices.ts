@@ -8,13 +8,19 @@ import { getUser } from "./userServices";
 import { User } from "@auth0/auth0-react";
 import { IUserAuth } from "../interfaces/IUser";
 import { IPkmnCard } from "../interfaces/dataFromApi";
+import { getOwnedCollectionByCollectionName } from "./collectionServices";
 
 interface IGetAllOwnedCardsProps {
   user: User;
 }
 interface ICreateCardProps {
   user: User;
-  card: IPkmnCard;
+  cardFromApi: IPkmnCard;
+  collectionName: string;
+}
+interface IGetOwnedCardByIdByIdProps {
+  user: User;
+  card: ICardFromDB;
 }
 interface IGetAllCardsFromCollectionByIdProps {
   collectionName: string;
@@ -63,6 +69,31 @@ export const getAllCardsFromCollectionById = async (
     console.error("An error has occurred: ", error);
   }
 };
+export const getOwnedCardById = async ({
+  user,
+  card,
+}: IGetOwnedCardByIdByIdProps): Promise<ICardFromDB | undefined> => {
+  console.log("getcard data", card);
+  const propData = {
+    user_auth0_id: user.sub,
+    cardId: card.id,
+  };
+  try {
+    const result = await axios.post(
+      `${import.meta.env.VITE_CONNECTION_DB}/api/v1/cards/getCard/`,
+      propData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return result.data;
+  } catch (error) {
+    console.error("An error has occurred: ", error);
+  }
+};
 
 export const getAllOwnedCards = async (
   props: IGetAllOwnedCardsProps
@@ -87,20 +118,28 @@ export const getAllOwnedCards = async (
 
 export const createCard = async ({
   user,
-  card,
+  cardFromApi,
+  collectionName,
 }: ICreateCardProps): Promise<any> => {
+  const collection = await getOwnedCollectionByCollectionName({
+    user,
+    collectionName,
+  });
+  const collectionId = collection?.id;
+  console.log("card gotten", cardFromApi);
+
   const amount = 1;
   const userId = 1;
-  const collection = 1; //change to not hardcoded
   const cardData = {
     user_id: userId,
     user_auth0_id: user.sub,
     amount: amount,
-    api_card_id: card.id,
-    api_card_img_src_small: card.images.small,
-    api_card_img_src_large: card.images.large,
-    api_pkmn_name: card.name,
-    collection_id: collection,
+    api_card_id: cardFromApi.id,
+    api_card_img_src_small: cardFromApi.images.small,
+    api_card_img_src_large: cardFromApi.images.large,
+    api_pkmn_name: cardFromApi.name,
+    collection_id: collectionId,
+    collection_name: collectionName,
   };
   try {
     const result = await axios.post(
@@ -112,6 +151,7 @@ export const createCard = async ({
         },
       }
     );
+    console.log(result);
     return result;
   } catch (error) {
     console.error("An error has occurred: ", error);
@@ -122,6 +162,7 @@ export const addAmountOnCard = async ({
   user,
   card,
 }: IAddAmountOnCardProps): Promise<any> => {
+  // const cardFromDb = await getOwnedCardById({ user, card });
   const newAmount = card.amount + 1;
   const updateData = {
     cardId: card.id,
@@ -147,12 +188,14 @@ export const addAmountOnCard = async ({
 export const subAmountOnCard = async ({
   user,
   card,
+  collection,
 }: IAddAmountOnCardProps): Promise<any> => {
   const newAmount = card.amount - 1;
   const updateData = {
     cardId: card.id,
     user_auth0_id: user.sub,
     amount: newAmount,
+    collection_name: collection,
   };
   try {
     if (card.amount === 1) {

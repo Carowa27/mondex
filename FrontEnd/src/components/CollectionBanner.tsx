@@ -32,6 +32,7 @@ export const CollectionBanner = (props: IProps) => {
     }
   }, [isAuthenticated]);
   // console.log("cardState", cards);
+  const collectionName = props.collectionName.replace(/_/g, " ");
   return (
     <>
       {/* {collections.length !== 0 ? (
@@ -53,7 +54,7 @@ export const CollectionBanner = (props: IProps) => {
             >
               <h6>
                 <Link to={`/collection/${props.collectionName}`}>
-                  {props.collectionName}
+                  {collectionName}
                 </Link>
               </h6>
 
@@ -81,7 +82,7 @@ export const CollectionBanner = (props: IProps) => {
                       ))}
                     </ul>
                     <div className="w-100 d-flex justify-content-end">
-                      <Link to="/collection/MasterCollection">
+                      <Link to={`/collection/${props.collectionName}`}>
                         <i>See all cards</i>
                       </Link>
                     </div>
@@ -119,7 +120,9 @@ export const CollectionBanner = (props: IProps) => {
                       ))}
                     </ul>
                     <div className="w-100 d-flex justify-content-end">
-                      <i>See all cards</i>
+                      <Link to={`/collection/${props.collectionName}`}>
+                        <i>See all cards</i>
+                      </Link>
                     </div>
                   </div>
                 ) : null}

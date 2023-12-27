@@ -2,6 +2,7 @@ import { pool } from "../database/database.js";
 
 //working
 export async function createCard(req, res) {
+  console.log(req.body);
   try {
     const {
       user_id,
@@ -12,12 +13,13 @@ export async function createCard(req, res) {
       api_card_img_src_large,
       api_pkmn_name,
       collection_id,
+      collection_name,
     } = req.body;
 
     const result = await pool.query(
       `INSERT INTO cards 
-      (user_id, user_auth0_id, amount, api_card_id, api_card_img_src_small, api_card_img_src_large, api_pkmn_name, collection_id) 
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      (user_id, user_auth0_id, amount, api_card_id, api_card_img_src_small, api_card_img_src_large, api_pkmn_name, collection_id, collection_name) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         user_id,
         user_auth0_id,
@@ -27,6 +29,7 @@ export async function createCard(req, res) {
         api_card_img_src_large,
         api_pkmn_name,
         collection_id,
+        collection_name,
       ]
     );
 
@@ -64,10 +67,11 @@ export async function getAllCards(req, res) {
 
 //working
 export async function getOwnedCardById(req, res) {
+  console.log("body getcard", req.body);
   try {
     const [rows] = await pool.query(
-      "SELECT * FROM cards WHERE user_id = ? AND id = ?",
-      [req.params.userId, req.params.cardId]
+      "SELECT * FROM cards WHERE user_auth0_id = ? AND id = ?",
+      [req.body.user_auth0_id, req.body.cardId]
     );
     return res.send(rows);
   } catch (error) {
@@ -90,7 +94,7 @@ export async function getAllCardsFromCollectionById(req, res) {
   }
 }
 
-//?
+//working
 export async function updateAmountOnCard(req, res) {
   console.log(req.body);
   try {

@@ -10,7 +10,7 @@ import {
 const router = express.Router();
 
 router.get("/", getAllCards);
-router.get("/users/:userId/:cardId", getOwnedCardById);
+router.post("/getCard/", getOwnedCardById);
 
 router.post("/users/", getAllOwnedCards);
 router.post("/collections/", getAllCardsFromCollectionById);
