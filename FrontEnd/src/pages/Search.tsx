@@ -38,6 +38,7 @@ export const Search = () => {
     cardFromApi,
   }: // collectionName,
   ICreateCardProps) => {
+    console.log(cardFromApi);
     const collectionName = "Master_Collection";
     await createCard({ user, cardFromApi, collectionName });
   };
@@ -178,26 +179,32 @@ export const Search = () => {
                       className="d-flex flex-wrap justify-content-around"
                       style={{ listStyle: "none", padding: 0 }}
                     >
-                      {pkmnList.map((card: IPkmnCard) => (
+                      {pkmnList.map((cardFromApi: IPkmnCard) => (
                         <li
-                          key={card.id}
+                          key={cardFromApi.id}
                           className="pt-2 px-1"
                           onClick={() => {
                             console.log(
                               "show bigCard",
-                              card.name,
-                              card.images.small
+                              cardFromApi.name,
+                              cardFromApi.images.small
                             );
                           }}
-                          onMouseEnter={() => setShowCardAlternatives(card.id)}
+                          onMouseEnter={() =>
+                            setShowCardAlternatives(cardFromApi.id)
+                          }
                           onMouseLeave={() => setShowCardAlternatives("")}
                         >
                           <p className="fw-semibold ps-1 m-0">
                             {searchParam === "pkmn" ? (
-                              <> {card.set.name}</>
+                              <> {cardFromApi.set.name}</>
                             ) : null}
-                            {searchParam === "artist" ? <>{card.name}</> : null}
-                            {searchParam === "set" ? <>{card.name}</> : null}
+                            {searchParam === "artist" ? (
+                              <>{cardFromApi.name}</>
+                            ) : null}
+                            {searchParam === "set" ? (
+                              <>{cardFromApi.name}</>
+                            ) : null}
                           </p>
 
                           <div
@@ -209,7 +216,7 @@ export const Search = () => {
                             {showCardAlternatives && isAuthenticated ? (
                               <div
                                 style={
-                                  showCardAlternatives === card.id
+                                  showCardAlternatives === cardFromApi.id
                                     ? {
                                         display: "flex",
                                         position: "absolute",
@@ -249,7 +256,10 @@ export const Search = () => {
                                     onMouseEnter={() => setHoverBtn(true)}
                                     onMouseLeave={() => setHoverBtn(false)}
                                     onClick={() =>
-                                      sendRequestCreateCard({ user, card })
+                                      sendRequestCreateCard({
+                                        user,
+                                        cardFromApi,
+                                      })
                                     }
                                   >
                                     <i className="bi bi-plus m-0 p-0"></i>
@@ -259,8 +269,8 @@ export const Search = () => {
                             ) : null}
                             <img
                               style={{ width: "100%" }}
-                              src={card.images.small}
-                              alt={card.name}
+                              src={cardFromApi.images.small}
+                              alt={cardFromApi.name}
                             />
                           </div>
                         </li>

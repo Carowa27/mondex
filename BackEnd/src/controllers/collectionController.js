@@ -4,12 +4,12 @@ export async function createCollection(req, res) {
   if (api_set_id) {
     await pool.query(
       `INSERT INTO collections (collection_name,user_id,api_set_id) VALUES (?,?,?)`,
-      [req.params.collection_name, req.params.user_id, req.params.api_set_id]
+      [req.body.collection_name, req.body.user_id, req.body.api_set_id]
     );
   } else {
     await pool.query(
       `INSERT INTO collections (collection_name,user_id) VALUES (?,?)`,
-      [req.params.collection_name, req.params.user_id]
+      [req.body.collection_name, req.body.user_id]
     );
   }
 }
@@ -38,5 +38,20 @@ export async function getOwnedCollectionByCollectionName(req, res) {
     return res.send(rows[0]);
   } catch (error) {
     console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+}
+
+export async function deleteCollectionById(req, res) {
+  console.log("body: ", req.body);
+  try {
+    const result = await pool.query(
+      `DELETE FROM collections
+  WHERE id = ? AND user_auth0_id = ?`,
+      [req.body.collectionId, req.body.user_auth0_id]
+    );
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 }

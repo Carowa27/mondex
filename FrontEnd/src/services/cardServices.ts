@@ -124,12 +124,13 @@ export const createCard = async ({
   user,
   cardFromApi,
   collectionName,
-}: ICreateCardProps): Promise<any> => {
+}: ICreateCardProps) => {
   const collection = await getOwnedCollectionByCollectionName({
     user,
     collectionName,
   });
-  const collectionId = collection?.id;
+  console.log(cardFromApi);
+  const collectionId = collection!.id;
   const amount = 1;
   const userId = 1;
   const cardData = {

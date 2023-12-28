@@ -13,6 +13,7 @@ export const colorModes = {
       background: { hex: "#89c1ce" },
       border: { hex: "#649980" },
       cardBackground: { hex: "#78AEBB" },
+      button: { hex: "#F3E9E3" },
     },
     typeColors: {
       grass: { rgb: "125,179,82", hex: "#7DB352" },
@@ -39,6 +40,7 @@ export const colorModes = {
       background: { hex: "#25383C" },
       border: { hex: "#84bda3" },
       cardBackground: { hex: "#172528" },
+      button: { hex: "#7D6D68" },
     },
     typeColors: {
       grass: { rgb: "125,179,82", hex: "#7DB352" },

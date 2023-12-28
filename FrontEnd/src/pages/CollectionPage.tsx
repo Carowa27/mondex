@@ -15,6 +15,7 @@ import {
 } from "../services/cardServices";
 import { ICardFromDB, ICollectionFromDB } from "../interfaces/dataFromDB";
 import {
+  deleteCollectionById,
   getOwnedCollectionByCollectionName,
   getOwnedCollectionById,
 } from "../services/collectionServices";
@@ -37,6 +38,10 @@ export const CollectionPage = ({ collection_id }: IProps) => {
   const [showCardAlternatives, setShowCardAlternatives] = useState<string>("");
   const [hoverPlusBtn, setHoverPlusBtn] = useState<boolean>(false);
   const [hoverMinusBtn, setHoverMinusBtn] = useState<boolean>(false);
+  const [showWarningCard, setShowWarningCard] = useState<boolean>(false);
+  const [showWarningCollection, setShowWarningCollection] =
+    useState<boolean>(false);
+  const [cardToDelete, setCardToDelete] = useState<ICardFromDB>();
 
   const collectionName = window.location.href.split("/")[4];
   const collectionNameToShow = collectionName.replace(/_/g, " ");
@@ -61,10 +66,17 @@ export const CollectionPage = ({ collection_id }: IProps) => {
   }, [isAuthenticated, user]);
 
   useEffect(() => {
-    if (cardList.length !== 0) {
-      setIsLoading(false);
+    if (collection) {
+      if (cardList.length !== 0 && collection.api_set_id === null) {
+        setIsLoading(false);
+        console.log("cardlist: ", cardList);
+      }
+      if (cardsFromApiList.length !== 0 && collection.api_set_id !== null) {
+        setIsLoading(false);
+        console.log("cardlist & set: ", cardList, cardsFromApiList);
+      }
     }
-  }, [cardList]);
+  }, [cardList, cardsFromApiList, collection]);
   useEffect(() => {
     const getSetFromApi = async () => {
       if (collection && collection?.api_set_id !== null) {
@@ -78,37 +90,100 @@ export const CollectionPage = ({ collection_id }: IProps) => {
     getSetFromApi();
   }, [collection]);
 
-  const subAmount = (cardFromApi: IPkmnCard) => {
-    const card = cardList.find((card) => card.api_card_id === cardFromApi.id);
-    if (card !== undefined && user) {
-      if (card?.amount === 1) {
-        console.log("delete");
+  const subAmount = (cardFromApi?: IPkmnCard, card?: ICardFromDB) => {
+    if (cardFromApi) {
+      const card = cardList.find((card) => card.api_card_id === cardFromApi.id);
+      if (card !== undefined && user) {
+        if (card.amount !== 0) {
+          if (card.amount === 1) {
+            setShowWarningCard(true);
+            setCardToDelete(card);
+          } else {
+            subAmountOnCard({ user, card });
+          }
+        }
+      }
+    } else {
+      if (card !== undefined && user) {
+        if (card.amount !== 0) {
+          if (card.amount === 1) {
+            console.log("delete");
+            //kommer inte hit?
+            setShowWarningCard(true);
+            setCardToDelete(card);
+          } else {
+            subAmountOnCard({ user, card });
+          }
+        }
+      }
+    }
+    setTimeout(() => {
+      getData();
+    }, 100);
+  };
+  const addAmount = (cardFromApi?: IPkmnCard, card?: ICardFromDB) => {
+    if (cardFromApi) {
+      const card = cardList.find((card) => card.api_card_id === cardFromApi.id);
+      if (user) {
+        if (card !== undefined) {
+          addAmountOnCard({ user, card });
+        } else {
+          createCard({ user, cardFromApi, collectionName });
+        }
+      }
+    }
+    if (card && user) {
+      addAmountOnCard({ user, card });
+    }
+    setTimeout(() => {
+      getData();
+    }, 100);
+  };
+  useEffect(() => {
+    if (showWarningCard) {
+      const warningDelete = window.confirm(
+        "Are you sure you want to delete this card?"
+      );
+      if (warningDelete && user && cardToDelete) {
+        const card = cardToDelete;
+        console.log("if ", warningDelete);
+        deleteOwnedCardById({ user, card });
+      } else {
+        console.log("else ", warningDelete);
+        setShowWarningCard(false);
+      }
+    }
+    console.log("showWarning useeffect", showWarningCard);
+  }, [showWarningCard]);
 
-        // deleteOwnedCardById({ user, card });
+  useEffect(() => {
+    if (showWarningCollection) {
+      const warningDelete = window.confirm(
+        "Are you sure you want to delete this colelction? It will be gone forever."
+      );
+      if (warningDelete && user && collection) {
+        // console.log("if ", collection);
+        deleteCollectionById({ user, collection });
+        window.location.href = "/all-collections";
       } else {
-        subAmountOnCard({ user, card });
+        console.log("else ", warningDelete);
+        setShowWarningCollection(false);
       }
     }
-    setTimeout(() => {
-      getData();
-    }, 100);
-  };
-  const addAmount = (cardFromApi: IPkmnCard) => {
-    const card = cardList.find((card) => card.api_card_id === cardFromApi.id);
-    if (user) {
-      if (card !== undefined) {
-        addAmountOnCard({ user, card });
-      } else {
-        createCard({ user, cardFromApi, collectionName });
-      }
-    }
-    setTimeout(() => {
-      getData();
-    }, 100);
-  };
+    console.log("showWarning useeffect", showWarningCollection);
+  }, [showWarningCollection]);
+
   return (
     <>
-      <h2>{collectionNameToShow}</h2>
+      <div className="d-flex justify-content-between">
+        <h2 className="m-0">{collectionNameToShow}</h2>
+        {collection?.collection_name !== `Master_Collection` ? (
+          <h5
+            className="bi bi-trash3 pe-4 pt-3 m-0"
+            onClick={() => setShowWarningCollection(true)}
+          ></h5>
+        ) : null}
+      </div>
       <div
         style={{ minHeight: "80vh", outline: "1px solid black" }}
         className="mt-3 p-2"
@@ -190,12 +265,7 @@ export const CollectionPage = ({ collection_id }: IProps) => {
                                   className="rounded-circle d-flex align-items-center justify-content-center"
                                   onMouseEnter={() => setHoverPlusBtn(true)}
                                   onMouseLeave={() => setHoverPlusBtn(false)}
-                                  onClick={() => (
-                                    addAmountOnCard({ user, card }),
-                                    setTimeout(() => {
-                                      getData();
-                                    }, 100)
-                                  )}
+                                  onClick={() => addAmount(card)}
                                 >
                                   <i className="bi bi-plus m-0 p-0"></i>
                                 </span>
@@ -216,12 +286,7 @@ export const CollectionPage = ({ collection_id }: IProps) => {
                                   className="rounded-circle d-flex align-items-center justify-content-center"
                                   onMouseEnter={() => setHoverMinusBtn(true)}
                                   onMouseLeave={() => setHoverMinusBtn(false)}
-                                  onClick={() => (
-                                    subAmountOnCard({ user, card }),
-                                    setTimeout(() => {
-                                      getData();
-                                    }, 100)
-                                  )}
+                                  onClick={() => subAmount(card)}
                                 >
                                   <i className="bi bi-dash m-0 p-0"></i>
                                 </span>
@@ -275,21 +340,25 @@ export const CollectionPage = ({ collection_id }: IProps) => {
                     className="d-flex flex-wrap justify-content-around"
                     style={{ listStyle: "none", padding: 0 }}
                   >
-                    {cardsFromApiList.map((card: IPkmnCard) => (
+                    {cardsFromApiList.map((cardFromApi: IPkmnCard) => (
                       <li
-                        key={card.id}
+                        key={cardFromApi.id}
                         className="pt-2 px-1"
                         onClick={() => {
                           console.log(
                             "show bigCard",
-                            card.name,
-                            card.images.small
+                            cardFromApi.name,
+                            cardFromApi.images.small
                           );
                         }}
-                        onMouseEnter={() => setShowCardAlternatives(card.id)}
+                        onMouseEnter={() =>
+                          setShowCardAlternatives(cardFromApi.id)
+                        }
                         onMouseLeave={() => setShowCardAlternatives("")}
                       >
-                        <p className="fw-semibold ps-1 m-0">{card.name}</p>
+                        <p className="fw-semibold ps-1 m-0">
+                          {cardFromApi.name}
+                        </p>
                         <div
                           style={{
                             aspectRatio: "3/4",
@@ -300,7 +369,7 @@ export const CollectionPage = ({ collection_id }: IProps) => {
                             <div
                               className="px-2 py-3"
                               style={
-                                showCardAlternatives === card.id
+                                showCardAlternatives === cardFromApi.id
                                   ? {
                                       display: "flex",
                                       zIndex: 300,
@@ -339,7 +408,7 @@ export const CollectionPage = ({ collection_id }: IProps) => {
                                   className="rounded-circle d-flex align-items-center justify-content-center"
                                   onMouseEnter={() => setHoverPlusBtn(true)}
                                   onMouseLeave={() => setHoverPlusBtn(false)}
-                                  onClick={() => addAmount(card)}
+                                  onClick={() => addAmount(cardFromApi)}
                                 >
                                   <i className="bi bi-plus m-0 p-0"></i>
                                 </span>
@@ -360,7 +429,7 @@ export const CollectionPage = ({ collection_id }: IProps) => {
                                   className="rounded-circle d-flex align-items-center justify-content-center"
                                   onMouseEnter={() => setHoverMinusBtn(true)}
                                   onMouseLeave={() => setHoverMinusBtn(false)}
-                                  onClick={() => subAmount(card)}
+                                  onClick={() => subAmount(cardFromApi)}
                                 >
                                   <i className="bi bi-dash m-0 p-0"></i>
                                 </span>
@@ -381,7 +450,8 @@ export const CollectionPage = ({ collection_id }: IProps) => {
                             }}
                           >
                             {cardList.find(
-                              (cardFromDb) => cardFromDb.api_card_id === card.id
+                              (cardFromDb) =>
+                                cardFromDb.api_card_id === cardFromApi.id
                             ) ? (
                               <>
                                 <span
@@ -404,7 +474,8 @@ export const CollectionPage = ({ collection_id }: IProps) => {
                                     {
                                       cardList.find(
                                         (cardFromDb) =>
-                                          cardFromDb.api_card_id === card.id
+                                          cardFromDb.api_card_id ===
+                                          cardFromApi.id
                                       )?.amount
                                     }
                                   </i>
@@ -416,7 +487,7 @@ export const CollectionPage = ({ collection_id }: IProps) => {
                             style={
                               cardList.find(
                                 (cardFromDb) =>
-                                  cardFromDb.api_card_id === card.id
+                                  cardFromDb.api_card_id === cardFromApi.id
                               )
                                 ? { width: "100%", opacity: 1 }
                                 : {
@@ -425,8 +496,8 @@ export const CollectionPage = ({ collection_id }: IProps) => {
                                     filter: "grayscale(100%)",
                                   }
                             }
-                            src={card.images.small}
-                            alt={card.name}
+                            src={cardFromApi.images.small}
+                            alt={cardFromApi.name}
                           />
                         </div>
                       </li>

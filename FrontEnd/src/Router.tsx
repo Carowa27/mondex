@@ -7,6 +7,7 @@ import { UserMyPages } from "./pages/UserMyPages";
 import { AboutProject } from "./pages/AboutProject";
 import { CollectionPage } from "./pages/CollectionPage";
 import { AllCollectionsListPage } from "./pages/AllCollectionsListPage";
+import { CreateCollectionPage } from "./pages/CreateCollectionPage";
 
 export const Router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ export const Router = createBrowserRouter([
       {
         path: "/all-collections",
         element: <AllCollectionsListPage></AllCollectionsListPage>,
+      },
+      {
+        path: "/create-new-collection",
+        element: <CreateCollectionPage></CreateCollectionPage>,
       },
     ],
   },
