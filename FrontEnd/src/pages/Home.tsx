@@ -27,7 +27,6 @@ export const Home = () => {
       };
       getData();
     }
-    console.log("user home", user);
   }, [isAuthenticated, user]);
   return (
     <>

@@ -50,7 +50,7 @@ export const CollectionPage = ({ collection_id }: IProps) => {
       await getOwnedCollectionByCollectionName({ collectionName, user }).then(
         (res) => {
           const result = res as ICollectionFromDB;
-          console.log(res);
+
           setCollection(result);
         }
       );
@@ -95,12 +95,12 @@ export const CollectionPage = ({ collection_id }: IProps) => {
   };
   const addAmount = (cardFromApi: IPkmnCard) => {
     const card = cardList.find((card) => card.api_card_id === cardFromApi.id);
-    console.log("cardExists", card);
-    if (card !== undefined) {
-      console.log("sending card", card);
-      addAmountOnCard({ user, collectionName, card });
-    } else {
-      createCard({ user, cardFromApi, collectionName });
+    if (user) {
+      if (card !== undefined) {
+        addAmountOnCard({ user, card });
+      } else {
+        createCard({ user, cardFromApi, collectionName });
+      }
     }
     setTimeout(() => {
       getData();
@@ -127,7 +127,11 @@ export const CollectionPage = ({ collection_id }: IProps) => {
                         key={card.api_card_id}
                         className="pt-2 px-1"
                         onClick={() => {
-                          console.log(card.api_card_img_src_large);
+                          console.log(
+                            "show bigCard",
+                            card.api_pkmn_name,
+                            card.api_card_img_src_large
+                          );
                         }}
                         onMouseEnter={() =>
                           setShowCardAlternatives(card.api_card_id)
@@ -276,7 +280,11 @@ export const CollectionPage = ({ collection_id }: IProps) => {
                         key={card.id}
                         className="pt-2 px-1"
                         onClick={() => {
-                          console.log(card.images.small);
+                          console.log(
+                            "show bigCard",
+                            card.name,
+                            card.images.small
+                          );
                         }}
                         onMouseEnter={() => setShowCardAlternatives(card.id)}
                         onMouseLeave={() => setShowCardAlternatives("")}

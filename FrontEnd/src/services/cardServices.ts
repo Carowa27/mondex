@@ -78,7 +78,6 @@ export const getOwnedCardById = async ({
   user,
   card,
 }: IGetOwnedCardByIdByIdProps): Promise<ICardFromDB | undefined> => {
-  console.log("getcard data", card);
   const propData = {
     user_auth0_id: user.sub,
     cardId: card.id,
@@ -131,8 +130,6 @@ export const createCard = async ({
     collectionName,
   });
   const collectionId = collection?.id;
-  console.log("card gotten", cardFromApi);
-
   const amount = 1;
   const userId = 1;
   const cardData = {
@@ -156,7 +153,6 @@ export const createCard = async ({
         },
       }
     );
-    console.log(result);
     return result;
   } catch (error) {
     console.error("An error has occurred: ", error);
@@ -210,7 +206,7 @@ export const subAmountOnCard = async ({
         },
       }
     );
-    console.log(result);
+
     return result;
   } catch (error) {
     console.error("An error has occurred: ", error);
@@ -235,7 +231,7 @@ export const deleteOwnedCardById = async ({
         },
       }
     );
-    console.log(result);
+
     return result;
   } catch (error) {
     console.error("An error has occurred: ", error);

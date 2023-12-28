@@ -12,7 +12,7 @@ export const getPkmnFromApi = async (searchString: string) => {
         return res.data.data as IPkmnCard[];
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
     return result;
   } catch (error) {

@@ -11,7 +11,8 @@ import { createCard } from "../services/cardServices";
 
 interface ICreateCardProps {
   user: User;
-  card: IPkmnCard;
+  cardFromApi: IPkmnCard;
+  // collectionName: string;
 }
 
 export const Search = () => {
@@ -32,17 +33,13 @@ export const Search = () => {
     setSearchValue(event.target.value);
     setPkmnList([]);
   };
-  const sendRequestCreateCard = async ({ user, card }: ICreateCardProps) => {
-    const response = await createCard({ user, card });
-    if (response?.status === 201 || response?.status === 200) {
-      console.log(response.status, response.statusText);
-    } else {
-      console.error(
-        "Something went wrong:",
-        response?.status,
-        response?.statusText
-      );
-    }
+  const sendRequestCreateCard = async ({
+    user,
+    cardFromApi,
+  }: // collectionName,
+  ICreateCardProps) => {
+    const collectionName = "Master_Collection";
+    await createCard({ user, cardFromApi, collectionName });
   };
   const searchWithPkmnApi = async (
     searchParam: string,
@@ -76,7 +73,6 @@ export const Search = () => {
     }
   };
   const handleSubmit = async (event: FormEvent) => {
-    console.log("search for: ", searchValue);
     event.preventDefault();
     searchWithPkmnApi(searchParam, searchValue);
     setIsLoading(true);
@@ -187,7 +183,11 @@ export const Search = () => {
                           key={card.id}
                           className="pt-2 px-1"
                           onClick={() => {
-                            console.log(card.images.large);
+                            console.log(
+                              "show bigCard",
+                              card.name,
+                              card.images.small
+                            );
                           }}
                           onMouseEnter={() => setShowCardAlternatives(card.id)}
                           onMouseLeave={() => setShowCardAlternatives("")}
@@ -249,7 +249,6 @@ export const Search = () => {
                                     onMouseEnter={() => setHoverBtn(true)}
                                     onMouseLeave={() => setHoverBtn(false)}
                                     onClick={() =>
-                                      // console.log("clicked +")
                                       sendRequestCreateCard({ user, card })
                                     }
                                   >

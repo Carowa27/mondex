@@ -51,7 +51,7 @@ export const getOwnedCollectionByCollectionName = async (
         },
       }
     );
-    console.log(result.data);
+
     return result.data;
   } catch (error) {
     console.error("An error has occurred: ", error);

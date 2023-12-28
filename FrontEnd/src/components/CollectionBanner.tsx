@@ -20,30 +20,23 @@ export const CollectionBanner = (props: IProps) => {
     if (isAuthenticated && user) {
       const getData = async () => {
         await getAllOwnedCards({ user }).then((res) => {
-          console.log("res", res);
-          const cardsInCollection = res.filter(
-            (card: ICardFromDB) => card.collection_name === props.collectionName
-          );
-          console.log(cardsInCollection);
-          setCards(cardsInCollection);
+          if (res) {
+            const cardsInCollection = res.filter(
+              (card: ICardFromDB) =>
+                card.collection_name === props.collectionName
+            );
+
+            setCards(cardsInCollection);
+          }
         });
       };
       getData();
     }
   }, [isAuthenticated]);
-  // console.log("cardState", cards);
+
   const collectionName = props.collectionName.replace(/_/g, " ");
   return (
     <>
-      {/* {collections.length !== 0 ? (
-        <div>
-          <ul>
-            {collections.map((collection) => (
-              <li key={collection.id}>{collection.collection_name}</li>
-            ))}
-          </ul>
-        </div>
-      ) : null} */}
       {isAuthenticated && (
         <>
           {isDesktop ? (

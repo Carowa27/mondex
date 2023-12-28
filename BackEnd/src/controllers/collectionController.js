@@ -20,7 +20,7 @@ export async function getAllOwnedCollections(req, res) {
       `SELECT * FROM collections WHERE user_id = ?`,
       [req.params.userId]
     );
-    console.log(rows);
+    console.info("return: ", rows);
     return res.send(rows);
   } catch (error) {
     console.error("An error has occurred: ", error);
@@ -34,7 +34,7 @@ export async function getOwnedCollectionByCollectionName(req, res) {
       "SELECT * FROM collections WHERE user_auth0_id = ? AND collection_name = ?",
       [req.body.user_auth0_id, req.body.collection_name]
     );
-    console.log(rows[0]);
+    console.info("return: ", rows[0]);
     return res.send(rows[0]);
   } catch (error) {
     console.error(error);

@@ -2,7 +2,6 @@ import { pool } from "../database/database.js";
 
 //working
 export async function createCard(req, res) {
-  console.log(req.body);
   try {
     const {
       user_id,
@@ -48,6 +47,7 @@ export async function getAllOwnedCards(req, res) {
       [req.body.user_auth0_id]
     );
 
+    console.info("return: ", rows);
     return res.send(rows);
   } catch (error) {
     console.error(error);
@@ -60,6 +60,7 @@ export async function getAllCards(req, res) {
   try {
     const [rows] = await pool.query("SELECT * FROM cards");
 
+    console.info("return: ", rows);
     return res.send(rows);
   } catch (error) {
     console.error(error);
@@ -69,12 +70,12 @@ export async function getAllCards(req, res) {
 
 //working
 export async function getOwnedCardById(req, res) {
-  console.log("body getcard", req.body);
   try {
     const [rows] = await pool.query(
       "SELECT * FROM cards WHERE user_auth0_id = ? AND id = ?",
       [req.body.user_auth0_id, req.body.cardId]
     );
+    console.info("return: ", rows);
     return res.send(rows);
   } catch (error) {
     console.error(error);
@@ -91,6 +92,7 @@ export async function getAllCardsFromCollectionById(req, res) {
       WHERE collection_name = ? AND user_auth0_id = ?`,
       [req.body.collection_name, req.body.user_auth0_id]
     );
+    console.info("return: ", rows);
     return res.send(rows);
   } catch (error) {
     console.error(error);
@@ -100,7 +102,6 @@ export async function getAllCardsFromCollectionById(req, res) {
 
 //working
 export async function updateAmountOnCard(req, res) {
-  console.log(req.body);
   try {
     const { cardId, user_auth0_id, amount } = req.body;
 
@@ -110,7 +111,6 @@ export async function updateAmountOnCard(req, res) {
       WHERE id = ? AND user_auth0_id = ?`,
       [amount, cardId, user_auth0_id]
     );
-
     return res.send(result);
   } catch (error) {
     console.error(error);
@@ -118,6 +118,7 @@ export async function updateAmountOnCard(req, res) {
   }
 }
 
+//working
 export async function deleteOwnedCardById(req, res) {
   try {
     const result = await pool.query(
@@ -126,7 +127,7 @@ export async function deleteOwnedCardById(req, res) {
       [req.body.cardId, req.body.user_auth0_id]
     );
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).send("Something went wrong: ", error);
   }
 }
