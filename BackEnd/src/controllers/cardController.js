@@ -36,7 +36,7 @@ export async function createCard(req, res) {
     return res.send(result);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send("Something went wrong: ", error);
   }
 }
 
@@ -51,6 +51,7 @@ export async function getAllOwnedCards(req, res) {
     return res.send(rows);
   } catch (error) {
     console.error(error);
+    res.status(500).send("Something went wrong: ", error);
   }
 }
 
@@ -62,6 +63,7 @@ export async function getAllCards(req, res) {
     return res.send(rows);
   } catch (error) {
     console.error(error);
+    res.status(500).send("Something went wrong: ", error);
   }
 }
 
@@ -76,6 +78,7 @@ export async function getOwnedCardById(req, res) {
     return res.send(rows);
   } catch (error) {
     console.error(error);
+    res.status(500).send("Something went wrong: ", error);
   }
 }
 
@@ -91,6 +94,7 @@ export async function getAllCardsFromCollectionById(req, res) {
     return res.send(rows);
   } catch (error) {
     console.error(error);
+    res.status(500).send("Something went wrong: ", error);
   }
 }
 
@@ -110,6 +114,19 @@ export async function updateAmountOnCard(req, res) {
     return res.send(result);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send("Something went wrong: ", error);
+  }
+}
+
+export async function deleteOwnedCardById(req, res) {
+  try {
+    const result = await pool.query(
+      `DELETE FROM cards
+    WHERE id = ? AND user_auth0_id = ?`,
+      [req.body.cardId, req.body.user_auth0_id]
+    );
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Something went wrong: ", error);
   }
 }

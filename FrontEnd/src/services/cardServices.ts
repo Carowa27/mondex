@@ -26,7 +26,12 @@ interface IGetAllCardsFromCollectionByIdProps {
   collectionName: string;
   user: User;
 }
-interface IAddAmountOnCardProps {
+interface IChangeAmountOnCardProps {
+  user: User;
+  card: ICardFromDB;
+}
+
+interface IDeleteOwnedCardByIdProps {
   user: User;
   card: ICardFromDB;
 }
@@ -161,7 +166,7 @@ export const createCard = async ({
 export const addAmountOnCard = async ({
   user,
   card,
-}: IAddAmountOnCardProps): Promise<any> => {
+}: IChangeAmountOnCardProps) => {
   // const cardFromDb = await getOwnedCardById({ user, card });
   const newAmount = card.amount + 1;
   const updateData = {
@@ -188,33 +193,50 @@ export const addAmountOnCard = async ({
 export const subAmountOnCard = async ({
   user,
   card,
-  collection,
-}: IAddAmountOnCardProps): Promise<any> => {
+}: IChangeAmountOnCardProps) => {
   const newAmount = card.amount - 1;
   const updateData = {
     cardId: card.id,
     user_auth0_id: user.sub,
     amount: newAmount,
-    collection_name: collection,
   };
   try {
-    if (card.amount === 1) {
-      //delete card
-      //pop up? its your last card, want to delete it?
-      console.log("should delete card");
-    } else {
-      const result = await axios.post(
-        `${import.meta.env.VITE_CONNECTION_DB}/api/v1/cards/updateCard/`,
-        updateData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log(result);
-      return result;
-    }
+    const result = await axios.post(
+      `${import.meta.env.VITE_CONNECTION_DB}/api/v1/cards/updateCard/`,
+      updateData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(result);
+    return result;
+  } catch (error) {
+    console.error("An error has occurred: ", error);
+  }
+};
+
+export const deleteOwnedCardById = async ({
+  user,
+  card,
+}: IDeleteOwnedCardByIdProps) => {
+  const deleteData = {
+    cardId: card.id,
+    user_auth0_id: user.sub,
+  };
+  try {
+    const result = await axios.post(
+      `${import.meta.env.VITE_CONNECTION_DB}/api/v1/cards/deleteCard/`,
+      deleteData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    console.log(result);
+    return result;
   } catch (error) {
     console.error("An error has occurred: ", error);
   }

@@ -8,6 +8,7 @@ import { ThemeContext } from "../globals/theme";
 import {
   addAmountOnCard,
   createCard,
+  deleteOwnedCardById,
   getAllCardsFromCollectionById,
   getAllOwnedCards,
   subAmountOnCard,
@@ -76,12 +77,18 @@ export const CollectionPage = ({ collection_id }: IProps) => {
     };
     getSetFromApi();
   }, [collection]);
+
   const subAmount = (cardFromApi: IPkmnCard) => {
     const card = cardList.find((card) => card.api_card_id === cardFromApi.id);
-    if (card !== undefined) {
-      subAmountOnCard({ user, card, collectionName });
+    if (card !== undefined && user) {
+      if (card?.amount === 1) {
+        console.log("delete");
+
+        // deleteOwnedCardById({ user, card });
+      } else {
+        subAmountOnCard({ user, card });
+      }
     }
-    //if amount===0 delete
     setTimeout(() => {
       getData();
     }, 100);
