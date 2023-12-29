@@ -35,22 +35,22 @@ export const AllCollectionsListPage = () => {
       ) : (
         <>
           {isAuthenticated ? (
-            <>
+            <div className="w-100 d-flex justify-content-center">
               {collections && collections.length !== 0 ? (
-                <>
+                <div className="w-75 bg-light d-flex mx-3 mt-2 flex-wrap justify-content-between">
                   {collections.map((coll: ICollectionFromDB) => (
-                    <p key={coll.id}>
+                    <h6 className="mx-5 my-2" key={coll.id}>
                       <Link to={`/collection/${coll.collection_name}`}>
                         {coll.collection_name.replace(/_/g, " ")}
                         {coll.api_set_id ? <>, {coll.api_set_id}</> : null}
                       </Link>
-                    </p>
+                    </h6>
                   ))}
-                </>
+                </div>
               ) : (
                 <>Something went wrong</>
               )}
-            </>
+            </div>
           ) : (
             <>Something went wrong</>
           )}

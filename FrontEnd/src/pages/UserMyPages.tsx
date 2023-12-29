@@ -95,7 +95,7 @@ export const UserMyPages = () => {
                 <>
                   {collections && collections.length !== 0 ? (
                     <>
-                      {collections.map((coll) => (
+                      {collections.slice(0, 4).map((coll) => (
                         <CollectionBanner
                           key={coll.id}
                           collectionName={coll.collection_name}

@@ -62,6 +62,9 @@ export interface IPkmnResponse {
   pageSize: number;
   totalCount: number;
 }
+export interface ISetResponse {
+  data: IPkmnSet;
+}
 export interface IPkmnCard {
   artist?: string;
   attacks?: IAttack[];
@@ -90,7 +93,7 @@ export interface IPkmnCard {
 export interface IPkmnSet {
   id: string;
   images: { logo: string; symbol: string };
-  legalities: { expanded: string; unlimited: string };
+  legalities: { expanded: string; unlimited: string; standard?: string };
   name: string;
   printedTotal: number;
   ptcgoCode: string;

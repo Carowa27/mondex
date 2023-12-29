@@ -8,7 +8,7 @@ import {
 const router = express.Router();
 
 //get
-router.get("/users/:userId", getAllOwnedCollections);
+router.post("/collections/", getAllOwnedCollections);
 router.post("/collection/", getOwnedCollectionByCollectionName);
 
 // create
