@@ -37,14 +37,21 @@ export const AllCollectionsListPage = () => {
           {isAuthenticated ? (
             <div className="w-100 d-flex justify-content-center">
               {collections && collections.length !== 0 ? (
-                <div className="w-75 bg-light d-flex mx-3 mt-2 flex-wrap justify-content-between">
+                <div className="w-100 bg-light d-flex mx-3 mt-2 flex-wrap justify-content-between">
                   {collections.map((coll: ICollectionFromDB) => (
-                    <h6 className="mx-5 my-2" key={coll.id}>
-                      <Link to={`/collection/${coll.collection_name}`}>
-                        {coll.collection_name.replace(/_/g, " ")}
-                        {coll.api_set_id ? <>, {coll.api_set_id}</> : null}
+                    <div className="mx-4 w-25" key={coll.id}>
+                      <Link
+                        className="text-decoration-none"
+                        to={`/collection/${coll.collection_name}`}
+                      >
+                        <p className="fw-bold">
+                          {coll.collection_name.replace(/_/g, " ")}
+                          {coll.api_set_id ? (
+                            <i className="fw-normal">, {coll.api_set_id}</i>
+                          ) : null}
+                        </p>
                       </Link>
-                    </h6>
+                    </div>
                   ))}
                 </div>
               ) : (

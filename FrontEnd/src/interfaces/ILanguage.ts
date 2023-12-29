@@ -32,6 +32,7 @@ export interface ILanguageVariables {
   my_pages_see_my_info: string;
   my_pages_see_all_collections: string;
   read_more: string;
+  see_all_cards: string;
 }
 export const SE: ILanguageVariables = swedish;
 export const EN: ILanguageVariables = english;

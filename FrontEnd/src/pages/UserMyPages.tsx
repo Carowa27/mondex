@@ -108,7 +108,7 @@ export const UserMyPages = () => {
                 </>
               )}
             </div>
-            <Link to="/all-collections">
+            <Link className="text-decoration-none" to="/all-collections">
               {language.lang_code.my_pages_see_all_collections}
             </Link>
           </div>

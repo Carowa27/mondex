@@ -40,13 +40,13 @@ export const Home = () => {
       >
         <FrontPageBtnCard
           footer={
-            <Link to="./about">
+            <Link className="text-decoration-none" to="./about">
               <i>{language.lang_code.read_more}</i>
             </Link>
           }
           bkcolor={`${theme.primaryColors.cardBackground.hex}`}
         >
-          <Link to="/about">
+          <Link className="text-decoration-none" to="/about">
             <h4 id="main-card-about-header">
               {language.lang_code.about_about_project}
             </h4>
@@ -68,13 +68,15 @@ export const Home = () => {
           )}
         </FrontPageBtnCard>
         <FrontPageBtnCard bkcolor={`${theme.primaryColors.cardBackground.hex}`}>
-          <Link to="/search">
+          <Link className="text-decoration-none" to="/search">
             <h4 id="main-card-search-header">
               {language.lang_code.word_search}
             </h4>
           </Link>
           <div>test</div>
-          <Link to="./search">Go search now</Link>
+          <Link className="text-decoration-none" to="./search">
+            Go search now
+          </Link>
         </FrontPageBtnCard>
 
         <FrontPageBtnCard bkcolor={`${theme.primaryColors.cardBackground.hex}`}>
@@ -85,13 +87,13 @@ export const Home = () => {
             <>
               {isAuthenticated ? (
                 <>
-                  <Link to="/userpage">
+                  <Link className="text-decoration-none" to="/userpage">
                     <h4 id="main-card-account-header-user">{`Welcome, ${user?.given_name}!`}</h4>
                   </Link>
 
                   {collections && collections.length !== 0 ? (
                     <>
-                      {collections.map((coll) => (
+                      {collections.slice(0, 2).map((coll) => (
                         <CollectionBanner
                           key={coll.id}
                           collectionName={coll.collection_name}

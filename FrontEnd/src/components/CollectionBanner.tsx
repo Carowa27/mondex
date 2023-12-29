@@ -2,9 +2,10 @@ import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getAllOwnedCards } from "../services/cardServices";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { ICardFromDB } from "../interfaces/dataFromDB";
 import { Link } from "react-router-dom";
+import { LanguageContext } from "../globals/language/language";
 
 interface IProps {
   type?: string;
@@ -12,6 +13,7 @@ interface IProps {
 }
 
 export const CollectionBanner = (props: IProps) => {
+  const { language } = useContext(LanguageContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { user, isAuthenticated } = useAuth0();
   const [cards, setCards] = useState<ICardFromDB[]>([]);
@@ -46,7 +48,10 @@ export const CollectionBanner = (props: IProps) => {
               }
             >
               <h6>
-                <Link to={`/collection/${props.collectionName}`}>
+                <Link
+                  className="text-decoration-none"
+                  to={`/collection/${props.collectionName}`}
+                >
                   {collectionName}
                 </Link>
               </h6>
@@ -58,7 +63,7 @@ export const CollectionBanner = (props: IProps) => {
                       className="d-flex flex-wrap justify-content-around"
                       style={{ listStyle: "none", padding: 0 }}
                     >
-                      {cards.slice(0, 5).map((card) => (
+                      {cards.slice(0, 4).map((card) => (
                         <li key={card.id} className="pt-2">
                           <p style={{ margin: "0" }}>{card.api_pkmn_name}</p>
                           <div style={{ aspectRatio: "3/4", height: "7.5rem" }}>
@@ -75,8 +80,11 @@ export const CollectionBanner = (props: IProps) => {
                       ))}
                     </ul>
                     <div className="w-100 d-flex justify-content-end">
-                      <Link to={`/collection/${props.collectionName}`}>
-                        <i>See all cards</i>
+                      <Link
+                        className="text-decoration-none"
+                        to={`/collection/${props.collectionName}`}
+                      >
+                        <i>{language.lang_code.see_all_cards}</i>
                       </Link>
                     </div>
                   </div>
@@ -84,10 +92,7 @@ export const CollectionBanner = (props: IProps) => {
               </div>
             </div>
           ) : (
-            <div
-              style={{ outline: "2px blue solid", width: "100%" }}
-              className="py-2 my-2"
-            >
+            <div style={{ width: "100%" }} className="my-2">
               <h6>{collectionName}</h6>
 
               <div className="px-3">
@@ -113,8 +118,11 @@ export const CollectionBanner = (props: IProps) => {
                       ))}
                     </ul>
                     <div className="w-100 d-flex justify-content-end">
-                      <Link to={`/collection/${props.collectionName}`}>
-                        <i>See all cards</i>
+                      <Link
+                        className="text-decoration-none"
+                        to={`/collection/${props.collectionName}`}
+                      >
+                        <i>{language.lang_code.see_all_cards}</i>
                       </Link>
                     </div>
                   </div>
