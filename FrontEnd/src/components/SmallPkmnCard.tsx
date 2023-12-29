@@ -41,6 +41,7 @@ export const SmallPkmnCard = ({
   const [hoverPlusBtn, setHoverPlusBtn] = useState<boolean>(false);
   const [hoverMinusBtn, setHoverMinusBtn] = useState<boolean>(false);
   const [hoverInfoBtn, setHoverInfoBtn] = useState<boolean>(false);
+  const [hoverSwapBtn, setHoverSwapBtn] = useState<boolean>(false);
 
   const subAmount = (cardFromApi?: IPkmnCard, card?: ICardFromDB) => {
     if (cardFromApi !== undefined) {
@@ -132,13 +133,13 @@ export const SmallPkmnCard = ({
                     hoverPlusBtn
                       ? {
                           backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
-                          width: "25px",
-                          height: "25px",
+                          width: "1.7rem",
+                          height: "1.7rem",
                         }
                       : {
                           backgroundColor: `${theme.primaryColors.border.hex}`,
-                          width: "25px",
-                          height: "25px",
+                          width: "1.7rem",
+                          height: "1.7rem",
                         }
                   }
                   className="rounded-circle d-flex align-items-center justify-content-center"
@@ -146,20 +147,20 @@ export const SmallPkmnCard = ({
                   onMouseLeave={() => setHoverPlusBtn(false)}
                   onClick={() => addAmount(cardFromApi, card)}
                 >
-                  <i className="bi bi-plus m-0 p-0"></i>
+                  <i title="add amount" className="bi bi-plus m-0 p-0"></i>
                 </span>
                 <span
                   style={
                     hoverMinusBtn
                       ? {
                           backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
-                          width: "25px",
-                          height: "25px",
+                          width: "1.7rem",
+                          height: "1.7rem",
                         }
                       : {
                           backgroundColor: `${theme.primaryColors.border.hex}`,
-                          width: "25px",
-                          height: "25px",
+                          width: "1.7rem",
+                          height: "1.7rem",
                         }
                   }
                   className="rounded-circle d-flex align-items-center justify-content-center"
@@ -167,20 +168,44 @@ export const SmallPkmnCard = ({
                   onMouseLeave={() => setHoverMinusBtn(false)}
                   onClick={() => subAmount(cardFromApi, card)}
                 >
-                  <i className="bi bi-dash m-0 p-0"></i>
+                  <i title="subtract amount" className="bi bi-dash m-0 p-0"></i>
+                </span>
+                <span
+                  style={
+                    hoverSwapBtn
+                      ? {
+                          backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                          width: "1.7rem",
+                          height: "1.7rem",
+                        }
+                      : {
+                          backgroundColor: `${theme.primaryColors.border.hex}`,
+                          width: "1.7rem",
+                          height: "1.7rem",
+                        }
+                  }
+                  className="rounded-circle d-flex align-items-center justify-content-center"
+                  onMouseEnter={() => setHoverSwapBtn(true)}
+                  onMouseLeave={() => setHoverSwapBtn(false)}
+                  onClick={() => console.log("add swap collection fn")}
+                >
+                  <i
+                    title="swap collection"
+                    className="bi bi-arrow-left-right fs-5"
+                  ></i>
                 </span>
                 <span
                   style={
                     hoverInfoBtn
                       ? {
                           backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
-                          width: "25px",
-                          height: "25px",
+                          width: "1.7rem",
+                          height: "1.7rem",
                         }
                       : {
                           backgroundColor: `${theme.primaryColors.border.hex}`,
-                          width: "25px",
-                          height: "25px",
+                          width: "1.7rem",
+                          height: "1.7rem",
                         }
                   }
                   className="rounded-circle d-flex align-items-center justify-content-center"
@@ -229,7 +254,7 @@ export const SmallPkmnCard = ({
                   }}
                 >
                   &#x2717;
-                </span>{" "}
+                </span>
                 {card.amount}
               </i>
             </span>
@@ -281,13 +306,13 @@ export const SmallPkmnCard = ({
                     hoverPlusBtn
                       ? {
                           backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
-                          width: "25px",
-                          height: "25px",
+                          width: "1.7rem",
+                          height: "1.7rem",
                         }
                       : {
                           backgroundColor: `${theme.primaryColors.border.hex}`,
-                          width: "25px",
-                          height: "25px",
+                          width: "1.7rem",
+                          height: "1.7rem",
                         }
                   }
                   className="rounded-circle d-flex align-items-center justify-content-center"
@@ -295,20 +320,20 @@ export const SmallPkmnCard = ({
                   onMouseLeave={() => setHoverPlusBtn(false)}
                   onClick={() => addAmount(cardFromApi)}
                 >
-                  <i className="bi bi-plus m-0 p-0"></i>
+                  <i title="add amount" className="bi bi-plus m-0 p-0"></i>
                 </span>
                 <span
                   style={
                     hoverMinusBtn
                       ? {
                           backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
-                          width: "25px",
-                          height: "25px",
+                          width: "1.7rem",
+                          height: "1.7rem",
                         }
                       : {
                           backgroundColor: `${theme.primaryColors.border.hex}`,
-                          width: "25px",
-                          height: "25px",
+                          width: "1.7rem",
+                          height: "1.7rem",
                         }
                   }
                   className="rounded-circle d-flex align-items-center justify-content-center"
@@ -316,20 +341,44 @@ export const SmallPkmnCard = ({
                   onMouseLeave={() => setHoverMinusBtn(false)}
                   onClick={() => subAmount(cardFromApi)}
                 >
-                  <i className="bi bi-dash m-0 p-0"></i>
-                </span>{" "}
+                  <i title="subtract amount" className="bi bi-dash m-0 p-0"></i>
+                </span>
+                <span
+                  style={
+                    hoverSwapBtn
+                      ? {
+                          backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                          width: "1.7rem",
+                          height: "1.7rem",
+                        }
+                      : {
+                          backgroundColor: `${theme.primaryColors.border.hex}`,
+                          width: "1.7rem",
+                          height: "1.7rem",
+                        }
+                  }
+                  className="rounded-circle d-flex align-items-center justify-content-center"
+                  onMouseEnter={() => setHoverSwapBtn(true)}
+                  onMouseLeave={() => setHoverSwapBtn(false)}
+                  onClick={() => console.log("add swap collection fn")}
+                >
+                  <i
+                    title="swap collection"
+                    className="bi bi-arrow-left-right fs-5"
+                  ></i>
+                </span>
                 <span
                   style={
                     hoverInfoBtn
                       ? {
                           backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
-                          width: "25px",
-                          height: "25px",
+                          width: "1.7rem",
+                          height: "1.7rem",
                         }
                       : {
                           backgroundColor: `${theme.primaryColors.border.hex}`,
-                          width: "25px",
-                          height: "25px",
+                          width: "1.7rem",
+                          height: "1.7rem",
                         }
                   }
                   className="rounded-circle d-flex align-items-center justify-content-center"
