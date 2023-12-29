@@ -70,11 +70,9 @@ export const CollectionPage = ({ collection_id }: IProps) => {
     if (collection) {
       if (cardList.length !== 0 && collection.api_set_id === null) {
         setIsLoading(false);
-        console.log("cardlist: ", cardList);
       }
       if (cardsFromApiList.length !== 0 && collection.api_set_id !== null) {
         setIsLoading(false);
-        console.log("cardlist & set: ", cardList, cardsFromApiList);
       }
     }
   }, [cardList, cardsFromApiList, collection]);
@@ -108,7 +106,6 @@ export const CollectionPage = ({ collection_id }: IProps) => {
       if (card !== undefined && user) {
         if (card.amount !== 0) {
           if (card.amount === 1) {
-            console.log("delete");
             //kommer inte hit?
             setShowWarningCard(true);
             setCardToDelete(card);
@@ -147,14 +144,11 @@ export const CollectionPage = ({ collection_id }: IProps) => {
       );
       if (warningDelete && user && cardToDelete) {
         const card = cardToDelete;
-        console.log("if ", warningDelete);
         deleteOwnedCardById({ user, card });
       } else {
-        console.log("else ", warningDelete);
         setShowWarningCard(false);
       }
     }
-    console.log("showWarning useeffect", showWarningCard);
   }, [showWarningCard]);
 
   useEffect(() => {
@@ -163,15 +157,12 @@ export const CollectionPage = ({ collection_id }: IProps) => {
         "Are you sure you want to delete this colelction? It will be gone forever."
       );
       if (warningDelete && user && collection) {
-        // console.log("if ", collection);
         deleteCollectionById({ user, collection });
         window.location.href = "/all-collections";
       } else {
-        console.log("else ", warningDelete);
         setShowWarningCollection(false);
       }
     }
-    console.log("showWarning useeffect", showWarningCollection);
   }, [showWarningCollection]);
 
   const changeShowWarning = () => {

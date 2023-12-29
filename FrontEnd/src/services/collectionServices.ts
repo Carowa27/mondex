@@ -98,7 +98,6 @@ export const createCollection = async ({
   collection_name,
   api_set_id,
 }: ICreateCollectionProps) => {
-  console.log(user.sub, collection_name, api_set_id);
   try {
     const createData = {
       collection_name: collection_name,

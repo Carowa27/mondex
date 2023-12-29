@@ -129,7 +129,6 @@ export const createCard = async ({
     user,
     collectionName,
   });
-  console.log(cardFromApi);
   const collectionId = collection!.id;
   const amount = 1;
   const userId = 1;

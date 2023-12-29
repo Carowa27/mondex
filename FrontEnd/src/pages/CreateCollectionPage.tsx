@@ -20,7 +20,6 @@ export const CreateCollectionPage = () => {
     setNotCorrectSetId(false);
     setCreatedCollection(false);
     event.preventDefault();
-    console.log("clicked");
     const collection_name = collectionName.replace(/ /g, "_");
     let api_set_id: string | null = setId;
     if (user && isAuthenticated) {

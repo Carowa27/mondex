@@ -38,7 +38,6 @@ export const Search = () => {
     cardFromApi,
   }: // collectionName,
   ICreateCardProps) => {
-    console.log(cardFromApi);
     const collectionName = "Master_Collection";
     await createCard({ user, cardFromApi, collectionName });
   };
