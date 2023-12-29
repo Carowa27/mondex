@@ -9,6 +9,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import {
   addAmountOnCard,
   createCard,
+  deleteOwnedCardById,
   getAllCardsFromCollectionById,
   subAmountOnCard,
 } from "../services/cardServices";
@@ -20,6 +21,7 @@ interface IProps {
   changeShowWarning: () => void;
   cardList: ICardFromDB[];
   getData: () => void;
+  changeCardToDelete: (card: ICardFromDB) => void;
 }
 
 export const SmallPkmnCard = ({
@@ -29,6 +31,7 @@ export const SmallPkmnCard = ({
   changeShowWarning,
   getData,
   cardList,
+  changeCardToDelete,
 }: IProps) => {
   const { theme } = useContext(ThemeContext);
   const { language } = useContext(LanguageContext);
@@ -37,35 +40,27 @@ export const SmallPkmnCard = ({
   const [showCardAlternatives, setShowCardAlternatives] = useState<string>("");
   const [hoverPlusBtn, setHoverPlusBtn] = useState<boolean>(false);
   const [hoverMinusBtn, setHoverMinusBtn] = useState<boolean>(false);
-  const [showWarningCard, setShowWarningCard] = useState<boolean>(false);
-  const [showWarningCollection, setShowWarningCollection] =
-    useState<boolean>(false);
-  const [cardToDelete, setCardToDelete] = useState<ICardFromDB>();
+  const [hoverInfoBtn, setHoverInfoBtn] = useState<boolean>(false);
 
   const subAmount = (cardFromApi?: IPkmnCard, card?: ICardFromDB) => {
-    console.log("cardFromApi", cardFromApi);
-    console.log("card", card);
     if (cardFromApi !== undefined) {
       const card = cardList.find((card) => card.api_card_id === cardFromApi.id);
       if (card !== undefined && user) {
         if (card.amount !== 0) {
           if (card.amount === 1) {
-            setShowWarningCard(true);
-            setCardToDelete(card);
+            changeShowWarning();
+            changeCardToDelete(card);
           } else {
             subAmountOnCard({ user, card });
           }
         }
       }
     } else {
-      console.log("else", card);
       if (card !== undefined && user) {
         if (card.amount !== 0) {
           if (card.amount === 1) {
-            console.log("delete");
-            //kommer inte hit?
-            setShowWarningCard(true);
-            setCardToDelete(card);
+            changeShowWarning();
+            changeCardToDelete(card);
           } else {
             subAmountOnCard({ user, card });
           }
@@ -81,17 +76,14 @@ export const SmallPkmnCard = ({
       const card = cardList.find((card) => card.api_card_id === cardFromApi.id);
       if (user) {
         if (card !== undefined) {
-          // addAmountOnCard({ user, card });
-          console.log("add amount");
+          addAmountOnCard({ user, card });
         } else {
-          // createCard({ user, cardFromApi, collectionName });
-          console.log("create card");
+          createCard({ user, cardFromApi, collectionName });
         }
       }
     }
     if (card && user) {
-      // addAmountOnCard({ user, card });
-      console.log("add amount");
+      addAmountOnCard({ user, card });
     }
     setTimeout(() => {
       getData();
@@ -152,7 +144,7 @@ export const SmallPkmnCard = ({
                   className="rounded-circle d-flex align-items-center justify-content-center"
                   onMouseEnter={() => setHoverPlusBtn(true)}
                   onMouseLeave={() => setHoverPlusBtn(false)}
-                  onClick={() => addAmount(card)}
+                  onClick={() => addAmount(cardFromApi, card)}
                 >
                   <i className="bi bi-plus m-0 p-0"></i>
                 </span>
@@ -173,9 +165,38 @@ export const SmallPkmnCard = ({
                   className="rounded-circle d-flex align-items-center justify-content-center"
                   onMouseEnter={() => setHoverMinusBtn(true)}
                   onMouseLeave={() => setHoverMinusBtn(false)}
-                  onClick={() => subAmount(card)}
+                  onClick={() => subAmount(cardFromApi, card)}
                 >
                   <i className="bi bi-dash m-0 p-0"></i>
+                </span>
+                <span
+                  style={
+                    hoverInfoBtn
+                      ? {
+                          backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                          width: "25px",
+                          height: "25px",
+                        }
+                      : {
+                          backgroundColor: `${theme.primaryColors.border.hex}`,
+                          width: "25px",
+                          height: "25px",
+                        }
+                  }
+                  className="rounded-circle d-flex align-items-center justify-content-center"
+                  onMouseEnter={() => setHoverInfoBtn(true)}
+                  onMouseLeave={() => setHoverInfoBtn(false)}
+                  onClick={() => {
+                    console.log(
+                      "show bigCard dbcard",
+                      card.api_pkmn_name,
+                      card.api_card_img_src_large
+                    );
+                  }}
+                >
+                  <span title="more info" className="fs-5 fw-medium">
+                    i
+                  </span>
                 </span>
               </div>
             </div>
@@ -296,6 +317,35 @@ export const SmallPkmnCard = ({
                   onClick={() => subAmount(cardFromApi)}
                 >
                   <i className="bi bi-dash m-0 p-0"></i>
+                </span>{" "}
+                <span
+                  style={
+                    hoverInfoBtn
+                      ? {
+                          backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                          width: "25px",
+                          height: "25px",
+                        }
+                      : {
+                          backgroundColor: `${theme.primaryColors.border.hex}`,
+                          width: "25px",
+                          height: "25px",
+                        }
+                  }
+                  className="rounded-circle d-flex align-items-center justify-content-center"
+                  onMouseEnter={() => setHoverInfoBtn(true)}
+                  onMouseLeave={() => setHoverInfoBtn(false)}
+                  onClick={() => {
+                    console.log(
+                      "show bigCard Api",
+                      cardFromApi.name,
+                      cardFromApi.images.large
+                    );
+                  }}
+                >
+                  <span title="more info" className="fs-5 fw-medium">
+                    i
+                  </span>
                 </span>
               </div>
             </div>
