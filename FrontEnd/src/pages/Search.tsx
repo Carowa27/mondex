@@ -1,23 +1,97 @@
-import { useContext, useState } from "react";
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { LanguageContext } from "../globals/language/language";
+import { getPkmnFromApi } from "../services/pkmnApiServices";
+import { IPkmnCard } from "../interfaces/dataFromApi";
+import { LoadingModule } from "../components/LoadingModule";
+import { User, useAuth0 } from "@auth0/auth0-react";
+import { ThemeContext } from "../globals/theme";
+import { createCard } from "../services/cardServices";
+
+interface ICreateCardProps {
+  user: User;
+  cardFromApi: IPkmnCard;
+  // collectionName: string;
+}
 
 export const Search = () => {
-  const [searchValue, setSearchValue] = useState<string>("");
-  const [searchParam, setSearchParam] = useState<string>("pkmn");
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { language } = useContext(LanguageContext);
-  const handleSearchChange = (event: ChangeEvent) => {
-    console.log(event.target.value);
+  const { theme } = useContext(ThemeContext);
+  const { isAuthenticated, user } = useAuth0();
+  const [searchValue, setSearchValue] = useState<string>("");
+  const [searchParam, setSearchParam] = useState<string>("pkmn");
+  const [pkmnList, setPkmnList] = useState<IPkmnCard[]>([]);
+  const [setList, setSetList] = useState<IPkmnSet[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [noHits, setNoHits] = useState<boolean>(false);
+  const [showCardAlternatives, setShowCardAlternatives] = useState<string>("");
+  const [hoverBtn, setHoverBtn] = useState<boolean>(false);
+
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
+    setPkmnList([]);
+  };
+  const sendRequestCreateCard = async ({
+    user,
+    cardFromApi,
+  }: // collectionName,
+  ICreateCardProps) => {
+    console.log(cardFromApi);
+    const collectionName = "Master_Collection";
+    await createCard({ user, cardFromApi, collectionName });
+  };
+  const searchWithPkmnApi = async (
+    searchParam: string,
+    searchValue: string
+  ) => {
+    let searchString = `https://api.pokemontcg.io/v2/cards`;
+    let searchTerm = searchValue;
+    if (searchValue.includes(" ")) {
+      searchTerm = searchValue.replace(/ /g, "%20");
+    }
+
+    if (searchParam !== "artist") {
+      if (searchParam === "set") {
+        searchString = `https://api.pokemontcg.io/v2/cards?q=!set.name:%22${searchTerm}%22&orderBy=number&pageSize=50&page=1`;
+      }
+      if (searchParam === "pkmn") {
+        searchString = `https://api.pokemontcg.io/v2/cards?q=name:${searchTerm}&orderBy=number&pageSize=50&page=1`;
+      }
+    } else {
+      searchString = `https://api.pokemontcg.io/v2/cards?q=artist:%22${searchTerm}%22&orderBy=number&pageSize=50&page=1`;
+    }
+
+    if (pkmnList.length === 0) {
+      await getPkmnFromApi(searchString).then((res) => {
+        if (!res || res.length === 0) {
+          setNoHits(true);
+          setIsLoading(false);
+        }
+        setPkmnList(res as IPkmnCard[]);
+      });
+    }
+  };
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+    searchWithPkmnApi(searchParam, searchValue);
+    setIsLoading(true);
   };
 
-  const handleSubmit = (event: FormEvent) => {
-    console.log("search for: ", searchValue);
-    event.preventDefault();
-    // searchWithApi(searchParam, searchValue);
-  };
+  useEffect(() => {
+    if (pkmnList.length !== 0) {
+      setIsLoading(false);
+      setNoHits(false);
+    }
+  }, [pkmnList]);
+
+  useEffect(() => {
+    if (searchValue === "") {
+      setPkmnList([]);
+    }
+  }, [searchValue]);
+
   return (
     <>
       <h2 id="search-header">{language.lang_code.word_search}</h2>
@@ -39,7 +113,7 @@ export const Search = () => {
                   id="search_text"
                   value={searchValue}
                   onChange={handleSearchChange}
-                  className="btn" //"input-group-text"
+                  className="rounded" //"input-group-text"
                 />
               </label>
             </div>
@@ -82,14 +156,139 @@ export const Search = () => {
               </label>
             </div>
           </div>
-          <input className="btn m-2" type="submit" value="Submit" />
+          <input
+            className="btn btn-secondary m-2"
+            type="submit"
+            value="Submit"
+          />
         </div>
       </form>
       <div
         style={{ minHeight: "80vh", outline: "1px solid black" }}
         className="mt-3 p-2"
       >
-        search result box
+        {!isLoading ? (
+          <>
+            {noHits ? (
+              <>Got no hits, you have any type errors?</>
+            ) : (
+              <>
+                {pkmnList.length !== 0 ? (
+                  <>
+                    <ul
+                      className="d-flex flex-wrap justify-content-around"
+                      style={{ listStyle: "none", padding: 0 }}
+                    >
+                      {pkmnList.map((cardFromApi: IPkmnCard) => (
+                        <li
+                          key={cardFromApi.id}
+                          className="pt-2 px-1"
+                          onClick={() => {
+                            console.log(
+                              "show bigCard",
+                              cardFromApi.name,
+                              cardFromApi.images.small
+                            );
+                          }}
+                          onMouseEnter={() =>
+                            setShowCardAlternatives(cardFromApi.id)
+                          }
+                          onMouseLeave={() => setShowCardAlternatives("")}
+                        >
+                          <p className="fw-semibold ps-1 m-0">
+                            {searchParam === "pkmn" ? (
+                              <> {cardFromApi.set.name}</>
+                            ) : null}
+                            {searchParam === "artist" ? (
+                              <>{cardFromApi.name}</>
+                            ) : null}
+                            {searchParam === "set" ? (
+                              <>{cardFromApi.name}</>
+                            ) : null}
+                          </p>
+
+                          <div
+                            style={{
+                              aspectRatio: "3/4",
+                              width: "12.5rem",
+                            }}
+                          >
+                            {showCardAlternatives && isAuthenticated ? (
+                              <div
+                                style={
+                                  showCardAlternatives === cardFromApi.id
+                                    ? {
+                                        display: "flex",
+                                        position: "absolute",
+                                        color: `${theme.primaryColors.text.hex}`,
+                                        aspectRatio: "3/4",
+                                        width: "12.5rem",
+                                        fontSize: "20pt",
+                                        alignItems: "end",
+                                        padding: "0.5rem",
+                                      }
+                                    : { display: "none" }
+                                }
+                              >
+                                <div
+                                  className="rounded-pill w-100"
+                                  style={{
+                                    backgroundColor: `${theme.primaryColors.background.hex}`,
+                                    border: "grey 1px solid",
+                                    padding: "0.3rem",
+                                  }}
+                                >
+                                  <span
+                                    style={
+                                      hoverBtn
+                                        ? {
+                                            backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                                            width: "25px",
+                                            height: "25px",
+                                          }
+                                        : {
+                                            backgroundColor: `${theme.primaryColors.border.hex}`,
+                                            width: "25px",
+                                            height: "25px",
+                                          }
+                                    }
+                                    className="rounded-circle d-flex align-items-center justify-content-center"
+                                    onMouseEnter={() => setHoverBtn(true)}
+                                    onMouseLeave={() => setHoverBtn(false)}
+                                    onClick={() =>
+                                      sendRequestCreateCard({
+                                        user,
+                                        cardFromApi,
+                                      })
+                                    }
+                                  >
+                                    <i className="bi bi-plus m-0 p-0"></i>
+                                  </span>
+                                </div>
+                              </div>
+                            ) : null}
+                            <img
+                              style={{ width: "100%" }}
+                              src={cardFromApi.images.small}
+                              alt={cardFromApi.name}
+                            />
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="d-flex justify-content-center">
+                      Paginering
+                    </div>
+                  </>
+                ) : (
+                  <>Go ahead and search</>
+                )}
+              </>
+            )}
+          </>
+        ) : (
+          <LoadingModule />
+        )}
       </div>
     </>
   );

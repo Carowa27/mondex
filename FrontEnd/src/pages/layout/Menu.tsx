@@ -22,7 +22,7 @@ export const Menu = () => {
             width: "400px",
           }}
         >
-          <Link to="./search">
+          <Link className="text-decoration-none" to="./search">
             <span
               id="main-menu-searchpage"
               className="pl-2"
@@ -33,7 +33,7 @@ export const Menu = () => {
               {language.lang_code.word_search}
             </span>
           </Link>
-          <Link to="./about">
+          <Link className="text-decoration-none" to="./about">
             <span id="main-menu-about" className="pl-2">
               {language.lang_code.about_about_project}
             </span>
@@ -42,7 +42,7 @@ export const Menu = () => {
             <>
               <span id="main-menu-mypages" className="pl-2">
                 {/* {language.lang_code.account_login} */}
-                <Link to="./userpage">
+                <Link className="text-decoration-none" to="./userpage">
                   {language.lang_code.my_pages_my_pages}
                 </Link>
               </span>
@@ -169,6 +169,7 @@ export const Menu = () => {
               </div>
 
               <Link
+                className="text-decoration-none"
                 to="./search"
                 onClick={() => {
                   setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -179,6 +180,7 @@ export const Menu = () => {
                 </span>
               </Link>
               <Link
+                className="text-decoration-none"
                 to="./about"
                 onClick={() => {
                   setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -191,6 +193,7 @@ export const Menu = () => {
               {isAuthenticated ? (
                 <>
                   <Link
+                    className="text-decoration-none"
                     to="./userpage"
                     onClick={() => {
                       setIsMobileMenuOpen(!isMobileMenuOpen);

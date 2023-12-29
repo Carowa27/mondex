@@ -4,17 +4,25 @@ import {
   getOwnedCardById,
   createCard,
   getAllCards,
+  getAllCardsFromCollectionById,
+  updateAmountOnCard,
+  deleteOwnedCardById,
 } from "../controllers/cardController.js";
 const router = express.Router();
 
+//get
 router.get("/", getAllCards);
-router.get("/users/:userId", getAllOwnedCards);
-router.get("/users/:userId/:cardId", getOwnedCardById);
+router.post("/getCard/", getOwnedCardById);
+router.post("/users/", getAllOwnedCards);
+router.post("/collections/", getAllCardsFromCollectionById);
 
-// router.put("/cards/:cardId", updateAmountOfCard);
+// update
+router.post("/updateCard", updateAmountOnCard);
 
+// create
 router.post("/", createCard);
 
-// router.delete("/:cardId", deleteOwnedCardById);
+// delete
+router.post("/deleteCard", deleteOwnedCardById);
 
 export default router;

@@ -6,15 +6,18 @@ const app = express();
 
 app.use(
   cors({
-    methods: ["GET", "PUT", "POST", "DELETE", "OPTION"],
+    // origin: ["http://localhost:5173/*"],
+    methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
   })
 );
 //option??
 
+app.use(express.json());
+
 app.use("/api/v1", apiRoutes);
 
 app.use((req, res, next) => {
-  console.log(`Processing ${req.method} request to ${req.path}`);
+  console.info(`Processing ${req.method} request to ${req.path}`);
   next();
 });
 
@@ -27,7 +30,7 @@ const port = 4322;
 const run = async () => {
   try {
     app.listen(port, () => {
-      console.log(
+      console.info(
         `Server is listening on ${
           process.env.NODE_ENV === "dev" ? "http://localhost:" : "port "
         }${port}`

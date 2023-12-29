@@ -1,17 +1,32 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { LogoutBtn } from "../components/LogoutBtn";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { LanguageContext } from "../globals/language/language";
 import { CollectionBanner } from "../components/CollectionBanner";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { Link } from "react-router-dom";
+import { ICollectionFromDB } from "../interfaces/dataFromDB";
+import { LoadingModule } from "../components/LoadingModule";
+import { getAllOwnedCollections } from "../services/collectionServices";
 
 export const UserMyPages = () => {
-  const { isAuthenticated, user } = useAuth0();
   const { language } = useContext(LanguageContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const [seeAccount, setSeeAccount] = useState(false);
+  const { isLoading, isAuthenticated, user, error } = useAuth0();
+  const [collections, setCollections] = useState<ICollectionFromDB[]>([]);
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      const getData = async () => {
+        await getAllOwnedCollections({ user }).then((res) => {
+          setCollections(res as ICollectionFromDB[]);
+        });
+      };
+      getData();
+    }
+  }, [isAuthenticated, user]);
 
   return (
     <>
@@ -73,10 +88,27 @@ export const UserMyPages = () => {
               }
             >
               {/* map collections of user */}
-              {/* max 5 */}
-              <CollectionBanner type="master" />
+              {/* max 5 */}{" "}
+              {!error && isLoading ? (
+                <LoadingModule />
+              ) : (
+                <>
+                  {collections && collections.length !== 0 ? (
+                    <>
+                      {collections.slice(0, 4).map((coll) => (
+                        <CollectionBanner
+                          key={coll.id}
+                          collectionName={coll.collection_name}
+                        />
+                      ))}
+                    </>
+                  ) : (
+                    <>Something went wrong</>
+                  )}
+                </>
+              )}
             </div>
-            <Link to="/all-collections">
+            <Link className="text-decoration-none" to="/all-collections">
               {language.lang_code.my_pages_see_all_collections}
             </Link>
           </div>

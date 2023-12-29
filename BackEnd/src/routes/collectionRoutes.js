@@ -1,14 +1,20 @@
 import express from "express";
 import {
   getAllOwnedCollections,
-  getOwnedCollectionById,
+  getOwnedCollectionByCollectionName,
   createCollection,
+  deleteCollectionById,
 } from "../controllers/collectionController.js";
 const router = express.Router();
 
-router.get("/users/:userId", getAllOwnedCollections);
-router.get("/:collectionId", getOwnedCollectionById);
+//get
+router.post("/collections/", getAllOwnedCollections);
+router.post("/collection/", getOwnedCollectionByCollectionName);
 
-router.post("/", createCollection);
+// create
+router.post("/createCollection/", createCollection);
+
+// delete
+router.post("/deleteCollection/", deleteCollectionById);
 
 export default router;

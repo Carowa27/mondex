@@ -7,9 +7,12 @@ export interface ILanguageVariables {
   word_goal: string;
   word_language: string;
   word_loading: string;
+  word_no: string;
   word_purpose: string;
   word_search: string;
+  word_submit: string;
   word_username: string;
+  word_yes: string;
   account_create_account: string;
   account_description: string;
   account_login: string;
@@ -19,10 +22,17 @@ export interface ILanguageVariables {
   about_description_exam: string;
   about_description_goal: string;
   about_description_purpose: string;
+  collection_collection: string;
+  collection_create_new_collection: string;
+  collection_created: string;
+  collection_is_set_collection: string;
+  collection_name: string;
+  collection_set_id: string;
   my_pages_my_pages: string;
   my_pages_see_my_info: string;
   my_pages_see_all_collections: string;
   read_more: string;
+  see_all_cards: string;
 }
 export const SE: ILanguageVariables = swedish;
 export const EN: ILanguageVariables = english;

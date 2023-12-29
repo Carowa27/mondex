@@ -7,6 +7,7 @@ import { UserMyPages } from "./pages/UserMyPages";
 import { AboutProject } from "./pages/AboutProject";
 import { CollectionPage } from "./pages/CollectionPage";
 import { AllCollectionsListPage } from "./pages/AllCollectionsListPage";
+import { CreateCollectionPage } from "./pages/CreateCollectionPage";
 
 export const Router = createBrowserRouter([
   {
@@ -18,10 +19,17 @@ export const Router = createBrowserRouter([
       { path: "/search", element: <Search></Search> },
       { path: "/about", element: <AboutProject></AboutProject> },
       { path: "/userpage", element: <UserMyPages></UserMyPages> },
-      { path: "/:collectionName", element: <CollectionPage></CollectionPage> },
+      {
+        path: "/collection/:collectionName",
+        element: <CollectionPage></CollectionPage>,
+      },
       {
         path: "/all-collections",
         element: <AllCollectionsListPage></AllCollectionsListPage>,
+      },
+      {
+        path: "/create-new-collection",
+        element: <CreateCollectionPage></CreateCollectionPage>,
       },
     ],
   },
