@@ -1,16 +1,14 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { ThemeContext } from "../globals/theme";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { ICardFromDB } from "../interfaces/dataFromDB";
-import { LanguageContext } from "../globals/language/language";
-import { useMediaQuery } from "react-responsive";
-import { variables } from "../globals/variables";
+// import { LanguageContext } from "../globals/language/language";
+// import { useMediaQuery } from "react-responsive";
+// import { variables } from "../globals/variables";
 import { useAuth0 } from "@auth0/auth0-react";
 import {
   addAmountOnCard,
   createCard,
-  deleteOwnedCardById,
-  getAllCardsFromCollectionById,
   subAmountOnCard,
 } from "../services/cardServices";
 
@@ -34,8 +32,8 @@ export const SmallPkmnCard = ({
   changeCardToDelete,
 }: IProps) => {
   const { theme } = useContext(ThemeContext);
-  const { language } = useContext(LanguageContext);
-  const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
+  // const { language } = useContext(LanguageContext);
+  // const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { isAuthenticated, user } = useAuth0();
   const [showCardAlternatives, setShowCardAlternatives] = useState<string>("");
   const [hoverPlusBtn, setHoverPlusBtn] = useState<boolean>(false);

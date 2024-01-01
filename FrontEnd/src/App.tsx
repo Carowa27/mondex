@@ -1,19 +1,20 @@
 import { RouterProvider } from "react-router-dom";
 import { Router } from "./Router";
 import { ThemeContext, colorModes } from "./globals/theme";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { LanguageContext, lang } from "./globals/language/language";
 import {
   ILanguageContext,
   IThemeContext,
 } from "./interfaces/contextInterfaces";
-import { useAuth0 } from "@auth0/auth0-react";
+//import { useAuth0 } from "@auth0/auth0-react";
 
 function App() {
-  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
+  //const { isAuthenticated, getAccessTokenSilently } = useAuth0();
   // const [bearerToken, setBearerToken] = useState("");
   const [theme, setTheme] = useState<IThemeContext>({
     theme: colorModes.Light,
+    //@ts-expect-error type definition
     changeColorMode: (wantedColorMode: string) => {
       return;
     },
@@ -29,6 +30,7 @@ function App() {
   };
   const [language, setLanguage] = useState<ILanguageContext>({
     language: lang.SE,
+    //@ts-expect-error type definition
     changeLanguage: (wantedLanguage: string) => {
       return;
     },

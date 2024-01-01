@@ -1,7 +1,6 @@
 import axios from "axios";
-import { ICollectionFromDB, IUserFromDB } from "../interfaces/dataFromDB";
+import { ICollectionFromDB } from "../interfaces/dataFromDB";
 import { User } from "@auth0/auth0-react";
-import { getUser } from "./userServices";
 
 interface IGetAllOwnedCollectionsProps {
   user: User;

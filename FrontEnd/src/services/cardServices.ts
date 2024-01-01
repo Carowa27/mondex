@@ -1,12 +1,6 @@
 import axios from "axios";
-import {
-  ICardFromDB,
-  ICollectionFromDB,
-  IUserFromDB,
-} from "../interfaces/dataFromDB";
-import { getUser } from "./userServices";
+import { ICardFromDB } from "../interfaces/dataFromDB";
 import { User } from "@auth0/auth0-react";
-import { IUserAuth } from "../interfaces/IUser";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { getOwnedCollectionByCollectionName } from "./collectionServices";
 

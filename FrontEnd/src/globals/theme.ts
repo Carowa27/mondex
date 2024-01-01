@@ -60,6 +60,7 @@ export const colorModes = {
 
 export const ThemeContext = createContext<IThemeContext>({
   theme: colorModes.Light,
+  //@ts-expect-error type definition
   changeColorMode: (wantedColorMode: string) => {
     return;
   },

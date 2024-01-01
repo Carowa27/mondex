@@ -1,10 +1,10 @@
-import { useMediaQuery } from "react-responsive";
-import { variables } from "../globals/variables";
+// import { useMediaQuery } from "react-responsive";
+// import { variables } from "../globals/variables";
 import { useAuth0 } from "@auth0/auth0-react";
 import { LoadingModule } from "../components/LoadingModule";
-import { useContext, useEffect, useState } from "react";
-import { LanguageContext } from "../globals/language/language";
-import { ThemeContext } from "../globals/theme";
+import { useEffect, useState } from "react";
+// import { LanguageContext } from "../globals/language/language";
+// import { ThemeContext } from "../globals/theme";
 import {
   deleteOwnedCardById,
   getAllCardsFromCollectionById,
@@ -19,9 +19,9 @@ import { getPkmnFromApi } from "../services/pkmnApiServices";
 import { SmallPkmnCard } from "../components/SmallPkmnCard";
 
 export const CollectionPage = () => {
-  const { theme } = useContext(ThemeContext);
-  const { language } = useContext(LanguageContext);
-  const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
+  // const { theme } = useContext(ThemeContext);
+  // const { language } = useContext(LanguageContext);
+  // const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { isAuthenticated, user } = useAuth0();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [cardList, setCardList] = useState<ICardFromDB[]>([]);
