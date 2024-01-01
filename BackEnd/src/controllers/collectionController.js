@@ -42,7 +42,6 @@ export async function getOwnedCollectionByCollectionName(req, res) {
 }
 
 export async function deleteCollectionById(req, res) {
-  console.log("body: ", req.body);
   try {
     const result = await pool.query(
       `DELETE FROM collections

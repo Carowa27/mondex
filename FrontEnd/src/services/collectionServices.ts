@@ -1,7 +1,6 @@
 import axios from "axios";
-import { ICollectionFromDB, IUserFromDB } from "../interfaces/dataFromDB";
+import { ICollectionFromDB } from "../interfaces/dataFromDB";
 import { User } from "@auth0/auth0-react";
-import { getUser } from "./userServices";
 
 interface IGetAllOwnedCollectionsProps {
   user: User;
@@ -98,7 +97,6 @@ export const createCollection = async ({
   collection_name,
   api_set_id,
 }: ICreateCollectionProps) => {
-  console.log(user.sub, collection_name, api_set_id);
   try {
     const createData = {
       collection_name: collection_name,

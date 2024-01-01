@@ -15,6 +15,7 @@ export const lang = {
 
 export const LanguageContext = createContext<ILanguageContext>({
   language: lang.SE,
+  //@ts-expect-error type definition
   changeLanguage: (wantedLanguage: string) => {
     return;
   },

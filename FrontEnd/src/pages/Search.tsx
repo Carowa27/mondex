@@ -23,7 +23,7 @@ export const Search = () => {
   const [searchValue, setSearchValue] = useState<string>("");
   const [searchParam, setSearchParam] = useState<string>("pkmn");
   const [pkmnList, setPkmnList] = useState<IPkmnCard[]>([]);
-  const [setList, setSetList] = useState<IPkmnSet[]>([]);
+  // const [setList, setSetList] = useState<IPkmnSet[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [noHits, setNoHits] = useState<boolean>(false);
   const [showCardAlternatives, setShowCardAlternatives] = useState<string>("");
@@ -38,7 +38,6 @@ export const Search = () => {
     cardFromApi,
   }: // collectionName,
   ICreateCardProps) => {
-    console.log(cardFromApi);
     const collectionName = "Master_Collection";
     await createCard({ user, cardFromApi, collectionName });
   };
@@ -255,12 +254,13 @@ export const Search = () => {
                                     className="rounded-circle d-flex align-items-center justify-content-center"
                                     onMouseEnter={() => setHoverBtn(true)}
                                     onMouseLeave={() => setHoverBtn(false)}
-                                    onClick={() =>
-                                      sendRequestCreateCard({
-                                        user,
-                                        cardFromApi,
-                                      })
-                                    }
+                                    onClick={() => {
+                                      user &&
+                                        sendRequestCreateCard({
+                                          user,
+                                          cardFromApi,
+                                        });
+                                    }}
                                   >
                                     <i className="bi bi-plus m-0 p-0"></i>
                                   </span>
