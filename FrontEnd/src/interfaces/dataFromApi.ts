@@ -62,6 +62,13 @@ export interface IPkmnResponse {
   pageSize: number;
   totalCount: number;
 }
+export interface ICardResponse {
+  count: number;
+  data: IPkmnCard;
+  page: number;
+  pageSize: number;
+  totalCount: number;
+}
 export interface ISetResponse {
   data: IPkmnSet;
 }

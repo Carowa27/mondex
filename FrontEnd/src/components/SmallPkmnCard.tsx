@@ -11,6 +11,7 @@ import {
   createCard,
   subAmountOnCard,
 } from "../services/cardServices";
+import { BigPkmnCard } from "./BigPkmnCard";
 
 interface IProps {
   card?: ICardFromDB;
@@ -40,6 +41,9 @@ export const SmallPkmnCard = ({
   const [hoverMinusBtn, setHoverMinusBtn] = useState<boolean>(false);
   const [hoverInfoBtn, setHoverInfoBtn] = useState<boolean>(false);
   const [hoverSwapBtn, setHoverSwapBtn] = useState<boolean>(false);
+  const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
+  const [infoCard, setInfoCard] = useState<ICardFromDB>();
+  const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
 
   const subAmount = (cardFromApi?: IPkmnCard, card?: ICardFromDB) => {
     if (cardFromApi !== undefined) {
@@ -88,9 +92,29 @@ export const SmallPkmnCard = ({
       getData();
     }, 100);
   };
-
+  const changeShowPkmnInfo = () => {
+    setSeeBigCard(false);
+  };
+  const saveCardToGetInfoOn = (
+    card: ICardFromDB | undefined,
+    pkmnCard: IPkmnCard | undefined
+  ) => {
+    if (card !== undefined) {
+      setInfoCard(card);
+    }
+    if (pkmnCard !== undefined) {
+      setInfoPkmnCard(pkmnCard);
+    }
+  };
   return (
     <>
+      {seeBigCard ? (
+        <BigPkmnCard
+          card={infoCard}
+          pkmnCard={infoPkmnCard}
+          changeShowPkmnInfo={changeShowPkmnInfo}
+        />
+      ) : null}
       {card !== undefined && cardFromApi === undefined ? (
         <div
           style={{
@@ -210,11 +234,8 @@ export const SmallPkmnCard = ({
                   onMouseEnter={() => setHoverInfoBtn(true)}
                   onMouseLeave={() => setHoverInfoBtn(false)}
                   onClick={() => {
-                    console.log(
-                      "show bigCard dbcard",
-                      card.api_pkmn_name,
-                      card.api_card_img_src_large
-                    );
+                    setSeeBigCard(true);
+                    saveCardToGetInfoOn(card, cardFromApi);
                   }}
                 >
                   <span title="more info" className="fs-5 fw-medium">
@@ -383,11 +404,8 @@ export const SmallPkmnCard = ({
                   onMouseEnter={() => setHoverInfoBtn(true)}
                   onMouseLeave={() => setHoverInfoBtn(false)}
                   onClick={() => {
-                    console.log(
-                      "show bigCard Api",
-                      cardFromApi.name,
-                      cardFromApi.images.large
-                    );
+                    setSeeBigCard(true);
+                    saveCardToGetInfoOn(card, cardFromApi);
                   }}
                 >
                   <span title="more info" className="fs-5 fw-medium">
