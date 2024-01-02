@@ -19,7 +19,7 @@ export interface IPrimaryColors {
   background: IColorType;
   border: IColorType;
   cardBackground: IColorType;
-  button: IColorType;
+  buttonBackground: IColorType;
 }
 
 export interface ITypeColors {
