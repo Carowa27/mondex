@@ -55,6 +55,11 @@ interface IWeakness {
   type: string;
   value: string;
 }
+interface ILegality {
+  expanded: string | undefined;
+  standard: string | undefined;
+  unlimited: string | undefined;
+}
 export interface IPkmnResponse {
   count: number;
   data: IPkmnCard[];
@@ -83,7 +88,7 @@ export interface IPkmnCard {
   hp?: string;
   id: string;
   images: IImage;
-  legalities: { unlimited: string };
+  legalities: ILegality;
   level: string;
   name: string;
   nationalPokedexNumbers: number[];
@@ -100,7 +105,7 @@ export interface IPkmnCard {
 export interface IPkmnSet {
   id: string;
   images: { logo: string; symbol: string };
-  legalities: { expanded: string; unlimited: string; standard?: string };
+  legalities: ILegality;
   name: string;
   printedTotal: number;
   ptcgoCode: string;

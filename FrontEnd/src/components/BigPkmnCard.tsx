@@ -108,7 +108,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
   const NationalDex = styled.span`
     font-size: x-small;
   `;
-
+  const BigCardLegalities = styled.div``;
   return (
     <BigCardContainer>
       <BigCardHeader>
@@ -138,6 +138,27 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
                 <span>Rarity: </span>
                 <span>{cardInfo.rarity}</span>
               </BigCardInfoRow>
+              <BigCardLegalities>
+                <h6 className="m-0 mt-3">TCG Legality </h6>
+                {cardInfo.legalities.standard && (
+                  <BigCardInfoRow>
+                    <span>Standard: </span>
+                    {cardInfo.legalities.standard}
+                  </BigCardInfoRow>
+                )}
+                {cardInfo.legalities.unlimited && (
+                  <BigCardInfoRow>
+                    <span>Unlimited: </span>
+                    {cardInfo.legalities.unlimited}
+                  </BigCardInfoRow>
+                )}
+                {cardInfo.legalities.expanded && (
+                  <BigCardInfoRow>
+                    <span>Expanded: </span>
+                    {cardInfo.legalities.expanded}
+                  </BigCardInfoRow>
+                )}
+              </BigCardLegalities>
               <BigCardValueContainer>
                 <h5>Market Value</h5>
                 <h6>TCG Player</h6>
