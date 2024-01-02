@@ -8,6 +8,8 @@ import { LoadingModule } from "../components/LoadingModule";
 import { User, useAuth0 } from "@auth0/auth0-react";
 import { ThemeContext } from "../globals/theme";
 import { createCard } from "../services/cardServices";
+import { SmallPkmnCard } from "../components/SmallPkmnCard";
+import { BigPkmnCard } from "../components/BigPkmnCard";
 
 interface ICreateCardProps {
   user: User;
@@ -28,6 +30,9 @@ export const Search = () => {
   const [noHits, setNoHits] = useState<boolean>(false);
   const [showCardAlternatives, setShowCardAlternatives] = useState<string>("");
   const [hoverBtn, setHoverBtn] = useState<boolean>(false);
+  const [hoverInfoBtn, setHoverInfoBtn] = useState<boolean>(false);
+  const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
+  const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
@@ -91,8 +96,18 @@ export const Search = () => {
     }
   }, [searchValue]);
 
+  const changeShowPkmnInfo = () => {
+    setSeeBigCard(false);
+  };
   return (
     <>
+      {seeBigCard ? (
+        <BigPkmnCard
+          card={undefined}
+          pkmnCard={infoPkmnCard}
+          changeShowPkmnInfo={changeShowPkmnInfo}
+        />
+      ) : null}
       <h2 id="search-header">{language.lang_code.word_search}</h2>
       <form id="search-form" onSubmit={handleSubmit}>
         <div
@@ -230,7 +245,7 @@ export const Search = () => {
                                 }
                               >
                                 <div
-                                  className="rounded-pill w-100"
+                                  className="rounded-pill w-100 d-flex justify-content-around"
                                   style={{
                                     backgroundColor: `${theme.primaryColors.background.hex}`,
                                     border: "grey 1px solid",
@@ -254,6 +269,7 @@ export const Search = () => {
                                     className="rounded-circle d-flex align-items-center justify-content-center"
                                     onMouseEnter={() => setHoverBtn(true)}
                                     onMouseLeave={() => setHoverBtn(false)}
+                                    title="add amount"
                                     onClick={() => {
                                       user &&
                                         sendRequestCreateCard({
@@ -263,6 +279,36 @@ export const Search = () => {
                                     }}
                                   >
                                     <i className="bi bi-plus m-0 p-0"></i>
+                                  </span>
+                                  <span
+                                    style={
+                                      hoverInfoBtn
+                                        ? {
+                                            backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                                            width: "1.7rem",
+                                            height: "1.7rem",
+                                          }
+                                        : {
+                                            backgroundColor: `${theme.primaryColors.border.hex}`,
+                                            width: "1.7rem",
+                                            height: "1.7rem",
+                                          }
+                                    }
+                                    className="rounded-circle d-flex align-items-center justify-content-center"
+                                    title="more info"
+                                    onMouseEnter={() => setHoverInfoBtn(true)}
+                                    onMouseLeave={() => setHoverInfoBtn(false)}
+                                    onClick={() => {
+                                      setSeeBigCard(true);
+                                      setInfoPkmnCard(cardFromApi);
+                                    }}
+                                  >
+                                    <span
+                                      title="more info"
+                                      className="fs-5 fw-medium"
+                                    >
+                                      i
+                                    </span>
                                   </span>
                                 </div>
                               </div>
