@@ -3,7 +3,7 @@ import { variables } from "../globals/variables";
 import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { LanguageContext } from "../globals/language/language";
 import { createCollection } from "../services/collectionServices";
-import { useAuth0 } from "@auth0/auth0-react";
+import { User, useAuth0 } from "@auth0/auth0-react";
 import { getSetFromApi } from "../services/pkmnApiServices";
 
 export const CreateCollectionPage = () => {
@@ -29,19 +29,28 @@ export const CreateCollectionPage = () => {
             console.log("have you written the correct set id?");
             setNotCorrectSetId(true);
           } else {
-            setCreatedCollection(true);
+            getData(user, collection_name, api_set_id);
           }
         });
       } else {
         api_set_id = null;
-        setCreatedCollection(true);
-      }
-      if (createdCollection === true) {
-        await createCollection({ user, collection_name, api_set_id }).then(
-          (res) => console.log(res)
-        );
+        getData(user, collection_name, api_set_id);
       }
     }
+  };
+  const getData = async (
+    user: User,
+    collection_name: string,
+    api_set_id: string | null
+  ) => {
+    await createCollection({ user, collection_name, api_set_id }).then(
+      (res) => {
+        console.log(res);
+        if (res?.status === 200) {
+          setCreatedCollection(true);
+        }
+      }
+    );
   };
   const handleCollectionNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setCollectionName(event.target.value);
