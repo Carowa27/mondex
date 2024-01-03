@@ -197,13 +197,6 @@ export const Search = () => {
                         <li
                           key={cardFromApi.id}
                           className="pt-2 px-1"
-                          onClick={() => {
-                            console.log(
-                              "show bigCard",
-                              cardFromApi.name,
-                              cardFromApi.images.small
-                            );
-                          }}
                           onMouseEnter={() =>
                             setShowCardAlternatives(cardFromApi.id)
                           }
@@ -227,10 +220,12 @@ export const Search = () => {
                               width: "12.5rem",
                             }}
                           >
-                            {showCardAlternatives && isAuthenticated ? (
+                            {(showCardAlternatives && isAuthenticated) ||
+                            !isDesktop ? (
                               <div
                                 style={
-                                  showCardAlternatives === cardFromApi.id
+                                  showCardAlternatives === cardFromApi.id ||
+                                  !isDesktop
                                     ? {
                                         display: "flex",
                                         position: "absolute",
