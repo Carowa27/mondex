@@ -25,7 +25,7 @@ export const Menu = () => {
           <Link className="text-decoration-none" to="./search">
             <span
               id="main-menu-searchpage"
-              className="pl-2"
+              className="ps-2"
               style={{
                 borderLeft: `2px solid ${theme.primaryColors.border.hex}`,
               }}
@@ -34,13 +34,13 @@ export const Menu = () => {
             </span>
           </Link>
           <Link className="text-decoration-none" to="./about">
-            <span id="main-menu-about" className="pl-2">
+            <span id="main-menu-about" className="ps-2">
               {language.lang_code.about_about_project}
             </span>
           </Link>
           {isAuthenticated ? (
             <>
-              <span id="main-menu-mypages" className="pl-2">
+              <span id="main-menu-mypages" className="ps-2">
                 {/* {language.lang_code.account_login} */}
                 <Link className="text-decoration-none" to="./userpage">
                   {language.lang_code.my_pages_my_pages}
@@ -48,7 +48,7 @@ export const Menu = () => {
               </span>
               <span
                 id="main-menu-logout"
-                className="pl-2"
+                className="ps-2"
                 onClick={() => logout()}
               >
                 {language.lang_code.account_logout}
@@ -57,7 +57,7 @@ export const Menu = () => {
           ) : (
             <span
               id="main-menu-login"
-              className="pl-2"
+              className="ps-2"
               onClick={() => loginWithRedirect()}
             >
               {language.lang_code.account_login}
@@ -72,23 +72,25 @@ export const Menu = () => {
               >
                 <div
                   onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
-                  className="pl-2"
-                  style={{
-                    borderLeft: `2px solid ${theme.primaryColors.border.hex}`,
-                  }}
+                  className="ps-2"
+                  style={
+                    {
+                      // borderLeft: `2px solid ${theme.primaryColors.border.hex}`,
+                    }
+                  }
                 >
                   <span id="main-menu-language">
                     {" "}
                     {language.lang_code.word_language}
                   </span>
-                  <i className="bi bi-chevron-compact-up pl-1"></i>
+                  <i className="bi bi-chevron-compact-up ps-1"></i>
                 </div>
                 <div
                   className="d-flex flex-wrap justify-content-around p-2 rounded-bottom border-top-0 border-right-0"
                   style={{
                     zIndex: "200",
                     position: "absolute",
-                    border: `2px solid ${theme.primaryColors.border.hex}`,
+                    // border: `2px solid ${theme.primaryColors.border.hex}`,
                     backgroundColor: `${theme.primaryColors.background.hex}`,
                     width: "4.35rem",
                   }}
@@ -122,16 +124,16 @@ export const Menu = () => {
             <>
               <div
                 onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
-                className="pl-2"
+                className="ps-2"
               >
                 <span id="main-menu-language">
                   {language.lang_code.word_language}
                 </span>
-                <i className="bi bi-chevron-compact-down pl-1"></i>
+                <i className="bi bi-chevron-compact-down ps-1"></i>
               </div>
             </>
           )}
-          <div className="pl-3">
+          <div className="ps-3">
             {theme.name === "light" ? (
               <i
                 onClick={() => changeColorMode("dark")}
@@ -152,7 +154,7 @@ export const Menu = () => {
           {isMobileMenuOpen ? (
             <div
               id="main-menu-container"
-              className="d-flex flex-column mr-3 px-2 rounded-bottom border-top-0 border-right-0"
+              className="d-flex flex-column me-3 pe-2 rounded-bottom border-top-0 border-right-0"
               style={{
                 position: "absolute",
                 right: 0,
@@ -160,12 +162,19 @@ export const Menu = () => {
                 zIndex: "200",
                 width: "120px",
                 backgroundColor: `${theme.primaryColors.background.hex}`,
-                border: `2px solid ${theme.primaryColors.border.hex}`,
+                // border: `2px solid ${theme.primaryColors.border.hex}`,
               }}
             >
-              <div onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-                <span id="main-menu"> Menu</span>
-                <i className="bi bi-chevron-compact-up pl-2"></i>
+              <div
+                style={{
+                  borderLeft: `2px solid ${theme.primaryColors.border.hex}`,
+                }}
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              >
+                <span id="main-menu" className="ps-2">
+                  Menu
+                </span>
+                <i className="bi bi-chevron-compact-up ps-2"></i>
               </div>
 
               <Link
@@ -175,7 +184,7 @@ export const Menu = () => {
                   setIsMobileMenuOpen(!isMobileMenuOpen);
                 }}
               >
-                <span id="main-menu-searchpage">
+                <span id="main-menu-searchpage" className="ps-2">
                   {language.lang_code.word_search}
                 </span>
               </Link>
@@ -186,7 +195,7 @@ export const Menu = () => {
                   setIsMobileMenuOpen(!isMobileMenuOpen);
                 }}
               >
-                <span id="main-menu-about">
+                <span id="main-menu-about" className="ps-2">
                   {language.lang_code.about_about_project}
                 </span>
               </Link>
@@ -199,17 +208,22 @@ export const Menu = () => {
                       setIsMobileMenuOpen(!isMobileMenuOpen);
                     }}
                   >
-                    <span id="main-menu-mypages">
+                    <span id="main-menu-mypages" className="ps-2">
                       {language.lang_code.my_pages_my_pages}
                     </span>
                   </Link>
-                  <span id="main-menu-logout" onClick={() => logout()}>
+                  <span
+                    id="main-menu-logout"
+                    className="ps-2"
+                    onClick={() => logout()}
+                  >
                     {language.lang_code.account_logout}
                   </span>
                 </>
               ) : (
                 <span
                   id="main-menu-login"
+                  className="ps-2"
                   onClick={() => (
                     loginWithRedirect(), setIsMobileMenuOpen(!isMobileMenuOpen)
                   )}
@@ -222,8 +236,8 @@ export const Menu = () => {
                   id="main-menu-language-se"
                   className={
                     language.name === "Svenska"
-                      ? "font-weight-bold"
-                      : "font-weight-normal"
+                      ? "font-weight-bold ps-2"
+                      : "font-weight-normal ps-2"
                   }
                   onClick={() => changeLanguage("SE")}
                 >
@@ -244,7 +258,7 @@ export const Menu = () => {
             </div>
           ) : (
             <div
-              className="d-flex flex-column mr-3 px-2" // justify-content-start"
+              className="d-flex flex-column me-3 px-2" // justify-content-start"
               style={{
                 position: "absolute",
                 right: 0,
@@ -261,13 +275,13 @@ export const Menu = () => {
                 }}
               >
                 <span id="main-menu">Menu</span>
-                <i className="bi bi-chevron-compact-down pl-2"></i>
+                <i className="bi bi-chevron-compact-down ps-2"></i>
               </div>
             </div>
           )}
           <div
             id="main-menu-theme-container"
-            className="pl-3 mr-3"
+            className="ps-3 pe-2 me-3"
             style={{ zIndex: 300, position: "absolute", right: 0 }}
           >
             {theme.name === "light" ? (
