@@ -5,10 +5,11 @@ import { User } from "@auth0/auth0-react";
 interface IGetAllOwnedCollectionsProps {
   user: User;
 }
-interface IGetOwnedCollectionByIdProps {
+interface IGetOwnedCollectionByNameProps {
   user: User;
   collectionName: string;
 }
+
 interface IDeleteCollectionByIdProps {
   user: User;
   collection: ICollectionFromDB;
@@ -43,7 +44,7 @@ export const getAllOwnedCollections = async (
 };
 
 export const getOwnedCollectionByCollectionName = async (
-  props: IGetOwnedCollectionByIdProps
+  props: IGetOwnedCollectionByNameProps
 ): Promise<ICollectionFromDB | undefined> => {
   const propData = {
     user_auth0_id: props.user.sub,
