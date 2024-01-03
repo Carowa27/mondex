@@ -1,10 +1,11 @@
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
-import { ChangeEvent, FormEvent, useContext, useState } from "react";
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import { LanguageContext } from "../globals/language/language";
 import { createCollection } from "../services/collectionServices";
-import { useAuth0 } from "@auth0/auth0-react";
+import { User, useAuth0 } from "@auth0/auth0-react";
 import { getSetFromApi } from "../services/pkmnApiServices";
+import { Link } from "react-router-dom";
 
 export const CreateCollectionPage = () => {
   const { isAuthenticated, user } = useAuth0();
@@ -13,8 +14,24 @@ export const CreateCollectionPage = () => {
   const [collectionName, setCollectionName] = useState<string>("");
   const [isSetCollection, setIsSetCollection] = useState<boolean>(false);
   const [setId, setSetId] = useState<string>("");
+  const [setInputValue, setSetInputValue] = useState<string>("");
   const [notCorrectSetId, setNotCorrectSetId] = useState<boolean>(false);
   const [createdCollection, setCreatedCollection] = useState<boolean>(false);
+  const [savedCollectionName, setSavedCollectionName] = useState<string>("");
+
+  useEffect(() => {
+    if (setInputValue.includes(".") || setInputValue.includes(",")) {
+      setSetId(setInputValue.replace(/[.,]/g, "pt"));
+    } else {
+      setSetId(setInputValue);
+    }
+  }, [setInputValue]);
+
+  useEffect(() => {
+    if (setInputValue === "") {
+      setCreatedCollection(false);
+    }
+  }, [setInputValue]);
 
   const handleSubmit = async (event: FormEvent) => {
     setNotCorrectSetId(false);
@@ -26,29 +43,38 @@ export const CreateCollectionPage = () => {
       if (isSetCollection === true) {
         await getSetFromApi(api_set_id).then((res) => {
           if (res === undefined) {
-            console.log("have you written the correct set id?");
             setNotCorrectSetId(true);
           } else {
-            setCreatedCollection(true);
+            getData(user, collection_name, api_set_id);
           }
         });
       } else {
         api_set_id = null;
-        setCreatedCollection(true);
-      }
-      if (createdCollection === true) {
-        await createCollection({ user, collection_name, api_set_id }).then(
-          (res) => console.log(res)
-        );
+        getData(user, collection_name, api_set_id);
       }
     }
+  };
+  const getData = async (
+    user: User,
+    collection_name: string,
+    api_set_id: string | null
+  ) => {
+    await createCollection({ user, collection_name, api_set_id }).then(
+      (res) => {
+        if (res?.status === 200) {
+          setCreatedCollection(true);
+          setSavedCollectionName(collectionName);
+        }
+      }
+    );
   };
   const handleCollectionNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setCollectionName(event.target.value);
   };
   const handleSetIdChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSetId(event.target.value);
+    setSetInputValue(event.target.value);
   };
+
   return (
     <>
       <h2>{language.lang_code.collection_create_new_collection}</h2>
@@ -58,11 +84,11 @@ export const CreateCollectionPage = () => {
           className={
             isDesktop
               ? "d-flex justify-content-start"
-              : "d-flex justify-content-around"
+              : "d-flex flex-column justify-content-around"
           }
         >
-          <div className="w-25">
-            <div id="search_type" className="d-flex flex-column  mt-1">
+          <div className={isDesktop ? "w-50" : "w-100"}>
+            <div id="search_type" className="d-flex flex-column mt-1">
               <div className="input-group mb-3">
                 <span className="input-group-text" id="collection_name">
                   {language.lang_code.collection_name}:
@@ -118,7 +144,7 @@ export const CreateCollectionPage = () => {
                   <input
                     type="text"
                     className="form-control"
-                    value={setId}
+                    value={setInputValue}
                     onChange={handleSetIdChange}
                     placeholder={language.lang_code.collection_set_id}
                     aria-label="Set Name"
@@ -129,14 +155,29 @@ export const CreateCollectionPage = () => {
             </div>
           </div>
           <input
-            className="btn btn-secondary mt-5 mx-2 mb-3 h-25"
+            className={
+              isDesktop
+                ? "btn btn-secondary mt-5 mx-2 mb-3 h-25"
+                : "btn btn-secondary mt-2 mx-2 mb-3"
+            }
             type="submit"
             value={language.lang_code.word_submit}
           />
         </div>
       </form>
       {notCorrectSetId ? <>have you written the correct set id?</> : null}
-      {createdCollection ? <>Collection created: {collectionName}</> : null}
+      {createdCollection ? (
+        <Link
+          className="text-decoration-none"
+          to={
+            savedCollectionName.includes(" ")
+              ? `/collection/${savedCollectionName.replace(" ", "_")}`
+              : `/collection/${savedCollectionName}`
+          }
+        >
+          <p>Collection created: {savedCollectionName}</p>
+        </Link>
+      ) : null}
     </>
   );
 };
