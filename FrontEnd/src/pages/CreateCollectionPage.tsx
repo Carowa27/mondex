@@ -5,6 +5,7 @@ import { LanguageContext } from "../globals/language/language";
 import { createCollection } from "../services/collectionServices";
 import { User, useAuth0 } from "@auth0/auth0-react";
 import { getSetFromApi } from "../services/pkmnApiServices";
+import { Link } from "react-router-dom";
 
 export const CreateCollectionPage = () => {
   const { isAuthenticated, user } = useAuth0();
@@ -83,11 +84,11 @@ export const CreateCollectionPage = () => {
           className={
             isDesktop
               ? "d-flex justify-content-start"
-              : "d-flex justify-content-around"
+              : "d-flex flex-column justify-content-around"
           }
         >
-          <div className="w-25">
-            <div id="search_type" className="d-flex flex-column  mt-1">
+          <div className={isDesktop ? "w-50" : "w-100"}>
+            <div id="search_type" className="d-flex flex-column mt-1">
               <div className="input-group mb-3">
                 <span className="input-group-text" id="collection_name">
                   {language.lang_code.collection_name}:
@@ -154,7 +155,11 @@ export const CreateCollectionPage = () => {
             </div>
           </div>
           <input
-            className="btn btn-secondary mt-5 mx-2 mb-3 h-25"
+            className={
+              isDesktop
+                ? "btn btn-secondary mt-5 mx-2 mb-3 h-25"
+                : "btn btn-secondary mt-2 mx-2 mb-3"
+            }
             type="submit"
             value={language.lang_code.word_submit}
           />
@@ -162,7 +167,16 @@ export const CreateCollectionPage = () => {
       </form>
       {notCorrectSetId ? <>have you written the correct set id?</> : null}
       {createdCollection ? (
-        <>Collection created: {savedCollectionName}</>
+        <Link
+          className="text-decoration-none"
+          to={
+            savedCollectionName.includes(" ")
+              ? `/collection/${savedCollectionName.replace(" ", "_")}`
+              : `/collection/${savedCollectionName}`
+          }
+        >
+          <p>Collection created: {savedCollectionName}</p>
+        </Link>
       ) : null}
     </>
   );
