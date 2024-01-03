@@ -38,7 +38,11 @@ export const CollectionPage = () => {
     if (isAuthenticated && user && collectionName) {
       await getAllCardsFromCollectionById({ collectionName, user }).then(
         (res) => {
-          setCardList(res as ICardFromDB[]);
+          if (res && res.length === 0) {
+            setIsLoading(false);
+          } else {
+            setCardList(res as ICardFromDB[]);
+          }
         }
       );
       await getOwnedCollectionByCollectionName({ collectionName, user }).then(

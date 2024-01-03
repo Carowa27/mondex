@@ -9,7 +9,10 @@ import { LoginBtn } from "../components/LoginBtn";
 import { CollectionBanner } from "../components/CollectionBanner";
 import { ThemeContext } from "../globals/theme";
 import { LoadingModule } from "../components/LoadingModule";
-import { getAllOwnedCollections } from "../services/collectionServices";
+import {
+  checkForMasterCollection,
+  getAllOwnedCollections,
+} from "../services/collectionServices";
 import { ICollectionFromDB } from "../interfaces/dataFromDB";
 
 export const Home = () => {
@@ -26,6 +29,7 @@ export const Home = () => {
         });
       };
       getData();
+      checkForMasterCollection(user);
     }
   }, [isAuthenticated, user]);
   return (
