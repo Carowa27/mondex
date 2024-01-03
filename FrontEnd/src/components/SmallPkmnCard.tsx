@@ -12,6 +12,8 @@ import {
   subAmountOnCard,
 } from "../services/cardServices";
 import { BigPkmnCard } from "./BigPkmnCard";
+import { useMediaQuery } from "react-responsive";
+import { variables } from "../globals/variables";
 
 interface IProps {
   card?: ICardFromDB;
@@ -34,7 +36,7 @@ export const SmallPkmnCard = ({
 }: IProps) => {
   const { theme } = useContext(ThemeContext);
   // const { language } = useContext(LanguageContext);
-  // const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
+  const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { isAuthenticated, user } = useAuth0();
   const [showCardAlternatives, setShowCardAlternatives] = useState<string>("");
   const [hoverPlusBtn, setHoverPlusBtn] = useState<boolean>(false);
@@ -124,11 +126,11 @@ export const SmallPkmnCard = ({
           onMouseEnter={() => setShowCardAlternatives(card.api_card_id)}
           onMouseLeave={() => setShowCardAlternatives("")}
         >
-          {showCardAlternatives && isAuthenticated ? (
+          {(showCardAlternatives && isAuthenticated) || !isDesktop ? (
             <div
               className="px-2 py-3"
               style={
-                showCardAlternatives === card.api_card_id
+                showCardAlternatives === card.api_card_id || !isDesktop
                   ? {
                       display: "flex",
                       zIndex: 300,
