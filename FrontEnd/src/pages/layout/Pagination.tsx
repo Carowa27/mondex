@@ -20,7 +20,7 @@ export const Pagination = ({
   ];
   return (
     <>
-      <div className="w-50 d-flex justify-content-center justify-self-center align-items-center">
+      <div className="w-100 d-flex justify-content-center justify-self-center align-items-center">
         <p className="m-0 px-2">
           <i
             className="bi bi-caret-left-fill"
