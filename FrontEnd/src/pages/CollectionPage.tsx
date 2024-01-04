@@ -113,11 +113,9 @@ export const CollectionPage = () => {
 
   const changeShowWarning = () => {
     setShowWarningCard(true);
-    console.log("changeShowWarning");
   };
   const changeCardToDelete = (card: ICardFromDB) => {
     setCardToDelete(card);
-    console.log("changeCardToDelete");
   };
 
   return (

@@ -10,6 +10,7 @@ import { ThemeContext } from "../globals/theme";
 import { createCard } from "../services/cardServices";
 import { SmallPkmnCard } from "../components/SmallPkmnCard";
 import { BigPkmnCard } from "../components/BigPkmnCard";
+import { ChooseCollectionPopUp } from "../components/ChooseCollectionPopUp";
 
 interface ICreateCardProps {
   user: User;
@@ -33,18 +34,12 @@ export const Search = () => {
   const [hoverInfoBtn, setHoverInfoBtn] = useState<boolean>(false);
   const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
+  const [showChooseAddCardPopup, setShowChooseAddCardPopup] =
+    useState<boolean>(false);
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
     setPkmnList([]);
-  };
-  const sendRequestCreateCard = async ({
-    user,
-    cardFromApi,
-  }: // collectionName,
-  ICreateCardProps) => {
-    const collectionName = "Master_Collection";
-    await createCard({ user, cardFromApi, collectionName });
   };
   const searchWithPkmnApi = async (
     searchParam: string,
@@ -99,8 +94,18 @@ export const Search = () => {
   const changeShowPkmnInfo = () => {
     setSeeBigCard(false);
   };
+
+  const changeShowAddCardPopup = () => {
+    setShowChooseAddCardPopup(false);
+  };
   return (
     <>
+      {showChooseAddCardPopup ? (
+        <ChooseCollectionPopUp
+          changeShowAddCardPopup={changeShowAddCardPopup}
+          cardToAdd={infoPkmnCard!}
+        ></ChooseCollectionPopUp>
+      ) : null}
       {seeBigCard ? (
         <BigPkmnCard
           card={undefined}
@@ -264,13 +269,10 @@ export const Search = () => {
                                     className="rounded-circle d-flex align-items-center justify-content-center"
                                     onMouseEnter={() => setHoverBtn(true)}
                                     onMouseLeave={() => setHoverBtn(false)}
-                                    title="add amount"
+                                    title="add card"
                                     onClick={() => {
-                                      user &&
-                                        sendRequestCreateCard({
-                                          user,
-                                          cardFromApi,
-                                        });
+                                      setShowChooseAddCardPopup(true);
+                                      setInfoPkmnCard(cardFromApi);
                                     }}
                                   >
                                     <i className="bi bi-plus m-0 p-0"></i>

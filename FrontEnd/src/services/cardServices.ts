@@ -25,7 +25,11 @@ interface IChangeAmountOnCardProps {
   user: User;
   card: ICardFromDB;
 }
-
+interface IAddCard {
+  user: User;
+  cardToAdd: IPkmnCard;
+  collection_name: string;
+}
 interface IDeleteOwnedCardByIdProps {
   user: User;
   card: ICardFromDB;
@@ -133,9 +137,7 @@ export const createCard = async ({
   });
   const collectionId = collection!.id;
   const amount = 1;
-  const userId = 1;
   const cardData = {
-    user_id: userId,
     user_auth0_id: user.sub,
     amount: amount,
     api_card_id: cardFromApi.id,
@@ -280,9 +282,34 @@ export const swapCardToOtherCollection = ({
       if (findCard === undefined) {
         const collectionName = newCollectionName;
         cardFromApi && createCard({ user, cardFromApi, collectionName });
-        console.log("create fn");
       } else {
         const card = findCard;
+        addAmountOnCard({ user, card });
+      }
+    }
+  };
+  getData();
+};
+
+export const addCard = ({ user, cardToAdd, collection_name }: IAddCard) => {
+  const cardFromApi: IPkmnCard = cardToAdd;
+  let allOwnedCards: ICardFromDB[] | void;
+  const getData = async () => {
+    await getAllOwnedCards({ user }).then((res) => {
+      return (allOwnedCards = res);
+    });
+    if (allOwnedCards) {
+      const cardExists = allOwnedCards.find(
+        (card) =>
+          card.api_card_id === cardToAdd.id &&
+          card.collection_name === collection_name
+      );
+
+      if (cardExists === undefined) {
+        const collectionName = collection_name;
+        createCard({ user, cardFromApi, collectionName });
+      } else {
+        const card = cardExists;
         addAmountOnCard({ user, card });
       }
     }

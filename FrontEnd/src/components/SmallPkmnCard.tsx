@@ -99,7 +99,6 @@ export const SmallPkmnCard = ({
     setTimeout(() => {
       getData();
     }, 500);
-    console.log("updated fn");
   };
   const addAmount = (cardFromApi?: IPkmnCard, card?: ICardFromDB) => {
     if (cardFromApi) {
@@ -247,10 +246,7 @@ export const SmallPkmnCard = ({
                   className="rounded-circle d-flex align-items-center justify-content-center"
                   onMouseEnter={() => setHoverSwapBtn(true)}
                   onMouseLeave={() => setHoverSwapBtn(false)}
-                  onClick={() => (
-                    console.log("add swap collection fn", card),
-                    handleSwap(card, cardFromApi)
-                  )}
+                  onClick={() => handleSwap(card, cardFromApi)}
                 >
                   <i
                     title="swap collection"
@@ -423,10 +419,7 @@ export const SmallPkmnCard = ({
                     className="rounded-circle d-flex align-items-center justify-content-center"
                     onMouseEnter={() => setHoverSwapBtn(true)}
                     onMouseLeave={() => setHoverSwapBtn(false)}
-                    onClick={() => (
-                      console.log("add swap collection fn", cardFromApi),
-                      handleSwap(card, cardFromApi)
-                    )}
+                    onClick={() => handleSwap(card, cardFromApi)}
                   >
                     <i
                       title="swap collection"
