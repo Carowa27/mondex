@@ -7,6 +7,7 @@ import { SmallPkmnCard } from "./SmallPkmnCard";
 import { getCardFromApi } from "../services/pkmnApiServices";
 import { variables } from "../globals/variables";
 import { useMediaQuery } from "react-responsive";
+import { spawn } from "child_process";
 
 interface IProps {
   card: ICardFromDB | undefined;
@@ -121,10 +122,15 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
             <>
               <BigCardInfoHeader>
                 <h4>{cardInfo.name}</h4>{" "}
-                <NationalDex>
-                  NationalDex: {cardInfo.nationalPokedexNumbers}
-                </NationalDex>
               </BigCardInfoHeader>
+              <BigCardInfoRow>
+                <NationalDex>
+                  NationalDex:{" "}
+                  {cardInfo.nationalPokedexNumbers.map((nr) => (
+                    <span>{nr}</span>
+                  ))}
+                </NationalDex>
+              </BigCardInfoRow>
               <BigCardInfoRow>
                 <span>Artist: </span>
                 <span>{cardInfo.artist}</span>

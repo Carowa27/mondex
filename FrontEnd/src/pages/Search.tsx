@@ -228,10 +228,9 @@ export const Search = () => {
                         <li
                           key={cardFromApi.id}
                           className="pt-2 px-1"
-                          onMouseEnter={() => (
-                            setShowCardAlternatives(cardFromApi.id),
-                            console.log("on card")
-                          )}
+                          onMouseEnter={() =>
+                            setShowCardAlternatives(cardFromApi.id)
+                          }
                           onMouseLeave={() => setShowCardAlternatives("")}
                         >
                           <p className="fw-semibold ps-1 m-0">
