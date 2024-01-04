@@ -170,7 +170,7 @@ export const SmallPkmnCard = ({
         <div
           style={{
             aspectRatio: "3/4",
-            width: "12.5rem",
+            width: isDesktop ? "12.5rem" : "10rem",
           }}
           onMouseEnter={() => setShowCardAlternatives(card.api_card_id)}
           onMouseLeave={() => setShowCardAlternatives("")}
@@ -186,7 +186,7 @@ export const SmallPkmnCard = ({
                       position: "absolute",
                       color: `${theme.primaryColors.text.hex}`,
                       aspectRatio: "3/4",
-                      width: "12.5rem",
+                      width: isDesktop ? "12.5rem" : "10rem",
                       fontSize: "20pt",
                       alignItems: "end",
                     }
@@ -302,8 +302,8 @@ export const SmallPkmnCard = ({
               position: "absolute",
               color: `${theme.primaryColors.text.hex}`,
               aspectRatio: "auto",
-              width: "13.2rem",
-              height: "18.2rem",
+              width: isDesktop ? "13.2rem" : "10.5rem",
+              height: isDesktop ? "18.2rem" : "14.5rem",
               fontSize: "16px",
               alignItems: "end",
               justifyContent: "end",
@@ -312,8 +312,8 @@ export const SmallPkmnCard = ({
             <span
               style={{
                 backgroundColor: `${theme.primaryColors.white.hex}`,
-                width: "40px",
-                height: "40px",
+                width: isDesktop ? "40px" : "30px",
+                height: isDesktop ? "40px" : "30px",
               }}
               className="rounded-circle d-flex align-items-center justify-content-center"
             >

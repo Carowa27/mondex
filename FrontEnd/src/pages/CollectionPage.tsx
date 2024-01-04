@@ -1,5 +1,5 @@
-// import { useMediaQuery } from "react-responsive";
-// import { variables } from "../globals/variables";
+import { useMediaQuery } from "react-responsive";
+import { variables } from "../globals/variables";
 import { useAuth0 } from "@auth0/auth0-react";
 import { LoadingModule } from "../components/LoadingModule";
 import { useEffect, useState } from "react";
@@ -22,7 +22,7 @@ import { Pagination } from "./layout/Pagination";
 export const CollectionPage = () => {
   // const { theme } = useContext(ThemeContext);
   // const { language } = useContext(LanguageContext);
-  // const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
+  const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { isAuthenticated, user } = useAuth0();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [cardList, setCardList] = useState<ICardFromDB[]>([]);
@@ -38,6 +38,8 @@ export const CollectionPage = () => {
     totalCount: number;
   }>();
   const [page, setPage] = useState<number>(1);
+  const [start, setStart] = useState<number>(0);
+  const [end, setEnd] = useState<number>(isDesktop ? 50 : 20);
 
   const collectionName = window.location.href.split("/")[4];
   const collectionNameToShow = collectionName.replace(/_/g, " ");
@@ -70,6 +72,25 @@ export const CollectionPage = () => {
     setPage(newPage);
     setCardsFromApiList([]);
     setIsLoading(true);
+    if (collection?.api_set_id !== undefined) {
+      if (isDesktop) {
+        if (newPage === 1) {
+          setStart(0);
+          setEnd(50);
+        } else {
+          setStart(50 * newPage - 50);
+          setEnd(50 * newPage);
+        }
+      } else {
+        if (newPage === 1) {
+          setStart(0);
+          setEnd(20);
+        } else {
+          setStart(20 * newPage - 20);
+          setEnd(20 * newPage);
+        }
+      }
+    }
   };
   useEffect(() => {
     getSetFromApi();
@@ -167,7 +188,7 @@ export const CollectionPage = () => {
                     className="d-flex flex-wrap justify-content-around"
                     style={{ listStyle: "none", padding: 0 }}
                   >
-                    {cardList.map((card: ICardFromDB) => (
+                    {cardList.slice(start, end).map((card: ICardFromDB) => (
                       <li key={card.api_card_id} className="pt-2 px-1">
                         <p className="fw-semibold ps-1 m-0">
                           {card.api_pkmn_name}
@@ -215,8 +236,16 @@ export const CollectionPage = () => {
                       updateSearch={updateSearch}
                     />
                   </div>
-                ) : null}
-                <div className="d-flex justify-content-center">Paginering</div>
+                ) : (
+                  <div className="d-flex justify-content-center">
+                    <Pagination
+                      page={page}
+                      pageSize={5}
+                      totalCount={cardList.length}
+                      updateSearch={updateSearch}
+                    />
+                  </div>
+                )}
               </>
             ) : (
               <>Doesn't appear to be any cards in this collection</>

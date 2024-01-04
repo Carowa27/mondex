@@ -21,7 +21,6 @@ export const AllCollectionsListPage = () => {
   const updateSearch = (newPage: number) => {
     setPage(newPage);
     if (isDesktop) {
-      console.log("desktop");
       if (newPage === 1) {
         setStart(0);
         setEnd(21);
@@ -30,7 +29,6 @@ export const AllCollectionsListPage = () => {
         setEnd(21 * newPage);
       }
     } else {
-      console.log("mobile");
       if (newPage === 1) {
         setStart(0);
         setEnd(13);
