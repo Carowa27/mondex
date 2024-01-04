@@ -120,7 +120,9 @@ export const Search = () => {
     setIsLoading(true);
   };
   useEffect(() => {
-    searchWithPkmnApi(searchParam, searchValue);
+    if (pageInfo && page !== pageInfo.page && pageInfo.page !== undefined) {
+      searchWithPkmnApi(searchParam, searchValue);
+    }
   }, [page]);
   return (
     <>
@@ -226,9 +228,10 @@ export const Search = () => {
                         <li
                           key={cardFromApi.id}
                           className="pt-2 px-1"
-                          onMouseEnter={() =>
-                            setShowCardAlternatives(cardFromApi.id)
-                          }
+                          onMouseEnter={() => (
+                            setShowCardAlternatives(cardFromApi.id),
+                            console.log("on card")
+                          )}
                           onMouseLeave={() => setShowCardAlternatives("")}
                         >
                           <p className="fw-semibold ps-1 m-0">
@@ -249,8 +252,7 @@ export const Search = () => {
                               width: "12.5rem",
                             }}
                           >
-                            {(showCardAlternatives && isAuthenticated) ||
-                            !isDesktop ? (
+                            {showCardAlternatives || !isDesktop ? (
                               <div
                                 style={
                                   showCardAlternatives === cardFromApi.id ||
@@ -276,31 +278,33 @@ export const Search = () => {
                                     padding: "0.3rem",
                                   }}
                                 >
-                                  <span
-                                    style={
-                                      hoverBtn
-                                        ? {
-                                            backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
-                                            width: "25px",
-                                            height: "25px",
-                                          }
-                                        : {
-                                            backgroundColor: `${theme.primaryColors.border.hex}`,
-                                            width: "25px",
-                                            height: "25px",
-                                          }
-                                    }
-                                    className="rounded-circle d-flex align-items-center justify-content-center"
-                                    onMouseEnter={() => setHoverBtn(true)}
-                                    onMouseLeave={() => setHoverBtn(false)}
-                                    title="add card"
-                                    onClick={() => {
-                                      setShowChooseAddCardPopup(true);
-                                      setInfoPkmnCard(cardFromApi);
-                                    }}
-                                  >
-                                    <i className="bi bi-plus m-0 p-0"></i>
-                                  </span>
+                                  {isAuthenticated ? (
+                                    <span
+                                      style={
+                                        hoverBtn
+                                          ? {
+                                              backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                                              width: "25px",
+                                              height: "25px",
+                                            }
+                                          : {
+                                              backgroundColor: `${theme.primaryColors.border.hex}`,
+                                              width: "25px",
+                                              height: "25px",
+                                            }
+                                      }
+                                      className="rounded-circle d-flex align-items-center justify-content-center"
+                                      onMouseEnter={() => setHoverBtn(true)}
+                                      onMouseLeave={() => setHoverBtn(false)}
+                                      title="add card"
+                                      onClick={() => {
+                                        setShowChooseAddCardPopup(true);
+                                        setInfoPkmnCard(cardFromApi);
+                                      }}
+                                    >
+                                      <i className="bi bi-plus m-0 p-0"></i>
+                                    </span>
+                                  ) : null}
                                   <span
                                     style={
                                       hoverInfoBtn

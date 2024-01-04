@@ -71,7 +71,7 @@ export const Home = () => {
             </>
           )}
         </FrontPageBtnCard>
-        <FrontPageBtnCard bkcolor={`${theme.primaryColors.cardBackground.hex}`}>
+        {/* <FrontPageBtnCard bkcolor={`${theme.primaryColors.cardBackground.hex}`}>
           <Link className="text-decoration-none" to="/search">
             <h4 id="main-card-search-header">
               {language.lang_code.word_search}
@@ -81,7 +81,9 @@ export const Home = () => {
           <Link className="text-decoration-none" to="./search">
             Go search now
           </Link>
-        </FrontPageBtnCard>
+          //last searched
+          //most valuable
+        </FrontPageBtnCard> */}
 
         <FrontPageBtnCard bkcolor={`${theme.primaryColors.cardBackground.hex}`}>
           {error && <p>Error with authentication</p>}

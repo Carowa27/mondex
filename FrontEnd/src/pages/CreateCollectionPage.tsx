@@ -171,7 +171,7 @@ export const CreateCollectionPage = () => {
           className="text-decoration-none"
           to={
             savedCollectionName.includes(" ")
-              ? `/collection/${savedCollectionName.replace(" ", "_")}`
+              ? `/collection/${savedCollectionName.replace(/ /g, "_")}`
               : `/collection/${savedCollectionName}`
           }
         >
