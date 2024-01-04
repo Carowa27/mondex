@@ -5,10 +5,11 @@ import { User } from "@auth0/auth0-react";
 interface IGetAllOwnedCollectionsProps {
   user: User;
 }
-interface IGetOwnedCollectionByIdProps {
+interface IGetOwnedCollectionByNameProps {
   user: User;
   collectionName: string;
 }
+
 interface IDeleteCollectionByIdProps {
   user: User;
   collection: ICollectionFromDB;
@@ -43,7 +44,7 @@ export const getAllOwnedCollections = async (
 };
 
 export const getOwnedCollectionByCollectionName = async (
-  props: IGetOwnedCollectionByIdProps
+  props: IGetOwnedCollectionByNameProps
 ): Promise<ICollectionFromDB | undefined> => {
   const propData = {
     user_auth0_id: props.user.sub,
@@ -119,4 +120,17 @@ export const createCollection = async ({
   } catch (error) {
     console.error("An error has occurred: ", error);
   }
+};
+
+export const checkForMasterCollection = async (user: User) => {
+  const collection_name = "Master_Collection";
+  const api_set_id = null;
+  const getCollections = async () => {
+    await getAllOwnedCollections({ user }).then((res) => {
+      if (res.length === 0) {
+        createCollection({ user, collection_name, api_set_id });
+      }
+    });
+  };
+  getCollections();
 };

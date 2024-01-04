@@ -1,8 +1,9 @@
 import axios from "axios";
-import { ICardFromDB } from "../interfaces/dataFromDB";
+import { ICardFromDB, ICollectionFromDB } from "../interfaces/dataFromDB";
 import { User } from "@auth0/auth0-react";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { getOwnedCollectionByCollectionName } from "./collectionServices";
+import { getCardFromApi } from "./pkmnApiServices";
 
 interface IGetAllOwnedCardsProps {
   user: User;
@@ -24,10 +25,21 @@ interface IChangeAmountOnCardProps {
   user: User;
   card: ICardFromDB;
 }
-
+interface IAddCard {
+  user: User;
+  cardToAdd: IPkmnCard;
+  collection_name: string;
+}
 interface IDeleteOwnedCardByIdProps {
   user: User;
   card: ICardFromDB;
+}
+
+interface ISwapCardProps {
+  user: User;
+  cardToSwap: ICardFromDB;
+  newCollectionName: string;
+  oldCollectionName: string;
 }
 
 const get = async <T>(url: string) => {
@@ -125,9 +137,7 @@ export const createCard = async ({
   });
   const collectionId = collection!.id;
   const amount = 1;
-  const userId = 1;
   const cardData = {
-    user_id: userId,
     user_auth0_id: user.sub,
     amount: amount,
     api_card_id: cardFromApi.id,
@@ -230,4 +240,79 @@ export const deleteOwnedCardById = async ({
   } catch (error) {
     console.error("An error has occurred: ", error);
   }
+};
+
+export const swapCardToOtherCollection = ({
+  user,
+  cardToSwap,
+  newCollectionName,
+  oldCollectionName,
+}: ISwapCardProps) => {
+  let cardFromApi: IPkmnCard | void;
+  let allOwnedCards: ICardFromDB[] | void;
+  const getData = async () => {
+    await getCardFromApi(cardToSwap.api_card_id).then((res) => {
+      return (cardFromApi = res);
+    });
+    await getAllOwnedCards({ user }).then((res) => {
+      return (allOwnedCards = res);
+    });
+
+    if (allOwnedCards) {
+      for (let i = 0; i < allOwnedCards.length; i++) {
+        //loop for oldcoll and sub/del
+        if (
+          allOwnedCards[i].api_card_id === cardToSwap.api_card_id &&
+          allOwnedCards[i].collection_name === oldCollectionName
+        ) {
+          if (allOwnedCards[i].amount === 1) {
+            const card = cardToSwap;
+            deleteOwnedCardById({ user, card });
+          } else {
+            const card = cardToSwap;
+            subAmountOnCard({ user, card });
+          }
+        }
+      }
+      const findCard = allOwnedCards.find(
+        (card) =>
+          card.api_card_id === cardToSwap.api_card_id &&
+          card.collection_name === newCollectionName
+      );
+      if (findCard === undefined) {
+        const collectionName = newCollectionName;
+        cardFromApi && createCard({ user, cardFromApi, collectionName });
+      } else {
+        const card = findCard;
+        addAmountOnCard({ user, card });
+      }
+    }
+  };
+  getData();
+};
+
+export const addCard = ({ user, cardToAdd, collection_name }: IAddCard) => {
+  const cardFromApi: IPkmnCard = cardToAdd;
+  let allOwnedCards: ICardFromDB[] | void;
+  const getData = async () => {
+    await getAllOwnedCards({ user }).then((res) => {
+      return (allOwnedCards = res);
+    });
+    if (allOwnedCards) {
+      const cardExists = allOwnedCards.find(
+        (card) =>
+          card.api_card_id === cardToAdd.id &&
+          card.collection_name === collection_name
+      );
+
+      if (cardExists === undefined) {
+        const collectionName = collection_name;
+        createCard({ user, cardFromApi, collectionName });
+      } else {
+        const card = cardExists;
+        addAmountOnCard({ user, card });
+      }
+    }
+  };
+  getData();
 };

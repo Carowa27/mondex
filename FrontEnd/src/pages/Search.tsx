@@ -10,6 +10,8 @@ import { ThemeContext } from "../globals/theme";
 import { createCard } from "../services/cardServices";
 import { SmallPkmnCard } from "../components/SmallPkmnCard";
 import { BigPkmnCard } from "../components/BigPkmnCard";
+import { ChooseCollectionPopUp } from "../components/ChooseCollectionPopUp";
+import { Pagination } from "./layout/Pagination";
 
 interface ICreateCardProps {
   user: User;
@@ -33,24 +35,24 @@ export const Search = () => {
   const [hoverInfoBtn, setHoverInfoBtn] = useState<boolean>(false);
   const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
+  const [showChooseAddCardPopup, setShowChooseAddCardPopup] =
+    useState<boolean>(false);
+  const [pageInfo, setPageInfo] = useState<{
+    page: number;
+    pageSize: number;
+    totalCount: number;
+  }>();
+  const [page, setPage] = useState<number>(1);
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
     setPkmnList([]);
   };
-  const sendRequestCreateCard = async ({
-    user,
-    cardFromApi,
-  }: // collectionName,
-  ICreateCardProps) => {
-    const collectionName = "Master_Collection";
-    await createCard({ user, cardFromApi, collectionName });
-  };
   const searchWithPkmnApi = async (
     searchParam: string,
     searchValue: string
   ) => {
-    let searchString = `https://api.pokemontcg.io/v2/cards`;
+    let searchString = ``;
     let searchTerm = searchValue;
     if (searchValue.includes(" ")) {
       searchTerm = searchValue.replace(/ /g, "%20");
@@ -58,22 +60,29 @@ export const Search = () => {
 
     if (searchParam !== "artist") {
       if (searchParam === "set") {
-        searchString = `https://api.pokemontcg.io/v2/cards?q=!set.name:%22${searchTerm}%22&orderBy=number&pageSize=50&page=1`;
+        searchString = `?q=set.name:%22${searchTerm}%22`;
       }
       if (searchParam === "pkmn") {
-        searchString = `https://api.pokemontcg.io/v2/cards?q=name:${searchTerm}&orderBy=number&pageSize=50&page=1`;
+        searchString = `?q=name:%22${searchTerm}%22`;
       }
     } else {
-      searchString = `https://api.pokemontcg.io/v2/cards?q=artist:%22${searchTerm}%22&orderBy=number&pageSize=50&page=1`;
+      searchString = `?q=artist:%22${searchTerm}%22`;
     }
 
     if (pkmnList.length === 0) {
-      await getPkmnFromApi(searchString).then((res) => {
-        if (!res || res.length === 0) {
+      await getPkmnFromApi(searchString, page).then((res) => {
+        if (!res || res.data.length === 0) {
           setNoHits(true);
           setIsLoading(false);
         }
-        setPkmnList(res as IPkmnCard[]);
+        if (res) {
+          setPkmnList(res.data as IPkmnCard[]);
+          setPageInfo({
+            page: res.page,
+            pageSize: res.pageSize,
+            totalCount: res.totalCount,
+          });
+        }
       });
     }
   };
@@ -93,14 +102,34 @@ export const Search = () => {
   useEffect(() => {
     if (searchValue === "") {
       setPkmnList([]);
+      setPage(1);
     }
   }, [searchValue]);
 
   const changeShowPkmnInfo = () => {
     setSeeBigCard(false);
   };
+
+  const changeShowAddCardPopup = () => {
+    setShowChooseAddCardPopup(false);
+  };
+
+  const updateSearch = (newPage: number) => {
+    setPage(newPage);
+    setPkmnList([]);
+    setIsLoading(true);
+  };
+  useEffect(() => {
+    searchWithPkmnApi(searchParam, searchValue);
+  }, [page]);
   return (
     <>
+      {showChooseAddCardPopup ? (
+        <ChooseCollectionPopUp
+          changeShowAddCardPopup={changeShowAddCardPopup}
+          cardToAdd={infoPkmnCard!}
+        ></ChooseCollectionPopUp>
+      ) : null}
       {seeBigCard ? (
         <BigPkmnCard
           card={undefined}
@@ -264,13 +293,10 @@ export const Search = () => {
                                     className="rounded-circle d-flex align-items-center justify-content-center"
                                     onMouseEnter={() => setHoverBtn(true)}
                                     onMouseLeave={() => setHoverBtn(false)}
-                                    title="add amount"
+                                    title="add card"
                                     onClick={() => {
-                                      user &&
-                                        sendRequestCreateCard({
-                                          user,
-                                          cardFromApi,
-                                        });
+                                      setShowChooseAddCardPopup(true);
+                                      setInfoPkmnCard(cardFromApi);
                                     }}
                                   >
                                     <i className="bi bi-plus m-0 p-0"></i>
@@ -317,9 +343,16 @@ export const Search = () => {
                         </li>
                       ))}
                     </ul>
-                    <div className="d-flex justify-content-center">
-                      Paginering
-                    </div>
+                    {pageInfo ? (
+                      <div className="d-flex justify-content-center">
+                        <Pagination
+                          page={pageInfo.page}
+                          pageSize={pageInfo.pageSize}
+                          totalCount={pageInfo.totalCount}
+                          updateSearch={updateSearch}
+                        />
+                      </div>
+                    ) : null}
                   </>
                 ) : (
                   <>Go ahead and search</>
