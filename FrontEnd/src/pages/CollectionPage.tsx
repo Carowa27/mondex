@@ -17,6 +17,7 @@ import {
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { getPkmnFromApi } from "../services/pkmnApiServices";
 import { SmallPkmnCard } from "../components/SmallPkmnCard";
+import { Pagination } from "./layout/Pagination";
 
 export const CollectionPage = () => {
   // const { theme } = useContext(ThemeContext);
@@ -31,9 +32,16 @@ export const CollectionPage = () => {
   const [showWarningCollection, setShowWarningCollection] =
     useState<boolean>(false);
   const [cardToDelete, setCardToDelete] = useState<ICardFromDB>();
+  const [pageInfo, setPageInfo] = useState<{
+    page: number;
+    pageSize: number;
+    totalCount: number;
+  }>();
+  const [page, setPage] = useState<number>(1);
 
   const collectionName = window.location.href.split("/")[4];
   const collectionNameToShow = collectionName.replace(/_/g, " ");
+
   const getData = async () => {
     if (isAuthenticated && user && collectionName) {
       await getAllCardsFromCollectionById({ collectionName, user }).then(
@@ -58,6 +66,15 @@ export const CollectionPage = () => {
     getData();
   }, [isAuthenticated, user]);
 
+  const updateSearch = (newPage: number) => {
+    setPage(newPage);
+    setCardsFromApiList([]);
+    setIsLoading(true);
+  };
+  useEffect(() => {
+    getSetFromApi();
+  }, [page]);
+
   useEffect(() => {
     if (collection) {
       if (cardList.length !== 0 && collection.api_set_id === null) {
@@ -68,16 +85,24 @@ export const CollectionPage = () => {
       }
     }
   }, [cardList, cardsFromApiList, collection]);
+  const getSetFromApi = async () => {
+    if (collection && collection?.api_set_id !== null) {
+      await getPkmnFromApi(
+        `?q=!set.id:%22${collection.api_set_id}%22`,
+        page
+      ).then((res) => {
+        if (res) {
+          setCardsFromApiList(res.data as IPkmnCard[]);
+          setPageInfo({
+            page: res.page,
+            pageSize: res.pageSize,
+            totalCount: res.totalCount,
+          });
+        }
+      });
+    }
+  };
   useEffect(() => {
-    const getSetFromApi = async () => {
-      if (collection && collection?.api_set_id !== null) {
-        await getPkmnFromApi(
-          `https://api.pokemontcg.io/v2/cards?q=!set.id:%22${collection.api_set_id}%22&orderBy=number&pageSize=50&page=1`
-        ).then((res) => {
-          setCardsFromApiList(res as IPkmnCard[]);
-        });
-      }
-    };
     getSetFromApi();
   }, [collection]);
 
@@ -181,6 +206,16 @@ export const CollectionPage = () => {
                     ))}
                   </ul>
                 )}
+                {pageInfo ? (
+                  <div className="d-flex justify-content-center">
+                    <Pagination
+                      page={pageInfo.page}
+                      pageSize={pageInfo.pageSize}
+                      totalCount={pageInfo.totalCount}
+                      updateSearch={updateSearch}
+                    />
+                  </div>
+                ) : null}
                 <div className="d-flex justify-content-center">Paginering</div>
               </>
             ) : (
