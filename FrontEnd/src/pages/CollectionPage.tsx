@@ -240,7 +240,7 @@ export const CollectionPage = () => {
                   <div className="d-flex justify-content-center">
                     <Pagination
                       page={page}
-                      pageSize={5}
+                      pageSize={isDesktop ? 50 : 20}
                       totalCount={cardList.length}
                       updateSearch={updateSearch}
                     />
