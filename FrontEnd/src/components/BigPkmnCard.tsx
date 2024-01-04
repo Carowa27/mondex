@@ -108,6 +108,8 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
   `;
   const NationalDex = styled.span`
     font-size: x-small;
+    display: flex;
+    justify-content: end;
   `;
   const BigCardLegalities = styled.div``;
   return (

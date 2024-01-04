@@ -59,3 +59,20 @@ export const getCardFromApi = async (searchString: string) => {
     console.error("An error has occurred: ", error);
   }
 };
+
+export const getMostValuableCardFromApi = async () => {
+  try {
+    const result = await get<IPkmnResponse>(
+      `https://api.pokemontcg.io/v2/cards/?orderBy=-tcgplayer.prices.normal.market`
+    )
+      .then((res) => {
+        return res.data.data[0] as IPkmnCard;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    return result;
+  } catch (error) {
+    console.error("An error has occurred: ", error);
+  }
+};

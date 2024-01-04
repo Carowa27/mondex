@@ -44,13 +44,15 @@ export const CollectionBanner = (props: IProps) => {
           {isDesktop ? (
             <div
               className={
-                window.location.pathname === "/" ? "mb-2" : "py-2 my-3 col-5"
+                window.location.pathname === "/"
+                  ? "mb-2 border rounded p-1"
+                  : "py-2 my-3 col-5 border rounded"
               }
             >
               <h6>
                 <Link
-                  className="text-decoration-none"
                   to={`/collection/${props.collectionName}`}
+                  className="text-decoration-none"
                 >
                   {collectionName}
                 </Link>
@@ -60,12 +62,21 @@ export const CollectionBanner = (props: IProps) => {
                 {cards.length !== 0 ? (
                   <div>
                     <ul
-                      className="d-flex flex-wrap justify-content-around"
+                      className="d-flex flex-wrap justify-content-around align-items-end"
                       style={{ listStyle: "none", padding: 0 }}
                     >
                       {cards.slice(0, 4).map((card) => (
-                        <li key={card.id} className="pt-2">
-                          <p style={{ margin: "0" }}>{card.api_pkmn_name}</p>
+                        <li
+                          key={card.id}
+                          className="pt-2"
+                          style={{ width: "min-content" }}
+                        >
+                          <p
+                            style={{ margin: "0", width: "100%" }}
+                            className="text-wrap"
+                          >
+                            {card.api_pkmn_name}
+                          </p>
                           <div style={{ aspectRatio: "3/4", height: "7.5rem" }}>
                             <img
                               style={{ height: "100%" }}
@@ -80,19 +91,32 @@ export const CollectionBanner = (props: IProps) => {
                       ))}
                     </ul>
                     <div className="w-100 d-flex justify-content-end">
-                      <Link
-                        className="text-decoration-none"
-                        to={`/collection/${props.collectionName}`}
-                      >
+                      <Link to={`/collection/${props.collectionName}`}>
                         <i>{language.lang_code.see_all_cards}</i>
                       </Link>
                     </div>
                   </div>
-                ) : null}
+                ) : (
+                  <>
+                    <p>no cards in collection yet </p>
+                    <div className="w-100 d-flex justify-content-end">
+                      <Link to={`/collection/${props.collectionName}`}>
+                        <i>{language.lang_code.see_collection}</i>
+                      </Link>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           ) : (
-            <div style={{ width: "100%" }} className="my-2">
+            <div
+              style={{ width: "100%" }}
+              className={
+                window.location.pathname === "/"
+                  ? "mb-2 border rounded p-1"
+                  : "py-2 my-3 col-5 border rounded"
+              }
+            >
               <h6>{collectionName}</h6>
 
               <div className="px-3">
@@ -103,10 +127,8 @@ export const CollectionBanner = (props: IProps) => {
                       style={{ listStyle: "none", padding: 0 }}
                     >
                       {cards.slice(0, 2).map((card) => (
-                        <li key={card.id} className="pt-2">
-                          <p style={{ margin: "0" }}>
-                            {card.api_pkmn_name}, {card.api_card_id}
-                          </p>
+                        <li key={card.id} className="pt-1">
+                          <p style={{ margin: "0" }}>{card.api_pkmn_name}</p>
                           <div style={{ aspectRatio: "3/4", height: "8rem" }}>
                             <img
                               style={{ height: "100%" }}
@@ -118,10 +140,7 @@ export const CollectionBanner = (props: IProps) => {
                       ))}
                     </ul>
                     <div className="w-100 d-flex justify-content-end">
-                      <Link
-                        className="text-decoration-none"
-                        to={`/collection/${props.collectionName}`}
-                      >
+                      <Link to={`/collection/${props.collectionName}`}>
                         <i>{language.lang_code.see_all_cards}</i>
                       </Link>
                     </div>

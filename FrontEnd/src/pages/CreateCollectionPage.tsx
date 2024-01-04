@@ -175,7 +175,12 @@ export const CreateCollectionPage = () => {
               : `/collection/${savedCollectionName}`
           }
         >
-          <p>Collection created: {savedCollectionName}</p>
+          <p>
+            Collection created:{" "}
+            <span className="text-decoration-underline fst-italic">
+              {savedCollectionName}
+            </span>
+          </p>
         </Link>
       ) : null}
     </>

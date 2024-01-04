@@ -108,8 +108,11 @@ export const UserMyPages = () => {
                 </>
               )}
             </div>
-            <Link className="text-decoration-none" to="/all-collections">
+            <Link className="fst-italic" to="/all-collections">
               {language.lang_code.my_pages_see_all_collections}
+            </Link>
+            <Link to="/create-new-collection" className="text-decoration-none">
+              <h5 className="me-5 mb-0 pt-3">Create New Collection</h5>
             </Link>
           </div>
         </>

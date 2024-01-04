@@ -40,10 +40,7 @@ export const AllCollectionsListPage = () => {
                 <div className="w-100 bg-light d-flex mx-3 mt-2 flex-wrap justify-content-between">
                   {collections.map((coll: ICollectionFromDB) => (
                     <div className="mx-4 w-25" key={coll.id}>
-                      <Link
-                        className="text-decoration-none"
-                        to={`/collection/${coll.collection_name}`}
-                      >
+                      <Link to={`/collection/${coll.collection_name}`}>
                         <p className="fw-bold">
                           {coll.collection_name.replace(/_/g, " ")}
                           {coll.api_set_id ? (
