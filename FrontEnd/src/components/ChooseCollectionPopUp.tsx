@@ -77,10 +77,11 @@ IProps) => {
       width: 50vw;
       top: 10vh;
       left: 25vw;
+      z-index: 500;
     }
   `;
   const SwapMain = styled.div`
-    height: 60%;
+    height: ${isDesktop ? "73%" : "65%"};
   `;
   const SwapFormContainer = styled.div`
     height: 100%;
@@ -88,14 +89,15 @@ IProps) => {
 
   const SwapForm = styled.form`
     display: flex;
-    flex-direction: column;
+    flex-direction: ${isDesktop ? "row" : "column"};
     flex-wrap: no-wrap;
-    height: 80%;
+    height: 100%;
     overflow-y: hidden;
     overflow-y: scroll;
 
     @media (${variables.breakpoints.desktop}) {
       height: 100%;
+      width: 100%;
       flex-wrap: wrap;
     }
   `;

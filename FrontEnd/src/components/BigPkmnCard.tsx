@@ -35,23 +35,20 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
   }, [card, pkmnCard]);
 
   const BigCardContainer = styled.div`
-    height: 60vh;
+    height: ${isDesktop ? "60vh" : "fit-content"};
     width: 80vw;
     min-width: fit-content;
     min-height: fit-content;
     padding: 0 2rem 2rem 2rem;
     z-index: 500;
     position: fixed;
-    /* top: 20vh;
-    left: 10vw; */
     background-color: ${theme.primaryColors.white.hex};
     border-radius: 0.5rem;
+    margin: 0 2rem;
 
     @media (${variables.breakpoints.desktop}) {
       height: 80vh;
       width: 50vw;
-      top: 10vh;
-      left: 25vw;
     }
   `;
   const BigCardHeader = styled.header`
@@ -100,7 +97,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
   `;
   const BigCardValueContainer = styled.div`
     border: solid 1px grey;
-    margin-top: auto;
+    margin-top: ${isDesktop ? "auto" : "1rem"};
     margin-bottom: 0%.5;
     padding: 1rem 2rem;
     border: 3px solid goldenrod;

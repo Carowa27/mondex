@@ -128,10 +128,24 @@ export const Search = () => {
   return (
     <>
       {showChooseAddCardPopup ? (
-        <ChooseCollectionPopUp
-          changeShowAddCardPopup={changeShowAddCardPopup}
-          cardToAdd={infoPkmnCard!}
-        ></ChooseCollectionPopUp>
+        <div
+          style={{
+            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.7)`,
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100vh",
+            position: "fixed",
+            zIndex: 500,
+          }}
+          className="d-flex justify-content-center align-items-center"
+          onClick={changeShowAddCardPopup}
+        >
+          <ChooseCollectionPopUp
+            changeShowAddCardPopup={changeShowAddCardPopup}
+            cardToAdd={infoPkmnCard!}
+          ></ChooseCollectionPopUp>
+        </div>
       ) : null}
       {seeBigCard ? (
         <div
@@ -142,8 +156,9 @@ export const Search = () => {
             width: "100%",
             height: "100vh",
             position: "fixed",
+            zIndex: 500,
           }}
-          className="d-flex justify-content-center"
+          className="d-flex justify-content-center align-items-center"
           onClick={changeShowPkmnInfo}
         >
           <BigPkmnCard
