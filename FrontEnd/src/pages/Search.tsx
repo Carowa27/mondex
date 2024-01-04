@@ -124,6 +124,7 @@ export const Search = () => {
       searchWithPkmnApi(searchParam, searchValue);
     }
   }, [page]);
+
   return (
     <>
       {showChooseAddCardPopup ? (
@@ -133,11 +134,24 @@ export const Search = () => {
         ></ChooseCollectionPopUp>
       ) : null}
       {seeBigCard ? (
-        <BigPkmnCard
-          card={undefined}
-          pkmnCard={infoPkmnCard}
-          changeShowPkmnInfo={changeShowPkmnInfo}
-        />
+        <div
+          style={{
+            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.7)`,
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100vh",
+            position: "fixed",
+          }}
+          className="d-flex justify-content-center"
+          onClick={changeShowPkmnInfo}
+        >
+          <BigPkmnCard
+            card={undefined}
+            pkmnCard={infoPkmnCard}
+            changeShowPkmnInfo={changeShowPkmnInfo}
+          />
+        </div>
       ) : null}
       <h2 id="search-header">{language.lang_code.word_search}</h2>
       <form id="search-form" onSubmit={handleSubmit}>

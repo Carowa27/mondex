@@ -146,11 +146,25 @@ export const SmallPkmnCard = ({
         ></SwapCollectionPopUp>
       ) : null}
       {seeBigCard ? (
-        <BigPkmnCard
-          card={infoCard}
-          pkmnCard={infoPkmnCard}
-          changeShowPkmnInfo={changeShowPkmnInfo}
-        />
+        <div
+          style={{
+            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.7)`,
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100vh",
+            position: "fixed",
+            zIndex: "400",
+          }}
+          className="d-flex justify-content-center align-items-center"
+          onClick={changeShowPkmnInfo}
+        >
+          <BigPkmnCard
+            card={infoCard}
+            pkmnCard={infoPkmnCard}
+            changeShowPkmnInfo={changeShowPkmnInfo}
+          />
+        </div>
       ) : null}
       {card !== undefined && cardFromApi === undefined ? (
         <div

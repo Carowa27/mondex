@@ -56,13 +56,25 @@ export const Home = () => {
   }, []);
   return (
     <>
-      {" "}
       {seeBigCard ? (
-        <BigPkmnCard
-          card={undefined}
-          pkmnCard={valuableCard}
-          changeShowPkmnInfo={changeShowPkmnInfo}
-        />
+        <div
+          style={{
+            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.7)`,
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100vh",
+            position: "fixed",
+          }}
+          className="d-flex justify-content-center"
+          onClick={changeShowPkmnInfo}
+        >
+          <BigPkmnCard
+            card={undefined}
+            pkmnCard={valuableCard}
+            changeShowPkmnInfo={changeShowPkmnInfo}
+          />
+        </div>
       ) : null}
       <div
         id="homepage-container"

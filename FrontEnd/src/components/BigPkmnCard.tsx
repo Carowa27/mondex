@@ -42,8 +42,8 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
     padding: 0 2rem 2rem 2rem;
     z-index: 500;
     position: fixed;
-    top: 20vh;
-    left: 10vw;
+    /* top: 20vh;
+    left: 10vw; */
     background-color: ${theme.primaryColors.white.hex};
     border-radius: 0.5rem;
 
@@ -143,6 +143,10 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
                 <span>Nr: {cardInfo.number}</span>
               </BigCardInfoRow>
               <BigCardInfoRow>
+                <span>Release date: </span>
+                <span>{cardInfo.set.releaseDate}</span>
+              </BigCardInfoRow>
+              <BigCardInfoRow>
                 <span>Rarity: </span>
                 <span>{cardInfo.rarity}</span>
               </BigCardInfoRow>
@@ -170,7 +174,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
               <BigCardValueContainer>
                 <h5>Market Value</h5>
                 <h6>TCG Player</h6>
-                {cardInfo.tcgplayer?.prices["1stEdition"] ? (
+                {cardInfo.tcgplayer?.prices["1stEdition"]?.market ? (
                   <BigCardInfoRow>
                     <span>1st Edition: </span>
                     <span>
@@ -178,7 +182,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
                     </span>
                   </BigCardInfoRow>
                 ) : null}
-                {cardInfo.tcgplayer?.prices["1stEditionHolofoil"] ? (
+                {cardInfo.tcgplayer?.prices["1stEditionHolofoil"]?.market ? (
                   <BigCardInfoRow>
                     <span>1st Edition Holofoil: </span>
                     <span>
@@ -186,7 +190,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
                     </span>
                   </BigCardInfoRow>
                 ) : null}
-                {cardInfo.tcgplayer?.prices["1stEditionNormal"] ? (
+                {cardInfo.tcgplayer?.prices["1stEditionNormal"]?.market ? (
                   <BigCardInfoRow>
                     <span>1st Edition Normal: </span>
                     <span>
@@ -194,19 +198,19 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
                     </span>
                   </BigCardInfoRow>
                 ) : null}
-                {cardInfo.tcgplayer?.prices.holofoil ? (
+                {cardInfo.tcgplayer?.prices.holofoil?.market ? (
                   <BigCardInfoRow>
                     <span>Holofoil: </span>
                     <span>{cardInfo.tcgplayer?.prices.holofoil.market}$</span>
                   </BigCardInfoRow>
                 ) : null}
-                {cardInfo.tcgplayer?.prices.normal ? (
+                {cardInfo.tcgplayer?.prices.normal?.market ? (
                   <BigCardInfoRow>
                     <span>Normal: </span>
                     <span>{cardInfo.tcgplayer?.prices.normal.market}$</span>
                   </BigCardInfoRow>
                 ) : null}
-                {cardInfo.tcgplayer?.prices.reverseHolofoil ? (
+                {cardInfo.tcgplayer?.prices.reverseHolofoil?.market ? (
                   <BigCardInfoRow>
                     <span>Reverse Holofoil: </span>
                     <span>
@@ -214,13 +218,13 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
                     </span>
                   </BigCardInfoRow>
                 ) : null}
-                {cardInfo.tcgplayer?.prices.unlimited ? (
+                {cardInfo.tcgplayer?.prices.unlimited?.market ? (
                   <BigCardInfoRow>
                     <span>Unlimited: </span>
                     <span>{cardInfo.tcgplayer?.prices.unlimited.market}$</span>
                   </BigCardInfoRow>
                 ) : null}
-                {cardInfo.tcgplayer?.prices.unlimitedHolofoil ? (
+                {cardInfo.tcgplayer?.prices.unlimitedHolofoil?.market ? (
                   <BigCardInfoRow>
                     <span>Unlimited Holofoil: </span>
                     <span>
