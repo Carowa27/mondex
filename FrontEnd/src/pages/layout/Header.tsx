@@ -5,7 +5,7 @@ export const Header = () => {
   return (
     <>
       <div
-        className="d-flex justify-content-between px-2  align-items-center"
+        className="d-flex justify-content-between px-2"
         style={{ height: "3rem" }}
       >
         <Link className="text-decoration-none" to="./">
