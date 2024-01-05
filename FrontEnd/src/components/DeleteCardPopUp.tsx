@@ -4,7 +4,10 @@ import { variables } from "../globals/variables";
 import { ThemeContext } from "../globals/theme";
 import { ICardFromDB, ICollectionFromDB } from "../interfaces/dataFromDB";
 import { useAuth0 } from "@auth0/auth0-react";
-import { deleteOwnedCardById } from "../services/cardServices";
+import {
+  deleteOwnedCardById,
+  getAllOwnedCards,
+} from "../services/cardServices";
 import {
   deleteCollectionById,
   getOwnedCollectionByCollectionName,
@@ -28,6 +31,7 @@ export const DeleteCardPopUp = ({
   const { theme } = useContext(ThemeContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { user } = useAuth0();
+  const [cardList, setCardList] = useState<ICardFromDB[]>();
 
   const handleSubmitToDelete = async () => {
     if (user && cardToDelete) {
@@ -40,6 +44,20 @@ export const DeleteCardPopUp = ({
         );
       });
     }
+
+    if (cardList && collection) {
+      const findCardsConnectedToSet: ICardFromDB[] = cardList.filter((card) => {
+        return card.collection_name === collection.collection_name;
+      });
+      let card: ICardFromDB;
+      for (let i = 0; i < findCardsConnectedToSet.length; i++) {
+        card = findCardsConnectedToSet[i];
+        if (user) {
+          await deleteOwnedCardById({ user, card });
+        }
+      }
+    }
+
     if (user && collection) {
       await deleteCollectionById({ user, collection }).then((res) => {
         console.log(
@@ -48,14 +66,30 @@ export const DeleteCardPopUp = ({
           // "status: ",
           // res?.status
         );
-        window.location.href = "/all-collections";
+        // window.location.href = "/all-collections";
       });
     }
+
     setTimeout(() => {
       updateData();
       changeShowDeleteCardPopUp();
     }, 100);
   };
+  const deleteCollection = async () => {};
+
+  useEffect(() => {
+    const getData = async () => {
+      if (user) {
+        await getAllOwnedCards({ user }).then((res: ICardFromDB[] | void) => {
+          if (res) {
+            setCardList(res);
+            console.log(res);
+          }
+        });
+      }
+    };
+    getData();
+  }, []);
 
   return (
     <div
