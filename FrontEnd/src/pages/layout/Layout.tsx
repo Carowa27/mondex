@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { ThemeContext } from "../../globals/theme";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 
 export const Layout = () => {
@@ -31,11 +31,11 @@ export const Layout = () => {
         }}
         className="d-flex flex-column p-2"
       >
-        <Header></Header>
+        <Header />
         <main className="mx-2">
-          <Outlet></Outlet>
+          <Outlet />
         </main>
-        <Footer></Footer>
+        <Footer />
       </div>
     </MainStyle>
   );

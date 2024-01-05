@@ -8,6 +8,7 @@ import { getAllOwnedCollections } from "../services/collectionServices";
 import { ICollectionFromDB } from "../interfaces/dataFromDB";
 import { Link } from "react-router-dom";
 import { Pagination } from "./layout/Pagination";
+import { BreadCrumbs } from "./layout/BreadCrumbs";
 
 export const AllCollectionsListPage = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
@@ -51,21 +52,19 @@ export const AllCollectionsListPage = () => {
   }, [isAuthenticated, user]);
   return (
     <>
-      <div className="d-flex justify-content-between">
-        <h2>All collections</h2>
-        <h6
-          className="me-2 mb-0 pt-3"
-          onClick={() => (window.location.href = "/create-new-collection")}
-        >
-          Create New Collection
-        </h6>
-      </div>
       {!error && isLoading ? (
         <LoadingModule />
       ) : (
         <>
           {isAuthenticated ? (
             <>
+              <BreadCrumbs pageParam="allCollections" />
+              <div className="d-flex justify-content-between">
+                <h2>All collections</h2>
+                <Link to="/create-new-collection">
+                  <h6 className="me-2 mb-0 pt-3">Create New Collection</h6>
+                </Link>
+              </div>
               <div
                 className="w-100 d-flex justify-content-center"
                 style={{ height: "80vh" }}

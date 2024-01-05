@@ -81,46 +81,28 @@ export const Home = () => {
   const valueHTML = (cardInfo: IPkmnCard) => (
     <>
       {cardInfo.tcgplayer?.prices["1stEdition"]?.market ? (
-        <div>
-          <span>{cardInfo.tcgplayer?.prices["1stEdition"].market}$</span>
-        </div>
+        <span>{cardInfo.tcgplayer?.prices["1stEdition"].market}$</span>
       ) : null}
       {cardInfo.tcgplayer?.prices["1stEditionHolofoil"]?.market ? (
-        <div>
-          <span>
-            {cardInfo.tcgplayer?.prices["1stEditionHolofoil"].market}$
-          </span>
-        </div>
+        <span>{cardInfo.tcgplayer?.prices["1stEditionHolofoil"].market}$</span>
       ) : null}
       {cardInfo.tcgplayer?.prices["1stEditionNormal"]?.market ? (
-        <div>
-          <span>{cardInfo.tcgplayer?.prices["1stEditionNormal"].market}$</span>
-        </div>
+        <span>{cardInfo.tcgplayer?.prices["1stEditionNormal"].market}$</span>
       ) : null}
       {cardInfo.tcgplayer?.prices.holofoil?.market ? (
-        <div>
-          <span>{cardInfo.tcgplayer?.prices.holofoil.market}$</span>
-        </div>
+        <span>{cardInfo.tcgplayer?.prices.holofoil.market}$</span>
       ) : null}
       {cardInfo.tcgplayer?.prices.normal?.market ? (
-        <div>
-          <span>{cardInfo.tcgplayer?.prices.normal.market}$</span>
-        </div>
+        <span>{cardInfo.tcgplayer?.prices.normal.market}$</span>
       ) : null}
       {cardInfo.tcgplayer?.prices.reverseHolofoil?.market ? (
-        <div>
-          <span>{cardInfo.tcgplayer?.prices.reverseHolofoil.market}$</span>
-        </div>
+        <span>{cardInfo.tcgplayer?.prices.reverseHolofoil.market}$</span>
       ) : null}
       {cardInfo.tcgplayer?.prices.unlimited?.market ? (
-        <div>
-          <span>{cardInfo.tcgplayer?.prices.unlimited.market}$</span>
-        </div>
+        <span>{cardInfo.tcgplayer?.prices.unlimited.market}$</span>
       ) : null}
       {cardInfo.tcgplayer?.prices.unlimitedHolofoil?.market ? (
-        <div>
-          <span>{cardInfo.tcgplayer?.prices.unlimitedHolofoil.market}$</span>
-        </div>
+        <span>{cardInfo.tcgplayer?.prices.unlimitedHolofoil.market}$</span>
       ) : null}
     </>
   );

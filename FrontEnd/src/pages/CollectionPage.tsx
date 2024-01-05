@@ -18,6 +18,7 @@ import { IPkmnCard } from "../interfaces/dataFromApi";
 import { getPkmnFromApi } from "../services/pkmnApiServices";
 import { SmallPkmnCard } from "../components/SmallPkmnCard";
 import { Pagination } from "./layout/Pagination";
+import { BreadCrumbs } from "./layout/BreadCrumbs";
 
 export const CollectionPage = () => {
   // const { theme } = useContext(ThemeContext);
@@ -167,6 +168,7 @@ export const CollectionPage = () => {
 
   return (
     <>
+      <BreadCrumbs pageParam="collection" collectionName={collectionName} />
       <div className="d-flex justify-content-between">
         <h2 className="m-0">{collectionNameToShow}</h2>
         {collection?.collection_name !== `Master_Collection` ? (
@@ -178,7 +180,7 @@ export const CollectionPage = () => {
       </div>
       <div
         style={{ minHeight: "80vh", outline: "1px solid black" }}
-        className="mt-3 p-2"
+        className="mt-3 p-2 d-flex flex-column"
       >
         {!isLoading ? (
           <>
@@ -227,7 +229,7 @@ export const CollectionPage = () => {
                   </ul>
                 )}
                 {pageInfo ? (
-                  <div className="d-flex justify-content-center">
+                  <div className="d-flex justify-content-center mt-auto">
                     <Pagination
                       page={pageInfo.page}
                       pageSize={pageInfo.pageSize}
@@ -236,7 +238,7 @@ export const CollectionPage = () => {
                     />
                   </div>
                 ) : (
-                  <div className="d-flex justify-content-center">
+                  <div className="d-flex justify-content-center mt-auto">
                     <Pagination
                       page={page}
                       pageSize={isDesktop ? 50 : 20}

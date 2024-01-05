@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface IProps {
   pageSize: number;
@@ -13,11 +13,33 @@ export const Pagination = ({
   page,
   updateSearch,
 }: IProps) => {
-  // const activePage;
   const amountPages = Math.ceil(totalCount / pageSize);
-  const numbers = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-  ];
+  const [numbers, setNumbers] = useState<number[]>();
+  const [paginationStart, setPaginationStart] = useState<number>();
+  const [paginationEnd, setPaginationEnd] = useState<number>();
+
+  useEffect(() => {
+    const numberArray = [];
+    for (let i = 0; i < amountPages; i++) {
+      console.log("nummer", i + 1);
+      numberArray.push(i + 1);
+    }
+    setNumbers(numberArray);
+  }, []);
+
+  useEffect(() => {
+    if (page === 1 || page === amountPages) {
+      if (page === amountPages) {
+        setPaginationEnd(amountPages);
+        setPaginationStart(page - 5);
+      } else {
+        setPaginationStart(0);
+        setPaginationEnd(page + 5);
+      }
+    } else {
+      setPaginationStart(page - 5), setPaginationEnd(page + 5);
+    }
+  }, [page]);
   return (
     <>
       <div className="w-100 d-flex justify-content-center justify-self-center align-items-center">
@@ -27,17 +49,18 @@ export const Pagination = ({
             onClick={() => (page !== 1 ? updateSearch(1) : null)}
           ></i>
         </p>
-        {numbers.slice(0, amountPages).map((number) => {
-          return (
-            <p
-              key={number}
-              className={number === page ? "fw-bold m-0 px-2" : "m-0 px-2"}
-              onClick={() => (page !== number ? updateSearch(number) : null)}
-            >
-              {number}
-            </p>
-          );
-        })}
+        {numbers &&
+          numbers.slice(paginationStart, paginationEnd).map((number) => {
+            return (
+              <p
+                key={number}
+                className={number === page ? "fw-bold m-0 px-2" : "m-0 px-2"}
+                onClick={() => (page !== number ? updateSearch(number) : null)}
+              >
+                {number}
+              </p>
+            );
+          })}
         <p className="m-0 px-2">
           <i
             className="bi bi-caret-right-fill"

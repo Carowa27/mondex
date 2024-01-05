@@ -4,6 +4,7 @@ import { FrontPageBtnCard } from "../components/FrontPageBtnCard";
 import { ThemeContext } from "../globals/theme";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
+import { BreadCrumbs } from "./layout/BreadCrumbs";
 
 export const AboutProject = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
@@ -11,6 +12,7 @@ export const AboutProject = () => {
   const { theme } = useContext(ThemeContext);
   return (
     <>
+      <BreadCrumbs pageParam="about" />
       <h2>{language.lang_code.about_about_project}</h2>
       <div
         id="about-container"

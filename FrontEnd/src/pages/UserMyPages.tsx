@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { ICollectionFromDB } from "../interfaces/dataFromDB";
 import { LoadingModule } from "../components/LoadingModule";
 import { getAllOwnedCollections } from "../services/collectionServices";
+import { BreadCrumbs } from "./layout/BreadCrumbs";
 
 export const UserMyPages = () => {
   const { language } = useContext(LanguageContext);
@@ -32,6 +33,7 @@ export const UserMyPages = () => {
     <>
       {isAuthenticated && (
         <>
+          <BreadCrumbs pageParam="userpage" />
           <h1>
             {language.lang_code.my_pages_my_pages} - {user?.given_name}
           </h1>
