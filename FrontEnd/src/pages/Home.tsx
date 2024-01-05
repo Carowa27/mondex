@@ -212,7 +212,7 @@ export const Home = () => {
                 }
           }
         >
-          <Link to="/search" className={"text-decoration-none mb-3"}>
+          <Link to="/search" className={"text-decoration-none mb-2"}>
             <h4 id="main-card-search-header">
               {language.lang_code.word_search}
             </h4>
@@ -229,7 +229,7 @@ export const Home = () => {
               <div
                 className={
                   isDesktop
-                    ? "d-flex flex-column w-100 align-items-center"
+                    ? "d-flex flex-column w-100"
                     : "d-flex flex-column w-25 align-items-center flex-fill"
                 }
               >
@@ -237,7 +237,7 @@ export const Home = () => {
                   Your last searched card
                 </h6>
                 <div
-                  className=" d-flex justify-content-center"
+                  className={isDesktop ? "" : "d-flex justify-content-center"}
                   style={isDesktop ? { width: "5.5rem" } : { width: "12.5rem" }}
                   onClick={() => {
                     setSeeBigCard(true);
@@ -256,9 +256,14 @@ export const Home = () => {
                     alt={lastOpenedCard.name}
                   />
                 </div>
-                <p className={"w-100 d-flex justify-content-evenly m-0"}>
+                <p
+                  className={
+                    isDesktop
+                      ? "m-0"
+                      : "w-100 d-flex justify-content-evenly m-0"
+                  }
+                >
                   <span>{lastOpenedCard.name}</span>
-                  <span>{valueHTML(lastOpenedCard)}</span>
                 </p>
                 <span style={{ fontSize: "x-small" }}>
                   Opened at: {lastOpenedCard.tcgplayer?.updatedAt}
@@ -269,7 +274,7 @@ export const Home = () => {
               <div
                 className={
                   isDesktop
-                    ? "d-flex flex-column w-100 align-items-center"
+                    ? "d-flex flex-column w-100"
                     : "d-flex flex-column w-25 align-items-center flex-fill ms-3"
                 }
               >
@@ -282,7 +287,7 @@ export const Home = () => {
                 )}
 
                 <div
-                  className=" d-flex justify-content-center"
+                  className={isDesktop ? "" : "d-flex justify-content-center"}
                   style={isDesktop ? { width: "5.5rem" } : { width: "12.5rem" }}
                   onClick={() => {
                     setSeeBigCard(true);
@@ -301,9 +306,17 @@ export const Home = () => {
                     alt={valuableCard.name}
                   />
                 </div>
-                <p className={"w-100 d-flex justify-content-evenly m-0"}>
+                <p
+                  className={
+                    isDesktop
+                      ? "m-0"
+                      : "w-100 d-flex justify-content-evenly m-0"
+                  }
+                >
                   <span>{valuableCard.name}</span>
-                  <span>{valuableCard.tcgplayer?.prices.normal?.market}$</span>
+                  <span className={isDesktop ? "ms-2" : ""}>
+                    {valuableCard.tcgplayer?.prices.normal?.market}$
+                  </span>
                 </p>
                 <span style={{ fontSize: "x-small" }}>
                   Last updated at: {valuableCard.tcgplayer?.updatedAt}

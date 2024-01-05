@@ -41,114 +41,106 @@ export const CollectionBanner = (props: IProps) => {
     <>
       {isAuthenticated && (
         <>
-          {isDesktop ? (
+          <div
+            style={isDesktop ? { width: "100%" } : {}}
+            className={
+              window.location.pathname === "/"
+                ? "mb-2 border rounded p-1"
+                : "py-2 my-3 col-5 border rounded"
+            }
+          >
+            <h6 className={"ms-2 mt-1 mb-0"}>
+              <Link
+                to={`/collection/${props.collectionName}`}
+                className="text-decoration-none"
+              >
+                {collectionName}
+              </Link>
+            </h6>
+
             <div
               className={
-                window.location.pathname === "/"
-                  ? "mb-2 border rounded p-1"
-                  : "py-2 my-3 col-5 border rounded"
+                isDesktop ? "row d-flex justify-content-around px-3" : "px-3"
               }
             >
-              <h6>
-                <Link
-                  to={`/collection/${props.collectionName}`}
-                  className="text-decoration-none"
-                >
-                  {collectionName}
-                </Link>
-              </h6>
-
-              <div className="row d-flex justify-content-around px-3">
-                {cards.length !== 0 ? (
-                  <div>
-                    <ul
-                      className="d-flex flex-wrap justify-content-around align-items-end"
-                      style={{ listStyle: "none", padding: 0 }}
-                    >
-                      {cards.slice(0, 4).map((card) => (
-                        <li
-                          key={card.id}
-                          className="pt-2"
-                          style={{ width: "min-content" }}
-                        >
-                          <p
-                            style={{ margin: "0", width: "100%" }}
-                            className="text-wrap"
+              {cards.length !== 0 ? (
+                <div>
+                  <ul
+                    className={
+                      isDesktop
+                        ? "d-flex flex-wrap justify-content-around align-items-end"
+                        : "d-flex flex-wrap justify-content-around"
+                    }
+                    style={{ listStyle: "none", padding: 0 }}
+                  >
+                    {isDesktop ? (
+                      <>
+                        {cards.slice(0, 4).map((card) => (
+                          <li
+                            key={card.id}
+                            className="pt-2"
+                            style={{ width: "min-content" }}
                           >
-                            {card.api_pkmn_name}
-                          </p>
-                          <div style={{ aspectRatio: "3/4", height: "7.5rem" }}>
-                            <img
-                              style={{ height: "100%" }}
-                              src={card.api_card_img_src_small}
-                              alt={card.api_pkmn_name}
-                            />
-                          </div>
-                          <p className="w-100 mx-auto" style={{ margin: "0" }}>
-                            {card.api_card_id}
-                          </p>
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="w-100 d-flex justify-content-end">
-                      <Link to={`/collection/${props.collectionName}`}>
-                        <i>{language.lang_code.see_all_cards}</i>
-                      </Link>
-                    </div>
+                            <p
+                              style={{ margin: "0", width: "100%" }}
+                              className="text-wrap"
+                            >
+                              {card.api_pkmn_name}
+                            </p>
+                            <div
+                              style={{ aspectRatio: "3/4", height: "7.5rem" }}
+                            >
+                              <img
+                                style={{ height: "100%" }}
+                                src={card.api_card_img_src_small}
+                                alt={card.api_pkmn_name}
+                              />
+                            </div>
+                            <p
+                              className="w-100 mx-auto"
+                              style={{ margin: "0" }}
+                            >
+                              {card.api_card_id}
+                            </p>
+                          </li>
+                        ))}
+                      </>
+                    ) : (
+                      <>
+                        {" "}
+                        {cards.slice(0, 2).map((card) => (
+                          <li key={card.id} className="pt-1">
+                            <p style={{ margin: "0" }}>{card.api_pkmn_name}</p>
+                            <div style={{ aspectRatio: "3/4", height: "8rem" }}>
+                              <img
+                                style={{ height: "100%" }}
+                                src={card.api_card_img_src_small}
+                                alt={card.api_pkmn_name}
+                              />
+                            </div>
+                          </li>
+                        ))}
+                      </>
+                    )}
+                  </ul>
+                  <div className="w-100 d-flex justify-content-end">
+                    <Link to={`/collection/${props.collectionName}`}>
+                      <i>{language.lang_code.see_all_cards}</i>
+                    </Link>
                   </div>
-                ) : (
-                  <>
-                    <p>no cards in collection yet </p>
-                    <div className="w-100 d-flex justify-content-end">
-                      <Link to={`/collection/${props.collectionName}`}>
-                        <i>{language.lang_code.see_collection}</i>
-                      </Link>
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-          ) : (
-            <div
-              style={{ width: "100%" }}
-              className={
-                window.location.pathname === "/"
-                  ? "mb-2 border rounded p-1"
-                  : "py-2 my-3 col-5 border rounded"
-              }
-            >
-              <h6>{collectionName}</h6>
-
-              <div className="px-3">
-                {cards.length !== 0 ? (
-                  <div>
-                    <ul
-                      className="d-flex flex-wrap justify-content-around"
-                      style={{ listStyle: "none", padding: 0 }}
-                    >
-                      {cards.slice(0, 2).map((card) => (
-                        <li key={card.id} className="pt-1">
-                          <p style={{ margin: "0" }}>{card.api_pkmn_name}</p>
-                          <div style={{ aspectRatio: "3/4", height: "8rem" }}>
-                            <img
-                              style={{ height: "100%" }}
-                              src={card.api_card_img_src_small}
-                              alt={card.api_pkmn_name}
-                            />
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="w-100 d-flex justify-content-end">
-                      <Link to={`/collection/${props.collectionName}`}>
-                        <i>{language.lang_code.see_all_cards}</i>
-                      </Link>
-                    </div>
+                </div>
+              ) : (
+                <>
+                  <p>no cards in collection yet </p>
+                  <div className="w-100 d-flex justify-content-end">
+                    <Link to={`/collection/${props.collectionName}`}>
+                      <i>{language.lang_code.see_collection}</i>
+                    </Link>
                   </div>
-                ) : null}
-              </div>
+                </>
+              )}
             </div>
-          )}
+          </div>
         </>
       )}
     </>
