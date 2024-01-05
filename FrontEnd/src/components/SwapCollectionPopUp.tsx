@@ -94,7 +94,6 @@ export const SwapCollectionPopUp = ({
 
   const SwapForm = styled.form`
     display: flex;
-    flex-direction: column;
     flex-wrap: no-wrap;
     height: 80%;
     overflow-y: hidden;
@@ -147,10 +146,10 @@ export const SwapCollectionPopUp = ({
                 ))}
             </SwapForm>
             <div className="d-flex justify-content-around mt-3">
-              <button className="btn" onClick={changeShowSwapPopUp}>
+              <button className="btn border" onClick={changeShowSwapPopUp}>
                 cancel
               </button>
-              <button className="btn" onClick={handleSubmitToSwap}>
+              <button className="btn border" onClick={handleSubmitToSwap}>
                 change
               </button>
             </div>

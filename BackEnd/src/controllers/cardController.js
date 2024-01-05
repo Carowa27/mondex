@@ -124,6 +124,13 @@ export async function deleteOwnedCardById(req, res) {
     WHERE id = ? AND user_auth0_id = ?`,
       [req.body.cardId, req.body.user_auth0_id]
     );
+    if (result.affectedRows > 0) {
+      res
+        .status(200)
+        .json({ status: "success", message: "Card successfully deleted" });
+    } else {
+      res.status(404).json({ status: "error", message: "Card not deleted" });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send("Something went wrong: ", error);

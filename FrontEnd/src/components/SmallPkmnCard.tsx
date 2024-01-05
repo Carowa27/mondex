@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../globals/theme";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { ICardFromDB } from "../interfaces/dataFromDB";
@@ -15,6 +15,7 @@ import { BigPkmnCard } from "./BigPkmnCard";
 import { SwapCollectionPopUp } from "./SwapCollectionPopUp";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
+import { DeleteCardPopUp } from "./DeleteCardPopUp";
 
 interface IProps {
   card?: ICardFromDB;
@@ -23,7 +24,6 @@ interface IProps {
   changeShowWarning: () => void;
   cardList: ICardFromDB[];
   getData: () => void;
-  changeCardToDelete: (card: ICardFromDB) => void;
 }
 
 export const SmallPkmnCard = ({
@@ -33,7 +33,6 @@ export const SmallPkmnCard = ({
   changeShowWarning,
   getData,
   cardList,
-  changeCardToDelete,
 }: IProps) => {
   const { theme } = useContext(ThemeContext);
   // const { language } = useContext(LanguageContext);
@@ -45,10 +44,12 @@ export const SmallPkmnCard = ({
   const [hoverInfoBtn, setHoverInfoBtn] = useState<boolean>(false);
   const [hoverSwapBtn, setHoverSwapBtn] = useState<boolean>(false);
   const [showSwapCollection, setShowSwapCollection] = useState<boolean>(false);
+  const [showDeleteCard, setShowDeleteCard] = useState<boolean>(false);
   const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
   const [infoCard, setInfoCard] = useState<ICardFromDB>();
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
   const [cardToSwap, setCardToSwap] = useState<ICardFromDB>();
+  const [cardToDelete, setCardToDelete] = useState<ICardFromDB>();
 
   const handleSwap = (
     card: ICardFromDB | undefined,
@@ -71,8 +72,8 @@ export const SmallPkmnCard = ({
       if (card !== undefined && user) {
         if (card.amount !== 0) {
           if (card.amount === 1) {
-            changeShowWarning();
-            changeCardToDelete(card);
+            setShowDeleteCard(true);
+            setCardToDelete(card);
           } else {
             subAmountOnCard({ user, card });
           }
@@ -82,8 +83,8 @@ export const SmallPkmnCard = ({
       if (card !== undefined && user) {
         if (card.amount !== 0) {
           if (card.amount === 1) {
-            changeShowWarning();
-            changeCardToDelete(card);
+            setShowDeleteCard(true);
+            setCardToDelete(card);
           } else {
             subAmountOnCard({ user, card });
           }
@@ -124,6 +125,9 @@ export const SmallPkmnCard = ({
   const changeShowSwapPopUp = () => {
     setShowSwapCollection(false);
   };
+  const changeShowDeleteCardPopUp = () => {
+    setShowDeleteCard(false);
+  };
   const saveCardToGetInfoOn = (
     card: ICardFromDB | undefined,
     pkmnCard: IPkmnCard | undefined
@@ -135,15 +139,52 @@ export const SmallPkmnCard = ({
       setInfoPkmnCard(pkmnCard);
     }
   };
+
   return (
     <>
+      {showDeleteCard ? (
+        <div
+          style={{
+            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.7)`,
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100vh",
+            position: "fixed",
+            zIndex: "400",
+          }}
+          className="d-flex justify-content-center align-items-center"
+          onClick={changeShowDeleteCardPopUp}
+        >
+          <DeleteCardPopUp
+            changeShowDeleteCardPopUp={changeShowDeleteCardPopUp}
+            cardToDelete={cardToDelete}
+            collectionName={collectionName}
+            updateData={updateData}
+          ></DeleteCardPopUp>
+        </div>
+      ) : null}
       {showSwapCollection ? (
-        <SwapCollectionPopUp
-          changeShowSwapPopUp={changeShowSwapPopUp}
-          cardToSwap={cardToSwap}
-          collectionName={collectionName}
-          updateData={updateData}
-        ></SwapCollectionPopUp>
+        <div
+          style={{
+            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.7)`,
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100vh",
+            position: "fixed",
+            zIndex: "400",
+          }}
+          className="d-flex justify-content-center align-items-center"
+          onClick={changeShowPkmnInfo}
+        >
+          <SwapCollectionPopUp
+            changeShowSwapPopUp={changeShowSwapPopUp}
+            cardToSwap={cardToSwap}
+            collectionName={collectionName}
+            updateData={updateData}
+          ></SwapCollectionPopUp>
+        </div>
       ) : null}
       {seeBigCard ? (
         <div

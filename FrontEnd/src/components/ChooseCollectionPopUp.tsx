@@ -139,10 +139,10 @@ IProps) => {
                 ))}
             </SwapForm>
             <div className="d-flex justify-content-around mt-3">
-              <button className="btn" onClick={changeShowAddCardPopup}>
+              <button className="btn border" onClick={changeShowAddCardPopup}>
                 cancel
               </button>
-              <button className="btn" onClick={handleSubmitToAddCard}>
+              <button className="btn border" onClick={handleSubmitToAddCard}>
                 add card
               </button>
             </div>

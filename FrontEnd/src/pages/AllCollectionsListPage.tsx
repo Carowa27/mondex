@@ -40,11 +40,6 @@ export const AllCollectionsListPage = () => {
   };
 
   useEffect(() => {
-    console.log(start, end);
-    console.log(page);
-  }, [page]);
-
-  useEffect(() => {
     if (isAuthenticated && user) {
       const getData = async () => {
         await getAllOwnedCollections({ user }).then((res) => {
