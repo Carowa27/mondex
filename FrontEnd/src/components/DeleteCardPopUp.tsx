@@ -47,10 +47,11 @@ export const DeleteCardPopUp = ({
 
     if (cardList && collection) {
       const findCardsConnectedToSet: ICardFromDB[] = cardList.filter((card) => {
-        return card.collection_name === collection.collection_name;
+        return card.collection_id === collection.id;
       });
       let card: ICardFromDB;
       for (let i = 0; i < findCardsConnectedToSet.length; i++) {
+        console.log(findCardsConnectedToSet[i]);
         card = findCardsConnectedToSet[i];
         if (user) {
           await deleteOwnedCardById({ user, card });
@@ -66,7 +67,7 @@ export const DeleteCardPopUp = ({
           // "status: ",
           // res?.status
         );
-        // window.location.href = "/all-collections";
+        window.location.href = "/all-collections";
       });
     }
 
