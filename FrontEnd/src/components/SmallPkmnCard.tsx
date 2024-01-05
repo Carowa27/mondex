@@ -139,7 +139,11 @@ export const SmallPkmnCard = ({
       setInfoPkmnCard(pkmnCard);
     }
   };
-
+  // useEffect(() => {
+  //   if (isDesktop) {
+  //     showCardAlternatives();
+  //   }
+  // }, []);
   return (
     <>
       {showDeleteCard ? (
@@ -386,11 +390,11 @@ export const SmallPkmnCard = ({
           onMouseEnter={() => setShowCardAlternatives(cardFromApi.id)}
           onMouseLeave={() => setShowCardAlternatives("")}
         >
-          {showCardAlternatives && isAuthenticated ? (
+          {(showCardAlternatives && isAuthenticated) || !isDesktop ? (
             <div
               className="px-2 py-3"
               style={
-                showCardAlternatives === cardFromApi.id
+                showCardAlternatives === cardFromApi.id || !isDesktop
                   ? {
                       display: "flex",
                       zIndex: 300,

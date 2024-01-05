@@ -39,7 +39,9 @@ export const DeleteCardPopUp = ({
 
   return (
     <div
-      className="w-25 px-4 py-3 rounded"
+      className={
+        isDesktop ? "w-25 px-4 py-3 rounded" : "w-75 px-4 py-3 rounded"
+      }
       style={{ backgroundColor: theme.primaryColors.white.hex }}
     >
       <header className="d-flex justify-content-end mt-2">

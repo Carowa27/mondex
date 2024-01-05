@@ -106,6 +106,7 @@ export const CollectionPage = () => {
       }
     }
   }, [cardList, cardsFromApiList, collection]);
+
   const getSetFromApi = async () => {
     if (collection && collection?.api_set_id !== null) {
       await getPkmnFromApi(
