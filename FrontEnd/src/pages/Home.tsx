@@ -45,15 +45,36 @@ export const Home = () => {
   }, [isAuthenticated, user]);
 
   useEffect(() => {
+    const savedValuableCard = localStorage.getItem("mostValuableCard");
+    savedValuableCard && setValuableCard(JSON.parse(savedValuableCard).card);
+
+    const date = new Date().getDate();
+    const month = new Date().getMonth() + 1;
+    const year = new Date().getFullYear();
+    const today = `${year}-${month}-${date}`;
+
     const getData = async () => {
       await getMostValuableCardFromApi().then((res) => {
         if (res) {
           setValuableCard(res);
+          localStorage.setItem(
+            "mostValuableCard",
+            JSON.stringify({ card: res, savedOn: today })
+          );
         }
       });
     };
-    getData();
+    if (savedValuableCard === null) {
+      getData();
+    } else {
+      const savedCard = JSON.parse(savedValuableCard);
+
+      if (savedCard.savedOn !== today) {
+        getData();
+      }
+    }
   }, []);
+
   return (
     <>
       {seeBigCard ? (
