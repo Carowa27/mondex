@@ -2,14 +2,18 @@ import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { ThemeContext } from "../globals/theme";
-import { styled } from "styled-components";
 import { ICardFromDB, ICollectionFromDB } from "../interfaces/dataFromDB";
 import { useAuth0 } from "@auth0/auth0-react";
 import { deleteOwnedCardById } from "../services/cardServices";
+import {
+  deleteCollectionById,
+  getOwnedCollectionByCollectionName,
+} from "../services/collectionServices";
 
 interface IProps {
   changeShowDeleteCardPopUp: () => void;
-  cardToDelete: ICardFromDB | undefined;
+  cardToDelete?: ICardFromDB | undefined;
+  collection?: ICollectionFromDB | undefined;
   collectionName: string;
   updateData: () => void;
 }
@@ -17,6 +21,7 @@ interface IProps {
 export const DeleteCardPopUp = ({
   changeShowDeleteCardPopUp,
   cardToDelete,
+  collection,
   collectionName,
   updateData,
 }: IProps) => {
@@ -27,9 +32,24 @@ export const DeleteCardPopUp = ({
   const handleSubmitToDelete = async () => {
     if (user && cardToDelete) {
       const card = cardToDelete;
-      await deleteOwnedCardById({ user, card }).then(() =>
-        console.log("deleted")
-      );
+      await deleteOwnedCardById({ user, card }).then((res) => {
+        console.log(
+          "deleted: ",
+          cardToDelete.api_pkmn_name,
+          cardToDelete.api_card_id
+        );
+      });
+    }
+    if (user && collection) {
+      await deleteCollectionById({ user, collection }).then((res) => {
+        console.log(
+          "deleted: ",
+          collection.collection_name
+          // "status: ",
+          // res?.status
+        );
+        window.location.href = "/all-collections";
+      });
     }
     setTimeout(() => {
       updateData();
@@ -47,32 +67,43 @@ export const DeleteCardPopUp = ({
       <header className="d-flex justify-content-end mt-2">
         <i className="bi bi-x-lg" onClick={changeShowDeleteCardPopUp}></i>
       </header>
-      {cardToDelete && (
-        <div>
+      <div>
+        {cardToDelete ? (
+          <>
+            <div className="mb-4">
+              <h6>Card to delete: </h6>
+              <span>
+                {cardToDelete?.api_pkmn_name}, {cardToDelete.api_card_id}
+              </span>
+            </div>
+            <div className="mb-4">
+              <h6>From collection: </h6>
+              <span>{collectionName.replace(/_/g, " ")}</span>
+            </div>
+          </>
+        ) : (
           <div className="mb-4">
-            <h6>Card to delete: </h6>
+            <h6>Collection to delete: </h6>
             <span>
-              {cardToDelete?.api_pkmn_name}, {cardToDelete.api_card_id}
+              {collection?.collection_name.replace(/_/g, " ")}
+              {collection?.api_set_id ? `, ${collection.api_set_id}` : null}
             </span>
           </div>
-          <div className="mb-4">
-            <h6>From collection: </h6>
-            <span>{collectionName.replace(/_/g, " ")}</span>
-          </div>
-          <i>Are you sure you want to delete? It will be gone forever.</i>
-          <div className="d-flex justify-content-around mt-3">
-            <button className="btn border" onClick={changeShowDeleteCardPopUp}>
-              cancel
-            </button>
-            <button
-              className="btn text-danger fw-bolder border"
-              onClick={handleSubmitToDelete}
-            >
-              delete
-            </button>
-          </div>
+        )}
+
+        <i>Are you sure you want to delete? It will be gone forever.</i>
+        <div className="d-flex justify-content-around mt-3">
+          <button className="btn border" onClick={changeShowDeleteCardPopUp}>
+            cancel
+          </button>
+          <button
+            className="btn text-danger fw-bolder border"
+            onClick={handleSubmitToDelete}
+          >
+            delete
+          </button>
         </div>
-      )}
+      </div>
     </div>
   );
 };

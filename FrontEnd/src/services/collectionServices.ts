@@ -71,8 +71,8 @@ export const deleteCollectionById = async (
   props: IDeleteCollectionByIdProps
 ) => {
   const deleteData = {
+    id: props.collection.id,
     user_auth0_id: props.user.sub,
-    collectionId: props.collection.id,
   };
   try {
     const result = await axios.post(

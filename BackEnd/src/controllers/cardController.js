@@ -124,15 +124,14 @@ export async function deleteOwnedCardById(req, res) {
     WHERE id = ? AND user_auth0_id = ?`,
       [req.body.cardId, req.body.user_auth0_id]
     );
+
     if (result.affectedRows > 0) {
-      res
-        .status(200)
-        .json({ status: "success", message: "Card successfully deleted" });
+      return res.send(result.affectedRows);
     } else {
-      res.status(404).json({ status: "error", message: "Card not deleted" });
+      return res.send(result.affectedRows);
     }
   } catch (error) {
     console.error(error);
-    res.status(500).send("Something went wrong: ", error);
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 }

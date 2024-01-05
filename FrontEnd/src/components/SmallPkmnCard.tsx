@@ -21,7 +21,6 @@ interface IProps {
   card?: ICardFromDB;
   cardFromApi?: IPkmnCard;
   collectionName: string;
-  changeShowWarning: () => void;
   cardList: ICardFromDB[];
   getData: () => void;
 }
@@ -30,7 +29,6 @@ export const SmallPkmnCard = ({
   card,
   cardFromApi,
   collectionName,
-  changeShowWarning,
   getData,
   cardList,
 }: IProps) => {
