@@ -244,7 +244,13 @@ export const Search = () => {
         {!isLoading ? (
           <>
             {noHits ? (
-              <>Got no hits, you have any type errors?</>
+              <>
+                <p> Got no hits, you have any type errors? </p>
+                <p>
+                  If you are searching for a newly released set, it might not be
+                  available yet.
+                </p>
+              </>
             ) : (
               <>
                 {pkmnList.length !== 0 ? (

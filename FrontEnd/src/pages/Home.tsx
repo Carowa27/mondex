@@ -26,6 +26,7 @@ export const Home = () => {
   const { isLoading, isAuthenticated, user, error } = useAuth0();
   const [collections, setCollections] = useState<ICollectionFromDB[]>([]);
   const [valuableCard, setValuableCard] = useState<IPkmnCard>();
+  const [lastOpenedCard, setLastOpenedCard] = useState<IPkmnCard>();
   const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
 
@@ -45,6 +46,9 @@ export const Home = () => {
   }, [isAuthenticated, user]);
 
   useEffect(() => {
+    const lastOpenedCard = localStorage.getItem("lastOpenedCard");
+    lastOpenedCard && setLastOpenedCard(JSON.parse(lastOpenedCard).card);
+
     const savedValuableCard = localStorage.getItem("mostValuableCard");
     savedValuableCard && setValuableCard(JSON.parse(savedValuableCard).card);
 
@@ -54,7 +58,7 @@ export const Home = () => {
     const today = `${year}-${month}-${date}`;
 
     const getData = async () => {
-      await getMostValuableCardFromApi().then((res) => {
+      await getMostValuableCardFromApi(`normal`).then((res) => {
         if (res) {
           setValuableCard(res);
           localStorage.setItem(
@@ -74,7 +78,52 @@ export const Home = () => {
       }
     }
   }, []);
-
+  const valueHTML = (cardInfo: IPkmnCard) => (
+    <>
+      {cardInfo.tcgplayer?.prices["1stEdition"]?.market ? (
+        <div>
+          <span>{cardInfo.tcgplayer?.prices["1stEdition"].market}$</span>
+        </div>
+      ) : null}
+      {cardInfo.tcgplayer?.prices["1stEditionHolofoil"]?.market ? (
+        <div>
+          <span>
+            {cardInfo.tcgplayer?.prices["1stEditionHolofoil"].market}$
+          </span>
+        </div>
+      ) : null}
+      {cardInfo.tcgplayer?.prices["1stEditionNormal"]?.market ? (
+        <div>
+          <span>{cardInfo.tcgplayer?.prices["1stEditionNormal"].market}$</span>
+        </div>
+      ) : null}
+      {cardInfo.tcgplayer?.prices.holofoil?.market ? (
+        <div>
+          <span>{cardInfo.tcgplayer?.prices.holofoil.market}$</span>
+        </div>
+      ) : null}
+      {cardInfo.tcgplayer?.prices.normal?.market ? (
+        <div>
+          <span>{cardInfo.tcgplayer?.prices.normal.market}$</span>
+        </div>
+      ) : null}
+      {cardInfo.tcgplayer?.prices.reverseHolofoil?.market ? (
+        <div>
+          <span>{cardInfo.tcgplayer?.prices.reverseHolofoil.market}$</span>
+        </div>
+      ) : null}
+      {cardInfo.tcgplayer?.prices.unlimited?.market ? (
+        <div>
+          <span>{cardInfo.tcgplayer?.prices.unlimited.market}$</span>
+        </div>
+      ) : null}
+      {cardInfo.tcgplayer?.prices.unlimitedHolofoil?.market ? (
+        <div>
+          <span>{cardInfo.tcgplayer?.prices.unlimitedHolofoil.market}$</span>
+        </div>
+      ) : null}
+    </>
+  );
   return (
     <>
       {seeBigCard ? (
@@ -92,7 +141,7 @@ export const Home = () => {
         >
           <BigPkmnCard
             card={undefined}
-            pkmnCard={valuableCard}
+            pkmnCard={infoPkmnCard}
             changeShowPkmnInfo={changeShowPkmnInfo}
           />
         </div>
@@ -105,6 +154,7 @@ export const Home = () => {
             : "my-1 d-flex flex-column" //"d-flex flex-column justify-content-around align-items-center"
         }
       >
+        {/* about column */}
         <div
           className={
             isDesktop
@@ -163,11 +213,12 @@ export const Home = () => {
             <i>{language.lang_code.read_more}</i>
           </Link>
         </div>
+        {/* search column */}
         <div
           className={
             isDesktop
-              ? "w-25 rounded px-4 py-3  mx-2 d-flex d-flex flex-column"
-              : "w-100 rounded px-4 py-3 my-2 d-flex flex-row"
+              ? "w-25 rounded px-4 py-3 mx-2 d-flex flex-column"
+              : "w-100 rounded px-4 py-3 my-2 d-flex flex-column"
           }
           style={
             isDesktop
@@ -182,59 +233,113 @@ export const Home = () => {
                 }
           }
         >
-          <Link to="/search" className="text-decoration-none flex-fill">
+          <Link to="/search" className={"text-decoration-none mb-3"}>
             <h4 id="main-card-search-header">
               {language.lang_code.word_search}
             </h4>
-            Go search now
-          </Link>
-          {valuableCard ? (
-            <div
-              className={
-                isDesktop
-                  ? "d-flex flex-column w-100 align-items-center mt-auto"
-                  : "d-flex flex-column w-25 align-items-center flex-fill mt-3"
-              }
-            >
-              <h6>
-                Most valuable <i>normal</i> card right now according to
-                TcgPlayer
-              </h6>
-              <div
-                className=" d-flex justify-content-center"
-                style={{ width: "12.5rem" }}
-                onClick={() => {
-                  setSeeBigCard(true);
-                }}
-              >
-                <img
-                  style={
-                    isDesktop
-                      ? { width: "100%" }
-                      : {
-                          width: "40%",
-                        }
-                  }
-                  src={valuableCard.images.small}
-                  alt={valuableCard.name}
-                />
-              </div>
-              <p className="w-100 d-flex justify-content-evenly m-0">
-                <span>{valuableCard.name}</span>
-                <span>{valuableCard.tcgplayer?.prices.normal?.market}$</span>
-              </p>
-              <span style={{ fontSize: "x-small" }}>
-                Last updated at:{valuableCard.tcgplayer?.updatedAt}
+            <span>You can search for all realeased english sets. </span>
+            {isDesktop ? (
+              <span>
+                If you are searching for a newly released set, it might not be
+                available yet.
               </span>
-            </div>
-          ) : null}
+            ) : null}
+          </Link>
+          <div className={isDesktop ? "" : "d-flex "}>
+            {lastOpenedCard ? (
+              <div
+                className={
+                  isDesktop
+                    ? "d-flex flex-column w-100 align-items-center"
+                    : "d-flex flex-column w-25 align-items-center flex-fill"
+                }
+              >
+                <h6 className={isDesktop ? "align-self-start" : "text-center"}>
+                  Your last searched card
+                </h6>
+                <div
+                  className=" d-flex justify-content-center"
+                  style={isDesktop ? { width: "5.5rem" } : { width: "12.5rem" }}
+                  onClick={() => {
+                    setSeeBigCard(true);
+                    setInfoPkmnCard(lastOpenedCard);
+                  }}
+                >
+                  <img
+                    style={
+                      isDesktop
+                        ? { width: "100%" }
+                        : {
+                            width: "40%",
+                          }
+                    }
+                    src={lastOpenedCard.images.small}
+                    alt={lastOpenedCard.name}
+                  />
+                </div>
+                <p className={"w-100 d-flex justify-content-evenly m-0"}>
+                  <span>{lastOpenedCard.name}</span>
+                  <span>{valueHTML(lastOpenedCard)}</span>
+                </p>
+                <span style={{ fontSize: "x-small" }}>
+                  Opened at: {lastOpenedCard.tcgplayer?.updatedAt}
+                </span>
+              </div>
+            ) : null}
+            {valuableCard ? (
+              <div
+                className={
+                  isDesktop
+                    ? "d-flex flex-column w-100 align-items-center"
+                    : "d-flex flex-column w-25 align-items-center flex-fill ms-3"
+                }
+              >
+                {isDesktop ? (
+                  <h6 className="align-self-start mt-3">
+                    Most valuable <i>normal</i> card
+                  </h6>
+                ) : (
+                  <h6 className="text-center">Today's valuable card</h6>
+                )}
+
+                <div
+                  className=" d-flex justify-content-center"
+                  style={isDesktop ? { width: "5.5rem" } : { width: "12.5rem" }}
+                  onClick={() => {
+                    setSeeBigCard(true);
+                    setInfoPkmnCard(valuableCard);
+                  }}
+                >
+                  <img
+                    style={
+                      isDesktop
+                        ? { width: "100%" }
+                        : {
+                            width: "40%",
+                          }
+                    }
+                    src={valuableCard.images.small}
+                    alt={valuableCard.name}
+                  />
+                </div>
+                <p className={"w-100 d-flex justify-content-evenly m-0"}>
+                  <span>{valuableCard.name}</span>
+                  <span>{valuableCard.tcgplayer?.prices.normal?.market}$</span>
+                </p>
+                <span style={{ fontSize: "x-small" }}>
+                  Last updated at: {valuableCard.tcgplayer?.updatedAt}
+                </span>
+              </div>
+            ) : null}
+          </div>
         </div>
+        {/* user column */}
         <div
           className={
             isDesktop
               ? isAuthenticated
                 ? "rounded px-4 py-3 mx-2 d-flex "
-                : "rounded px-4 py-3 mx-2 d-flex "
+                : "rounded px-4 py-3 mx-2 d-flex h-auto"
               : "w-100 rounded px-4 py-3 my-2 d-flex flex-row"
           }
           style={
@@ -242,14 +347,14 @@ export const Home = () => {
               ? {
                   width: "40%",
                   backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
-                  minHeight: "85vh",
-                  height: "auto",
+                  // minHeight: "85vh",
+                  // height: "auto",
                 }
               : {
                   width: "25%",
                   backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
-                  minHeight: "85vh",
-                  height: "auto",
+                  // minHeight: "85vh",
+                  // height: "auto",
                 }
           }
         >
@@ -283,7 +388,11 @@ export const Home = () => {
                     <>Something went wrong</>
                   )}
                   <Link
-                    className="mt-auto align-self-end mb-2 me-2"
+                    className={
+                      isDesktop
+                        ? "mt-auto align-self-end mb-2 me-2"
+                        : "align-self-end mb-2 me-2"
+                    }
                     to="/all-collections"
                   >
                     <i> {language.lang_code.my_pages_see_all_collections}</i>

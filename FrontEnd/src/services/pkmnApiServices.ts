@@ -60,10 +60,10 @@ export const getCardFromApi = async (searchString: string) => {
   }
 };
 
-export const getMostValuableCardFromApi = async () => {
+export const getMostValuableCardFromApi = async (type: string) => {
   try {
     const result = await get<IPkmnResponse>(
-      `https://api.pokemontcg.io/v2/cards/?orderBy=-tcgplayer.prices.normal.market`
+      `https://api.pokemontcg.io/v2/cards/?orderBy=-tcgplayer.prices.${type}.market`
     )
       .then((res) => {
         return res.data.data[0] as IPkmnCard;
