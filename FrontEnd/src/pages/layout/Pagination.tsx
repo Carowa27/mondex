@@ -24,20 +24,27 @@ export const Pagination = ({
       numberArray.push(i + 1);
     }
     setNumbers(numberArray);
-  }, []);
+  }, [amountPages, page]);
 
   useEffect(() => {
-    if (page === 1 || page === amountPages) {
-      if (page === amountPages) {
-        setPaginationEnd(amountPages);
-        setPaginationStart(page - 5);
-      } else {
+    if (page < 5 || page === amountPages) {
+      if (page < 5) {
         setPaginationStart(0);
         setPaginationEnd(page + 5);
+      } else {
+        setPaginationEnd(amountPages);
+        setPaginationStart(page - 5);
       }
     } else {
       setPaginationStart(page - 5), setPaginationEnd(page + 5);
     }
+  }, [page, numbers, amountPages]);
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   }, [page]);
   return (
     <>
