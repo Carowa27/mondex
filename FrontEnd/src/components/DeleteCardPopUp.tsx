@@ -51,7 +51,6 @@ export const DeleteCardPopUp = ({
       });
       let card: ICardFromDB;
       for (let i = 0; i < findCardsConnectedToSet.length; i++) {
-        console.log(findCardsConnectedToSet[i]);
         card = findCardsConnectedToSet[i];
         if (user) {
           await deleteOwnedCardById({ user, card });
@@ -76,7 +75,6 @@ export const DeleteCardPopUp = ({
       changeShowDeleteCardPopUp();
     }, 100);
   };
-  const deleteCollection = async () => {};
 
   useEffect(() => {
     const getData = async () => {
