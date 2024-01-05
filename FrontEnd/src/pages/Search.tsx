@@ -16,7 +16,6 @@ import { Pagination } from "./layout/Pagination";
 interface ICreateCardProps {
   user: User;
   cardFromApi: IPkmnCard;
-  // collectionName: string;
 }
 
 export const Search = () => {
@@ -27,7 +26,6 @@ export const Search = () => {
   const [searchValue, setSearchValue] = useState<string>("");
   const [searchParam, setSearchParam] = useState<string>("pkmn");
   const [pkmnList, setPkmnList] = useState<IPkmnCard[]>([]);
-  // const [setList, setSetList] = useState<IPkmnSet[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [noHits, setNoHits] = useState<boolean>(false);
   const [showCardAlternatives, setShowCardAlternatives] = useState<string>("");
@@ -187,7 +185,7 @@ export const Search = () => {
                   id="search_text"
                   value={searchValue}
                   onChange={handleSearchChange}
-                  className="rounded" //"input-group-text"
+                  className="rounded"
                 />
               </label>
             </div>

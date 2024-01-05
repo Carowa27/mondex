@@ -139,11 +139,7 @@ export const SmallPkmnCard = ({
       setInfoPkmnCard(pkmnCard);
     }
   };
-  // useEffect(() => {
-  //   if (isDesktop) {
-  //     showCardAlternatives();
-  //   }
-  // }, []);
+
   return (
     <>
       {showDeleteCard ? (

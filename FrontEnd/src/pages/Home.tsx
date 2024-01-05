@@ -1,6 +1,5 @@
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
-import { FrontPageBtnCard } from "../components/FrontPageBtnCard";
 import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { LanguageContext } from "../globals/language/language";
@@ -16,7 +15,6 @@ import {
 import { ICollectionFromDB } from "../interfaces/dataFromDB";
 import { getMostValuableCardFromApi } from "../services/pkmnApiServices";
 import { IPkmnCard } from "../interfaces/dataFromApi";
-import { SmallPkmnCard } from "../components/SmallPkmnCard";
 import { BigPkmnCard } from "../components/BigPkmnCard";
 
 export const Home = () => {
@@ -133,7 +131,7 @@ export const Home = () => {
         className={
           isDesktop
             ? "row my-1 d-flex justify-content-around"
-            : "my-1 d-flex flex-column" //"d-flex flex-column justify-content-around align-items-center"
+            : "my-1 d-flex flex-column"
         }
       >
         {/* about column */}
@@ -187,7 +185,6 @@ export const Home = () => {
             </>
           ) : (
             <>
-              {/* <h5>{language.lang_code.about_exam}</h5> */}
               <p className="m-0">{language.lang_code.about_description_exam}</p>
             </>
           )}
@@ -329,14 +326,10 @@ export const Home = () => {
               ? {
                   width: "40%",
                   backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
-                  // minHeight: "85vh",
-                  // height: "auto",
                 }
               : {
                   width: "25%",
                   backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
-                  // minHeight: "85vh",
-                  // height: "auto",
                 }
           }
         >

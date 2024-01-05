@@ -41,7 +41,6 @@ export const Menu = () => {
           {isAuthenticated ? (
             <>
               <span id="main-menu-mypages" className="ps-2">
-                {/* {language.lang_code.account_login} */}
                 <Link className="text-decoration-none" to="./userpage">
                   {language.lang_code.my_pages_my_pages}
                 </Link>
@@ -73,11 +72,6 @@ export const Menu = () => {
                 <div
                   onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
                   className="ps-2"
-                  style={
-                    {
-                      // borderLeft: `2px solid ${theme.primaryColors.border.hex}`,
-                    }
-                  }
                 >
                   <span id="main-menu-language">
                     {" "}
@@ -90,7 +84,6 @@ export const Menu = () => {
                   style={{
                     zIndex: "200",
                     position: "absolute",
-                    // border: `2px solid ${theme.primaryColors.border.hex}`,
                     backgroundColor: `${theme.primaryColors.background.hex}`,
                     width: "4.35rem",
                   }}
@@ -162,7 +155,6 @@ export const Menu = () => {
                 zIndex: "200",
                 width: "120px",
                 backgroundColor: `${theme.primaryColors.background.hex}`,
-                // border: `2px solid ${theme.primaryColors.border.hex}`,
               }}
             >
               <div
@@ -258,7 +250,7 @@ export const Menu = () => {
             </div>
           ) : (
             <div
-              className="d-flex flex-column me-3 px-2" // justify-content-start"
+              className="d-flex flex-column me-3 px-2"
               style={{
                 position: "absolute",
                 right: 0,

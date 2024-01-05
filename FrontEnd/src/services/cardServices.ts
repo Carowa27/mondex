@@ -167,7 +167,6 @@ export const addAmountOnCard = async ({
   user,
   card,
 }: IChangeAmountOnCardProps) => {
-  // const cardFromDb = await getOwnedCardById({ user, card });
   const newAmount = card.amount + 1;
   const updateData = {
     cardId: card.id,
@@ -260,7 +259,6 @@ export const swapCardToOtherCollection = ({
 
     if (allOwnedCards) {
       for (let i = 0; i < allOwnedCards.length; i++) {
-        //loop for oldcoll and sub/del
         if (
           allOwnedCards[i].api_card_id === cardToSwap.api_card_id &&
           allOwnedCards[i].collection_name === oldCollectionName

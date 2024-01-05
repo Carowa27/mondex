@@ -129,22 +129,6 @@ export const CollectionPage = () => {
     getSetFromApi();
   }, [collection]);
 
-  // useEffect(() => {
-  //   if (showWarningCard) {
-  //     const warningDelete = window.confirm(
-  //       "Are you sure you want to delete this card?"
-  //     );
-  //     if (warningDelete && user && cardToDelete) {
-  //       const card = cardToDelete;
-  //       deleteOwnedCardById({ user, card }).then(() => {
-  //         setShowWarningCard(false);
-  //       });
-  //     } else {
-  //       setShowWarningCard(false);
-  //     }
-  //   }
-  // }, [showWarningCard, cardToDelete]);
-
   useEffect(() => {
     if (showWarningCollection) {
       const warningDelete = window.confirm(
@@ -162,9 +146,6 @@ export const CollectionPage = () => {
   const changeShowWarning = () => {
     setShowWarningCard(true);
   };
-  // const changeCardToDelete = (card: ICardFromDB) => {
-  //   setCardToDelete(card);
-  // };
 
   return (
     <>

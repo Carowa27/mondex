@@ -18,11 +18,7 @@ export const AboutProject = () => {
       </div>
       <div
         id="about-container"
-        className={
-          isDesktop
-            ? "row my-1" //d-flex flex-row justify-content-around
-            : "column my-1" //"d-flex flex-column justify-content-around align-items-center"
-        }
+        className={isDesktop ? "row my-1" : "column my-1"}
       >
         <FrontPageBtnCard bkcolor={`${theme.primaryColors.cardBackground.hex}`}>
           <h5 id="about-card-examprj-header">

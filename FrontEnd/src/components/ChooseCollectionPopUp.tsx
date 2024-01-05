@@ -12,14 +12,12 @@ import { addCard } from "../services/cardServices";
 interface IProps {
   changeShowAddCardPopup: () => void;
   cardToAdd: IPkmnCard;
-  // updateData: () => void;
 }
 
 export const ChooseCollectionPopUp = ({
   changeShowAddCardPopup,
   cardToAdd,
-}: // updateData,
-IProps) => {
+}: IProps) => {
   const { theme } = useContext(ThemeContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { user, isAuthenticated } = useAuth0();
@@ -39,7 +37,6 @@ IProps) => {
 
   useEffect(() => {
     getCollections();
-    // updateData();
   }, []);
 
   const handleChangeOnRadioBtn = (event: ChangeEvent<HTMLInputElement>) => {
@@ -54,7 +51,6 @@ IProps) => {
     }
 
     setTimeout(() => {
-      //     updateData();
       changeShowAddCardPopup();
     }, 100);
   };
@@ -62,7 +58,6 @@ IProps) => {
   const SwapContainer = styled.div`
     height: 60vh;
     width: 80vw;
-    /* min-width: fit-content; */
     min-height: fit-content;
     padding: 0 2rem 2rem 2rem;
     z-index: 500;
