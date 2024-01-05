@@ -433,54 +433,60 @@ export const SmallPkmnCard = ({
                 >
                   <i title="add amount" className="bi bi-plus m-0 p-0"></i>
                 </span>
-                <span
-                  style={
-                    hoverMinusBtn
-                      ? {
-                          backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
-                          width: "1.7rem",
-                          height: "1.7rem",
-                        }
-                      : {
-                          backgroundColor: `${theme.primaryColors.border.hex}`,
-                          width: "1.7rem",
-                          height: "1.7rem",
-                        }
-                  }
-                  className="rounded-circle d-flex align-items-center justify-content-center"
-                  onMouseEnter={() => setHoverMinusBtn(true)}
-                  onMouseLeave={() => setHoverMinusBtn(false)}
-                  onClick={() => subAmount(cardFromApi)}
-                >
-                  <i title="subtract amount" className="bi bi-dash m-0 p-0"></i>
-                </span>
                 {cardList.find(
                   (cardFromDb) => cardFromDb.api_card_id === cardFromApi.id
                 ) ? (
-                  <span
-                    style={
-                      hoverSwapBtn
-                        ? {
-                            backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
-                            width: "1.7rem",
-                            height: "1.7rem",
-                          }
-                        : {
-                            backgroundColor: `${theme.primaryColors.border.hex}`,
-                            width: "1.7rem",
-                            height: "1.7rem",
-                          }
-                    }
-                    className="rounded-circle d-flex align-items-center justify-content-center"
-                    onMouseEnter={() => setHoverSwapBtn(true)}
-                    onMouseLeave={() => setHoverSwapBtn(false)}
-                    onClick={() => handleSwap(card, cardFromApi)}
-                  >
-                    <i
-                      title="swap collection"
-                      className="bi bi-arrow-left-right fs-5"
-                    ></i>
-                  </span>
+                  <>
+                    <span
+                      style={
+                        hoverMinusBtn
+                          ? {
+                              backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                              width: "1.7rem",
+                              height: "1.7rem",
+                            }
+                          : {
+                              backgroundColor: `${theme.primaryColors.border.hex}`,
+                              width: "1.7rem",
+                              height: "1.7rem",
+                            }
+                      }
+                      className="rounded-circle d-flex align-items-center justify-content-center"
+                      onMouseEnter={() => setHoverMinusBtn(true)}
+                      onMouseLeave={() => setHoverMinusBtn(false)}
+                      onClick={() => subAmount(cardFromApi)}
+                    >
+                      <i
+                        title="subtract amount"
+                        className="bi bi-dash m-0 p-0"
+                      ></i>
+                    </span>
+
+                    <span
+                      style={
+                        hoverSwapBtn
+                          ? {
+                              backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                              width: "1.7rem",
+                              height: "1.7rem",
+                            }
+                          : {
+                              backgroundColor: `${theme.primaryColors.border.hex}`,
+                              width: "1.7rem",
+                              height: "1.7rem",
+                            }
+                      }
+                      className="rounded-circle d-flex align-items-center justify-content-center"
+                      onMouseEnter={() => setHoverSwapBtn(true)}
+                      onMouseLeave={() => setHoverSwapBtn(false)}
+                      onClick={() => handleSwap(card, cardFromApi)}
+                    >
+                      <i
+                        title="swap collection"
+                        className="bi bi-arrow-left-right fs-5"
+                      ></i>
+                    </span>
+                  </>
                 ) : null}
 
                 <span
