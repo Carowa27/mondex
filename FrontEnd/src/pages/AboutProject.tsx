@@ -12,8 +12,10 @@ export const AboutProject = () => {
   const { theme } = useContext(ThemeContext);
   return (
     <>
-      <BreadCrumbs pageParam="about" />
-      <h2>{language.lang_code.about_about_project}</h2>
+      <div className="d-flex justify-content-between align-items-start">
+        <h2>{language.lang_code.about_about_project}</h2>
+        <BreadCrumbs pageParam="about" />
+      </div>
       <div
         id="about-container"
         className={

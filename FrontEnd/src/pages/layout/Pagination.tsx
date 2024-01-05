@@ -21,7 +21,6 @@ export const Pagination = ({
   useEffect(() => {
     const numberArray = [];
     for (let i = 0; i < amountPages; i++) {
-      console.log("nummer", i + 1);
       numberArray.push(i + 1);
     }
     setNumbers(numberArray);
@@ -45,7 +44,7 @@ export const Pagination = ({
       <div className="w-100 d-flex justify-content-center justify-self-center align-items-center">
         <p className="m-0 px-2">
           <i
-            className="bi bi-caret-left-fill"
+            className="bi bi-skip-start-fill"
             onClick={() => (page !== 1 ? updateSearch(1) : null)}
           ></i>
         </p>
@@ -63,7 +62,7 @@ export const Pagination = ({
           })}
         <p className="m-0 px-2">
           <i
-            className="bi bi-caret-right-fill"
+            className="bi bi-skip-end-fill"
             onClick={() =>
               page !== amountPages ? updateSearch(amountPages) : null
             }

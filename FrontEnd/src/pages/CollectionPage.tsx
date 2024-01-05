@@ -168,19 +168,21 @@ export const CollectionPage = () => {
 
   return (
     <>
-      <BreadCrumbs pageParam="collection" collectionName={collectionName} />
       <div className="d-flex justify-content-between">
         <h2 className="m-0">{collectionNameToShow}</h2>
-        {collection?.collection_name !== `Master_Collection` ? (
-          <h5
-            className="bi bi-trash3 pe-4 pt-3 m-0"
-            onClick={() => setShowWarningCollection(true)}
-          ></h5>
-        ) : null}
+        <div className="d-flex flex-column align-items-end">
+          <BreadCrumbs pageParam="collection" collectionName={collectionName} />
+          {collection?.collection_name !== `Master_Collection` ? (
+            <h5
+              className="bi bi-trash3 pe-4 m-0"
+              onClick={() => setShowWarningCollection(true)}
+            ></h5>
+          ) : null}
+        </div>
       </div>
       <div
         style={{ minHeight: "80vh", outline: "1px solid black" }}
-        className="mt-3 p-2 d-flex flex-column"
+        className="mt-2 p-2 d-flex flex-column"
       >
         {!isLoading ? (
           <>

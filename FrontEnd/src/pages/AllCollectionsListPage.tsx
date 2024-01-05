@@ -58,12 +58,14 @@ export const AllCollectionsListPage = () => {
         <>
           {isAuthenticated ? (
             <>
-              <BreadCrumbs pageParam="allCollections" />
               <div className="d-flex justify-content-between">
                 <h2>All collections</h2>
-                <Link to="/create-new-collection">
-                  <h6 className="me-2 mb-0 pt-3">Create New Collection</h6>
-                </Link>
+                <div className="d-flex flex-column align-items-end">
+                  <BreadCrumbs pageParam="allCollections" />
+                  <Link to="/create-new-collection">
+                    <h6 className="me-2 mb-0">Create New Collection</h6>
+                  </Link>
+                </div>
               </div>
               <div
                 className="w-100 d-flex justify-content-center"

@@ -13,10 +13,13 @@ export const Layout = () => {
     background-color: ${theme.primaryColors.background.hex};
     overflow-y: hidden;
     overflow-x: hidden;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    &::-webkit-scrollbar {
-      display: none;
+    html,
+    body {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      &::-webkit-scrollbar {
+        display: none;
+      }
     }
     a {
       color: ${theme.primaryColors.link.hex};

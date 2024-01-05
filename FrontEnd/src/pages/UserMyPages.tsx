@@ -33,10 +33,12 @@ export const UserMyPages = () => {
     <>
       {isAuthenticated && (
         <>
-          <BreadCrumbs pageParam="userpage" />
-          <h1>
-            {language.lang_code.my_pages_my_pages} - {user?.given_name}
-          </h1>
+          <div className="d-flex justify-content-between align-items-start">
+            <h1>
+              {language.lang_code.my_pages_my_pages} - {user?.given_name}
+            </h1>
+            <BreadCrumbs pageParam="userpage" />
+          </div>
           <div
             className={
               isDesktop ? "column" : "d-flex flex-column align-items-center"
