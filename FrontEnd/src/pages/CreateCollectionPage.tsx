@@ -6,10 +6,12 @@ import { createCollection } from "../services/collectionServices";
 import { User, useAuth0 } from "@auth0/auth0-react";
 import { getSetFromApi } from "../services/pkmnApiServices";
 import { Link } from "react-router-dom";
+import { ThemeContext } from "../globals/theme";
 
 export const CreateCollectionPage = () => {
   const { isAuthenticated, user } = useAuth0();
   const { language } = useContext(LanguageContext);
+  const { theme } = useContext(ThemeContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const [collectionName, setCollectionName] = useState<string>("");
   const [isSetCollection, setIsSetCollection] = useState<boolean>(false);
@@ -171,11 +173,19 @@ export const CreateCollectionPage = () => {
           className="text-decoration-none"
           to={
             savedCollectionName.includes(" ")
-              ? `/collection/${savedCollectionName.replace(" ", "_")}`
+              ? `/collection/${savedCollectionName.replace(/ /g, "_")}`
               : `/collection/${savedCollectionName}`
           }
+          style={{
+            color: theme.primaryColors.link.hex,
+          }}
         >
-          <p>Collection created: {savedCollectionName}</p>
+          <p>
+            Collection created:{" "}
+            <span className="text-decoration-underline fst-italic">
+              {savedCollectionName}
+            </span>
+          </p>
         </Link>
       ) : null}
     </>

@@ -1,6 +1,5 @@
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
-import { FrontPageBtnCard } from "../components/FrontPageBtnCard";
 import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { LanguageContext } from "../globals/language/language";
@@ -14,13 +13,24 @@ import {
   getAllOwnedCollections,
 } from "../services/collectionServices";
 import { ICollectionFromDB } from "../interfaces/dataFromDB";
+import { getMostValuableCardFromApi } from "../services/pkmnApiServices";
+import { IPkmnCard } from "../interfaces/dataFromApi";
+import { BigPkmnCard } from "../components/BigPkmnCard";
 
 export const Home = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { language } = useContext(LanguageContext);
-  const { theme } = useContext(ThemeContext);
+  const { theme, changeColorMode } = useContext(ThemeContext);
   const { isLoading, isAuthenticated, user, error } = useAuth0();
   const [collections, setCollections] = useState<ICollectionFromDB[]>([]);
+  const [valuableCard, setValuableCard] = useState<IPkmnCard>();
+  const [lastOpenedCard, setLastOpenedCard] = useState<IPkmnCard>();
+  const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
+  const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
+
+  const changeShowPkmnInfo = () => {
+    setSeeBigCard(false);
+  };
   useEffect(() => {
     if (isAuthenticated && user) {
       const getData = async () => {
@@ -32,66 +42,375 @@ export const Home = () => {
       checkForMasterCollection(user);
     }
   }, [isAuthenticated, user]);
+
+  useEffect(() => {
+    const lastOpenedCard = localStorage.getItem("lastOpenedCard");
+    lastOpenedCard && setLastOpenedCard(JSON.parse(lastOpenedCard).card);
+
+    const savedValuableCard = localStorage.getItem("mostValuableCard");
+    savedValuableCard && setValuableCard(JSON.parse(savedValuableCard).card);
+
+    const date = new Date().getDate();
+    const month = new Date().getMonth() + 1;
+    const year = new Date().getFullYear();
+    const today = `${year}-${month}-${date}`;
+
+    const getData = async () => {
+      await getMostValuableCardFromApi(`normal`).then((res) => {
+        if (res) {
+          setValuableCard(res);
+          localStorage.setItem(
+            "mostValuableCard",
+            JSON.stringify({ card: res, savedOn: today })
+          );
+        }
+      });
+    };
+    if (savedValuableCard === null) {
+      getData();
+    } else {
+      const savedCard = JSON.parse(savedValuableCard);
+
+      if (savedCard.savedOn !== today) {
+        getData();
+      }
+    }
+  }, []);
+  const getTheme = () => {
+    const activeTheme = localStorage.getItem("activeTheme");
+
+    if (activeTheme === undefined) {
+      if (theme.name === "light") {
+        localStorage.setItem("activeTheme", "light");
+      } else {
+        localStorage.setItem("activeTheme", "dark");
+      }
+    } else {
+      if (activeTheme === "dark") {
+        changeColorMode("dark");
+      }
+    }
+  };
+  useEffect(() => {
+    getTheme();
+  }, []);
+
+  useEffect(() => {
+    if (theme.name === "light") {
+      localStorage.setItem("activeTheme", "light");
+    } else {
+      localStorage.setItem("activeTheme", "dark");
+    }
+  }, [theme.name]);
+
+  // const valueHTML = (cardInfo: IPkmnCard) => (
+  //   <>
+  //     {cardInfo.tcgplayer?.prices["1stEdition"]?.market ? (
+  //       <span>{cardInfo.tcgplayer?.prices["1stEdition"].market}$</span>
+  //     ) : null}
+  //     {cardInfo.tcgplayer?.prices["1stEditionHolofoil"]?.market ? (
+  //       <span>{cardInfo.tcgplayer?.prices["1stEditionHolofoil"].market}$</span>
+  //     ) : null}
+  //     {cardInfo.tcgplayer?.prices["1stEditionNormal"]?.market ? (
+  //       <span>{cardInfo.tcgplayer?.prices["1stEditionNormal"].market}$</span>
+  //     ) : null}
+  //     {cardInfo.tcgplayer?.prices.holofoil?.market ? (
+  //       <span>{cardInfo.tcgplayer?.prices.holofoil.market}$</span>
+  //     ) : null}
+  //     {cardInfo.tcgplayer?.prices.normal?.market ? (
+  //       <span>{cardInfo.tcgplayer?.prices.normal.market}$</span>
+  //     ) : null}
+  //     {cardInfo.tcgplayer?.prices.reverseHolofoil?.market ? (
+  //       <span>{cardInfo.tcgplayer?.prices.reverseHolofoil.market}$</span>
+  //     ) : null}
+  //     {cardInfo.tcgplayer?.prices.unlimited?.market ? (
+  //       <span>{cardInfo.tcgplayer?.prices.unlimited.market}$</span>
+  //     ) : null}
+  //     {cardInfo.tcgplayer?.prices.unlimitedHolofoil?.market ? (
+  //       <span>{cardInfo.tcgplayer?.prices.unlimitedHolofoil.market}$</span>
+  //     ) : null}
+  //   </>
+  // );
   return (
     <>
+      {seeBigCard ? (
+        <div
+          style={{
+            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.7)`,
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100vh",
+            position: "fixed",
+          }}
+          className="d-flex justify-content-center"
+          onClick={changeShowPkmnInfo}
+        >
+          <BigPkmnCard
+            card={undefined}
+            pkmnCard={infoPkmnCard}
+            changeShowPkmnInfo={changeShowPkmnInfo}
+          />
+        </div>
+      ) : null}
       <div
         id="homepage-container"
         className={
           isDesktop
-            ? "row my-1" //d-flex flex-row justify-content-around
-            : "column my-1" //row d-flex justify-content-center" //"d-flex flex-column justify-content-around align-items-center"
+            ? "row my-1 d-flex justify-content-around"
+            : "my-1 d-flex flex-column"
         }
       >
-        <FrontPageBtnCard
-          footer={
-            <Link className="text-decoration-none" to="./about">
-              <i>{language.lang_code.read_more}</i>
-            </Link>
+        {/* about column */}
+        <div
+          className={
+            isDesktop
+              ? isAuthenticated
+                ? "rounded px-3 py-2 mx-2 d-flex flex-column flex-fill"
+                : "rounded px-3 py-2 my-2 d-flex flex-column"
+              : "w-100 rounded px-4 py-3 my-2 d-flex flex-column"
           }
-          bkcolor={`${theme.primaryColors.cardBackground.hex}`}
+          style={
+            isDesktop
+              ? isAuthenticated
+                ? {
+                    width: "25%",
+                    backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                    minHeight: "85vh",
+                    height: "auto",
+                  }
+                : {
+                    width: "40%",
+                    backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                    minHeight: "85vh",
+                    height: "auto",
+                  }
+              : {
+                  backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                }
+          }
         >
-          <Link className="text-decoration-none" to="/about">
+          <Link
+            to="/about"
+            className="text-decoration-none"
+            style={{
+              color: theme.primaryColors.link.hex,
+            }}
+          >
             <h4 id="main-card-about-header">
               {language.lang_code.about_about_project}
             </h4>
           </Link>
           {isDesktop ? (
             <>
-              {/* <h5>{language.lang_code.about_exam}</h5> */}
               <p>{language.lang_code.about_description_exam}</p>
+
               <h5>{language.lang_code.word_purpose}</h5>
               <p>{language.lang_code.about_description_purpose}</p>
-              <h5>{language.lang_code.word_goal}</h5>
-              <p className="m-0">{language.lang_code.about_description_goal}</p>
+              {!isAuthenticated ? (
+                <>
+                  <h5>{language.lang_code.word_goal}</h5>
+                  <p className="m-0">
+                    {language.lang_code.about_description_goal}
+                  </p>{" "}
+                </>
+              ) : null}
             </>
           ) : (
             <>
-              {/* <h5>{language.lang_code.about_exam}</h5> */}
               <p className="m-0">{language.lang_code.about_description_exam}</p>
             </>
           )}
-        </FrontPageBtnCard>
-        <FrontPageBtnCard bkcolor={`${theme.primaryColors.cardBackground.hex}`}>
-          <Link className="text-decoration-none" to="/search">
+          <Link
+            to="./about"
+            className="mt-auto align-self-end"
+            style={{
+              color: theme.primaryColors.link.hex,
+            }}
+          >
+            <i>{language.lang_code.read_more}</i>
+          </Link>
+        </div>
+        {/* search column */}
+        <div
+          className={
+            isDesktop
+              ? "w-25 rounded px-4 py-3 mx-2 d-flex flex-column"
+              : "w-100 rounded px-4 py-3 my-2 d-flex flex-column"
+          }
+          style={
+            isDesktop
+              ? {
+                  backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                  minHeight: "85vh",
+                  height: "auto",
+                }
+              : {
+                  height: "auto",
+                  backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                }
+          }
+        >
+          <Link
+            to="/search"
+            className={"text-decoration-none mb-2"}
+            style={{
+              color: theme.primaryColors.link.hex,
+            }}
+          >
             <h4 id="main-card-search-header">
               {language.lang_code.word_search}
             </h4>
+            <span>You can search for all realeased english sets. </span>
+            {isDesktop ? (
+              <span>
+                If you are searching for a newly released set, it might not be
+                available yet.
+              </span>
+            ) : null}
           </Link>
-          <div>test</div>
-          <Link className="text-decoration-none" to="./search">
-            Go search now
-          </Link>
-        </FrontPageBtnCard>
+          <div className={isDesktop ? "" : "d-flex "}>
+            {lastOpenedCard ? (
+              <div
+                className={
+                  isDesktop
+                    ? "d-flex flex-column w-100"
+                    : "d-flex flex-column w-25 align-items-center flex-fill"
+                }
+              >
+                <h6 className={isDesktop ? "align-self-start" : "text-center"}>
+                  Your last searched card
+                </h6>
+                <div
+                  className={isDesktop ? "" : "d-flex justify-content-center"}
+                  style={isDesktop ? { width: "5.5rem" } : { width: "12.5rem" }}
+                  onClick={() => {
+                    setSeeBigCard(true);
+                    setInfoPkmnCard(lastOpenedCard);
+                  }}
+                >
+                  <img
+                    style={
+                      isDesktop
+                        ? { width: "100%" }
+                        : {
+                            width: "40%",
+                          }
+                    }
+                    src={lastOpenedCard.images.small}
+                    alt={lastOpenedCard.name}
+                  />
+                </div>
+                <p
+                  className={
+                    isDesktop
+                      ? "m-0"
+                      : "w-100 d-flex justify-content-evenly m-0"
+                  }
+                >
+                  <span>{lastOpenedCard.name}</span>
+                </p>
+                <span style={{ fontSize: "x-small" }}>
+                  Opened at: {lastOpenedCard.tcgplayer?.updatedAt}
+                </span>
+              </div>
+            ) : null}
+            {valuableCard ? (
+              <div
+                className={
+                  isDesktop
+                    ? "d-flex flex-column w-100"
+                    : "d-flex flex-column w-25 align-items-center flex-fill ms-3"
+                }
+              >
+                {isDesktop ? (
+                  <h6 className="align-self-start mt-3">
+                    Most valuable <i>normal</i> card
+                  </h6>
+                ) : (
+                  <h6 className="text-center">Today's valuable card</h6>
+                )}
 
-        <FrontPageBtnCard bkcolor={`${theme.primaryColors.cardBackground.hex}`}>
+                <div
+                  className={isDesktop ? "" : "d-flex justify-content-center"}
+                  style={isDesktop ? { width: "5.5rem" } : { width: "12.5rem" }}
+                  onClick={() => {
+                    setSeeBigCard(true);
+                    setInfoPkmnCard(valuableCard);
+                  }}
+                >
+                  <img
+                    style={
+                      isDesktop
+                        ? { width: "100%" }
+                        : {
+                            width: "40%",
+                          }
+                    }
+                    src={valuableCard.images.small}
+                    alt={valuableCard.name}
+                  />
+                </div>
+                <p
+                  className={
+                    isDesktop
+                      ? "m-0"
+                      : "w-100 d-flex justify-content-evenly m-0"
+                  }
+                >
+                  <span>{valuableCard.name}</span>
+                  <span className={isDesktop ? "ms-2" : ""}>
+                    {valuableCard.tcgplayer?.prices.normal?.market}$
+                  </span>
+                </p>
+                <span style={{ fontSize: "x-small" }}>
+                  Last updated at: {valuableCard.tcgplayer?.updatedAt}
+                </span>
+              </div>
+            ) : null}
+          </div>
+        </div>
+        {/* user column */}
+        <div
+          className={
+            isDesktop
+              ? isAuthenticated
+                ? "rounded px-4 py-3 mx-2 d-flex "
+                : "rounded px-4 py-3 mx-2 d-flex h-auto"
+              : "w-100 rounded px-4 py-3 my-2 d-flex flex-row"
+          }
+          style={
+            isAuthenticated
+              ? {
+                  width: "40%",
+                  backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                }
+              : {
+                  width: "25%",
+                  backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                }
+          }
+        >
           {error && <p>Error with authentication</p>}
           {!error && isLoading ? (
             <LoadingModule />
           ) : (
             <>
               {isAuthenticated ? (
-                <>
-                  <Link className="text-decoration-none" to="/userpage">
+                <div
+                  className={
+                    isDesktop
+                      ? "d-flex flex-column h-100 w-100"
+                      : "d-flex flex-column w-100"
+                  }
+                >
+                  <Link
+                    to="/userpage"
+                    className="text-decoration-none"
+                    style={{
+                      color: theme.primaryColors.link.hex,
+                    }}
+                  >
                     <h4 id="main-card-account-header-user">{`Welcome, ${user?.given_name}!`}</h4>
                   </Link>
 
@@ -107,19 +426,32 @@ export const Home = () => {
                   ) : (
                     <>Something went wrong</>
                   )}
-                </>
+                  <Link
+                    className={
+                      isDesktop
+                        ? "mt-auto align-self-end mb-2 me-2"
+                        : "align-self-end mb-2 me-2"
+                    }
+                    to="/all-collections"
+                    style={{
+                      color: theme.primaryColors.link.hex,
+                    }}
+                  >
+                    <i> {language.lang_code.my_pages_see_all_collections}</i>
+                  </Link>
+                </div>
               ) : (
-                <>
+                <div className="">
                   <h4 id="main-card-account-header">
                     {language.lang_code.word_account}
                   </h4>
                   <p>{language.lang_code.account_description}</p>
                   <LoginBtn />
-                </>
+                </div>
               )}
             </>
           )}
-        </FrontPageBtnCard>
+        </div>
       </div>
     </>
   );

@@ -46,8 +46,13 @@ export async function deleteCollectionById(req, res) {
     const result = await pool.query(
       `DELETE FROM collections
   WHERE id = ? AND user_auth0_id = ?`,
-      [req.body.collectionId, req.body.user_auth0_id]
+      [req.body.id, req.body.user_auth0_id]
     );
+    if (result.affectedRows > 0) {
+      return res.send(result.affectedRows);
+    } else {
+      return res.send(result.affectedRows);
+    }
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Internal Server Error" });

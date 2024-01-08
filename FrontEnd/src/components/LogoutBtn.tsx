@@ -8,7 +8,7 @@ export const LogoutBtn = () => {
   return (
     <>
       {isAuthenticated && (
-        <button className="btn m-2" onClick={() => logout()}>
+        <button className="btn m-2 border" onClick={() => logout()}>
           {language.lang_code.account_logout}
         </button>
       )}

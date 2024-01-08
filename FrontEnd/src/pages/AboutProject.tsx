@@ -4,6 +4,7 @@ import { FrontPageBtnCard } from "../components/FrontPageBtnCard";
 import { ThemeContext } from "../globals/theme";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
+import { BreadCrumbs } from "./layout/BreadCrumbs";
 
 export const AboutProject = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
@@ -11,14 +12,13 @@ export const AboutProject = () => {
   const { theme } = useContext(ThemeContext);
   return (
     <>
-      <h2>{language.lang_code.about_about_project}</h2>
+      <div className="d-flex justify-content-between align-items-start">
+        <h2>{language.lang_code.about_about_project}</h2>
+        <BreadCrumbs pageParam="about" />
+      </div>
       <div
         id="about-container"
-        className={
-          isDesktop
-            ? "row my-1" //d-flex flex-row justify-content-around
-            : "column my-1" //"d-flex flex-column justify-content-around align-items-center"
-        }
+        className={isDesktop ? "row my-1" : "column my-1"}
       >
         <FrontPageBtnCard bkcolor={`${theme.primaryColors.cardBackground.hex}`}>
           <h5 id="about-card-examprj-header">

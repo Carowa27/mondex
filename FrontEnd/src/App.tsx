@@ -4,6 +4,7 @@ import { ThemeContext, colorModes } from "./globals/theme";
 import { useState } from "react";
 import { LanguageContext, lang } from "./globals/language/language";
 import {
+  IColorMode,
   ILanguageContext,
   IThemeContext,
 } from "./interfaces/contextInterfaces";
@@ -20,7 +21,7 @@ function App() {
     },
   });
   theme.changeColorMode = (wantedColorMode: string) => {
-    let active = colorModes.Light;
+    let active: IColorMode = colorModes.Light;
     if (wantedColorMode === "light") {
       active = colorModes.Light;
     } else {
@@ -44,14 +45,6 @@ function App() {
     }
     setLanguage({ ...language, language: active });
   };
-
-  // useEffect(() => {
-  //   const getToken = async () => {
-  //     const token = isAuthenticated ? await getAccessTokenSilently() : "";
-  //     setBearerToken(token);
-  //   };
-  //   getToken();
-  // }, [getAccessTokenSilently, isAuthenticated]);
 
   return (
     <>

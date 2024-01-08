@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../globals/theme";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { ICardFromDB } from "../interfaces/dataFromDB";
@@ -15,25 +15,22 @@ import { BigPkmnCard } from "./BigPkmnCard";
 import { SwapCollectionPopUp } from "./SwapCollectionPopUp";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
+import { DeleteCardPopUp } from "./DeleteCardPopUp";
 
 interface IProps {
   card?: ICardFromDB;
   cardFromApi?: IPkmnCard;
   collectionName: string;
-  changeShowWarning: () => void;
   cardList: ICardFromDB[];
   getData: () => void;
-  changeCardToDelete: (card: ICardFromDB) => void;
 }
 
 export const SmallPkmnCard = ({
   card,
   cardFromApi,
   collectionName,
-  changeShowWarning,
   getData,
   cardList,
-  changeCardToDelete,
 }: IProps) => {
   const { theme } = useContext(ThemeContext);
   // const { language } = useContext(LanguageContext);
@@ -45,10 +42,12 @@ export const SmallPkmnCard = ({
   const [hoverInfoBtn, setHoverInfoBtn] = useState<boolean>(false);
   const [hoverSwapBtn, setHoverSwapBtn] = useState<boolean>(false);
   const [showSwapCollection, setShowSwapCollection] = useState<boolean>(false);
+  const [showDeleteCard, setShowDeleteCard] = useState<boolean>(false);
   const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
   const [infoCard, setInfoCard] = useState<ICardFromDB>();
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
   const [cardToSwap, setCardToSwap] = useState<ICardFromDB>();
+  const [cardToDelete, setCardToDelete] = useState<ICardFromDB>();
 
   const handleSwap = (
     card: ICardFromDB | undefined,
@@ -71,8 +70,8 @@ export const SmallPkmnCard = ({
       if (card !== undefined && user) {
         if (card.amount !== 0) {
           if (card.amount === 1) {
-            changeShowWarning();
-            changeCardToDelete(card);
+            setShowDeleteCard(true);
+            setCardToDelete(card);
           } else {
             subAmountOnCard({ user, card });
           }
@@ -82,8 +81,8 @@ export const SmallPkmnCard = ({
       if (card !== undefined && user) {
         if (card.amount !== 0) {
           if (card.amount === 1) {
-            changeShowWarning();
-            changeCardToDelete(card);
+            setShowDeleteCard(true);
+            setCardToDelete(card);
           } else {
             subAmountOnCard({ user, card });
           }
@@ -124,6 +123,9 @@ export const SmallPkmnCard = ({
   const changeShowSwapPopUp = () => {
     setShowSwapCollection(false);
   };
+  const changeShowDeleteCardPopUp = () => {
+    setShowDeleteCard(false);
+  };
   const saveCardToGetInfoOn = (
     card: ICardFromDB | undefined,
     pkmnCard: IPkmnCard | undefined
@@ -135,28 +137,79 @@ export const SmallPkmnCard = ({
       setInfoPkmnCard(pkmnCard);
     }
   };
+
   return (
     <>
+      {showDeleteCard ? (
+        <div
+          style={{
+            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.7)`,
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100vh",
+            position: "fixed",
+            zIndex: "400",
+          }}
+          className="d-flex justify-content-center align-items-center"
+          onClick={changeShowDeleteCardPopUp}
+        >
+          <DeleteCardPopUp
+            changeShowDeleteCardPopUp={changeShowDeleteCardPopUp}
+            cardToDelete={cardToDelete}
+            collectionName={collectionName}
+            updateData={updateData}
+          ></DeleteCardPopUp>
+        </div>
+      ) : null}
       {showSwapCollection ? (
-        <SwapCollectionPopUp
-          changeShowSwapPopUp={changeShowSwapPopUp}
-          cardToSwap={cardToSwap}
-          collectionName={collectionName}
-          updateData={updateData}
-        ></SwapCollectionPopUp>
+        <div
+          style={{
+            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.7)`,
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100vh",
+            position: "fixed",
+            zIndex: "400",
+          }}
+          className="d-flex justify-content-center align-items-center"
+          onClick={changeShowPkmnInfo}
+        >
+          <SwapCollectionPopUp
+            changeShowSwapPopUp={changeShowSwapPopUp}
+            cardToSwap={cardToSwap}
+            collectionName={collectionName}
+            updateData={updateData}
+          ></SwapCollectionPopUp>
+        </div>
       ) : null}
       {seeBigCard ? (
-        <BigPkmnCard
-          card={infoCard}
-          pkmnCard={infoPkmnCard}
-          changeShowPkmnInfo={changeShowPkmnInfo}
-        />
+        <div
+          style={{
+            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.7)`,
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100vh",
+            position: "fixed",
+            zIndex: "400",
+          }}
+          className="d-flex justify-content-center align-items-center"
+          onClick={changeShowPkmnInfo}
+        >
+          <BigPkmnCard
+            card={infoCard}
+            pkmnCard={infoPkmnCard}
+            changeShowPkmnInfo={changeShowPkmnInfo}
+          />
+        </div>
       ) : null}
       {card !== undefined && cardFromApi === undefined ? (
         <div
           style={{
             aspectRatio: "3/4",
-            width: "12.5rem",
+            width: isDesktop ? "12.5rem" : "10rem",
           }}
           onMouseEnter={() => setShowCardAlternatives(card.api_card_id)}
           onMouseLeave={() => setShowCardAlternatives("")}
@@ -172,7 +225,7 @@ export const SmallPkmnCard = ({
                       position: "absolute",
                       color: `${theme.primaryColors.text.hex}`,
                       aspectRatio: "3/4",
-                      width: "12.5rem",
+                      width: isDesktop ? "12.5rem" : "10rem",
                       fontSize: "20pt",
                       alignItems: "end",
                     }
@@ -288,8 +341,8 @@ export const SmallPkmnCard = ({
               position: "absolute",
               color: `${theme.primaryColors.text.hex}`,
               aspectRatio: "auto",
-              width: "13.2rem",
-              height: "18.2rem",
+              width: isDesktop ? "13.2rem" : "10.5rem",
+              height: isDesktop ? "18.2rem" : "14.5rem",
               fontSize: "16px",
               alignItems: "end",
               justifyContent: "end",
@@ -298,8 +351,8 @@ export const SmallPkmnCard = ({
             <span
               style={{
                 backgroundColor: `${theme.primaryColors.white.hex}`,
-                width: "40px",
-                height: "40px",
+                width: isDesktop ? "40px" : "30px",
+                height: isDesktop ? "40px" : "30px",
               }}
               className="rounded-circle d-flex align-items-center justify-content-center"
             >
@@ -331,11 +384,11 @@ export const SmallPkmnCard = ({
           onMouseEnter={() => setShowCardAlternatives(cardFromApi.id)}
           onMouseLeave={() => setShowCardAlternatives("")}
         >
-          {showCardAlternatives && isAuthenticated ? (
+          {(showCardAlternatives && isAuthenticated) || !isDesktop ? (
             <div
               className="px-2 py-3"
               style={
-                showCardAlternatives === cardFromApi.id
+                showCardAlternatives === cardFromApi.id || !isDesktop
                   ? {
                       display: "flex",
                       zIndex: 300,
@@ -378,54 +431,60 @@ export const SmallPkmnCard = ({
                 >
                   <i title="add amount" className="bi bi-plus m-0 p-0"></i>
                 </span>
-                <span
-                  style={
-                    hoverMinusBtn
-                      ? {
-                          backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
-                          width: "1.7rem",
-                          height: "1.7rem",
-                        }
-                      : {
-                          backgroundColor: `${theme.primaryColors.border.hex}`,
-                          width: "1.7rem",
-                          height: "1.7rem",
-                        }
-                  }
-                  className="rounded-circle d-flex align-items-center justify-content-center"
-                  onMouseEnter={() => setHoverMinusBtn(true)}
-                  onMouseLeave={() => setHoverMinusBtn(false)}
-                  onClick={() => subAmount(cardFromApi)}
-                >
-                  <i title="subtract amount" className="bi bi-dash m-0 p-0"></i>
-                </span>
                 {cardList.find(
                   (cardFromDb) => cardFromDb.api_card_id === cardFromApi.id
                 ) ? (
-                  <span
-                    style={
-                      hoverSwapBtn
-                        ? {
-                            backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
-                            width: "1.7rem",
-                            height: "1.7rem",
-                          }
-                        : {
-                            backgroundColor: `${theme.primaryColors.border.hex}`,
-                            width: "1.7rem",
-                            height: "1.7rem",
-                          }
-                    }
-                    className="rounded-circle d-flex align-items-center justify-content-center"
-                    onMouseEnter={() => setHoverSwapBtn(true)}
-                    onMouseLeave={() => setHoverSwapBtn(false)}
-                    onClick={() => handleSwap(card, cardFromApi)}
-                  >
-                    <i
-                      title="swap collection"
-                      className="bi bi-arrow-left-right fs-5"
-                    ></i>
-                  </span>
+                  <>
+                    <span
+                      style={
+                        hoverMinusBtn
+                          ? {
+                              backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                              width: "1.7rem",
+                              height: "1.7rem",
+                            }
+                          : {
+                              backgroundColor: `${theme.primaryColors.border.hex}`,
+                              width: "1.7rem",
+                              height: "1.7rem",
+                            }
+                      }
+                      className="rounded-circle d-flex align-items-center justify-content-center"
+                      onMouseEnter={() => setHoverMinusBtn(true)}
+                      onMouseLeave={() => setHoverMinusBtn(false)}
+                      onClick={() => subAmount(cardFromApi)}
+                    >
+                      <i
+                        title="subtract amount"
+                        className="bi bi-dash m-0 p-0"
+                      ></i>
+                    </span>
+
+                    <span
+                      style={
+                        hoverSwapBtn
+                          ? {
+                              backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                              width: "1.7rem",
+                              height: "1.7rem",
+                            }
+                          : {
+                              backgroundColor: `${theme.primaryColors.border.hex}`,
+                              width: "1.7rem",
+                              height: "1.7rem",
+                            }
+                      }
+                      className="rounded-circle d-flex align-items-center justify-content-center"
+                      onMouseEnter={() => setHoverSwapBtn(true)}
+                      onMouseLeave={() => setHoverSwapBtn(false)}
+                      onClick={() => handleSwap(card, cardFromApi)}
+                    >
+                      <i
+                        title="swap collection"
+                        className="bi bi-arrow-left-right fs-5"
+                      ></i>
+                    </span>
+                  </>
                 ) : null}
 
                 <span

@@ -9,7 +9,7 @@ export const LoginBtn = () => {
     <>
       {!isAuthenticated && (
         <button
-          className="btn m-2 mw-50 d-flex align-self-center justify-content-center"
+          className="btn m-2 mw-50 d-flex align-self-center justify-content-center border"
           onClick={() => loginWithRedirect()}
         >
           {language.lang_code.account_create_account}/

@@ -3,40 +3,35 @@ import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { ThemeContext } from "../../globals/theme";
 import { useContext } from "react";
-import styled from "styled-components";
 
 export const Layout = () => {
   const { theme } = useContext(ThemeContext);
 
-  const MainStyle = styled.div`
-    color: ${theme.primaryColors.text.hex};
-    background-color: ${theme.primaryColors.background.hex};
-    overflow-y: hidden;
-    overflow-x: hidden;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    &::-webkit-scrollbar {
-      display: none;
-    }
-    a {
-      color: ${theme.primaryColors.link.hex};
-    }
-  `;
+  // html,
+  // body {
+  //   -ms-overflow-style: none;
+  //   scrollbar-width: none;
+  //   &::-webkit-scrollbar {
+  //     display: none;
+  //   }
+  // }
 
   return (
-    <MainStyle>
-      <div
-        style={{
-          minHeight: "100vh",
-        }}
-        className="d-flex flex-column p-2"
-      >
-        <Header></Header>
-        <main className="mx-2">
-          <Outlet></Outlet>
-        </main>
-        <Footer></Footer>
-      </div>
-    </MainStyle>
+    <div
+      style={{
+        minHeight: "100vh",
+        color: theme.primaryColors.text.hex,
+        backgroundColor: theme.primaryColors.background.hex,
+        overflowY: "hidden",
+        overflowX: "hidden",
+      }}
+      className="d-flex flex-column p-2"
+    >
+      <Header />
+      <main className="mx-2">
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
   );
 };

@@ -8,16 +8,10 @@ import { LoadingModule } from "../components/LoadingModule";
 import { User, useAuth0 } from "@auth0/auth0-react";
 import { ThemeContext } from "../globals/theme";
 import { createCard } from "../services/cardServices";
-import { SmallPkmnCard } from "../components/SmallPkmnCard";
 import { BigPkmnCard } from "../components/BigPkmnCard";
 import { ChooseCollectionPopUp } from "../components/ChooseCollectionPopUp";
 import { Pagination } from "./layout/Pagination";
-
-interface ICreateCardProps {
-  user: User;
-  cardFromApi: IPkmnCard;
-  // collectionName: string;
-}
+import { getAllOwnedCollections } from "../services/collectionServices";
 
 export const Search = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
@@ -27,13 +21,13 @@ export const Search = () => {
   const [searchValue, setSearchValue] = useState<string>("");
   const [searchParam, setSearchParam] = useState<string>("pkmn");
   const [pkmnList, setPkmnList] = useState<IPkmnCard[]>([]);
-  // const [setList, setSetList] = useState<IPkmnSet[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [noHits, setNoHits] = useState<boolean>(false);
   const [showCardAlternatives, setShowCardAlternatives] = useState<string>("");
-  const [hoverBtn, setHoverBtn] = useState<boolean>(false);
+  const [hoverAddBtn, setHoverAddBtn] = useState<boolean>(false);
   const [hoverInfoBtn, setHoverInfoBtn] = useState<boolean>(false);
   const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
+  const [seeCreatedCard, setSeeCreatedCard] = useState<boolean>(false);
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
   const [showChooseAddCardPopup, setShowChooseAddCardPopup] =
     useState<boolean>(false);
@@ -47,6 +41,25 @@ export const Search = () => {
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
     setPkmnList([]);
+  };
+  const handleAddCardToCollection = async (cardFromApi: IPkmnCard) => {
+    if (user) {
+      const collections = await getAllOwnedCollections({ user });
+      if (collections.length > 1) {
+        setShowChooseAddCardPopup(true);
+      } else {
+        if (cardFromApi) {
+          createCard({
+            user,
+            collectionName: "Master_Collection",
+            cardFromApi,
+          }).then(() => {
+            setSeeCreatedCard(true),
+              setTimeout(() => setSeeCreatedCard(false), 800);
+          });
+        }
+      }
+    }
   };
   const searchWithPkmnApi = async (
     searchParam: string,
@@ -120,22 +133,75 @@ export const Search = () => {
     setIsLoading(true);
   };
   useEffect(() => {
-    searchWithPkmnApi(searchParam, searchValue);
+    if (pageInfo && page !== pageInfo.page && pageInfo.page !== undefined) {
+      searchWithPkmnApi(searchParam, searchValue);
+    }
   }, [page]);
+
   return (
     <>
+      {seeCreatedCard ? (
+        <div
+          style={{
+            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.3)`,
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100vh",
+            position: "fixed",
+            zIndex: 400,
+          }}
+          className="d-flex justify-content-end align-items-end"
+        >
+          <div
+            className="d-flex justify-content-center align-items-center py-2 px-3 my-3 mx-2 rounded"
+            style={{
+              backgroundColor: `rgba(${theme.primaryColors.white.rgb})`,
+            }}
+          >
+            Card Added to collection
+          </div>
+        </div>
+      ) : null}
       {showChooseAddCardPopup ? (
-        <ChooseCollectionPopUp
-          changeShowAddCardPopup={changeShowAddCardPopup}
-          cardToAdd={infoPkmnCard!}
-        ></ChooseCollectionPopUp>
+        <div
+          style={{
+            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.7)`,
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100vh",
+            position: "fixed",
+            zIndex: "400",
+          }}
+          className="d-flex justify-content-center align-items-center"
+        >
+          <ChooseCollectionPopUp
+            changeShowAddCardPopup={changeShowAddCardPopup}
+            cardToAdd={infoPkmnCard!}
+          ></ChooseCollectionPopUp>
+        </div>
       ) : null}
       {seeBigCard ? (
-        <BigPkmnCard
-          card={undefined}
-          pkmnCard={infoPkmnCard}
-          changeShowPkmnInfo={changeShowPkmnInfo}
-        />
+        <div
+          style={{
+            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.7)`,
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100vh",
+            position: "fixed",
+            zIndex: 400,
+          }}
+          className="d-flex justify-content-center align-items-center"
+          onClick={changeShowPkmnInfo}
+        >
+          <BigPkmnCard
+            card={undefined}
+            pkmnCard={infoPkmnCard}
+            changeShowPkmnInfo={changeShowPkmnInfo}
+          />
+        </div>
       ) : null}
       <h2 id="search-header">{language.lang_code.word_search}</h2>
       <form id="search-form" onSubmit={handleSubmit}>
@@ -156,7 +222,7 @@ export const Search = () => {
                   id="search_text"
                   value={searchValue}
                   onChange={handleSearchChange}
-                  className="rounded" //"input-group-text"
+                  className="rounded"
                 />
               </label>
             </div>
@@ -213,7 +279,13 @@ export const Search = () => {
         {!isLoading ? (
           <>
             {noHits ? (
-              <>Got no hits, you have any type errors?</>
+              <>
+                <p> Got no hits, you have any type errors? </p>
+                <p>
+                  If you are searching for a newly released set, it might not be
+                  available yet.
+                </p>
+              </>
             ) : (
               <>
                 {pkmnList.length !== 0 ? (
@@ -249,8 +321,7 @@ export const Search = () => {
                               width: "12.5rem",
                             }}
                           >
-                            {(showCardAlternatives && isAuthenticated) ||
-                            !isDesktop ? (
+                            {showCardAlternatives || !isDesktop ? (
                               <div
                                 style={
                                   showCardAlternatives === cardFromApi.id ||
@@ -276,31 +347,33 @@ export const Search = () => {
                                     padding: "0.3rem",
                                   }}
                                 >
-                                  <span
-                                    style={
-                                      hoverBtn
-                                        ? {
-                                            backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
-                                            width: "25px",
-                                            height: "25px",
-                                          }
-                                        : {
-                                            backgroundColor: `${theme.primaryColors.border.hex}`,
-                                            width: "25px",
-                                            height: "25px",
-                                          }
-                                    }
-                                    className="rounded-circle d-flex align-items-center justify-content-center"
-                                    onMouseEnter={() => setHoverBtn(true)}
-                                    onMouseLeave={() => setHoverBtn(false)}
-                                    title="add card"
-                                    onClick={() => {
-                                      setShowChooseAddCardPopup(true);
-                                      setInfoPkmnCard(cardFromApi);
-                                    }}
-                                  >
-                                    <i className="bi bi-plus m-0 p-0"></i>
-                                  </span>
+                                  {isAuthenticated ? (
+                                    <span
+                                      style={
+                                        hoverAddBtn
+                                          ? {
+                                              backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                                              width: "25px",
+                                              height: "25px",
+                                            }
+                                          : {
+                                              backgroundColor: `${theme.primaryColors.border.hex}`,
+                                              width: "25px",
+                                              height: "25px",
+                                            }
+                                      }
+                                      className="rounded-circle d-flex align-items-center justify-content-center"
+                                      onMouseEnter={() => setHoverAddBtn(true)}
+                                      onMouseLeave={() => setHoverAddBtn(false)}
+                                      title="add card"
+                                      onClick={() => {
+                                        handleAddCardToCollection(cardFromApi),
+                                          setInfoPkmnCard(cardFromApi);
+                                      }}
+                                    >
+                                      <i className="bi bi-plus m-0 p-0"></i>
+                                    </span>
+                                  ) : null}
                                   <span
                                     style={
                                       hoverInfoBtn

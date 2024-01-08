@@ -7,6 +7,7 @@ import { SmallPkmnCard } from "./SmallPkmnCard";
 import { getCardFromApi } from "../services/pkmnApiServices";
 import { variables } from "../globals/variables";
 import { useMediaQuery } from "react-responsive";
+import { spawn } from "child_process";
 
 interface IProps {
   card: ICardFromDB | undefined;
@@ -33,24 +34,105 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
     }
   }, [card, pkmnCard]);
 
+  useEffect(() => {
+    const date = new Date().getDate();
+    const month = new Date().getMonth() + 1;
+    const year = new Date().getFullYear();
+    const today = `${year}-${month}-${date}`;
+
+    if (pkmnCard && window.location.href.includes(`/search`)) {
+      localStorage.setItem(
+        "lastOpenedCard",
+        JSON.stringify({ card: pkmnCard, searched: today })
+      );
+    }
+  }, [pkmnCard]);
+
+  const valueHTML = (cardInfo: IPkmnCard) => (
+    <>
+      <h5>Market Value</h5>
+      <h6>TCG Player</h6>
+      {cardInfo.tcgplayer?.prices["1stEdition"]?.market ? (
+        <BigCardInfoRow>
+          <span>1st Edition: </span>
+          <span>{cardInfo.tcgplayer?.prices["1stEdition"].market}$</span>
+        </BigCardInfoRow>
+      ) : null}
+      {cardInfo.tcgplayer?.prices["1stEditionHolofoil"]?.market ? (
+        <BigCardInfoRow>
+          <span>1st Edition Holofoil: </span>
+          <span>
+            {cardInfo.tcgplayer?.prices["1stEditionHolofoil"].market}$
+          </span>
+        </BigCardInfoRow>
+      ) : null}
+      {cardInfo.tcgplayer?.prices["1stEditionNormal"]?.market ? (
+        <BigCardInfoRow>
+          <span>1st Edition Normal: </span>
+          <span>{cardInfo.tcgplayer?.prices["1stEditionNormal"].market}$</span>
+        </BigCardInfoRow>
+      ) : null}
+      {cardInfo.tcgplayer?.prices.holofoil?.market ? (
+        <BigCardInfoRow>
+          <span>Holofoil: </span>
+          <span>{cardInfo.tcgplayer?.prices.holofoil.market}$</span>
+        </BigCardInfoRow>
+      ) : null}
+      {cardInfo.tcgplayer?.prices.normal?.market ? (
+        <BigCardInfoRow>
+          <span>Normal: </span>
+          <span>{cardInfo.tcgplayer?.prices.normal.market}$</span>
+        </BigCardInfoRow>
+      ) : null}
+      {cardInfo.tcgplayer?.prices.reverseHolofoil?.market ? (
+        <BigCardInfoRow>
+          <span>Reverse Holofoil: </span>
+          <span>{cardInfo.tcgplayer?.prices.reverseHolofoil.market}$</span>
+        </BigCardInfoRow>
+      ) : null}
+      {cardInfo.tcgplayer?.prices.unlimited?.market ? (
+        <BigCardInfoRow>
+          <span>Unlimited: </span>
+          <span>{cardInfo.tcgplayer?.prices.unlimited.market}$</span>
+        </BigCardInfoRow>
+      ) : null}
+      {cardInfo.tcgplayer?.prices.unlimitedHolofoil?.market ? (
+        <BigCardInfoRow>
+          <span>Unlimited Holofoil: </span>
+          <span>{cardInfo.tcgplayer?.prices.unlimitedHolofoil.market}$</span>
+        </BigCardInfoRow>
+      ) : null}
+      <h6 className="pt-3">CardMarket</h6>
+      {cardInfo.cardmarket.prices.averageSellPrice ? (
+        <BigCardInfoRow>
+          <span>Normal: </span>
+          <span>{cardInfo.cardmarket.prices.averageSellPrice}$</span>
+        </BigCardInfoRow>
+      ) : null}
+      {cardInfo.cardmarket.prices.reverseHoloSell ? (
+        <BigCardInfoRow>
+          <span>Reverse Holofoil: </span>
+          <span>{cardInfo.cardmarket.prices.reverseHoloSell}$</span>
+        </BigCardInfoRow>
+      ) : null}
+    </>
+  );
+
   const BigCardContainer = styled.div`
-    height: 60vh;
+    height: ${isDesktop ? "60vh" : "fit-content"};
     width: 80vw;
     min-width: fit-content;
     min-height: fit-content;
     padding: 0 2rem 2rem 2rem;
     z-index: 500;
     position: fixed;
-    top: 20vh;
-    left: 10vw;
     background-color: ${theme.primaryColors.white.hex};
     border-radius: 0.5rem;
+    margin: 0 2rem;
 
     @media (${variables.breakpoints.desktop}) {
       height: 80vh;
       width: 50vw;
-      top: 10vh;
-      left: 25vw;
     }
   `;
   const BigCardHeader = styled.header`
@@ -99,7 +181,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
   `;
   const BigCardValueContainer = styled.div`
     border: solid 1px grey;
-    margin-top: auto;
+    margin-top: ${isDesktop ? "auto" : "1rem"};
     margin-bottom: 0%.5;
     padding: 1rem 2rem;
     border: 3px solid goldenrod;
@@ -107,6 +189,8 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
   `;
   const NationalDex = styled.span`
     font-size: x-small;
+    display: flex;
+    justify-content: end;
   `;
   const BigCardLegalities = styled.div``;
   return (
@@ -121,10 +205,17 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
             <>
               <BigCardInfoHeader>
                 <h4>{cardInfo.name}</h4>{" "}
-                <NationalDex>
-                  NationalDex: {cardInfo.nationalPokedexNumbers}
-                </NationalDex>
               </BigCardInfoHeader>
+              <BigCardInfoRow>
+                {cardInfo.nationalPokedexNumbers ? (
+                  <NationalDex>
+                    NationalDex:{" "}
+                    {cardInfo.nationalPokedexNumbers.map((nr) => (
+                      <span>{nr}</span>
+                    ))}
+                  </NationalDex>
+                ) : null}
+              </BigCardInfoRow>
               <BigCardInfoRow>
                 <span>Artist: </span>
                 <span>{cardInfo.artist}</span>
@@ -133,6 +224,10 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
                 <span>Set: </span>
                 <span>{cardInfo.set.name}</span>
                 <span>Nr: {cardInfo.number}</span>
+              </BigCardInfoRow>
+              <BigCardInfoRow>
+                <span>Release date: </span>
+                <span>{cardInfo.set.releaseDate}</span>
               </BigCardInfoRow>
               <BigCardInfoRow>
                 <span>Rarity: </span>
@@ -160,79 +255,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
                 )}
               </BigCardLegalities>
               <BigCardValueContainer>
-                <h5>Market Value</h5>
-                <h6>TCG Player</h6>
-                {cardInfo.tcgplayer?.prices["1stEdition"] ? (
-                  <BigCardInfoRow>
-                    <span>1st Edition: </span>
-                    <span>
-                      {cardInfo.tcgplayer?.prices["1stEdition"].market}$
-                    </span>
-                  </BigCardInfoRow>
-                ) : null}
-                {cardInfo.tcgplayer?.prices["1stEditionHolofoil"] ? (
-                  <BigCardInfoRow>
-                    <span>1st Edition Holofoil: </span>
-                    <span>
-                      {cardInfo.tcgplayer?.prices["1stEditionHolofoil"].market}$
-                    </span>
-                  </BigCardInfoRow>
-                ) : null}
-                {cardInfo.tcgplayer?.prices["1stEditionNormal"] ? (
-                  <BigCardInfoRow>
-                    <span>1st Edition Normal: </span>
-                    <span>
-                      {cardInfo.tcgplayer?.prices["1stEditionNormal"].market}$
-                    </span>
-                  </BigCardInfoRow>
-                ) : null}
-                {cardInfo.tcgplayer?.prices.holofoil ? (
-                  <BigCardInfoRow>
-                    <span>Holofoil: </span>
-                    <span>{cardInfo.tcgplayer?.prices.holofoil.market}$</span>
-                  </BigCardInfoRow>
-                ) : null}
-                {cardInfo.tcgplayer?.prices.normal ? (
-                  <BigCardInfoRow>
-                    <span>Normal: </span>
-                    <span>{cardInfo.tcgplayer?.prices.normal.market}$</span>
-                  </BigCardInfoRow>
-                ) : null}
-                {cardInfo.tcgplayer?.prices.reverseHolofoil ? (
-                  <BigCardInfoRow>
-                    <span>Reverse Holofoil: </span>
-                    <span>
-                      {cardInfo.tcgplayer?.prices.reverseHolofoil.market}$
-                    </span>
-                  </BigCardInfoRow>
-                ) : null}
-                {cardInfo.tcgplayer?.prices.unlimited ? (
-                  <BigCardInfoRow>
-                    <span>Unlimited: </span>
-                    <span>{cardInfo.tcgplayer?.prices.unlimited.market}$</span>
-                  </BigCardInfoRow>
-                ) : null}
-                {cardInfo.tcgplayer?.prices.unlimitedHolofoil ? (
-                  <BigCardInfoRow>
-                    <span>Unlimited Holofoil: </span>
-                    <span>
-                      {cardInfo.tcgplayer?.prices.unlimitedHolofoil.market}$
-                    </span>
-                  </BigCardInfoRow>
-                ) : null}
-                <h6 className="pt-3">CardMarket</h6>
-                {cardInfo.cardmarket.prices.averageSellPrice ? (
-                  <BigCardInfoRow>
-                    <span>Normal: </span>
-                    <span>{cardInfo.cardmarket.prices.averageSellPrice}$</span>
-                  </BigCardInfoRow>
-                ) : null}
-                {cardInfo.cardmarket.prices.reverseHoloSell ? (
-                  <BigCardInfoRow>
-                    <span>Reverse Holofoil: </span>
-                    <span>{cardInfo.cardmarket.prices.reverseHoloSell}$</span>
-                  </BigCardInfoRow>
-                ) : null}
+                {valueHTML(cardInfo)}
               </BigCardValueContainer>
             </>
           )}

@@ -12,14 +12,12 @@ import { addCard } from "../services/cardServices";
 interface IProps {
   changeShowAddCardPopup: () => void;
   cardToAdd: IPkmnCard;
-  // updateData: () => void;
 }
 
 export const ChooseCollectionPopUp = ({
   changeShowAddCardPopup,
   cardToAdd,
-}: // updateData,
-IProps) => {
+}: IProps) => {
   const { theme } = useContext(ThemeContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { user, isAuthenticated } = useAuth0();
@@ -39,7 +37,6 @@ IProps) => {
 
   useEffect(() => {
     getCollections();
-    // updateData();
   }, []);
 
   const handleChangeOnRadioBtn = (event: ChangeEvent<HTMLInputElement>) => {
@@ -48,19 +45,21 @@ IProps) => {
   };
 
   const handleSubmitToAddCard = async () => {
-    const collection_name = selectedCollectionName!;
-    if (isAuthenticated && user) {
-      await addCard({ user, cardToAdd, collection_name });
+    if (cardToAdd && user && selectedCollectionName) {
+      await addCard({
+        user,
+        cardToAdd,
+        collection_name: selectedCollectionName,
+      });
     }
 
     setTimeout(() => {
-      //     updateData();
       changeShowAddCardPopup();
     }, 100);
   };
 
   const SwapContainer = styled.div`
-    height: 60vh;
+    height: fit-content; //60vh;
     width: 80vw;
     /* min-width: fit-content; */
     min-height: fit-content;
@@ -73,7 +72,7 @@ IProps) => {
     border-radius: 0.5rem;
 
     @media (${variables.breakpoints.desktop}) {
-      height: 80vh;
+      height: fit-content; //80vh;
       width: 50vw;
       top: 10vh;
       left: 25vw;
@@ -89,15 +88,10 @@ IProps) => {
   const SwapForm = styled.form`
     display: flex;
     flex-direction: column;
-    flex-wrap: no-wrap;
+    max-height: 100%;
     height: 80%;
     overflow-y: hidden;
     overflow-y: scroll;
-
-    @media (${variables.breakpoints.desktop}) {
-      height: 100%;
-      flex-wrap: wrap;
-    }
   `;
 
   const SwapLabel = styled.label`
@@ -113,12 +107,12 @@ IProps) => {
       {cardToAdd && (
         <SwapMain>
           <p>
-            <h6>Card to switch collection: </h6>
+            <h6>Card to add: </h6>
             <span>
               {cardToAdd?.name}, {cardToAdd.id}
             </span>
           </p>
-          <h6>Change to collection:</h6>
+          <h6>Add to collection:</h6>
           <SwapFormContainer>
             <SwapForm id="swap-form">
               {listOfOwnedCollections &&
@@ -131,17 +125,23 @@ IProps) => {
                       value={coll.collection_name}
                       onChange={handleChangeOnRadioBtn}
                       checked={selectedCollectionName === coll.collection_name}
-                    />{" "}
-                    {coll.collection_name.replace(/_/g, " ")}
+                    />
+                    <span> {coll.collection_name.replace(/_/g, " ")}</span>
                   </SwapLabel>
                 ))}
             </SwapForm>
-            <div className="d-flex justify-content-around mt-3">
-              <button className="btn" onClick={changeShowAddCardPopup}>
+            <div
+              className={
+                isDesktop
+                  ? "d-flex justify-content-around mt-4"
+                  : "d-flex justify-content-around mt-3"
+              }
+            >
+              <button className="btn border" onClick={changeShowAddCardPopup}>
                 cancel
               </button>
-              <button className="btn" onClick={handleSubmitToAddCard}>
-                add card
+              <button className="btn border" onClick={handleSubmitToAddCard}>
+                add
               </button>
             </div>
           </SwapFormContainer>

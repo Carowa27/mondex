@@ -4,11 +4,6 @@ import { IUserFromDB } from "../interfaces/dataFromDB";
 interface IGetUserProps {
   email: string;
 }
-// interface userResponse {
-//   data: IUserFromDB[];
-//   status: number;
-//   statusText: string;
-// }
 const get = async <T>(url: string) => {
   return await axios.get<T>(url);
 };
