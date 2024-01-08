@@ -13,6 +13,7 @@ import { BigPkmnCard } from "../components/BigPkmnCard";
 import { ChooseCollectionPopUp } from "../components/ChooseCollectionPopUp";
 import { Pagination } from "./layout/Pagination";
 import { getAllOwnedCollections } from "../services/collectionServices";
+import { setInterval } from "timers/promises";
 
 interface ICreateCardProps {
   user: User;
@@ -33,6 +34,7 @@ export const Search = () => {
   const [hoverAddBtn, setHoverAddBtn] = useState<boolean>(false);
   const [hoverInfoBtn, setHoverInfoBtn] = useState<boolean>(false);
   const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
+  const [seeCreatedCard, setSeeCreatedCard] = useState<boolean>(false);
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
   const [showChooseAddCardPopup, setShowChooseAddCardPopup] =
     useState<boolean>(false);
@@ -55,7 +57,10 @@ export const Search = () => {
       } else {
         const collectionName = "Master_Collection";
         if (cardFromApi) {
-          createCard({ user, collectionName, cardFromApi });
+          createCard({ user, collectionName, cardFromApi }).then(() => {
+            setSeeCreatedCard(true),
+              setTimeout(() => setSeeCreatedCard(false), 800);
+          });
         }
       }
     }
@@ -139,6 +144,25 @@ export const Search = () => {
 
   return (
     <>
+      {seeCreatedCard ? (
+        <div
+          style={{
+            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.3)`,
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100vh",
+            position: "fixed",
+            zIndex: 500,
+          }}
+          className="d-flex justify-content-end align-items-end"
+          onClick={changeShowAddCardPopup}
+        >
+          <div className="bg-white d-flex justify-content-center align-items-center py-2 px-3 my-3 mx-2 rounded">
+            Card Added to collection
+          </div>
+        </div>
+      ) : null}
       {showChooseAddCardPopup ? (
         <div
           style={{
