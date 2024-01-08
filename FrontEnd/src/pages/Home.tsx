@@ -20,7 +20,7 @@ import { BigPkmnCard } from "../components/BigPkmnCard";
 export const Home = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { language } = useContext(LanguageContext);
-  const { theme } = useContext(ThemeContext);
+  const { theme, changeColorMode } = useContext(ThemeContext);
   const { isLoading, isAuthenticated, user, error } = useAuth0();
   const [collections, setCollections] = useState<ICollectionFromDB[]>([]);
   const [valuableCard, setValuableCard] = useState<IPkmnCard>();
@@ -76,6 +76,33 @@ export const Home = () => {
       }
     }
   }, []);
+  const getTheme = () => {
+    const activeTheme = localStorage.getItem("activeTheme");
+
+    if (activeTheme === undefined) {
+      if (theme.name === "light") {
+        localStorage.setItem("activeTheme", "light");
+      } else {
+        localStorage.setItem("activeTheme", "dark");
+      }
+    } else {
+      if (activeTheme === "dark") {
+        changeColorMode("dark");
+      }
+    }
+  };
+  useEffect(() => {
+    getTheme();
+  }, []);
+
+  useEffect(() => {
+    if (theme.name === "light") {
+      localStorage.setItem("activeTheme", "light");
+    } else {
+      localStorage.setItem("activeTheme", "dark");
+    }
+  }, [theme.name]);
+
   // const valueHTML = (cardInfo: IPkmnCard) => (
   //   <>
   //     {cardInfo.tcgplayer?.prices["1stEdition"]?.market ? (
