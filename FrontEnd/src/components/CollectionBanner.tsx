@@ -6,6 +6,7 @@ import { useState, useEffect, useContext } from "react";
 import { ICardFromDB } from "../interfaces/dataFromDB";
 import { Link } from "react-router-dom";
 import { LanguageContext } from "../globals/language/language";
+import { ThemeContext } from "../globals/theme";
 
 interface IProps {
   type?: string;
@@ -14,6 +15,7 @@ interface IProps {
 
 export const CollectionBanner = (props: IProps) => {
   const { language } = useContext(LanguageContext);
+  const { theme } = useContext(ThemeContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { user, isAuthenticated } = useAuth0();
   const [cards, setCards] = useState<ICardFromDB[]>([]);
@@ -53,6 +55,9 @@ export const CollectionBanner = (props: IProps) => {
               <Link
                 to={`/collection/${props.collectionName}`}
                 className="text-decoration-none"
+                style={{
+                  color: theme.primaryColors.link.hex,
+                }}
               >
                 {collectionName}
               </Link>
@@ -124,7 +129,12 @@ export const CollectionBanner = (props: IProps) => {
                     )}
                   </ul>
                   <div className="w-100 d-flex justify-content-end">
-                    <Link to={`/collection/${props.collectionName}`}>
+                    <Link
+                      to={`/collection/${props.collectionName}`}
+                      style={{
+                        color: theme.primaryColors.link.hex,
+                      }}
+                    >
                       <i>{language.lang_code.see_all_cards}</i>
                     </Link>
                   </div>
@@ -133,7 +143,12 @@ export const CollectionBanner = (props: IProps) => {
                 <>
                   <p>no cards in collection yet </p>
                   <div className="w-100 d-flex justify-content-end">
-                    <Link to={`/collection/${props.collectionName}`}>
+                    <Link
+                      to={`/collection/${props.collectionName}`}
+                      style={{
+                        color: theme.primaryColors.link.hex,
+                      }}
+                    >
                       <i>{language.lang_code.see_collection}</i>
                     </Link>
                   </div>

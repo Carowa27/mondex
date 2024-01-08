@@ -16,6 +16,7 @@ export interface IPrimaryColors {
   sunmoon: IColorType;
   text: IColorType;
   link: IColorType;
+  breadcrumbText: IColorType;
   background: IColorType;
   border: IColorType;
   cardBackground: IColorType;

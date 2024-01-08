@@ -163,7 +163,13 @@ export const Home = () => {
                 }
           }
         >
-          <Link to="/about" className="text-decoration-none">
+          <Link
+            to="/about"
+            className="text-decoration-none"
+            style={{
+              color: theme.primaryColors.link.hex,
+            }}
+          >
             <h4 id="main-card-about-header">
               {language.lang_code.about_about_project}
             </h4>
@@ -188,7 +194,13 @@ export const Home = () => {
               <p className="m-0">{language.lang_code.about_description_exam}</p>
             </>
           )}
-          <Link to="./about" className="mt-auto align-self-end">
+          <Link
+            to="./about"
+            className="mt-auto align-self-end"
+            style={{
+              color: theme.primaryColors.link.hex,
+            }}
+          >
             <i>{language.lang_code.read_more}</i>
           </Link>
         </div>
@@ -212,7 +224,13 @@ export const Home = () => {
                 }
           }
         >
-          <Link to="/search" className={"text-decoration-none mb-2"}>
+          <Link
+            to="/search"
+            className={"text-decoration-none mb-2"}
+            style={{
+              color: theme.primaryColors.link.hex,
+            }}
+          >
             <h4 id="main-card-search-header">
               {language.lang_code.word_search}
             </h4>
@@ -359,7 +377,13 @@ export const Home = () => {
                       : "d-flex flex-column w-100"
                   }
                 >
-                  <Link to="/userpage" className="text-decoration-none">
+                  <Link
+                    to="/userpage"
+                    className="text-decoration-none"
+                    style={{
+                      color: theme.primaryColors.link.hex,
+                    }}
+                  >
                     <h4 id="main-card-account-header-user">{`Welcome, ${user?.given_name}!`}</h4>
                   </Link>
 
@@ -382,6 +406,9 @@ export const Home = () => {
                         : "align-self-end mb-2 me-2"
                     }
                     to="/all-collections"
+                    style={{
+                      color: theme.primaryColors.link.hex,
+                    }}
                   >
                     <i> {language.lang_code.my_pages_see_all_collections}</i>
                   </Link>

@@ -20,9 +20,16 @@ export const Menu = () => {
           className="d-flex justify-content-around"
           style={{
             width: "400px",
+            color: `${theme.primaryColors.link.hex}`,
           }}
         >
-          <Link className="text-decoration-none" to="./search">
+          <Link
+            className="text-decoration-none"
+            to="./search"
+            style={{
+              color: theme.primaryColors.link.hex,
+            }}
+          >
             <span
               id="main-menu-searchpage"
               className="ps-2"
@@ -33,7 +40,13 @@ export const Menu = () => {
               {language.lang_code.word_search}
             </span>
           </Link>
-          <Link className="text-decoration-none" to="./about">
+          <Link
+            className="text-decoration-none"
+            to="./about"
+            style={{
+              color: theme.primaryColors.link.hex,
+            }}
+          >
             <span id="main-menu-about" className="ps-2">
               {language.lang_code.about_about_project}
             </span>
@@ -41,7 +54,13 @@ export const Menu = () => {
           {isAuthenticated ? (
             <>
               <span id="main-menu-mypages" className="ps-2">
-                <Link className="text-decoration-none" to="./userpage">
+                <Link
+                  className="text-decoration-none"
+                  to="./userpage"
+                  style={{
+                    color: theme.primaryColors.link.hex,
+                  }}
+                >
                   {language.lang_code.my_pages_my_pages}
                 </Link>
               </span>
@@ -149,6 +168,7 @@ export const Menu = () => {
               id="main-menu-container"
               className="d-flex flex-column me-3 pe-2 rounded-bottom border-top-0 border-right-0"
               style={{
+                color: `${theme.primaryColors.link.hex}`,
                 position: "absolute",
                 right: 0,
                 cursor: "pointer",
@@ -175,6 +195,9 @@ export const Menu = () => {
                 onClick={() => {
                   setIsMobileMenuOpen(!isMobileMenuOpen);
                 }}
+                style={{
+                  color: theme.primaryColors.link.hex,
+                }}
               >
                 <span id="main-menu-searchpage" className="ps-2">
                   {language.lang_code.word_search}
@@ -185,6 +208,9 @@ export const Menu = () => {
                 to="./about"
                 onClick={() => {
                   setIsMobileMenuOpen(!isMobileMenuOpen);
+                }}
+                style={{
+                  color: theme.primaryColors.link.hex,
                 }}
               >
                 <span id="main-menu-about" className="ps-2">
@@ -198,6 +224,9 @@ export const Menu = () => {
                     to="./userpage"
                     onClick={() => {
                       setIsMobileMenuOpen(!isMobileMenuOpen);
+                    }}
+                    style={{
+                      color: theme.primaryColors.link.hex,
                     }}
                   >
                     <span id="main-menu-mypages" className="ps-2">
@@ -252,6 +281,7 @@ export const Menu = () => {
             <div
               className="d-flex flex-column me-3 px-2"
               style={{
+                color: `${theme.primaryColors.link.hex}`,
                 position: "absolute",
                 right: 0,
                 cursor: "pointer",

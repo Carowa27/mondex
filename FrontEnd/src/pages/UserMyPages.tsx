@@ -10,9 +10,11 @@ import { ICollectionFromDB } from "../interfaces/dataFromDB";
 import { LoadingModule } from "../components/LoadingModule";
 import { getAllOwnedCollections } from "../services/collectionServices";
 import { BreadCrumbs } from "./layout/BreadCrumbs";
+import { ThemeContext } from "../globals/theme";
 
 export const UserMyPages = () => {
   const { language } = useContext(LanguageContext);
+  const { theme } = useContext(ThemeContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const [seeAccount, setSeeAccount] = useState(false);
   const { isLoading, isAuthenticated, user, error } = useAuth0();
@@ -112,10 +114,22 @@ export const UserMyPages = () => {
                 </>
               )}
             </div>
-            <Link className="fst-italic" to="/all-collections">
+            <Link
+              className="fst-italic"
+              to="/all-collections"
+              style={{
+                color: theme.primaryColors.link.hex,
+              }}
+            >
               {language.lang_code.my_pages_see_all_collections}
             </Link>
-            <Link to="/create-new-collection" className="text-decoration-none">
+            <Link
+              to="/create-new-collection"
+              className="text-decoration-none"
+              style={{
+                color: theme.primaryColors.link.hex,
+              }}
+            >
               <h5 className="me-5 mb-0 pt-3">Create New Collection</h5>
             </Link>
           </div>

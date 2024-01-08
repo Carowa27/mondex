@@ -62,7 +62,12 @@ export const AllCollectionsListPage = () => {
                 <h2>All collections</h2>
                 <div className="d-flex flex-column align-items-end">
                   <BreadCrumbs pageParam="allCollections" />
-                  <Link to="/create-new-collection">
+                  <Link
+                    to="/create-new-collection"
+                    style={{
+                      color: theme.primaryColors.link.hex,
+                    }}
+                  >
                     <h6 className="me-2 mb-0">Create New Collection</h6>
                   </Link>
                 </div>
@@ -91,7 +96,12 @@ export const AllCollectionsListPage = () => {
                           }
                           key={coll.id}
                         >
-                          <Link to={`/collection/${coll.collection_name}`}>
+                          <Link
+                            to={`/collection/${coll.collection_name}`}
+                            style={{
+                              color: theme.primaryColors.link.hex,
+                            }}
+                          >
                             <p className="fw-bold m-0">
                               {coll.collection_name.replace(/_/g, " ")}
                               {coll.api_set_id ? (
