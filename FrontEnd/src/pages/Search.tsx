@@ -7,18 +7,11 @@ import { IPkmnCard } from "../interfaces/dataFromApi";
 import { LoadingModule } from "../components/LoadingModule";
 import { User, useAuth0 } from "@auth0/auth0-react";
 import { ThemeContext } from "../globals/theme";
-import { addCard, createCard } from "../services/cardServices";
-import { SmallPkmnCard } from "../components/SmallPkmnCard";
+import { createCard } from "../services/cardServices";
 import { BigPkmnCard } from "../components/BigPkmnCard";
 import { ChooseCollectionPopUp } from "../components/ChooseCollectionPopUp";
 import { Pagination } from "./layout/Pagination";
 import { getAllOwnedCollections } from "../services/collectionServices";
-import { setInterval } from "timers/promises";
-
-interface ICreateCardProps {
-  user: User;
-  cardFromApi: IPkmnCard;
-}
 
 export const Search = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
@@ -55,9 +48,12 @@ export const Search = () => {
       if (collections.length > 1) {
         setShowChooseAddCardPopup(true);
       } else {
-        const collectionName = "Master_Collection";
         if (cardFromApi) {
-          createCard({ user, collectionName, cardFromApi }).then(() => {
+          createCard({
+            user,
+            collectionName: "Master_Collection",
+            cardFromApi,
+          }).then(() => {
             setSeeCreatedCard(true),
               setTimeout(() => setSeeCreatedCard(false), 800);
           });
@@ -153,12 +149,16 @@ export const Search = () => {
             width: "100%",
             height: "100vh",
             position: "fixed",
-            zIndex: 500,
+            zIndex: 400,
           }}
           className="d-flex justify-content-end align-items-end"
-          onClick={changeShowAddCardPopup}
         >
-          <div className="bg-white d-flex justify-content-center align-items-center py-2 px-3 my-3 mx-2 rounded">
+          <div
+            className="d-flex justify-content-center align-items-center py-2 px-3 my-3 mx-2 rounded"
+            style={{
+              backgroundColor: `rgba(${theme.primaryColors.white.rgb})`,
+            }}
+          >
             Card Added to collection
           </div>
         </div>
@@ -172,10 +172,9 @@ export const Search = () => {
             width: "100%",
             height: "100vh",
             position: "fixed",
-            zIndex: 500,
+            zIndex: "400",
           }}
           className="d-flex justify-content-center align-items-center"
-          onClick={changeShowAddCardPopup}
         >
           <ChooseCollectionPopUp
             changeShowAddCardPopup={changeShowAddCardPopup}
@@ -192,7 +191,7 @@ export const Search = () => {
             width: "100%",
             height: "100vh",
             position: "fixed",
-            zIndex: 500,
+            zIndex: 400,
           }}
           className="d-flex justify-content-center align-items-center"
           onClick={changeShowPkmnInfo}

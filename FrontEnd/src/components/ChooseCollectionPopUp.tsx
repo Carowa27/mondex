@@ -45,9 +45,12 @@ export const ChooseCollectionPopUp = ({
   };
 
   const handleSubmitToAddCard = async () => {
-    const collection_name = selectedCollectionName!;
-    if (isAuthenticated && user) {
-      await addCard({ user, cardToAdd, collection_name });
+    if (cardToAdd && user && selectedCollectionName) {
+      await addCard({
+        user,
+        cardToAdd,
+        collection_name: selectedCollectionName,
+      });
     }
 
     setTimeout(() => {
@@ -56,8 +59,9 @@ export const ChooseCollectionPopUp = ({
   };
 
   const SwapContainer = styled.div`
-    height: 60vh;
+    height: fit-content; //60vh;
     width: 80vw;
+    /* min-width: fit-content; */
     min-height: fit-content;
     padding: 0 2rem 2rem 2rem;
     z-index: 500;
@@ -68,15 +72,14 @@ export const ChooseCollectionPopUp = ({
     border-radius: 0.5rem;
 
     @media (${variables.breakpoints.desktop}) {
-      height: 80vh;
+      height: fit-content; //80vh;
       width: 50vw;
       top: 10vh;
       left: 25vw;
-      z-index: 500;
     }
   `;
   const SwapMain = styled.div`
-    height: ${isDesktop ? "73%" : "65%"};
+    height: 60%;
   `;
   const SwapFormContainer = styled.div`
     height: 100%;
@@ -84,17 +87,11 @@ export const ChooseCollectionPopUp = ({
 
   const SwapForm = styled.form`
     display: flex;
-    flex-direction: ${isDesktop ? "row" : "column"};
-    flex-wrap: no-wrap;
-    height: 100%;
+    flex-direction: column;
+    max-height: 100%;
+    height: 80%;
     overflow-y: hidden;
     overflow-y: scroll;
-
-    @media (${variables.breakpoints.desktop}) {
-      height: 100%;
-      width: 100%;
-      flex-wrap: wrap;
-    }
   `;
 
   const SwapLabel = styled.label`
@@ -110,12 +107,12 @@ export const ChooseCollectionPopUp = ({
       {cardToAdd && (
         <SwapMain>
           <p>
-            <h6>Card to switch collection: </h6>
+            <h6>Card to add: </h6>
             <span>
               {cardToAdd?.name}, {cardToAdd.id}
             </span>
           </p>
-          <h6>Change to collection:</h6>
+          <h6>Add to collection:</h6>
           <SwapFormContainer>
             <SwapForm id="swap-form">
               {listOfOwnedCollections &&
@@ -128,17 +125,23 @@ export const ChooseCollectionPopUp = ({
                       value={coll.collection_name}
                       onChange={handleChangeOnRadioBtn}
                       checked={selectedCollectionName === coll.collection_name}
-                    />{" "}
-                    {coll.collection_name.replace(/_/g, " ")}
+                    />
+                    <span> {coll.collection_name.replace(/_/g, " ")}</span>
                   </SwapLabel>
                 ))}
             </SwapForm>
-            <div className="d-flex justify-content-around mt-3">
+            <div
+              className={
+                isDesktop
+                  ? "d-flex justify-content-around mt-4"
+                  : "d-flex justify-content-around mt-3"
+              }
+            >
               <button className="btn border" onClick={changeShowAddCardPopup}>
                 cancel
               </button>
               <button className="btn border" onClick={handleSubmitToAddCard}>
-                add card
+                add
               </button>
             </div>
           </SwapFormContainer>
