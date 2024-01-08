@@ -43,7 +43,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
     if (pkmnCard && window.location.href.includes(`/search`)) {
       localStorage.setItem(
         "lastOpenedCard",
-        JSON.stringify({ card: pkmnCard, today: today })
+        JSON.stringify({ card: pkmnCard, searched: today })
       );
     }
   }, [pkmnCard]);

@@ -387,13 +387,13 @@ export const Home = () => {
                   </Link>
                 </div>
               ) : (
-                <>
+                <div className="">
                   <h4 id="main-card-account-header">
                     {language.lang_code.word_account}
                   </h4>
                   <p>{language.lang_code.account_description}</p>
                   <LoginBtn />
-                </>
+                </div>
               )}
             </>
           )}
