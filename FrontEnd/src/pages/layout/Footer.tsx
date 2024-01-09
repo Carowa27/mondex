@@ -12,6 +12,8 @@ export const Footer = () => {
   const { theme } = useContext(ThemeContext);
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
+  const thisYear = new Date().getFullYear();
+
   return (
     <footer
       className={
@@ -100,7 +102,19 @@ export const Footer = () => {
           <p>{language.lang_code.disclaimer_description}</p>
         </div>
       </div>
-      <div className={"align-self-center"}>Carolina Warntorp &copy;</div>
+      <div className={"align-self-center"}>
+        &copy; {thisYear} Carolina (
+        <Link
+          to="https://github.com/Carowa27"
+          className="text-decoration-none"
+          style={{
+            color: theme.primaryColors.link.hex,
+          }}
+        >
+          Carowa27
+        </Link>
+        )
+      </div>
     </footer>
   );
 };
