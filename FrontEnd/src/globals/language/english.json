@@ -46,6 +46,7 @@
   "collection_name": "Name on collection",
   "collection_set_id": "Set ID",
   "collection_with_no_cards": "No cards in collection yet",
+  "collection_with_no_cards_more_words": "Doesn't appear to be any cards in this collection",
   "collection_to_delete": "Collection to delete",
   "collection_to_change_to": "Change to collection",
   "error_something_went_wrong": "Something went wrong",

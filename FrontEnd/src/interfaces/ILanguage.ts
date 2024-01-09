@@ -48,6 +48,7 @@ export interface ILanguageVariables {
   collection_name: string;
   collection_set_id: string;
   collection_with_no_cards: string;
+  collection_with_no_cards_more_words: string;
   collection_to_delete: string;
   collection_to_change_to: string;
   error_something_went_wrong: string;

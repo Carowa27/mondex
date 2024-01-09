@@ -20,10 +20,11 @@ import { SmallPkmnCard } from "../components/SmallPkmnCard";
 import { Pagination } from "./layout/Pagination";
 import { BreadCrumbs } from "./layout/BreadCrumbs";
 import { DeleteCardPopUp } from "../components/DeleteCardPopUp";
+import { LanguageContext } from "../globals/language/language";
 
 export const CollectionPage = () => {
   const { theme } = useContext(ThemeContext);
-  // const { language } = useContext(LanguageContext);
+  const { language } = useContext(LanguageContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { isAuthenticated, user } = useAuth0();
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -243,7 +244,7 @@ export const CollectionPage = () => {
                 )}
               </>
             ) : (
-              <>Doesn't appear to be any cards in this collection</>
+              <>{language.lang_code.collection_with_no_cards_more_words}</>
             )}
           </>
         ) : (

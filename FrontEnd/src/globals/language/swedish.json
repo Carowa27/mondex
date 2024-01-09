@@ -46,6 +46,7 @@
   "collection_name": "Namn på kollektion",
   "collection_set_id": "Set ID",
   "collection_with_no_cards": "Inga kort i samlingen ännu",
+  "collection_with_no_cards_more_words": "Det verkar inte finnas några kort i den här kollektionen",
   "collection_to_delete": "Kollektion att ta bort",
   "collection_to_change_to": "Byt till kollektion",
   "error_something_went_wrong": "Något gick fel",
