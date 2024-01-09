@@ -44,6 +44,7 @@ export interface ILanguageVariables {
   collection_all_collections: string;
   collection_create_new_collection: string;
   collection_created: string;
+  collection_not_correct_set_id: string;
   collection_is_set_collection: string;
   collection_name: string;
   collection_set_id: string;

@@ -109,7 +109,7 @@ export const UserMyPages = () => {
                       ))}
                     </>
                   ) : (
-                    <>Something went wrong</>
+                    <>{language.lang_code.error_something_went_wrong}</>
                   )}
                 </>
               )}
@@ -130,7 +130,9 @@ export const UserMyPages = () => {
                 color: theme.primaryColors.link.hex,
               }}
             >
-              <h5 className="me-5 mb-0 pt-3">Create New Collection</h5>
+              <h5 className="me-5 mb-0 pt-3">
+                {language.lang_code.collection_create_new_collection}
+              </h5>
             </Link>
           </div>
         </>
