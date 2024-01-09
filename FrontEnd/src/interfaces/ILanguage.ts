@@ -18,6 +18,7 @@ export interface ILanguageVariables {
   word_updated: string;
   word_username: string;
   word_yes: string;
+  word_welcome: string;
   account_create_account: string;
   account_description: string;
   account_login: string;

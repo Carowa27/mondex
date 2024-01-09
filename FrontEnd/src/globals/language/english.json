@@ -16,6 +16,7 @@
   "word_updated": "Updated",
   "word_username": "Username",
   "word_yes": "Yes",
+  "word_welcome": "Welcome",
   "account_create_account": "Create account",
   "account_description": "With an account you can....",
   "account_login": "Login",
@@ -45,5 +46,5 @@
   "todays_valuable_card": "Today's valuable card",
   "your_last_searched": "Your last searched card",
   "see_all_cards": "See all cards",
-  "see_collection": "Se kollektion"
+  "see_collection": "See collection"
 }

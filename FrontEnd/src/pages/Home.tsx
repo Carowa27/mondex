@@ -415,7 +415,7 @@ export const Home = () => {
                       color: theme.primaryColors.link.hex,
                     }}
                   >
-                    <h4 id="main-card-account-header-user">{`Welcome, ${user?.given_name}!`}</h4>
+                    <h4 id="main-card-account-header-user">{`${language.lang_code.word_welcome}, ${user?.given_name}!`}</h4>
                   </Link>
 
                   {collections && collections.length !== 0 ? (
