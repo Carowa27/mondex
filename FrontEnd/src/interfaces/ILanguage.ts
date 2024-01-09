@@ -10,6 +10,7 @@ export interface ILanguageVariables {
   word_language: string;
   word_last: string;
   word_loading: string;
+  word_name: string;
   word_no: string;
   word_normal: string;
   word_purpose: string;
@@ -36,11 +37,15 @@ export interface ILanguageVariables {
   collection_set_id: string;
   collection_with_no_cards: string;
   error_something_went_wrong: string;
+  error_search_no_hits: string;
+  error_search_new_set: string;
   my_pages_my_pages: string;
   my_pages_see_my_info: string;
   my_pages_see_all_collections: string;
+  search_card_added: string;
   search_new_sets_might_be_unavailable: string;
   search_you_can_search_for: string;
+  search_start: string;
   last_updated_at: string;
   last_opened: string;
   most_valuable: string;
