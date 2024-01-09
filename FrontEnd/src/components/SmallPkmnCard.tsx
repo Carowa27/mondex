@@ -369,6 +369,7 @@ export const SmallPkmnCard = ({
             </span>
           </div>
           <img
+            className="rounded"
             style={{ width: "100%" }}
             src={card.api_card_img_src_small}
             alt={card.api_pkmn_name}
