@@ -53,7 +53,6 @@ export const UserMyPages = () => {
             ) : (
               <div
                 style={{
-                  outline: `1px blue solid`,
                   width: "fit-content",
                   padding: "2rem 3rem",
                 }}

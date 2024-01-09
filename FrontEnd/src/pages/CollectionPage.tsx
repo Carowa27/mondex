@@ -176,7 +176,7 @@ export const CollectionPage = () => {
         </div>
       </div>
       <div
-        style={{ minHeight: "80vh", outline: "1px solid black" }}
+        style={{ minHeight: "80vh" }}
         className="mt-2 p-2 d-flex flex-column"
       >
         {!isLoading ? (
