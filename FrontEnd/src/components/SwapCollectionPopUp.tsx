@@ -7,6 +7,7 @@ import { ICardFromDB, ICollectionFromDB } from "../interfaces/dataFromDB";
 import { getAllOwnedCollections } from "../services/collectionServices";
 import { useAuth0 } from "@auth0/auth0-react";
 import { swapCardToOtherCollection } from "../services/cardServices";
+import { LanguageContext } from "../globals/language/language";
 
 interface IProps {
   changeShowSwapPopUp: () => void;
@@ -22,6 +23,7 @@ export const SwapCollectionPopUp = ({
   updateData,
 }: IProps) => {
   const { theme } = useContext(ThemeContext);
+  const { language } = useContext(LanguageContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { user } = useAuth0();
 
@@ -118,16 +120,16 @@ export const SwapCollectionPopUp = ({
       {cardToSwap && (
         <SwapMain>
           <p>
-            <h6>Card to switch collection: </h6>
+            <h6>{language.lang_code.card_card_to_swap}: </h6>
             <span>
               {cardToSwap?.api_pkmn_name}, {cardToSwap.api_card_id}
             </span>
           </p>
           <p>
-            <h6>From collection: </h6>
+            <h6>{language.lang_code.card_collection_to_remove_card_from}: </h6>
             <span>{collectionName.replace(/_/g, " ")}</span>
           </p>
-          <h6>Change to collection:</h6>
+          <h6>{language.lang_code.collection_to_change_to}:</h6>
           <SwapFormContainer>
             <SwapForm id="swap-form">
               {listOfOwnedCollections &&
@@ -147,10 +149,10 @@ export const SwapCollectionPopUp = ({
             </SwapForm>
             <div className="d-flex justify-content-around mt-3">
               <button className="btn border" onClick={changeShowSwapPopUp}>
-                cancel
+                {language.lang_code.word_cancel}
               </button>
               <button className="btn border" onClick={handleSubmitToSwap}>
-                change
+                {language.lang_code.word_change}
               </button>
             </div>
           </SwapFormContainer>

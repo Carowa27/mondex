@@ -159,7 +159,7 @@ export const Search = () => {
               backgroundColor: `rgba(${theme.primaryColors.white.rgb})`,
             }}
           >
-            Card Added to collection
+            {language.lang_code.search_card_added}
           </div>
         </div>
       ) : null}
@@ -216,7 +216,7 @@ export const Search = () => {
           <div>
             <div className="d-flex justify-content-around">
               <label htmlFor="search_text" className="pt-2 m-0">
-                Name:{" "}
+                {language.lang_code.word_name}:{" "}
                 <input
                   type="text"
                   id="search_text"
@@ -228,9 +228,9 @@ export const Search = () => {
             </div>
             <div
               id="search_type"
-              className="d-flex justify-content-around align-items-center mt-1"
+              className="d-flex justify-content-between align-items-center mt-1"
             >
-              <label htmlFor="pkmn" className="m-0">
+              <label htmlFor="pkmn" className="m-0 me-2">
                 Pokémon:{" "}
                 <input
                   type="radio"
@@ -241,7 +241,7 @@ export const Search = () => {
                   onChange={() => setSearchParam("pkmn")}
                 />
               </label>
-              <label htmlFor="artist" className="m-0">
+              <label htmlFor="artist" className="m-0 me-2">
                 Artist:{" "}
                 <input
                   type="radio"
@@ -252,7 +252,7 @@ export const Search = () => {
                   onChange={() => setSearchParam("artist")}
                 />
               </label>
-              <label htmlFor="set" className="m-0">
+              <label htmlFor="set" className="m-0 me-2">
                 Set:{" "}
                 <input
                   type="radio"
@@ -268,23 +268,17 @@ export const Search = () => {
           <input
             className="btn btn-secondary m-2"
             type="submit"
-            value="Submit"
+            value={language.lang_code.word_search}
           />
         </div>
       </form>
-      <div
-        style={{ minHeight: "80vh", outline: "1px solid black" }}
-        className="mt-3 p-2"
-      >
+      <div style={{ minHeight: "80vh" }} className="mt-3 p-2">
         {!isLoading ? (
           <>
             {noHits ? (
               <>
-                <p> Got no hits, you have any type errors? </p>
-                <p>
-                  If you are searching for a newly released set, it might not be
-                  available yet.
-                </p>
+                <p> {language.lang_code.error_search_no_hits}</p>
+                <p>{language.lang_code.error_search_new_set}</p>
               </>
             ) : (
               <>
@@ -428,7 +422,7 @@ export const Search = () => {
                     ) : null}
                   </>
                 ) : (
-                  <>Go ahead and search</>
+                  <>{language.lang_code.search_start}</>
                 )}
               </>
             )}

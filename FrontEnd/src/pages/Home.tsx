@@ -261,11 +261,10 @@ export const Home = () => {
             <h4 id="main-card-search-header">
               {language.lang_code.word_search}
             </h4>
-            <span>You can search for all realeased english sets. </span>
+            <span>{language.lang_code.search_you_can_search_for}. </span>
             {isDesktop ? (
               <span>
-                If you are searching for a newly released set, it might not be
-                available yet.
+                {language.lang_code.search_new_sets_might_be_unavailable}.
               </span>
             ) : null}
           </Link>
@@ -279,7 +278,7 @@ export const Home = () => {
                 }
               >
                 <h6 className={isDesktop ? "align-self-start" : "text-center"}>
-                  Your last searched card
+                  {language.lang_code.your_last_searched}
                 </h6>
                 <div
                   className={isDesktop ? "" : "d-flex justify-content-center"}
@@ -311,7 +310,8 @@ export const Home = () => {
                   <span>{lastOpenedCard.name}</span>
                 </p>
                 <span style={{ fontSize: "x-small" }}>
-                  Opened at: {lastOpenedCard.tcgplayer?.updatedAt}
+                  {language.lang_code.last_opened}:{" "}
+                  {lastOpenedCard.tcgplayer?.updatedAt}
                 </span>
               </div>
             ) : null}
@@ -325,10 +325,13 @@ export const Home = () => {
               >
                 {isDesktop ? (
                   <h6 className="align-self-start mt-3">
-                    Most valuable <i>normal</i> card
+                    {language.lang_code.most_valuable} <i>normal</i>{" "}
+                    {language.lang_code.word_card.toLowerCase()}
                   </h6>
                 ) : (
-                  <h6 className="text-center">Today's valuable card</h6>
+                  <h6 className="text-center">
+                    {language.lang_code.todays_valuable_card}
+                  </h6>
                 )}
 
                 <div
@@ -364,7 +367,8 @@ export const Home = () => {
                   </span>
                 </p>
                 <span style={{ fontSize: "x-small" }}>
-                  Last updated at: {valuableCard.tcgplayer?.updatedAt}
+                  {language.lang_code.last_updated_at}:{" "}
+                  {valuableCard.tcgplayer?.updatedAt}
                 </span>
               </div>
             ) : null}
@@ -411,7 +415,7 @@ export const Home = () => {
                       color: theme.primaryColors.link.hex,
                     }}
                   >
-                    <h4 id="main-card-account-header-user">{`Welcome, ${user?.given_name}!`}</h4>
+                    <h4 id="main-card-account-header-user">{`${language.lang_code.word_welcome}, ${user?.given_name}!`}</h4>
                   </Link>
 
                   {collections && collections.length !== 0 ? (
@@ -424,7 +428,7 @@ export const Home = () => {
                       ))}
                     </>
                   ) : (
-                    <>Something went wrong</>
+                    <>{language.lang_code.error_something_went_wrong}</>
                   )}
                   <Link
                     className={

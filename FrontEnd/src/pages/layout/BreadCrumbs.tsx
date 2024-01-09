@@ -3,6 +3,7 @@ import { useMediaQuery } from "react-responsive";
 import { variables } from "../../globals/variables";
 import { Link } from "react-router-dom";
 import { ThemeContext } from "../../globals/theme";
+import { LanguageContext, lang } from "../../globals/language/language";
 
 interface IProps {
   pageParam: string;
@@ -12,6 +13,7 @@ interface IProps {
 export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { theme } = useContext(ThemeContext);
+  const { language } = useContext(LanguageContext);
   return (
     <>
       {isDesktop ? (
@@ -25,7 +27,7 @@ export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
                   color: theme.primaryColors.breadcrumbText.hex,
                 }}
               >
-                <span>home&nbsp;/&nbsp;</span>
+                <span>{language.lang_code.word_home}&nbsp;/&nbsp;</span>
               </Link>
 
               <Link
@@ -35,7 +37,7 @@ export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
                   color: theme.primaryColors.breadcrumbText.hex,
                 }}
               >
-                <span>about</span>
+                <span>{language.lang_code.word_about}</span>
               </Link>
             </p>
           ) : null}
@@ -48,7 +50,7 @@ export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
                   color: theme.primaryColors.breadcrumbText.hex,
                 }}
               >
-                <span>home&nbsp;/&nbsp;</span>
+                <span>{language.lang_code.word_home}&nbsp;/&nbsp;</span>
               </Link>
 
               <Link
@@ -58,15 +60,15 @@ export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
                   color: theme.primaryColors.breadcrumbText.hex,
                 }}
               >
-                <span>userpage</span>
+                <span>{language.lang_code.word_userpage}</span>
               </Link>
             </p>
           ) : null}
           {/* {pageParam === "account" ? 
             <p className="m-0">
-            <Link to="/" className="text-decoration-none"><span>home</span></Link>
+            <Link to="/" className="text-decoration-none"><span>{language.lang_code.word_home}</span></Link>
               &nbsp;/&nbsp;
-              <Link to="/home" className="text-decoration-none"><span>userpage</span></Link
+              <Link to="/home" className="text-decoration-none"><span>{language.lang_code.word_userpage}</span></Link
               &nbsp;/&nbsp;
               <Link to="/home" className="text-decoration-none"><span>account</span></Link>
             </p> : null} */}
@@ -79,7 +81,7 @@ export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
                   color: theme.primaryColors.breadcrumbText.hex,
                 }}
               >
-                <span>home&nbsp;/&nbsp;</span>
+                <span>{language.lang_code.word_home}&nbsp;/&nbsp;</span>
               </Link>
 
               <Link
@@ -89,7 +91,7 @@ export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
                   color: theme.primaryColors.breadcrumbText.hex,
                 }}
               >
-                <span>userpage&nbsp;/&nbsp;</span>
+                <span>{language.lang_code.word_userpage}&nbsp;/&nbsp;</span>
               </Link>
 
               <Link
@@ -99,7 +101,7 @@ export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
                   color: theme.primaryColors.breadcrumbText.hex,
                 }}
               >
-                <span>allColls</span>
+                <span>{language.lang_code.collection_all_collections}</span>
               </Link>
             </p>
           ) : null}
@@ -112,7 +114,7 @@ export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
                   color: theme.primaryColors.breadcrumbText.hex,
                 }}
               >
-                <span>home&nbsp;/&nbsp;</span>
+                <span>{language.lang_code.word_home}&nbsp;/&nbsp;</span>
               </Link>
 
               <Link
@@ -122,7 +124,7 @@ export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
                   color: theme.primaryColors.breadcrumbText.hex,
                 }}
               >
-                <span>userpage&nbsp;/&nbsp;</span>
+                <span>{language.lang_code.word_userpage}&nbsp;/&nbsp;</span>
               </Link>
 
               <Link
@@ -132,7 +134,9 @@ export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
                   color: theme.primaryColors.breadcrumbText.hex,
                 }}
               >
-                <span>allColls&nbsp;/&nbsp;</span>
+                <span>
+                  {language.lang_code.collection_all_collections}&nbsp;/&nbsp;
+                </span>
               </Link>
 
               <Link

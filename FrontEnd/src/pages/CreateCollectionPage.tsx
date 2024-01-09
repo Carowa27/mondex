@@ -167,7 +167,9 @@ export const CreateCollectionPage = () => {
           />
         </div>
       </form>
-      {notCorrectSetId ? <>have you written the correct set id?</> : null}
+      {notCorrectSetId ? (
+        <>{language.lang_code.collection_not_correct_set_id}</>
+      ) : null}
       {createdCollection ? (
         <Link
           className="text-decoration-none"
@@ -181,7 +183,7 @@ export const CreateCollectionPage = () => {
           }}
         >
           <p>
-            Collection created:{" "}
+            {language.lang_code.collection_created}:{" "}
             <span className="text-decoration-underline fst-italic">
               {savedCollectionName}
             </span>

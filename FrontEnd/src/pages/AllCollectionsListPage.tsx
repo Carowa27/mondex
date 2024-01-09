@@ -9,10 +9,12 @@ import { ICollectionFromDB } from "../interfaces/dataFromDB";
 import { Link } from "react-router-dom";
 import { Pagination } from "./layout/Pagination";
 import { BreadCrumbs } from "./layout/BreadCrumbs";
+import { LanguageContext } from "../globals/language/language";
 
 export const AllCollectionsListPage = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { theme } = useContext(ThemeContext);
+  const { language } = useContext(LanguageContext);
   const { isLoading, isAuthenticated, user, error } = useAuth0();
   const [collections, setCollections] = useState<ICollectionFromDB[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -59,7 +61,7 @@ export const AllCollectionsListPage = () => {
           {isAuthenticated ? (
             <>
               <div className="d-flex justify-content-between">
-                <h2>All collections</h2>
+                <h2>{language.lang_code.collection_all_collections}</h2>
                 <div className="d-flex flex-column align-items-end">
                   <BreadCrumbs pageParam="allCollections" />
                   <Link
@@ -68,7 +70,9 @@ export const AllCollectionsListPage = () => {
                       color: theme.primaryColors.link.hex,
                     }}
                   >
-                    <h6 className="me-2 mb-0">Create New Collection</h6>
+                    <h6 className="me-2 mb-0">
+                      {language.lang_code.collection_create_new_collection}
+                    </h6>
                   </Link>
                 </div>
               </div>
@@ -113,7 +117,7 @@ export const AllCollectionsListPage = () => {
                       ))}
                   </div>
                 ) : (
-                  <>Something went wrong</>
+                  <>{language.lang_code.error_something_went_wrong}</>
                 )}
               </div>
               <Pagination
@@ -124,7 +128,7 @@ export const AllCollectionsListPage = () => {
               ></Pagination>
             </>
           ) : (
-            <>Something went wrong</>
+            <>{language.lang_code.error_something_went_wrong}</>
           )}
         </>
       )}

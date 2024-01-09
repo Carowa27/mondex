@@ -141,7 +141,7 @@ export const CollectionBanner = (props: IProps) => {
                 </div>
               ) : (
                 <>
-                  <p>no cards in collection yet </p>
+                  <p>{language.lang_code.collection_with_no_cards} </p>
                   <div className="w-100 d-flex justify-content-end">
                     <Link
                       to={`/collection/${props.collectionName}`}

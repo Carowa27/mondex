@@ -20,6 +20,8 @@ export const Menu = () => {
           className="d-flex justify-content-around"
           style={{
             width: "400px",
+            minWidth: "fit-content",
+            gap: "0.5rem",
             color: `${theme.primaryColors.link.hex}`,
           }}
         >
@@ -114,7 +116,9 @@ export const Menu = () => {
                         ? "font-weight-bold"
                         : "font-weight-normal"
                     }
-                    onClick={() => changeLanguage("SE")}
+                    onClick={() => (
+                      changeLanguage("SE"), setIsLangMenuOpen(false)
+                    )}
                   >
                     SE
                   </span>
@@ -125,7 +129,9 @@ export const Menu = () => {
                         ? "font-weight-bold"
                         : "font-weight-normal"
                     }
-                    onClick={() => changeLanguage("EN")}
+                    onClick={() => (
+                      changeLanguage("EN"), setIsLangMenuOpen(false)
+                    )}
                   >
                     EN
                   </span>
