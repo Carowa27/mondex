@@ -32,7 +32,7 @@
   "account_logout": "Logga ut",
   "about_about_project": "Om EXsqrtl",
   "about_exam": "Exam Projekt",
-  "about_description_exam": "Som exam projekt fick vi skapa ett valfritt projekt som återspeglar våra kunskaper från utbildningen. Jag har valt att skapa en applikation där du kan söka efter pokémonkort från TCG-serien. Sök efter uppsättningarna, korten, artisterna och mer. Skapa samlingar för att se vilka du äger och har kvar i set eller till och med skapa en samling med din favoritpokemon.",
+  "about_description_exam": "Som exam projekt fick vi skapa ett valfritt projekt som återspeglar våra kunskaper från utbildningen. Jag har valt att skapa en applikation där du kan söka efter pokémonkort från TCG-serien. Sök efter uppsättningarna, korten, artisterna och mer. Skapa samlingar för att se vilka du äger och har kvar i set eller till och med skapa en samling med din favorit Pokémon.",
   "about_description_goal": "Efter dessa 6 veckor vill jag ha tagit fram något som är användbart både för att söka och som ett översiktsverktyg för att göra insamlingen enklare och mer hanterbar.",
   "about_description_purpose": "Som samlare av Pokémon-kort är det svårt att hålla jämna steg med alla kort som finns i samlingen. Om du köper en ETB(Elite Trainer Box) får du en mapp som innehåller alla kort i den uppsättningen, men den ger dig fortfarande inte riktigt en bra överblick över samlingen som helhet. Och om du vill samla hela setet blir det svårare när du inte kan vara säker på vilka kort du har eller inte. Denna app skulle göra insamlingen enklare och mer tidseffektiv.",
   "card_card_to_add": "Kort att lägga till",
@@ -70,5 +70,7 @@
   "your_last_searched": "Ditt senast sökta kort",
   "see_all_cards": "Se alla kort",
   "see_collection": "Se kollektion",
-  "warning_delete": "Är du säker att du vill radera? Den kommer att vara borta för alltid."
+  "warning_delete": "Är du säker att du vill radera? Den kommer att vara borta för alltid.",
+  "disclaimer": "Ansvarsfriskrivning: Ingen anknytning till Pokémon",
+  "disclaimer_description": "Den här webbplatsen är ett privat projekt skapat av Carolina och är inte ansluten till, stöds eller sponsrad av Pokémon eller något av dess anslutna företag. Innehållet som presenteras på denna webbplats är enbart för personliga och icke-kommersiella ändamål. Jag vill förtydliga att denna webbplats inte är en officiell Pokémon-plattform och inte deltar i något samarbete eller officiellt partnerskap med Pokémon-varumärket. Alla varumärken, logotyper och bilder relaterade till Pokémon tillhör deras respektive ägare. Du kan läsa om syftet med detta projekt på Om sidan. Medan jag strävar efter att tillhandahålla korrekt och roligt innehåll, uppmuntrar jag användare att hänvisa till den officiella Pokémon-webbplatsen och källorna för den senaste och mest korrekta informationen om Pokémon. Om du har några frågor eller funderingar angående innehållet på denna webbplats är du välkommen att carolina.ikw(@)outlook.com. Tack för att du förstår."
 }

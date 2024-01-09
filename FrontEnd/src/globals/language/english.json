@@ -32,7 +32,7 @@
   "account_logout": "Logout",
   "about_about_project": "About EXsqrtl",
   "about_exam": "Exam Project",
-  "about_description_exam": "As an exam project, we had to create a project of our choice that reflects our knowledge from the education. I have chosen to create an application where you can search for pokemon cards from the TCG series. Search for the sets, cards, artists and more. Create collections to see which ones you own and have left in sets or even create a collection with your favorite pokemon.",
+  "about_description_exam": "As an exam project, we had to create a project of our choice that reflects our knowledge from the education. I have chosen to create an application where you can search for Pokémon cards from the TCG series. Search for the sets, cards, artists and more. Create collections to see which ones you own and have left in sets or even create a collection with your favorite Pokémon.",
   "about_description_goal": "After these 6 weeks I want to have developed something that is usable both for searching and as an overview tool to make the collecting easier and more manageable.",
   "about_description_purpose": "As a collector of Pokémon cards it is hard to keep up with all the cards that are in the collection. If you buy an ETB(Elite Trainer Box) you get a folder that contains all the cards in that set, but it still doesn't really give you a good overview on the collection as a whole. And if you want to collect the full set it makes it harder when you can't be sure of which cards you have or not. This app would make the collecting easier and more time effective.",
   "card_card_to_add": "Card to add",
@@ -70,5 +70,7 @@
   "your_last_searched": "Your last searched card",
   "see_all_cards": "See all cards",
   "see_collection": "See collection",
-  "warning_delete": "Are you sure you want to delete? It will be gone forever."
+  "warning_delete": "Are you sure you want to delete? It will be gone forever.",
+  "disclaimer": "Disclaimer: No Affiliation with Pokémon",
+  "disclaimer_description": "This website is a private project created by Carolina and is not affiliated, endorsed, or sponsored by Pokémon or any of its affiliated companies. The content presented on this site is purely for personal and non-commercial purposes. I want to clarify that this website is not an official Pokémon platform and does not engage in any collaborative or official partnership with the Pokémon brand. All trademarks, logos, and images related to Pokémon are the property of their respective owners. You can read about purpose of this project on the About page. While I strive to provide accurate and enjoyable content, I encourage users to refer to the official Pokémon website and sources for the latest and most accurate information about Pokémon. If you have any questions or concerns regarding the content on this website, please feel free to carolina.ikw(@)outlook.com. Thank you for your understanding."
 }
