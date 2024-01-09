@@ -2,8 +2,10 @@ import swedish from "../globals/language/swedish.json";
 import english from "../globals/language/english.json";
 export interface ILanguageVariables {
   word_about: string;
+  word_add: string;
   word_at: string;
   word_account: string;
+  word_cancel: string;
   word_card: string;
   word_email: string;
   word_goal: string;
@@ -31,6 +33,8 @@ export interface ILanguageVariables {
   about_description_exam: string;
   about_description_goal: string;
   about_description_purpose: string;
+  card_card_to_add: string;
+  card_add_to_collection: string;
   collection_collection: string;
   collection_create_new_collection: string;
   collection_created: string;

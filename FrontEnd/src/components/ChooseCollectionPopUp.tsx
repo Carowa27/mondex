@@ -8,6 +8,7 @@ import { getAllOwnedCollections } from "../services/collectionServices";
 import { User, useAuth0 } from "@auth0/auth0-react";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { addCard } from "../services/cardServices";
+import { LanguageContext } from "../globals/language/language";
 
 interface IProps {
   changeShowAddCardPopup: () => void;
@@ -19,6 +20,7 @@ export const ChooseCollectionPopUp = ({
   cardToAdd,
 }: IProps) => {
   const { theme } = useContext(ThemeContext);
+  const { language } = useContext(LanguageContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { user, isAuthenticated } = useAuth0();
 
@@ -107,12 +109,12 @@ export const ChooseCollectionPopUp = ({
       {cardToAdd && (
         <SwapMain>
           <p>
-            <h6>Card to add: </h6>
+            <h6>{language.lang_code.card_card_to_add}: </h6>
             <span>
               {cardToAdd?.name}, {cardToAdd.id}
             </span>
           </p>
-          <h6>Add to collection:</h6>
+          <h6>{language.lang_code.card_add_to_collection}:</h6>
           <SwapFormContainer>
             <SwapForm id="swap-form">
               {listOfOwnedCollections &&
@@ -138,10 +140,10 @@ export const ChooseCollectionPopUp = ({
               }
             >
               <button className="btn border" onClick={changeShowAddCardPopup}>
-                cancel
+                {language.lang_code.word_cancel}
               </button>
               <button className="btn border" onClick={handleSubmitToAddCard}>
-                add
+                {language.lang_code.word_add}
               </button>
             </div>
           </SwapFormContainer>
