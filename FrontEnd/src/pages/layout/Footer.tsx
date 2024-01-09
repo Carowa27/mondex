@@ -19,7 +19,7 @@ export const Footer = () => {
       className={
         isDesktop
           ? "mt-auto d-flex flex-column justify-content-between px-3 pb-2"
-          : "mt-auto d-flex flex-column"
+          : "mt-auto d-flex flex-column pb-2"
       }
       style={{
         backgroundColor: theme.typeColors.colorless.hex,
