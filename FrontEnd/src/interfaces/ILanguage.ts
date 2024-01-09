@@ -37,6 +37,8 @@ export interface ILanguageVariables {
   my_pages_my_pages: string;
   my_pages_see_my_info: string;
   my_pages_see_all_collections: string;
+  search_new_sets_might_be_unavailable: string;
+  search_you_can_search_for: string;
   last_updated_at: string;
   last_opened: string;
   most_valuable: string;

@@ -261,11 +261,10 @@ export const Home = () => {
             <h4 id="main-card-search-header">
               {language.lang_code.word_search}
             </h4>
-            <span>You can search for all realeased english sets. </span>
+            <span>{language.lang_code.search_you_can_search_for}. </span>
             {isDesktop ? (
               <span>
-                If you are searching for a newly released set, it might not be
-                available yet.
+                {language.lang_code.search_new_sets_might_be_unavailable}.
               </span>
             ) : null}
           </Link>
