@@ -279,7 +279,7 @@ export const Home = () => {
                 }
               >
                 <h6 className={isDesktop ? "align-self-start" : "text-center"}>
-                  Your last searched card
+                  {language.lang_code.your_last_searched}
                 </h6>
                 <div
                   className={isDesktop ? "" : "d-flex justify-content-center"}
@@ -311,7 +311,8 @@ export const Home = () => {
                   <span>{lastOpenedCard.name}</span>
                 </p>
                 <span style={{ fontSize: "x-small" }}>
-                  Opened at: {lastOpenedCard.tcgplayer?.updatedAt}
+                  {language.lang_code.last_opened}:{" "}
+                  {lastOpenedCard.tcgplayer?.updatedAt}
                 </span>
               </div>
             ) : null}
@@ -325,10 +326,13 @@ export const Home = () => {
               >
                 {isDesktop ? (
                   <h6 className="align-self-start mt-3">
-                    Most valuable <i>normal</i> card
+                    {language.lang_code.most_valuable} <i>normal</i>{" "}
+                    {language.lang_code.word_card.toLowerCase()}
                   </h6>
                 ) : (
-                  <h6 className="text-center">Today's valuable card</h6>
+                  <h6 className="text-center">
+                    {language.lang_code.todays_valuable_card}
+                  </h6>
                 )}
 
                 <div
@@ -364,7 +368,8 @@ export const Home = () => {
                   </span>
                 </p>
                 <span style={{ fontSize: "x-small" }}>
-                  Last updated at: {valuableCard.tcgplayer?.updatedAt}
+                  {language.lang_code.last_updated_at}:{" "}
+                  {valuableCard.tcgplayer?.updatedAt}
                 </span>
               </div>
             ) : null}
@@ -424,7 +429,7 @@ export const Home = () => {
                       ))}
                     </>
                   ) : (
-                    <>Something went wrong</>
+                    <>{language.lang_code.error_something_went_wrong}</>
                   )}
                   <Link
                     className={
