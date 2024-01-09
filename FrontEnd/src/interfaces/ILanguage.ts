@@ -11,6 +11,7 @@ export interface ILanguageVariables {
   word_delete: string;
   word_email: string;
   word_goal: string;
+  word_home: string;
   word_language: string;
   word_last: string;
   word_loading: string;
@@ -24,6 +25,7 @@ export interface ILanguageVariables {
   word_submit: string;
   word_updated: string;
   word_username: string;
+  word_userpage: string;
   word_yes: string;
   word_welcome: string;
   account_create_account: string;
