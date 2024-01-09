@@ -51,7 +51,7 @@ export const CollectionBanner = (props: IProps) => {
                 : "py-2 my-3 col-5 border rounded w-100"
             }
           >
-            <h6 className={"ms-2 mt-1 mb-0"}>
+            <h6 className={isDesktop ? "ms-2 mt-1 mb-0" : "ms-2 mt-1 mb-2"}>
               <Link
                 to={`/collection/${props.collectionName}`}
                 className="text-decoration-none"
@@ -78,55 +78,30 @@ export const CollectionBanner = (props: IProps) => {
                     }
                     style={{ listStyle: "none", padding: 0 }}
                   >
-                    {isDesktop ? (
-                      <>
-                        {cards.slice(0, 4).map((card) => (
-                          <li
-                            key={card.id}
-                            className="pt-2"
-                            style={{ width: "min-content" }}
+                    <>
+                      {cards.slice(0, isDesktop ? 4 : 2).map((card) => (
+                        <li
+                          key={card.id}
+                          className={isDesktop ? "pt-2" : "pt-1"}
+                          style={isDesktop ? { width: "min-content" } : {}}
+                        >
+                          <div
+                            style={
+                              isDesktop
+                                ? { aspectRatio: "3/4", height: "7.5rem" }
+                                : { height: "8rem" }
+                            }
                           >
-                            <p
-                              style={{ margin: "0", width: "100%" }}
-                              className="text-wrap"
-                            >
-                              {card.api_pkmn_name}
-                            </p>
-                            <div
-                              style={{ aspectRatio: "3/4", height: "7.5rem" }}
-                            >
-                              <img
-                                style={{ height: "100%" }}
-                                src={card.api_card_img_src_small}
-                                alt={card.api_pkmn_name}
-                              />
-                            </div>
-                            <p
-                              className="w-100 mx-auto"
-                              style={{ margin: "0" }}
-                            >
-                              {card.api_card_id}
-                            </p>
-                          </li>
-                        ))}
-                      </>
-                    ) : (
-                      <>
-                        {" "}
-                        {cards.slice(0, 2).map((card) => (
-                          <li key={card.id} className="pt-1">
-                            <p style={{ margin: "0" }}>{card.api_pkmn_name}</p>
-                            <div style={{ aspectRatio: "3/4", height: "8rem" }}>
-                              <img
-                                style={{ height: "100%" }}
-                                src={card.api_card_img_src_small}
-                                alt={card.api_pkmn_name}
-                              />
-                            </div>
-                          </li>
-                        ))}
-                      </>
-                    )}
+                            <img
+                              className="rounded"
+                              style={{ height: "100%" }}
+                              src={card.api_card_img_src_small}
+                              alt={card.api_pkmn_name}
+                            />
+                          </div>
+                        </li>
+                      ))}
+                    </>
                   </ul>
                   <div className="w-100 d-flex justify-content-end">
                     <Link
