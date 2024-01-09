@@ -289,6 +289,7 @@ export const Home = () => {
                   }}
                 >
                   <img
+                    className="rounded"
                     style={
                       isDesktop
                         ? { width: "100%" }
@@ -343,6 +344,7 @@ export const Home = () => {
                   }}
                 >
                   <img
+                    className="rounded"
                     style={
                       isDesktop
                         ? { width: "100%" }
