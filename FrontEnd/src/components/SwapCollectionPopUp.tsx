@@ -24,7 +24,6 @@ export const SwapCollectionPopUp = ({
 }: IProps) => {
   const { theme } = useContext(ThemeContext);
   const { language } = useContext(LanguageContext);
-  const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { user } = useAuth0();
 
   const [listOfOwnedCollections, setListOfOwnedCollections] =

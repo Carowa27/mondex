@@ -201,10 +201,11 @@ export const Home = () => {
               {language.lang_code.about_about_project}
             </h4>
           </Link>
-          {isDesktop ? (
+          <p className={isDesktop ? "" : "m-0"}>
+            {language.lang_code.about_description_exam}
+          </p>
+          {isDesktop && (
             <>
-              <p>{language.lang_code.about_description_exam}</p>
-
               <h5>{language.lang_code.word_purpose}</h5>
               <p>{language.lang_code.about_description_purpose}</p>
               {!isAuthenticated ? (
@@ -216,11 +217,8 @@ export const Home = () => {
                 </>
               ) : null}
             </>
-          ) : (
-            <>
-              <p className="m-0">{language.lang_code.about_description_exam}</p>
-            </>
           )}
+
           <Link
             to="./about"
             className="mt-auto align-self-end"
@@ -262,11 +260,11 @@ export const Home = () => {
               {language.lang_code.word_search}
             </h4>
             <span>{language.lang_code.search_you_can_search_for}. </span>
-            {isDesktop ? (
+            {isDesktop && (
               <span>
                 {language.lang_code.search_new_sets_might_be_unavailable}.
               </span>
-            ) : null}
+            )}
           </Link>
           <div className={isDesktop ? "" : "d-flex "}>
             {lastOpenedCard ? (
@@ -282,7 +280,7 @@ export const Home = () => {
                 </h6>
                 <div
                   className={isDesktop ? "" : "d-flex justify-content-center"}
-                  style={isDesktop ? { width: "5.5rem" } : { width: "12.5rem" }}
+                  style={{ width: isDesktop ? "5.5rem" : "12.5rem" }}
                   onClick={() => {
                     setSeeBigCard(true);
                     setInfoPkmnCard(lastOpenedCard);
@@ -290,13 +288,7 @@ export const Home = () => {
                 >
                   <img
                     className="rounded"
-                    style={
-                      isDesktop
-                        ? { width: "100%" }
-                        : {
-                            width: "40%",
-                          }
-                    }
+                    style={{ width: isDesktop ? "100%" : "40%" }}
                     src={lastOpenedCard.images.small}
                     alt={lastOpenedCard.name}
                   />
@@ -337,7 +329,7 @@ export const Home = () => {
 
                 <div
                   className={isDesktop ? "" : "d-flex justify-content-center"}
-                  style={isDesktop ? { width: "5.5rem" } : { width: "12.5rem" }}
+                  style={{ width: isDesktop ? "5.5rem" : "12.5rem" }}
                   onClick={() => {
                     setSeeBigCard(true);
                     setInfoPkmnCard(valuableCard);
@@ -345,13 +337,7 @@ export const Home = () => {
                 >
                   <img
                     className="rounded"
-                    style={
-                      isDesktop
-                        ? { width: "100%" }
-                        : {
-                            width: "40%",
-                          }
-                    }
+                    style={{ width: isDesktop ? "100%" : "40%" }}
                     src={valuableCard.images.small}
                     alt={valuableCard.name}
                   />
