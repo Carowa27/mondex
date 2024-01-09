@@ -8,7 +8,7 @@ export const Header = () => {
   return (
     <>
       <div
-        className="d-flex justify-content-between px-2"
+        className="d-flex justify-content-between ps-3 pe-4 py-2"
         style={{ height: "3rem" }}
       >
         <Link
@@ -18,7 +18,7 @@ export const Header = () => {
             color: theme.primaryColors.link.hex,
           }}
         >
-          <span id="main-logo">logo&namn</span>
+          <div id="main-logo">logo&namn</div>
         </Link>
         <Menu />
       </div>

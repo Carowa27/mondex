@@ -11,9 +11,8 @@ export const colorModes = {
       text: { hex: "#3b4346" },
       link: { hex: "#2B375C" },
       breadcrumbText: { hex: "#6C757D" },
-      background: { hex: "#89c1ce" },
+      background: { hex: "#EEEEEE" },
       border: { hex: "#649980" },
-      cardBackground: { hex: "#78AEBB" },
       buttonBackground: { hex: "#F3E9E3" },
     },
     typeColors: {
@@ -41,7 +40,6 @@ export const colorModes = {
       breadcrumbText: { hex: "#A6ABAF" },
       background: { hex: "#25383C" },
       border: { hex: "#84bda3" },
-      cardBackground: { hex: "#172528" },
       buttonBackground: { hex: "#7D6D68" },
     },
     typeColors: {

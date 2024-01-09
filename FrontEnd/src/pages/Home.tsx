@@ -168,25 +168,28 @@ export const Home = () => {
               ? isAuthenticated
                 ? "rounded px-3 py-2 mx-2 d-flex flex-column flex-fill"
                 : "rounded px-3 py-2 my-2 d-flex flex-column"
-              : "w-100 rounded px-4 py-3 my-2 d-flex flex-column"
+              : "w-100 rounded px-4 py-3 my-2 d-flex flex-column order-3"
           }
           style={
             isDesktop
               ? isAuthenticated
                 ? {
                     width: "25%",
-                    backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                    border: `2px solid rgba(${theme.typeColors.water.rgb},0.5)`,
+                    backgroundColor: `rgba(${theme.typeColors.water.rgb},0.1)`,
                     minHeight: "85vh",
                     height: "auto",
                   }
                 : {
                     width: "40%",
-                    backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                    border: `2px solid rgba(${theme.typeColors.water.rgb},0.5)`,
+                    backgroundColor: `rgba(${theme.typeColors.water.rgb},0.1)`,
                     minHeight: "85vh",
                     height: "auto",
                   }
               : {
-                  backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                  border: `2px solid  rgba(${theme.typeColors.water.rgb},0.5)`,
+                  backgroundColor: `rgba(${theme.typeColors.water.rgb},0.1)`,
                 }
           }
         >
@@ -234,18 +237,20 @@ export const Home = () => {
           className={
             isDesktop
               ? "w-25 rounded px-4 py-3 mx-2 d-flex flex-column"
-              : "w-100 rounded px-4 py-3 my-2 d-flex flex-column"
+              : "w-100 rounded px-4 py-3 my-2 d-flex flex-column order-2"
           }
           style={
             isDesktop
               ? {
-                  backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                  border: `2px solid  rgba(${theme.typeColors.fire.rgb},0.5)`,
+                  backgroundColor: `rgba(${theme.typeColors.fire.rgb},0.1)`,
                   minHeight: "85vh",
                   height: "auto",
                 }
               : {
                   height: "auto",
-                  backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                  border: `2px solid  rgba(${theme.typeColors.fire.rgb},0.5)`,
+                  backgroundColor: `rgba(${theme.typeColors.fire.rgb},0.1)`,
                 }
           }
         >
@@ -375,11 +380,13 @@ export const Home = () => {
             isAuthenticated
               ? {
                   width: "40%",
-                  backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                  border: `2px solid  rgba(${theme.typeColors.grass.rgb},0.5)`,
+                  backgroundColor: `rgba(${theme.typeColors.grass.rgb},0.1)`,
                 }
               : {
                   width: "25%",
-                  backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                  border: `2px solid  rgba(${theme.typeColors.grass.rgb},0.5)`,
+                  backgroundColor: `rgba(${theme.typeColors.grass.rgb},0.1)`,
                 }
           }
         >

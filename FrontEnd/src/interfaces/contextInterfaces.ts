@@ -19,7 +19,6 @@ export interface IPrimaryColors {
   breadcrumbText: IColorType;
   background: IColorType;
   border: IColorType;
-  cardBackground: IColorType;
   buttonBackground: IColorType;
 }
 

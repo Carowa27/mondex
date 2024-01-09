@@ -25,10 +25,10 @@ export const Layout = () => {
         overflowY: "hidden",
         overflowX: "hidden",
       }}
-      className="d-flex flex-column p-2"
+      className="d-flex flex-column"
     >
       <Header />
-      <main className="mx-2">
+      <main className="mx-2 mb-1 p-2">
         <Outlet />
       </main>
       <Footer />
