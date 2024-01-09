@@ -33,6 +33,7 @@ export interface ILanguageVariables {
   collection_is_set_collection: string;
   collection_name: string;
   collection_set_id: string;
+  collection_with_no_cards: string;
   error_something_went_wrong: string;
   my_pages_my_pages: string;
   my_pages_see_my_info: string;
