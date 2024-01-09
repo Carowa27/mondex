@@ -5,6 +5,7 @@
   "word_account": "Konto",
   "word_cancel": "Avbryt",
   "word_card": "Kort",
+  "word_delete": "Ta bort",
   "word_email": "E-post",
   "word_goal": "Mål",
   "word_language": "Språk",
@@ -32,6 +33,8 @@
   "about_description_goal": "Efter dessa 6 veckor vill jag ha tagit fram något som är användbart både för att söka och som ett översiktsverktyg för att göra insamlingen enklare och mer hanterbar.",
   "about_description_purpose": "Som samlare av Pokémon-kort är det svårt att hålla jämna steg med alla kort som finns i samlingen. Om du köper en ETB(Elite Trainer Box) får du en mapp som innehåller alla kort i den uppsättningen, men den ger dig fortfarande inte riktigt en bra överblick över samlingen som helhet. Och om du vill samla hela setet blir det svårare när du inte kan vara säker på vilka kort du har eller inte. Denna app skulle göra insamlingen enklare och mer tidseffektiv.",
   "card_card_to_add": "Kort att lägga till",
+  "card_card_to_delete": "Kort att ta bort",
+  "card_collection_to_remove_card_from": "Från kollektion",
   "card_add_to_collection": "Lägg till i kollektion",
   "collection_collection": "Kollektion",
   "collection_create_new_collection": "Skapa ny kollektion",
@@ -40,6 +43,7 @@
   "collection_name": "Namn på kollektion",
   "collection_set_id": "Set ID",
   "collection_with_no_cards": "Inga kort i samlingen ännu",
+  "collection_to_delete": "Kollektion att ta bort",
   "error_something_went_wrong": "Något gick fel",
   "error_search_no_hits": "Fick inga träffar, har du stavat rätt?",
   "error_search_new_set": "Om du letar efter en nysläppt uppsättning kanske den inte är tillgänglig ännu.",
@@ -57,5 +61,6 @@
   "todays_valuable_card": "Dagens värdefulla kort",
   "your_last_searched": "Ditt senast sökta kort",
   "see_all_cards": "Se alla kort",
-  "see_collection": "Se kollektion"
+  "see_collection": "Se kollektion",
+  "warning_delete": "Är du säker att du vill radera? Den kommer att vara borta för alltid."
 }

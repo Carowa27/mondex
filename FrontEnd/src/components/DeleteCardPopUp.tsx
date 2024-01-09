@@ -12,6 +12,7 @@ import {
   deleteCollectionById,
   getOwnedCollectionByCollectionName,
 } from "../services/collectionServices";
+import { LanguageContext } from "../globals/language/language";
 
 interface IProps {
   changeShowDeleteCardPopUp: () => void;
@@ -29,6 +30,7 @@ export const DeleteCardPopUp = ({
   updateData,
 }: IProps) => {
   const { theme } = useContext(ThemeContext);
+  const { language } = useContext(LanguageContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { user } = useAuth0();
   const [cardList, setCardList] = useState<ICardFromDB[]>();
@@ -104,19 +106,21 @@ export const DeleteCardPopUp = ({
         {cardToDelete ? (
           <>
             <div className="mb-4">
-              <h6>Card to delete: </h6>
+              <h6>{language.lang_code.card_card_to_delete}: </h6>
               <span>
                 {cardToDelete?.api_pkmn_name}, {cardToDelete.api_card_id}
               </span>
             </div>
             <div className="mb-4">
-              <h6>From collection: </h6>
+              <h6>
+                {language.lang_code.card_collection_to_remove_card_from}:{" "}
+              </h6>
               <span>{collectionName.replace(/_/g, " ")}</span>
             </div>
           </>
         ) : (
           <div className="mb-4">
-            <h6>Collection to delete: </h6>
+            <h6>{language.lang_code.collection_to_delete}: </h6>
             <span>
               {collection?.collection_name.replace(/_/g, " ")}
               {collection?.api_set_id ? `, ${collection.api_set_id}` : null}
@@ -124,16 +128,16 @@ export const DeleteCardPopUp = ({
           </div>
         )}
 
-        <i>Are you sure you want to delete? It will be gone forever.</i>
+        <i>{language.lang_code.warning_delete}</i>
         <div className="d-flex justify-content-around mt-3">
           <button className="btn border" onClick={changeShowDeleteCardPopUp}>
-            cancel
+            {language.lang_code.word_cancel}
           </button>
           <button
             className="btn text-danger fw-bolder border"
             onClick={handleSubmitToDelete}
           >
-            delete
+            {language.lang_code.word_delete}
           </button>
         </div>
       </div>

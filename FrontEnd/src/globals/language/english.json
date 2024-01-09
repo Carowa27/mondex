@@ -5,6 +5,7 @@
   "word_account": "Account",
   "word_cancel": "Cancel",
   "word_card": "Card",
+  "word_delete": "Delete",
   "word_email": "Email",
   "word_goal": "Goal",
   "word_language": "Language",
@@ -32,6 +33,8 @@
   "about_description_goal": "After these 6 weeks I want to have developed something that is usable both for searching and as an overview tool to make the collecting easier and more manageable.",
   "about_description_purpose": "As a collector of Pokémon cards it is hard to keep up with all the cards that are in the collection. If you buy an ETB(Elite Trainer Box) you get a folder that contains all the cards in that set, but it still doesn't really give you a good overview on the collection as a whole. And if you want to collect the full set it makes it harder when you can't be sure of which cards you have or not. This app would make the collecting easier and more time effective.",
   "card_card_to_add": "Card to add",
+  "card_card_to_delete": "Card to delete",
+  "card_collection_to_remove_card_from": "From collection",
   "card_add_to_collection": "Add to collection",
   "collection_collection": "Collection",
   "collection_create_new_collection": "Create new collection",
@@ -40,6 +43,7 @@
   "collection_name": "Name on collection",
   "collection_set_id": "Set ID",
   "collection_with_no_cards": "No cards in collection yet",
+  "collection_to_delete": "Collection to delete",
   "error_something_went_wrong": "Something went wrong",
   "error_search_no_hits": "Got no hits, you have any type errors?",
   "error_search_new_set": "If you are searching for a newly released set, it might not be available yet.",
@@ -57,5 +61,6 @@
   "todays_valuable_card": "Today's valuable card",
   "your_last_searched": "Your last searched card",
   "see_all_cards": "See all cards",
-  "see_collection": "See collection"
+  "see_collection": "See collection",
+  "warning_delete": "Are you sure you want to delete? It will be gone forever."
 }
