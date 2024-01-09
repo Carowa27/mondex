@@ -7,6 +7,7 @@ export interface ILanguageVariables {
   word_account: string;
   word_cancel: string;
   word_card: string;
+  word_change: string;
   word_delete: string;
   word_email: string;
   word_goal: string;
@@ -35,6 +36,7 @@ export interface ILanguageVariables {
   about_description_goal: string;
   about_description_purpose: string;
   card_card_to_add: string;
+  card_card_to_swap: string;
   card_card_to_delete: string;
   card_collection_to_remove_card_from: string;
   card_add_to_collection: string;
@@ -46,6 +48,7 @@ export interface ILanguageVariables {
   collection_set_id: string;
   collection_with_no_cards: string;
   collection_to_delete: string;
+  collection_to_change_to: string;
   error_something_went_wrong: string;
   error_search_no_hits: string;
   error_search_new_set: string;
