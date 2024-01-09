@@ -10,10 +10,12 @@ export interface ILanguageVariables {
   word_language: string;
   word_last: string;
   word_loading: string;
+  word_market_value: string;
   word_name: string;
   word_no: string;
   word_normal: string;
   word_purpose: string;
+  word_release_date: string;
   word_search: string;
   word_submit: string;
   word_updated: string;

@@ -8,6 +8,7 @@ import { getCardFromApi } from "../services/pkmnApiServices";
 import { variables } from "../globals/variables";
 import { useMediaQuery } from "react-responsive";
 import { spawn } from "child_process";
+import { LanguageContext } from "../globals/language/language";
 
 interface IProps {
   card: ICardFromDB | undefined;
@@ -16,6 +17,7 @@ interface IProps {
 }
 export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
   const { theme } = useContext(ThemeContext);
+  const { language } = useContext(LanguageContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const [cardInfo, setCardInfo] = useState<IPkmnCard>();
 
@@ -50,7 +52,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
 
   const valueHTML = (cardInfo: IPkmnCard) => (
     <>
-      <h5>Market Value</h5>
+      <h5>{language.lang_code.word_market_value}</h5>
       <h6>TCG Player</h6>
       {cardInfo.tcgplayer?.prices["1stEdition"]?.market ? (
         <BigCardInfoRow>
@@ -166,6 +168,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
     }
   `;
   const BigCardInfoRow = styled.div`
+    margin-left: 0.5rem;
     :first-child {
       font-weight: bold;
       padding-right: 0.5rem;
@@ -226,7 +229,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
                 <span>Nr: {cardInfo.number}</span>
               </BigCardInfoRow>
               <BigCardInfoRow>
-                <span>Release date: </span>
+                <span>{language.lang_code.word_release_date}: </span>
                 <span>{cardInfo.set.releaseDate}</span>
               </BigCardInfoRow>
               <BigCardInfoRow>
