@@ -230,7 +230,7 @@ export const Search = () => {
               id="search_type"
               className="d-flex justify-content-between align-items-center mt-1"
             >
-              <label htmlFor="pkmn" className="m-0 me-2">
+              <label htmlFor="search_pkmn" className="m-0 me-2">
                 Pokémon:{" "}
                 <input
                   type="radio"
@@ -241,7 +241,7 @@ export const Search = () => {
                   onChange={() => setSearchParam("pkmn")}
                 />
               </label>
-              <label htmlFor="artist" className="m-0 me-2">
+              <label htmlFor="search_artist" className="m-0 me-2">
                 Artist:{" "}
                 <input
                   type="radio"
@@ -252,7 +252,7 @@ export const Search = () => {
                   onChange={() => setSearchParam("artist")}
                 />
               </label>
-              <label htmlFor="set" className="m-0 me-2">
+              <label htmlFor="search_set" className="m-0 me-2">
                 Set:{" "}
                 <input
                   type="radio"
@@ -337,7 +337,6 @@ export const Search = () => {
                                   className="rounded-pill w-100 d-flex justify-content-around"
                                   style={{
                                     backgroundColor: `${theme.primaryColors.background.hex}`,
-                                    border: "grey 1px solid",
                                     padding: "0.3rem",
                                   }}
                                 >
@@ -346,12 +345,12 @@ export const Search = () => {
                                       style={
                                         hoverAddBtn
                                           ? {
-                                              backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                                              backgroundColor: `rgba(${theme.typeColors.fire.rgb},0.6)`,
                                               width: "25px",
                                               height: "25px",
                                             }
                                           : {
-                                              backgroundColor: `${theme.primaryColors.border.hex}`,
+                                              backgroundColor: `rgba(${theme.typeColors.fire.rgb},0.4)`,
                                               width: "25px",
                                               height: "25px",
                                             }
@@ -372,12 +371,12 @@ export const Search = () => {
                                     style={
                                       hoverInfoBtn
                                         ? {
-                                            backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                                            backgroundColor: `rgba(${theme.typeColors.water.rgb},0.6)`,
                                             width: "1.7rem",
                                             height: "1.7rem",
                                           }
                                         : {
-                                            backgroundColor: `${theme.primaryColors.border.hex}`,
+                                            backgroundColor: `rgba(${theme.typeColors.water.rgb},0.4)`,
                                             width: "1.7rem",
                                             height: "1.7rem",
                                           }

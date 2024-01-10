@@ -20,19 +20,19 @@ export const AboutProject = () => {
         id="about-container"
         className={isDesktop ? "row my-1" : "column my-1"}
       >
-        <FrontPageBtnCard bkcolor={`${theme.primaryColors.cardBackground.hex}`}>
+        <FrontPageBtnCard bkcolor={`${theme.primaryColors.background.hex}`}>
           <h5 id="about-card-examprj-header">
             {language.lang_code.about_exam}
           </h5>
           <p>{language.lang_code.about_description_exam}</p>
         </FrontPageBtnCard>
-        <FrontPageBtnCard bkcolor={`${theme.primaryColors.cardBackground.hex}`}>
+        <FrontPageBtnCard bkcolor={`${theme.primaryColors.background.hex}`}>
           <h5 id="about-card-purpose-header">
             {language.lang_code.word_purpose}
           </h5>
           <p>{language.lang_code.about_description_purpose}</p>
         </FrontPageBtnCard>
-        <FrontPageBtnCard bkcolor={`${theme.primaryColors.cardBackground.hex}`}>
+        <FrontPageBtnCard bkcolor={`${theme.primaryColors.background.hex}`}>
           <h5 id="about-card-goal-header">{language.lang_code.word_goal}</h5>
           <p className="m-0">{language.lang_code.about_description_goal}</p>
         </FrontPageBtnCard>

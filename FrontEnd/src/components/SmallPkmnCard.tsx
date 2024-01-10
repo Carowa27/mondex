@@ -236,7 +236,7 @@ export const SmallPkmnCard = ({
                 className="rounded-pill w-100 d-flex justify-content-around"
                 style={{
                   backgroundColor: `${theme.primaryColors.background.hex}`,
-                  border: "grey 1px solid",
+                  // border: "grey 1px solid",
                   padding: "0.3rem",
                 }}
               >
@@ -244,12 +244,12 @@ export const SmallPkmnCard = ({
                   style={
                     hoverPlusBtn
                       ? {
-                          backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                          backgroundColor: `rgba(${theme.typeColors.grass.rgb},0.6)`,
                           width: "1.7rem",
                           height: "1.7rem",
                         }
                       : {
-                          backgroundColor: `${theme.primaryColors.border.hex}`,
+                          backgroundColor: `rgba(${theme.typeColors.grass.rgb},0.4)`,
                           width: "1.7rem",
                           height: "1.7rem",
                         }
@@ -265,12 +265,12 @@ export const SmallPkmnCard = ({
                   style={
                     hoverMinusBtn
                       ? {
-                          backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                          backgroundColor: `rgba(${theme.typeColors.fire.rgb},0.6)`,
                           width: "1.7rem",
                           height: "1.7rem",
                         }
                       : {
-                          backgroundColor: `${theme.primaryColors.border.hex}`,
+                          backgroundColor: `rgba(${theme.typeColors.fire.rgb},0.4)`,
                           width: "1.7rem",
                           height: "1.7rem",
                         }
@@ -286,12 +286,12 @@ export const SmallPkmnCard = ({
                   style={
                     hoverSwapBtn
                       ? {
-                          backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                          backgroundColor: `rgba(${theme.typeColors.fighting.rgb},0.6)`,
                           width: "1.7rem",
                           height: "1.7rem",
                         }
                       : {
-                          backgroundColor: `${theme.primaryColors.border.hex}`,
+                          backgroundColor: `rgba(${theme.typeColors.fighting.rgb},0.4)`,
                           width: "1.7rem",
                           height: "1.7rem",
                         }
@@ -310,12 +310,12 @@ export const SmallPkmnCard = ({
                   style={
                     hoverInfoBtn
                       ? {
-                          backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                          backgroundColor: `rgba(${theme.typeColors.water.rgb},0.6)`,
                           width: "1.7rem",
                           height: "1.7rem",
                         }
                       : {
-                          backgroundColor: `${theme.primaryColors.border.hex}`,
+                          backgroundColor: `rgba(${theme.typeColors.water.rgb},0.4)`,
                           width: "1.7rem",
                           height: "1.7rem",
                         }
@@ -415,12 +415,12 @@ export const SmallPkmnCard = ({
                   style={
                     hoverPlusBtn
                       ? {
-                          backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                          backgroundColor: `rgba(${theme.typeColors.water.rgb},0.6)`,
                           width: "1.7rem",
                           height: "1.7rem",
                         }
                       : {
-                          backgroundColor: `${theme.primaryColors.border.hex}`,
+                          backgroundColor: `rgba(${theme.typeColors.water.rgb},0.4)`,
                           width: "1.7rem",
                           height: "1.7rem",
                         }
@@ -440,12 +440,12 @@ export const SmallPkmnCard = ({
                       style={
                         hoverMinusBtn
                           ? {
-                              backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                              backgroundColor: `rgba(${theme.typeColors.fire.rgb},0.6)`,
                               width: "1.7rem",
                               height: "1.7rem",
                             }
                           : {
-                              backgroundColor: `${theme.primaryColors.border.hex}`,
+                              backgroundColor: `rgba(${theme.typeColors.fire.rgb},0.4)`,
                               width: "1.7rem",
                               height: "1.7rem",
                             }
@@ -465,12 +465,12 @@ export const SmallPkmnCard = ({
                       style={
                         hoverSwapBtn
                           ? {
-                              backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                              backgroundColor: `rgba(${theme.typeColors.fighting.rgb},0.6)`,
                               width: "1.7rem",
                               height: "1.7rem",
                             }
                           : {
-                              backgroundColor: `${theme.primaryColors.border.hex}`,
+                              backgroundColor: `rgba(${theme.typeColors.fighting.rgb},0.4)`,
                               width: "1.7rem",
                               height: "1.7rem",
                             }
@@ -492,12 +492,12 @@ export const SmallPkmnCard = ({
                   style={
                     hoverInfoBtn
                       ? {
-                          backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                          backgroundColor: `rgba(${theme.typeColors.water.rgb},0.6)`,
                           width: "1.7rem",
                           height: "1.7rem",
                         }
                       : {
-                          backgroundColor: `${theme.primaryColors.border.hex}`,
+                          backgroundColor: `rgba(${theme.typeColors.water.rgb},0.4)`,
                           width: "1.7rem",
                           height: "1.7rem",
                         }
