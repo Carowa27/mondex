@@ -3,7 +3,7 @@ import { ICardFromDB, ICollectionFromDB } from "../interfaces/dataFromDB";
 import { User } from "@auth0/auth0-react";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { getOwnedCollectionByCollectionName } from "./collectionServices";
-import { getCardFromApi } from "./pkmnApiServices";
+import { getCardFromApi } from "./pkmnTcgApiServices";
 
 interface IGetAllOwnedCardsProps {
   user: User;

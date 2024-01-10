@@ -15,7 +15,7 @@ import {
   getOwnedCollectionByCollectionName,
 } from "../services/collectionServices";
 import { IPkmnCard } from "../interfaces/dataFromApi";
-import { getPkmnFromApi } from "../services/pkmnApiServices";
+import { getPkmnFromApi } from "../services/pkmnTcgApiServices";
 import { SmallPkmnCard } from "../components/SmallPkmnCard";
 import { Pagination } from "./layout/Pagination";
 import { BreadCrumbs } from "./layout/BreadCrumbs";

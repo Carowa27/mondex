@@ -4,7 +4,7 @@ import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import { LanguageContext } from "../globals/language/language";
 import { createCollection } from "../services/collectionServices";
 import { User, useAuth0 } from "@auth0/auth0-react";
-import { getSetFromApi } from "../services/pkmnApiServices";
+import { getSetFromApi } from "../services/pkmnTcgApiServices";
 import { Link } from "react-router-dom";
 import { ThemeContext } from "../globals/theme";
 
