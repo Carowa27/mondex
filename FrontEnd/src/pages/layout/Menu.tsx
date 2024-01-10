@@ -17,7 +17,7 @@ export const Menu = () => {
     <>
       {isDesktop ? (
         <div
-          className="d-flex justify-content-around"
+          className="d-flex justify-content-around py-2"
           style={{
             width: "400px",
             minWidth: "fit-content",
@@ -172,7 +172,7 @@ export const Menu = () => {
           {isMobileMenuOpen ? (
             <div
               id="main-menu-container"
-              className="d-flex flex-column me-3 pe-2 rounded-bottom border-top-0 border-right-0"
+              className="d-flex flex-column me-3 pe-2 rounded-bottom"
               style={{
                 color: `${theme.primaryColors.link.hex}`,
                 position: "absolute",
@@ -281,7 +281,7 @@ export const Menu = () => {
             </div>
           ) : (
             <div
-              className="d-flex flex-column me-3 px-2"
+              className="d-flex flex-column me-3 px-2 mt-2 "
               style={{
                 color: `${theme.primaryColors.link.hex}`,
                 position: "absolute",
@@ -305,7 +305,7 @@ export const Menu = () => {
           )}
           <div
             id="main-menu-theme-container"
-            className="ps-3 pe-2 me-3"
+            className="ps-3 pe-2 me-3 mt-2"
             style={{ zIndex: 300, position: "absolute", right: 0 }}
           >
             {theme.name === "light" ? (
