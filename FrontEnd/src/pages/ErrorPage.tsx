@@ -99,10 +99,19 @@ export const ErrorPage = () => {
     }
   };
   return (
-    <div style={{ height: "100vh" }}>
-      <div className=" d-flex justify-content-center flex-column h-75">
-        <h1>Oh no</h1>
-        <h5>something went wrong, all the Pokémon is out of the CARDS?!</h5>
+    <div
+      style={{
+        height: "100vh",
+        backgroundColor: theme.primaryColors.background.hex,
+        color: theme.primaryColors.text.hex,
+      }}
+    >
+      <div className=" d-flex justify-content-center flex-column h-75 ms-3">
+        <h1>{language.lang_code.error_oh_no}</h1>
+        <h5>
+          {language.lang_code.error_something_went_wrong},{" "}
+          {language.lang_code.error_pkmn_fled}?!
+        </h5>
         <Link
           to="/"
           className="text-decoration-none ps-3 mt-4"
@@ -110,7 +119,14 @@ export const ErrorPage = () => {
             color: theme.primaryColors.link.hex,
           }}
         >
-          <button className="btn border">Home</button>
+          <button
+            className="btn border"
+            style={{
+              color: theme.primaryColors.text.hex,
+            }}
+          >
+            Home
+          </button>
         </Link>
       </div>
       <div>

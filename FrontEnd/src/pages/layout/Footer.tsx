@@ -22,7 +22,7 @@ export const Footer = () => {
           : "mt-auto d-flex flex-column pb-2"
       }
       style={{
-        backgroundColor: theme.typeColors.colorless.hex,
+        backgroundColor: `rgba(${theme.typeColors.colorless.rgb},0.2)`,
       }}
     >
       <div className={isDesktop ? "d-flex pt-3" : "pt-3"}>

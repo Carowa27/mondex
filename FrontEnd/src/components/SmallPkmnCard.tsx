@@ -357,10 +357,14 @@ export const SmallPkmnCard = ({
               backgroundColor: `${theme.primaryColors.white.hex}`,
               width: isDesktop ? "40px" : "30px",
               height: isDesktop ? "40px" : "30px",
+              border: "1px grey solid",
             }}
             className="rounded-circle d-flex align-items-center justify-content-center"
           >
-            <i className="m-0 p-0">
+            <i
+              className="m-0 p-0"
+              style={{ color: theme.primaryColors.black.hex }}
+            >
               <span
                 style={{
                   fontSize: "13px",
@@ -368,7 +372,7 @@ export const SmallPkmnCard = ({
               >
                 &#x2717;
               </span>
-              {card && card.amount}
+              <span>{card && card.amount}</span>
             </i>
           </span>
         </div>
