@@ -55,7 +55,7 @@ export const Search = () => {
             cardFromApi,
           }).then(() => {
             setSeeCreatedCard(true),
-              setTimeout(() => setSeeCreatedCard(false), 800);
+              setTimeout(() => setSeeCreatedCard(false), 1000);
           });
         }
       }

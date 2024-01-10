@@ -279,7 +279,15 @@ export const SmallPkmnCard = ({
                         height: "1.7rem",
                       }
                 }
-                className="rounded-circle d-flex align-items-center justify-content-center"
+                className={
+                  (cardFromApi &&
+                    cardList.find(
+                      (cardFromDb) => cardFromDb.api_card_id === cardFromApi.id
+                    )) ||
+                  card
+                    ? "rounded-circle d-flex align-items-center justify-content-center"
+                    : "d-none"
+                }
                 onMouseEnter={() => setHoverMinusBtn(true)}
                 onMouseLeave={() => setHoverMinusBtn(false)}
                 onClick={() => subAmount(cardFromApi, card)}
@@ -300,7 +308,15 @@ export const SmallPkmnCard = ({
                         height: "1.7rem",
                       }
                 }
-                className="rounded-circle d-flex align-items-center justify-content-center"
+                className={
+                  (cardFromApi &&
+                    cardList.find(
+                      (cardFromDb) => cardFromDb.api_card_id === cardFromApi.id
+                    )) ||
+                  card
+                    ? "rounded-circle d-flex align-items-center justify-content-center"
+                    : "d-none"
+                }
                 onMouseEnter={() => setHoverSwapBtn(true)}
                 onMouseLeave={() => setHoverSwapBtn(false)}
                 onClick={() => handleSwap(card, cardFromApi)}
@@ -352,34 +368,61 @@ export const SmallPkmnCard = ({
             justifyContent: "end",
           }}
         >
-          <span
-            style={{
-              backgroundColor: `${theme.primaryColors.white.hex}`,
-              width: isDesktop ? "40px" : "30px",
-              height: isDesktop ? "40px" : "30px",
-              border: "1px grey solid",
-            }}
-            className="rounded-circle d-flex align-items-center justify-content-center"
-          >
-            <i
-              className="m-0 p-0"
-              style={{ color: theme.primaryColors.black.hex }}
+          {(cardFromApi &&
+            cardList.find(
+              (cardFromDb) => cardFromDb.api_card_id === cardFromApi.id
+            )?.amount) ||
+          (card && card.amount) ? (
+            <span
+              style={{
+                backgroundColor: `${theme.primaryColors.white.hex}`,
+                width: isDesktop ? "40px" : "30px",
+                height: isDesktop ? "40px" : "30px",
+                border: "1px grey solid",
+              }}
+              className="rounded-circle d-flex align-items-center justify-content-center"
             >
-              <span
-                style={{
-                  fontSize: "13px",
-                }}
+              <i
+                className="m-0 p-0"
+                style={{ color: theme.primaryColors.black.hex }}
               >
-                &#x2717;
-              </span>
-              <span>{card && card.amount}</span>
-            </i>
-          </span>
+                <span
+                  style={{
+                    fontSize: "13px",
+                  }}
+                >
+                  &#x2717;
+                </span>
+                <span>
+                  {cardFromApi &&
+                    cardList.find(
+                      (cardFromDb) => cardFromDb.api_card_id === cardFromApi.id
+                    )?.amount}
+                  {card && card.amount}
+                </span>
+              </i>
+            </span>
+          ) : null}
         </div>
         <img
           className="rounded"
-          style={{ width: "100%" }}
-          src={card && card.api_card_img_src_small}
+          style={
+            cardFromApi
+              ? cardList.find(
+                  (cardFromDb) => cardFromDb.api_card_id === cardFromApi.id
+                )
+                ? { width: "100%", opacity: 1 }
+                : {
+                    width: "100%",
+                    opacity: 0.6,
+                    filter: "grayscale(100%)",
+                  }
+              : { width: "100%" }
+          }
+          src={
+            (card && card.api_card_img_src_small) ||
+            (cardFromApi && cardFromApi.images.small)
+          }
           alt={card && card.api_pkmn_name}
         />
       </div>
