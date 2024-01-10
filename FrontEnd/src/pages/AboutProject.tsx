@@ -17,7 +17,11 @@ export const AboutProject = () => {
       </div>
       <div
         id="about-container"
-        className={isDesktop ? "row my-1" : "column my-1"}
+        className={
+          isDesktop
+            ? "d-flex flex-row justify-content-around my-1 "
+            : "column my-1"
+        }
       >
         <div
           className={
@@ -28,10 +32,10 @@ export const AboutProject = () => {
           style={
             isDesktop
               ? {
-                  width: "40%",
+                  width: "32%",
                   border: `2px solid rgba(${theme.typeColors.metal.rgb},0.5)`,
                   backgroundColor: `rgba(${theme.typeColors.metal.rgb},0.1)`,
-                  minHeight: "85vh",
+                  minHeight: "80vh",
                   height: "auto",
                 }
               : {
@@ -54,10 +58,10 @@ export const AboutProject = () => {
           style={
             isDesktop
               ? {
-                  width: "40%",
+                  width: "32%",
                   border: `2px solid rgba(${theme.typeColors.metal.rgb},0.5)`,
                   backgroundColor: `rgba(${theme.typeColors.metal.rgb},0.1)`,
-                  minHeight: "85vh",
+                  minHeight: "80vh",
                   height: "auto",
                 }
               : {
@@ -80,10 +84,10 @@ export const AboutProject = () => {
           style={
             isDesktop
               ? {
-                  width: "40%",
+                  width: "32%",
                   border: `2px solid rgba(${theme.typeColors.metal.rgb},0.5)`,
                   backgroundColor: `rgba(${theme.typeColors.metal.rgb},0.1)`,
-                  minHeight: "85vh",
+                  minHeight: "80vh",
                   height: "auto",
                 }
               : {
