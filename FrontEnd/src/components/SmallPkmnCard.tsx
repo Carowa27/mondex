@@ -1,10 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { ThemeContext } from "../globals/theme";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { ICardFromDB } from "../interfaces/dataFromDB";
-// import { LanguageContext } from "../globals/language/language";
-// import { useMediaQuery } from "react-responsive";
-// import { variables } from "../globals/variables";
 import { useAuth0 } from "@auth0/auth0-react";
 import {
   addAmountOnCard,
@@ -244,7 +241,6 @@ export const SmallPkmnCard = ({
               className="rounded-pill w-100 d-flex justify-content-around"
               style={{
                 backgroundColor: `${theme.primaryColors.background.hex}`,
-                // border: "grey 1px solid",
                 padding: "0.3rem",
               }}
             >

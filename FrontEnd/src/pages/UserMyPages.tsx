@@ -92,8 +92,6 @@ export const UserMyPages = () => {
                   : "col-12 mb-3"
               }
             >
-              {/* map collections of user */}
-              {/* max 5 */}{" "}
               {!error && isLoading ? (
                 <LoadingModule />
               ) : (

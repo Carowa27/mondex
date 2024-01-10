@@ -3,18 +3,10 @@ import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { ThemeContext } from "../../globals/theme";
 import { useContext } from "react";
+import "../../main.css";
 
 export const Layout = () => {
   const { theme } = useContext(ThemeContext);
-
-  // html,
-  // body {
-  //   -ms-overflow-style: none;
-  //   scrollbar-width: none;
-  //   &::-webkit-scrollbar {
-  //     display: none;
-  //   }
-  // }
 
   return (
     <div

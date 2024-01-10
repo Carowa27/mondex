@@ -1,4 +1,4 @@
-import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { ThemeContext } from "../globals/theme";
@@ -8,10 +8,7 @@ import {
   deleteOwnedCardById,
   getAllOwnedCards,
 } from "../services/cardServices";
-import {
-  deleteCollectionById,
-  getOwnedCollectionByCollectionName,
-} from "../services/collectionServices";
+import { deleteCollectionById } from "../services/collectionServices";
 import { LanguageContext } from "../globals/language/language";
 
 interface IProps {
@@ -62,12 +59,7 @@ export const DeleteCardPopUp = ({
 
     if (user && collection) {
       await deleteCollectionById({ user, collection }).then((res) => {
-        console.log(
-          "deleted: ",
-          collection.collection_name
-          // "status: ",
-          // res?.status
-        );
+        console.log("deleted: ", collection.collection_name);
         window.location.href = "/all-collections";
       });
     }

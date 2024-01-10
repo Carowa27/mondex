@@ -5,7 +5,7 @@ import { LanguageContext } from "../globals/language/language";
 import { getPkmnFromApi } from "../services/pkmnTcgApiServices";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { LoadingModule } from "../components/LoadingModule";
-import { User, useAuth0 } from "@auth0/auth0-react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { ThemeContext } from "../globals/theme";
 import { createCard } from "../services/cardServices";
 import { BigPkmnCard } from "../components/BigPkmnCard";

@@ -3,17 +3,10 @@ import { variables } from "../globals/variables";
 import { useAuth0 } from "@auth0/auth0-react";
 import { LoadingModule } from "../components/LoadingModule";
 import { useContext, useEffect, useState } from "react";
-// import { LanguageContext } from "../globals/language/language";
 import { ThemeContext } from "../globals/theme";
-import {
-  deleteOwnedCardById,
-  getAllCardsFromCollectionById,
-} from "../services/cardServices";
+import { getAllCardsFromCollectionById } from "../services/cardServices";
 import { ICardFromDB, ICollectionFromDB } from "../interfaces/dataFromDB";
-import {
-  deleteCollectionById,
-  getOwnedCollectionByCollectionName,
-} from "../services/collectionServices";
+import { getOwnedCollectionByCollectionName } from "../services/collectionServices";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { getPkmnFromApi } from "../services/pkmnTcgApiServices";
 import { SmallPkmnCard } from "../components/SmallPkmnCard";

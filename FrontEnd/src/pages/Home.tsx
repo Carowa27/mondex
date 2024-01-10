@@ -103,34 +103,6 @@ export const Home = () => {
     }
   }, [theme.name]);
 
-  // const valueHTML = (cardInfo: IPkmnCard) => (
-  //   <>
-  //     {cardInfo.tcgplayer?.prices["1stEdition"]?.market ? (
-  //       <span>{cardInfo.tcgplayer?.prices["1stEdition"].market}$</span>
-  //     ) : null}
-  //     {cardInfo.tcgplayer?.prices["1stEditionHolofoil"]?.market ? (
-  //       <span>{cardInfo.tcgplayer?.prices["1stEditionHolofoil"].market}$</span>
-  //     ) : null}
-  //     {cardInfo.tcgplayer?.prices["1stEditionNormal"]?.market ? (
-  //       <span>{cardInfo.tcgplayer?.prices["1stEditionNormal"].market}$</span>
-  //     ) : null}
-  //     {cardInfo.tcgplayer?.prices.holofoil?.market ? (
-  //       <span>{cardInfo.tcgplayer?.prices.holofoil.market}$</span>
-  //     ) : null}
-  //     {cardInfo.tcgplayer?.prices.normal?.market ? (
-  //       <span>{cardInfo.tcgplayer?.prices.normal.market}$</span>
-  //     ) : null}
-  //     {cardInfo.tcgplayer?.prices.reverseHolofoil?.market ? (
-  //       <span>{cardInfo.tcgplayer?.prices.reverseHolofoil.market}$</span>
-  //     ) : null}
-  //     {cardInfo.tcgplayer?.prices.unlimited?.market ? (
-  //       <span>{cardInfo.tcgplayer?.prices.unlimited.market}$</span>
-  //     ) : null}
-  //     {cardInfo.tcgplayer?.prices.unlimitedHolofoil?.market ? (
-  //       <span>{cardInfo.tcgplayer?.prices.unlimitedHolofoil.market}$</span>
-  //     ) : null}
-  //   </>
-  // );
   return (
     <>
       {seeBigCard ? (

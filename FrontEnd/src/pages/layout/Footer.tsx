@@ -50,9 +50,6 @@ export const Footer = () => {
               <span
                 id="footer-menu-searchpage"
                 className={isDesktop ? "ps-2" : ""}
-                // style={{
-                //   borderLeft: `2px solid ${theme.primaryColors.border.hex}`,
-                // }}
               >
                 {language.lang_code.word_search}
               </span>

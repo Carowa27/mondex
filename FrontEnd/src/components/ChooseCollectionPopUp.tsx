@@ -5,7 +5,7 @@ import { ThemeContext } from "../globals/theme";
 import { styled } from "styled-components";
 import { ICollectionFromDB } from "../interfaces/dataFromDB";
 import { getAllOwnedCollections } from "../services/collectionServices";
-import { User, useAuth0 } from "@auth0/auth0-react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { addCard } from "../services/cardServices";
 import { LanguageContext } from "../globals/language/language";
@@ -61,9 +61,8 @@ export const ChooseCollectionPopUp = ({
   };
 
   const SwapContainer = styled.div`
-    height: fit-content; //60vh;
+    height: fit-content;
     width: 80vw;
-    /* min-width: fit-content; */
     min-height: fit-content;
     padding: 0 2rem 2rem 2rem;
     z-index: 500;
@@ -74,7 +73,7 @@ export const ChooseCollectionPopUp = ({
     border-radius: 0.5rem;
 
     @media (${variables.breakpoints.desktop}) {
-      height: fit-content; //80vh;
+      height: fit-content;
       width: 50vw;
       top: 10vh;
       left: 25vw;
