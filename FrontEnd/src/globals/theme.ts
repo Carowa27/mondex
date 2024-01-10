@@ -12,7 +12,7 @@ export const colorModes = {
       link: { hex: "#2B375C" },
       breadcrumbText: { hex: "#6C757D" },
       background: { hex: "#EEEEEE", rgb: "238,238,238" },
-      buttonBackground: { hex: "#F3E9E3" },
+      buttonBackground: { hex: "#DCE4F2" },
     },
     typeColors: {
       grass: { hex: "#6EC22C", rgb: "110,194,44" },
@@ -38,7 +38,7 @@ export const colorModes = {
       link: { hex: "#B0C5E0" },
       breadcrumbText: { hex: "#A6ABAF" },
       background: { hex: "#18243A", rgb: "24,36,58" },
-      buttonBackground: { hex: "#7D6D68" },
+      buttonBackground: { hex: "#33425F" },
     },
     typeColors: {
       grass: { hex: "#6EC22C", rgb: "110,194,44" },

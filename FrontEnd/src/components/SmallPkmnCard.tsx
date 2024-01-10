@@ -240,7 +240,7 @@ export const SmallPkmnCard = ({
             <div
               className="rounded-pill w-100 d-flex justify-content-around"
               style={{
-                backgroundColor: `${theme.primaryColors.background.hex}`,
+                backgroundColor: `${theme.primaryColors.buttonBackground.hex}`,
                 padding: "0.3rem",
               }}
             >
