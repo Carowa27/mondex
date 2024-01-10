@@ -36,7 +36,7 @@ export const Menu = () => {
               id="main-menu-searchpage"
               className="ps-2"
               style={{
-                borderLeft: `2px solid ${theme.primaryColors.border.hex}`,
+                borderLeft: `2px solid rgba(${theme.typeColors.water.rgb},0.8)`,
               }}
             >
               {language.lang_code.word_search}
@@ -181,14 +181,10 @@ export const Menu = () => {
                 zIndex: "200",
                 width: "120px",
                 backgroundColor: `${theme.primaryColors.background.hex}`,
+                borderLeft: `2px solid rgba(${theme.typeColors.water.rgb},0.8)`,
               }}
             >
-              <div
-                style={{
-                  borderLeft: `2px solid ${theme.primaryColors.border.hex}`,
-                }}
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              >
+              <div onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
                 <span id="main-menu" className="ps-2">
                   Menu
                 </span>
@@ -293,7 +289,7 @@ export const Menu = () => {
                 cursor: "pointer",
                 zIndex: "200",
                 width: "120px",
-                borderLeft: `2px solid ${theme.primaryColors.border.hex}`,
+                borderLeft: `2px solid rgba(${theme.typeColors.water.rgb},0.8)`,
               }}
             >
               <div
