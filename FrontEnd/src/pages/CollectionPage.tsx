@@ -15,7 +15,7 @@ import {
   getOwnedCollectionByCollectionName,
 } from "../services/collectionServices";
 import { IPkmnCard } from "../interfaces/dataFromApi";
-import { getPkmnFromApi } from "../services/pkmnApiServices";
+import { getPkmnFromApi } from "../services/pkmnTcgApiServices";
 import { SmallPkmnCard } from "../components/SmallPkmnCard";
 import { Pagination } from "./layout/Pagination";
 import { BreadCrumbs } from "./layout/BreadCrumbs";
@@ -176,7 +176,7 @@ export const CollectionPage = () => {
         </div>
       </div>
       <div
-        style={{ minHeight: "80vh", outline: "1px solid black" }}
+        style={{ minHeight: "80vh" }}
         className="mt-2 p-2 d-flex flex-column"
       >
         {!isLoading ? (

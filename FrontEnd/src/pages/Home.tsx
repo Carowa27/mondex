@@ -13,9 +13,10 @@ import {
   getAllOwnedCollections,
 } from "../services/collectionServices";
 import { ICollectionFromDB } from "../interfaces/dataFromDB";
-import { getMostValuableCardFromApi } from "../services/pkmnApiServices";
+import { getMostValuableCardFromApi } from "../services/pkmnTcgApiServices";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { BigPkmnCard } from "../components/BigPkmnCard";
+import { ErrorPage } from "./ErrorPage";
 
 export const Home = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
@@ -161,6 +162,7 @@ export const Home = () => {
             : "my-1 d-flex flex-column"
         }
       >
+        <ErrorPage></ErrorPage>
         {/* about column */}
         <div
           className={
@@ -168,25 +170,28 @@ export const Home = () => {
               ? isAuthenticated
                 ? "rounded px-3 py-2 mx-2 d-flex flex-column flex-fill"
                 : "rounded px-3 py-2 my-2 d-flex flex-column"
-              : "w-100 rounded px-4 py-3 my-2 d-flex flex-column"
+              : "w-100 rounded px-4 py-3 my-2 d-flex flex-column order-3"
           }
           style={
             isDesktop
               ? isAuthenticated
                 ? {
                     width: "25%",
-                    backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                    border: `2px solid rgba(${theme.typeColors.water.rgb},0.5)`,
+                    backgroundColor: `rgba(${theme.typeColors.water.rgb},0.1)`,
                     minHeight: "85vh",
                     height: "auto",
                   }
                 : {
                     width: "40%",
-                    backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                    border: `2px solid rgba(${theme.typeColors.water.rgb},0.5)`,
+                    backgroundColor: `rgba(${theme.typeColors.water.rgb},0.1)`,
                     minHeight: "85vh",
                     height: "auto",
                   }
               : {
-                  backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                  border: `2px solid  rgba(${theme.typeColors.water.rgb},0.5)`,
+                  backgroundColor: `rgba(${theme.typeColors.water.rgb},0.1)`,
                 }
           }
         >
@@ -201,10 +206,11 @@ export const Home = () => {
               {language.lang_code.about_about_project}
             </h4>
           </Link>
-          {isDesktop ? (
+          <p className={isDesktop ? "" : "m-0"}>
+            {language.lang_code.about_description_exam}
+          </p>
+          {isDesktop && (
             <>
-              <p>{language.lang_code.about_description_exam}</p>
-
               <h5>{language.lang_code.word_purpose}</h5>
               <p>{language.lang_code.about_description_purpose}</p>
               {!isAuthenticated ? (
@@ -216,11 +222,8 @@ export const Home = () => {
                 </>
               ) : null}
             </>
-          ) : (
-            <>
-              <p className="m-0">{language.lang_code.about_description_exam}</p>
-            </>
           )}
+
           <Link
             to="./about"
             className="mt-auto align-self-end"
@@ -236,18 +239,20 @@ export const Home = () => {
           className={
             isDesktop
               ? "w-25 rounded px-4 py-3 mx-2 d-flex flex-column"
-              : "w-100 rounded px-4 py-3 my-2 d-flex flex-column"
+              : "w-100 rounded px-4 py-3 my-2 d-flex flex-column order-2"
           }
           style={
             isDesktop
               ? {
-                  backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                  border: `2px solid  rgba(${theme.typeColors.fire.rgb},0.5)`,
+                  backgroundColor: `rgba(${theme.typeColors.fire.rgb},0.1)`,
                   minHeight: "85vh",
                   height: "auto",
                 }
               : {
                   height: "auto",
-                  backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                  border: `2px solid  rgba(${theme.typeColors.fire.rgb},0.5)`,
+                  backgroundColor: `rgba(${theme.typeColors.fire.rgb},0.1)`,
                 }
           }
         >
@@ -262,11 +267,11 @@ export const Home = () => {
               {language.lang_code.word_search}
             </h4>
             <span>{language.lang_code.search_you_can_search_for}. </span>
-            {isDesktop ? (
+            {isDesktop && (
               <span>
                 {language.lang_code.search_new_sets_might_be_unavailable}.
               </span>
-            ) : null}
+            )}
           </Link>
           <div className={isDesktop ? "" : "d-flex "}>
             {lastOpenedCard ? (
@@ -282,20 +287,15 @@ export const Home = () => {
                 </h6>
                 <div
                   className={isDesktop ? "" : "d-flex justify-content-center"}
-                  style={isDesktop ? { width: "5.5rem" } : { width: "12.5rem" }}
+                  style={{ width: isDesktop ? "5.5rem" : "12.5rem" }}
                   onClick={() => {
                     setSeeBigCard(true);
                     setInfoPkmnCard(lastOpenedCard);
                   }}
                 >
                   <img
-                    style={
-                      isDesktop
-                        ? { width: "100%" }
-                        : {
-                            width: "40%",
-                          }
-                    }
+                    className="rounded"
+                    style={{ width: isDesktop ? "100%" : "40%" }}
                     src={lastOpenedCard.images.small}
                     alt={lastOpenedCard.name}
                   />
@@ -336,20 +336,15 @@ export const Home = () => {
 
                 <div
                   className={isDesktop ? "" : "d-flex justify-content-center"}
-                  style={isDesktop ? { width: "5.5rem" } : { width: "12.5rem" }}
+                  style={{ width: isDesktop ? "5.5rem" : "12.5rem" }}
                   onClick={() => {
                     setSeeBigCard(true);
                     setInfoPkmnCard(valuableCard);
                   }}
                 >
                   <img
-                    style={
-                      isDesktop
-                        ? { width: "100%" }
-                        : {
-                            width: "40%",
-                          }
-                    }
+                    className="rounded"
+                    style={{ width: isDesktop ? "100%" : "40%" }}
                     src={valuableCard.images.small}
                     alt={valuableCard.name}
                   />
@@ -387,11 +382,13 @@ export const Home = () => {
             isAuthenticated
               ? {
                   width: "40%",
-                  backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                  border: `2px solid  rgba(${theme.typeColors.grass.rgb},0.5)`,
+                  backgroundColor: `rgba(${theme.typeColors.grass.rgb},0.1)`,
                 }
               : {
                   width: "25%",
-                  backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
+                  border: `2px solid  rgba(${theme.typeColors.grass.rgb},0.5)`,
+                  backgroundColor: `rgba(${theme.typeColors.grass.rgb},0.1)`,
                 }
           }
         >

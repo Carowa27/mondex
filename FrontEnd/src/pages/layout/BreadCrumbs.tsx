@@ -16,7 +16,7 @@ export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
   const { language } = useContext(LanguageContext);
   return (
     <>
-      {isDesktop ? (
+      {isDesktop && (
         <div className="d-flex align-items-start pb-2 pe-4 fw-light fs-6 fst-italic d-flex align-items-end">
           {pageParam === "about" ? (
             <p className="m-0">
@@ -151,7 +151,7 @@ export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
             </p>
           ) : null}
         </div>
-      ) : null}
+      )}
     </>
   );
 };

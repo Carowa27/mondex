@@ -73,6 +73,8 @@ export interface ILanguageVariables {
   see_all_cards: string;
   see_collection: string;
   warning_delete: string;
+  disclaimer: string;
+  disclaimer_description: string;
 }
 export const SE: ILanguageVariables = swedish;
 export const EN: ILanguageVariables = english;
