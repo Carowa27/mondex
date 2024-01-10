@@ -16,7 +16,6 @@ import { ICollectionFromDB } from "../interfaces/dataFromDB";
 import { getMostValuableCardFromApi } from "../services/pkmnTcgApiServices";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { BigPkmnCard } from "../components/BigPkmnCard";
-import { ErrorPage } from "./ErrorPage";
 
 export const Home = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
@@ -162,7 +161,6 @@ export const Home = () => {
             : "my-1 d-flex flex-column"
         }
       >
-        <ErrorPage></ErrorPage>
         {/* about column */}
         <div
           className={
