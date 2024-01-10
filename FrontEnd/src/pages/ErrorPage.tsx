@@ -1,12 +1,16 @@
-import { useContext, useEffect, useState } from "react";
+import { CSSProperties, useContext, useEffect, useState } from "react";
 import { LanguageContext } from "../globals/language/language";
 import { ThemeContext } from "../globals/theme";
 import { getPokemonFromApi } from "../services/pokeApiService";
 import { IPokeResponse } from "../interfaces/dataFromApi";
+import { Link } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
+import { variables } from "../globals/variables";
 
 export const ErrorPage = () => {
   const { language } = useContext(LanguageContext);
   const { theme } = useContext(ThemeContext);
+  const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const [pokemonList, setPokemonList] = useState<IPokeResponse[]>();
   const [numberList, setNumberList] = useState<string[]>();
 
@@ -47,20 +51,81 @@ export const ErrorPage = () => {
   useEffect(() => {
     getPokemonArray();
   }, [numberList]);
-
+  const inStyleDesktop = (i: number): CSSProperties => {
+    if (i === 0)
+      return { height: "30%", position: "absolute", top: 25, left: 100 };
+    if (i === 1)
+      return {
+        height: "30%",
+        position: "absolute",
+        top: 200,
+        right: 75,
+      };
+    if (i === 2)
+      return { height: "30%", position: "absolute", top: 50, left: 520 };
+    if (i === 3)
+      return { height: "30%", position: "absolute", bottom: 150, right: 400 };
+    if (i === 4)
+      return { height: "30%", position: "absolute", bottom: 40, left: 30 };
+    else {
+      return { height: "30%" };
+    }
+  };
+  const inStyleMobile = (i: number): CSSProperties => {
+    if (i === 0)
+      return { height: "30%", position: "absolute", top: 45, right: 0 };
+    if (i === 1)
+      return {
+        height: "20%",
+        position: "absolute",
+        top: 45,
+        left: 0,
+        transform: "scaleX(-1)",
+      };
+    if (i === 2)
+      return { height: "20%", position: "absolute", bottom: 0, right: 0 };
+    if (i === 3)
+      return {
+        height: "30%",
+        position: "absolute",
+        bottom: 30,
+        left: 0,
+        transform: "scaleX(-1)",
+      };
+    if (i === 4)
+      return { height: "30%", position: "absolute", right: 10, top: "45%" };
+    else {
+      return { height: "30%" };
+    }
+  };
   return (
-    <div className="border" style={{ height: "100vh" }}>
-      <h1>404</h1>
-      {/* <img src={pokemon?.sprites.front_default} alt={pokemon?.forms[0].name} /> */}
-
-      {pokemonList &&
-        pokemonList?.map((pkmn, i) => (
-          <img
-            key={i}
-            src={pkmn.sprites.front_default}
-            alt={pkmn.forms[0].name}
-          />
-        ))}
+    <div style={{ height: "100vh" }}>
+      <div className=" d-flex justify-content-center flex-column h-75">
+        <h1>Oh no</h1>
+        <h5>something went wrong, all the Pokémon is out of the CARDS?!</h5>
+        <Link
+          to="/"
+          className="text-decoration-none ps-3 mt-4"
+          style={{
+            color: theme.primaryColors.link.hex,
+          }}
+        >
+          <button className="btn border">Home</button>
+        </Link>
+      </div>
+      <div>
+        {pokemonList &&
+          pokemonList?.map((pkmn, i) => (
+            <div>
+              <img
+                style={isDesktop ? inStyleDesktop(i) : inStyleMobile(i)}
+                key={i}
+                src={pkmn.sprites.front_default}
+                alt={pkmn.forms[0].name}
+              />
+            </div>
+          ))}
+      </div>{" "}
     </div>
   );
 };
