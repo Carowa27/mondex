@@ -149,14 +149,14 @@ export const Home = () => {
                     width: "25%",
                     border: `2px solid rgba(${theme.typeColors.water.rgb},0.5)`,
                     backgroundColor: `rgba(${theme.typeColors.water.rgb},0.1)`,
-                    minHeight: "85vh",
+                    minHeight: "90vh",
                     height: "auto",
                   }
                 : {
                     width: "40%",
                     border: `2px solid rgba(${theme.typeColors.water.rgb},0.5)`,
                     backgroundColor: `rgba(${theme.typeColors.water.rgb},0.1)`,
-                    minHeight: "85vh",
+                    minHeight: "90vh",
                     height: "auto",
                   }
               : {
@@ -216,7 +216,7 @@ export const Home = () => {
               ? {
                   border: `2px solid  rgba(${theme.typeColors.fire.rgb},0.5)`,
                   backgroundColor: `rgba(${theme.typeColors.fire.rgb},0.1)`,
-                  minHeight: "85vh",
+                  minHeight: "90vh",
                   height: "auto",
                 }
               : {
