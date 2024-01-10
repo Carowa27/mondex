@@ -402,6 +402,7 @@ export const Search = () => {
                             ) : null}
                             <img
                               style={{ width: "100%" }}
+                              className="rounded"
                               src={cardFromApi.images.small}
                               alt={cardFromApi.name}
                             />
