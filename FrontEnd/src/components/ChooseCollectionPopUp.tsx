@@ -138,10 +138,24 @@ export const ChooseCollectionPopUp = ({
                   : "d-flex justify-content-around mt-3"
               }
             >
-              <button className="btn border" onClick={changeShowAddCardPopup}>
+              <button
+                className="btn"
+                onClick={changeShowAddCardPopup}
+                style={{
+                  border: `1px solid ${theme.primaryColors.text.hex}`,
+                  color: theme.primaryColors.text.hex,
+                }}
+              >
                 {language.lang_code.word_cancel}
               </button>
-              <button className="btn border" onClick={handleSubmitToAddCard}>
+              <button
+                className="btn"
+                onClick={handleSubmitToAddCard}
+                style={{
+                  border: `1px solid ${theme.primaryColors.text.hex}`,
+                  color: theme.primaryColors.text.hex,
+                }}
+              >
                 {language.lang_code.word_add}
               </button>
             </div>

@@ -120,8 +120,9 @@ export const ErrorPage = () => {
           }}
         >
           <button
-            className="btn border"
+            className="btn"
             style={{
+              border: `1px solid ${theme.primaryColors.text.hex}`,
               color: theme.primaryColors.text.hex,
             }}
           >

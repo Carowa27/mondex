@@ -236,13 +236,15 @@ export const Home = () => {
             <h4 id="main-card-search-header">
               {language.lang_code.word_search}
             </h4>
-            <span>{language.lang_code.search_you_can_search_for}. </span>
-            {isDesktop && (
-              <span>
-                {language.lang_code.search_new_sets_might_be_unavailable}.
-              </span>
-            )}
           </Link>
+          <span className={isDesktop ? "" : "mb-3"}>
+            {language.lang_code.search_you_can_search_for}.{" "}
+          </span>
+          {isDesktop && (
+            <span className="mb-2">
+              {language.lang_code.search_new_sets_might_be_unavailable}.
+            </span>
+          )}
           <div className={isDesktop ? "" : "d-flex "}>
             {lastOpenedCard ? (
               <div

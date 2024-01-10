@@ -122,12 +122,23 @@ export const DeleteCardPopUp = ({
 
         <i>{language.lang_code.warning_delete}</i>
         <div className="d-flex justify-content-around mt-3">
-          <button className="btn border" onClick={changeShowDeleteCardPopUp}>
+          <button
+            className="btn"
+            onClick={changeShowDeleteCardPopUp}
+            style={{
+              border: `1px solid ${theme.primaryColors.text.hex}`,
+              color: theme.primaryColors.text.hex,
+            }}
+          >
             {language.lang_code.word_cancel}
           </button>
           <button
-            className="btn text-danger fw-bolder border"
+            className="btn text-danger fw-bolder"
             onClick={handleSubmitToDelete}
+            style={{
+              border: `1px solid ${theme.primaryColors.text.hex}`,
+              color: theme.primaryColors.text.hex,
+            }}
           >
             {language.lang_code.word_delete}
           </button>

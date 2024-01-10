@@ -31,7 +31,7 @@ export const Footer = () => {
             className={
               isDesktop
                 ? "d-flex flex-column justify-content-around w-75"
-                : "d-flex justify-content-between w-100 px-2 pb-3"
+                : "d-flex justify-content-between w-100 px-3 pb-3"
             }
             style={{
               width: "400px",
