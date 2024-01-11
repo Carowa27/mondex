@@ -114,8 +114,9 @@ export const Home = () => {
             width: "100%",
             height: "100vh",
             position: "fixed",
+            zIndex: 400,
           }}
-          className="d-flex justify-content-center"
+          className="d-flex justify-content-center align-items-center"
           onClick={changeShowPkmnInfo}
         >
           <BigPkmnCard

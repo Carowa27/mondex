@@ -7,7 +7,7 @@ import { IPkmnCard } from "../interfaces/dataFromApi";
 import { LoadingModule } from "../components/LoadingModule";
 import { useAuth0 } from "@auth0/auth0-react";
 import { ThemeContext } from "../globals/theme";
-import { addCard, createCard } from "../services/cardServices";
+import { addCard } from "../services/cardServices";
 import { BigPkmnCard } from "../components/BigPkmnCard";
 import { ChooseCollectionPopUp } from "../components/ChooseCollectionPopUp";
 import { Pagination } from "./layout/Pagination";
