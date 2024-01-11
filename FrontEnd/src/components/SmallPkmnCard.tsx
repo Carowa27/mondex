@@ -361,7 +361,7 @@ export const SmallPkmnCard = ({
             position: "absolute",
             color: `${theme.primaryColors.text.hex}`,
             aspectRatio: "auto",
-            width: isDesktop ? "13.2rem" : "10.5rem",
+            width: isDesktop ? "13.2rem" : "10rem",
             height: isDesktop ? "18.2rem" : "14.5rem",
             fontSize: "16px",
             alignItems: "end",
