@@ -168,10 +168,7 @@ export const CollectionPage = () => {
           ) : null}
         </div>
       </div>
-      <div
-        style={{ minHeight: "80vh" }}
-        className="mt-2 p-2 d-flex flex-column"
-      >
+      <div style={{ minHeight: "80vh" }} className="mt-2  d-flex flex-column">
         {!isLoading ? (
           <>
             {cardList.length !== 0 || collection?.api_set_id !== null ? (
