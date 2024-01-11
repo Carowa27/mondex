@@ -61,6 +61,7 @@ export interface ILanguageVariables {
   error_oh_no: string;
   error_pkmn_fled: string;
   my_pages_my_pages: string;
+  my_pages_my_profile: string;
   my_pages_my_collections: string;
   my_pages_see_my_info: string;
   my_pages_see_all_collections: string;
