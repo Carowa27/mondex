@@ -55,6 +55,8 @@
   "error_something_went_wrong": "Något gick fel",
   "error_search_no_hits": "Fick inga träffar, har du stavat rätt?",
   "error_search_new_set": "Om du letar efter en nysläppt uppsättning kanske den inte är tillgänglig ännu.",
+  "error_oh_no": "Ånej",
+  "error_pkmn_fled": "Alla pokémon har flytt ur korten",
   "my_pages_my_pages": "Mina sidor",
   "my_pages_see_my_info": "Se min kontoinformation",
   "my_pages_see_all_collections": "Se alla kollektioner",

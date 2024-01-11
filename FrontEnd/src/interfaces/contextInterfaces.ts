@@ -18,7 +18,6 @@ export interface IPrimaryColors {
   link: IColorType;
   breadcrumbText: IColorType;
   background: IColorType;
-  border: IColorType;
   buttonBackground: IColorType;
 }
 

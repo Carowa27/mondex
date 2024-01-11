@@ -87,9 +87,6 @@ export const AllCollectionsListPage = () => {
                         ? "w-100 rounded d-flex mx-3 mt-2 pt-3 flex-wrap justify-content-between"
                         : "w-100 rounded d-flex mx-3 mt-2 py-4 flex-column"
                     }
-                    style={{
-                      backgroundColor: `${theme.primaryColors.cardBackground.hex}`,
-                    }}
                   >
                     {collections
                       .slice(start, end)

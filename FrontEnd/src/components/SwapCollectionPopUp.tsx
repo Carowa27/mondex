@@ -1,5 +1,4 @@
 import { ChangeEvent, useContext, useEffect, useState } from "react";
-import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { ThemeContext } from "../globals/theme";
 import { styled } from "styled-components";
@@ -69,7 +68,6 @@ export const SwapCollectionPopUp = ({
   const SwapContainer = styled.div`
     height: 60vh;
     width: 80vw;
-    /* min-width: fit-content; */
     min-height: fit-content;
     padding: 0 2rem 2rem 2rem;
     z-index: 500;
@@ -147,10 +145,24 @@ export const SwapCollectionPopUp = ({
                 ))}
             </SwapForm>
             <div className="d-flex justify-content-around mt-3">
-              <button className="btn border" onClick={changeShowSwapPopUp}>
+              <button
+                className="btn"
+                onClick={changeShowSwapPopUp}
+                style={{
+                  border: `1px solid ${theme.primaryColors.text.hex}`,
+                  color: theme.primaryColors.text.hex,
+                }}
+              >
                 {language.lang_code.word_cancel}
               </button>
-              <button className="btn border" onClick={handleSubmitToSwap}>
+              <button
+                className="btn"
+                onClick={handleSubmitToSwap}
+                style={{
+                  border: `1px solid ${theme.primaryColors.text.hex}`,
+                  color: theme.primaryColors.text.hex,
+                }}
+              >
                 {language.lang_code.word_change}
               </button>
             </div>

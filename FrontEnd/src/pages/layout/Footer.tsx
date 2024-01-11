@@ -22,7 +22,7 @@ export const Footer = () => {
           : "mt-auto d-flex flex-column pb-2"
       }
       style={{
-        backgroundColor: theme.typeColors.colorless.hex,
+        backgroundColor: `rgba(${theme.typeColors.colorless.rgb},0.1)`,
       }}
     >
       <div className={isDesktop ? "d-flex pt-3" : "pt-3"}>
@@ -31,7 +31,7 @@ export const Footer = () => {
             className={
               isDesktop
                 ? "d-flex flex-column justify-content-around w-75"
-                : "d-flex justify-content-between w-100 px-2 pb-3"
+                : "d-flex justify-content-between w-100 px-3 pb-3"
             }
             style={{
               width: "400px",
@@ -50,9 +50,6 @@ export const Footer = () => {
               <span
                 id="footer-menu-searchpage"
                 className={isDesktop ? "ps-2" : ""}
-                // style={{
-                //   borderLeft: `2px solid ${theme.primaryColors.border.hex}`,
-                // }}
               >
                 {language.lang_code.word_search}
               </span>

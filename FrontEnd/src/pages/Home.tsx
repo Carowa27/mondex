@@ -103,34 +103,6 @@ export const Home = () => {
     }
   }, [theme.name]);
 
-  // const valueHTML = (cardInfo: IPkmnCard) => (
-  //   <>
-  //     {cardInfo.tcgplayer?.prices["1stEdition"]?.market ? (
-  //       <span>{cardInfo.tcgplayer?.prices["1stEdition"].market}$</span>
-  //     ) : null}
-  //     {cardInfo.tcgplayer?.prices["1stEditionHolofoil"]?.market ? (
-  //       <span>{cardInfo.tcgplayer?.prices["1stEditionHolofoil"].market}$</span>
-  //     ) : null}
-  //     {cardInfo.tcgplayer?.prices["1stEditionNormal"]?.market ? (
-  //       <span>{cardInfo.tcgplayer?.prices["1stEditionNormal"].market}$</span>
-  //     ) : null}
-  //     {cardInfo.tcgplayer?.prices.holofoil?.market ? (
-  //       <span>{cardInfo.tcgplayer?.prices.holofoil.market}$</span>
-  //     ) : null}
-  //     {cardInfo.tcgplayer?.prices.normal?.market ? (
-  //       <span>{cardInfo.tcgplayer?.prices.normal.market}$</span>
-  //     ) : null}
-  //     {cardInfo.tcgplayer?.prices.reverseHolofoil?.market ? (
-  //       <span>{cardInfo.tcgplayer?.prices.reverseHolofoil.market}$</span>
-  //     ) : null}
-  //     {cardInfo.tcgplayer?.prices.unlimited?.market ? (
-  //       <span>{cardInfo.tcgplayer?.prices.unlimited.market}$</span>
-  //     ) : null}
-  //     {cardInfo.tcgplayer?.prices.unlimitedHolofoil?.market ? (
-  //       <span>{cardInfo.tcgplayer?.prices.unlimitedHolofoil.market}$</span>
-  //     ) : null}
-  //   </>
-  // );
   return (
     <>
       {seeBigCard ? (
@@ -177,14 +149,14 @@ export const Home = () => {
                     width: "25%",
                     border: `2px solid rgba(${theme.typeColors.water.rgb},0.5)`,
                     backgroundColor: `rgba(${theme.typeColors.water.rgb},0.1)`,
-                    minHeight: "85vh",
+                    minHeight: "90vh",
                     height: "auto",
                   }
                 : {
                     width: "40%",
                     border: `2px solid rgba(${theme.typeColors.water.rgb},0.5)`,
                     backgroundColor: `rgba(${theme.typeColors.water.rgb},0.1)`,
-                    minHeight: "85vh",
+                    minHeight: "90vh",
                     height: "auto",
                   }
               : {
@@ -244,7 +216,7 @@ export const Home = () => {
               ? {
                   border: `2px solid  rgba(${theme.typeColors.fire.rgb},0.5)`,
                   backgroundColor: `rgba(${theme.typeColors.fire.rgb},0.1)`,
-                  minHeight: "85vh",
+                  minHeight: "90vh",
                   height: "auto",
                 }
               : {
@@ -264,13 +236,15 @@ export const Home = () => {
             <h4 id="main-card-search-header">
               {language.lang_code.word_search}
             </h4>
-            <span>{language.lang_code.search_you_can_search_for}. </span>
-            {isDesktop && (
-              <span>
-                {language.lang_code.search_new_sets_might_be_unavailable}.
-              </span>
-            )}
           </Link>
+          <span className={isDesktop ? "" : "mb-3"}>
+            {language.lang_code.search_you_can_search_for}.{" "}
+          </span>
+          {isDesktop && (
+            <span className="mb-2">
+              {language.lang_code.search_new_sets_might_be_unavailable}.
+            </span>
+          )}
           <div className={isDesktop ? "" : "d-flex "}>
             {lastOpenedCard ? (
               <div

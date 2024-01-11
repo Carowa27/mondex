@@ -18,15 +18,3 @@ export interface ICollectionFromDB {
   api_set_id: string;
   created_at: Date;
 }
-enum Role {
-  USER,
-  ADMIN,
-}
-export interface IUserFromDB {
-  id: number;
-  username: string;
-  email: string;
-  user_auth0_id: string;
-  role: Role;
-  created_at: Date;
-}

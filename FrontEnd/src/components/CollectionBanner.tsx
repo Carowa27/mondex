@@ -44,12 +44,12 @@ export const CollectionBanner = (props: IProps) => {
       {isAuthenticated && (
         <>
           <div
-            // style={{ width: "100%" }}
             className={
               window.location.pathname === "/"
-                ? "mb-2 border rounded p-1 w-100"
-                : "py-2 my-3 col-5 border rounded w-100"
+                ? "mb-2 rounded p-1 w-100"
+                : "py-2 my-3 col-5 rounded w-100"
             }
+            style={{ border: `1px solid ${theme.primaryColors.text.hex}` }}
           >
             <h6 className={isDesktop ? "ms-2 mt-1 mb-0" : "ms-2 mt-1 mb-2"}>
               <Link

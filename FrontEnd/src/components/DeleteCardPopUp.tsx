@@ -1,4 +1,4 @@
-import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { ThemeContext } from "../globals/theme";
@@ -8,10 +8,7 @@ import {
   deleteOwnedCardById,
   getAllOwnedCards,
 } from "../services/cardServices";
-import {
-  deleteCollectionById,
-  getOwnedCollectionByCollectionName,
-} from "../services/collectionServices";
+import { deleteCollectionById } from "../services/collectionServices";
 import { LanguageContext } from "../globals/language/language";
 
 interface IProps {
@@ -62,12 +59,7 @@ export const DeleteCardPopUp = ({
 
     if (user && collection) {
       await deleteCollectionById({ user, collection }).then((res) => {
-        console.log(
-          "deleted: ",
-          collection.collection_name
-          // "status: ",
-          // res?.status
-        );
+        console.log("deleted: ", collection.collection_name);
         window.location.href = "/all-collections";
       });
     }
@@ -130,12 +122,23 @@ export const DeleteCardPopUp = ({
 
         <i>{language.lang_code.warning_delete}</i>
         <div className="d-flex justify-content-around mt-3">
-          <button className="btn border" onClick={changeShowDeleteCardPopUp}>
+          <button
+            className="btn"
+            onClick={changeShowDeleteCardPopUp}
+            style={{
+              border: `1px solid ${theme.primaryColors.text.hex}`,
+              color: theme.primaryColors.text.hex,
+            }}
+          >
             {language.lang_code.word_cancel}
           </button>
           <button
-            className="btn text-danger fw-bolder border"
+            className="btn text-danger fw-bolder"
             onClick={handleSubmitToDelete}
+            style={{
+              border: `1px solid ${theme.primaryColors.text.hex}`,
+              color: theme.primaryColors.text.hex,
+            }}
           >
             {language.lang_code.word_delete}
           </button>

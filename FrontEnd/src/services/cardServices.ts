@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ICardFromDB, ICollectionFromDB } from "../interfaces/dataFromDB";
+import { ICardFromDB } from "../interfaces/dataFromDB";
 import { User } from "@auth0/auth0-react";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { getOwnedCollectionByCollectionName } from "./collectionServices";
@@ -293,23 +293,27 @@ export const addCard = ({ user, cardToAdd, collection_name }: IAddCard) => {
   const cardFromApi: IPkmnCard = cardToAdd;
   let allOwnedCards: ICardFromDB[] | void;
   const getData = async () => {
-    await getAllOwnedCards({ user }).then((res) => {
-      return (allOwnedCards = res);
-    });
-    if (allOwnedCards) {
-      const cardExists = allOwnedCards.find(
-        (card) =>
-          card.api_card_id === cardToAdd.id &&
-          card.collection_name === collection_name
-      );
+    try {
+      await getAllOwnedCards({ user }).then((res) => {
+        return (allOwnedCards = res);
+      });
+      if (allOwnedCards) {
+        const cardExists = allOwnedCards.find(
+          (card) =>
+            card.api_card_id === cardToAdd.id &&
+            card.collection_name === collection_name
+        );
 
-      if (cardExists === undefined) {
-        const collectionName = collection_name;
-        createCard({ user, cardFromApi, collectionName });
-      } else {
-        const card = cardExists;
-        addAmountOnCard({ user, card });
+        if (cardExists === undefined) {
+          const collectionName = collection_name;
+          createCard({ user, cardFromApi, collectionName });
+        } else {
+          const card = cardExists;
+          addAmountOnCard({ user, card });
+        }
       }
+    } catch (error) {
+      console.error("An error has occurred: ", error);
     }
   };
   getData();

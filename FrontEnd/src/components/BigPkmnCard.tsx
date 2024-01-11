@@ -3,11 +3,9 @@ import { styled } from "styled-components";
 import { ThemeContext } from "../globals/theme";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { ICardFromDB } from "../interfaces/dataFromDB";
-import { SmallPkmnCard } from "./SmallPkmnCard";
 import { getCardFromApi } from "../services/pkmnTcgApiServices";
 import { variables } from "../globals/variables";
 import { useMediaQuery } from "react-responsive";
-import { spawn } from "child_process";
 import { LanguageContext } from "../globals/language/language";
 
 interface IProps {

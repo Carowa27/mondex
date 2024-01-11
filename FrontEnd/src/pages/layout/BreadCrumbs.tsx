@@ -1,9 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../../globals/variables";
 import { Link } from "react-router-dom";
 import { ThemeContext } from "../../globals/theme";
-import { LanguageContext, lang } from "../../globals/language/language";
+import { LanguageContext } from "../../globals/language/language";
 
 interface IProps {
   pageParam: string;

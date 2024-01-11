@@ -8,7 +8,6 @@ const get = async <T>(url: string) => {
 export const getPokemonFromApi = async (dexNr: string) => {
   const searchString = `https://pokeapi.co/api/v2/pokemon/${dexNr}`;
   try {
-    // console.log(searchString);
     const result = await get<IPokeResponse>(searchString)
       .then((res) => {
         return res.data;

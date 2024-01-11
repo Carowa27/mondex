@@ -48,7 +48,13 @@ export const Pagination = ({
   }, [page]);
   return (
     <>
-      <div className="w-100 d-flex justify-content-center justify-self-center align-items-center">
+      <div
+        className={
+          totalCount > pageSize
+            ? "w-100 d-flex justify-content-center justify-self-center align-items-center"
+            : "d-none"
+        }
+      >
         <p className="m-0 px-2">
           <i
             className="bi bi-skip-start-fill"
