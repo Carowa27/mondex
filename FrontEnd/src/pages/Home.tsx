@@ -195,16 +195,17 @@ export const Home = () => {
               ) : null}
             </>
           )}
-
-          <Link
-            to="./about"
-            className="mt-auto align-self-end"
-            style={{
-              color: theme.primaryColors.link.hex,
-            }}
-          >
-            <i>{language.lang_code.read_more}</i>
-          </Link>
+          {isAuthenticated ? (
+            <Link
+              to="./about"
+              className="mt-auto align-self-end"
+              style={{
+                color: theme.primaryColors.link.hex,
+              }}
+            >
+              <i>{language.lang_code.read_more}</i>
+            </Link>
+          ) : null}
         </div>
         {/* search column */}
         <div
