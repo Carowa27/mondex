@@ -13,6 +13,8 @@ export const Menu = () => {
   const { language, changeLanguage } = useContext(LanguageContext);
   const { theme, changeColorMode } = useContext(ThemeContext);
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+
+  console.log(language.name);
   return (
     <>
       {isDesktop ? (
@@ -130,9 +132,7 @@ export const Menu = () => {
                   <span
                     id="main-menu-language-se"
                     className={
-                      language.name === "Svenska"
-                        ? "font-weight-bold"
-                        : "font-weight-normal"
+                      language.name === "Svenska" ? "fw-bold" : "fw-normal"
                     }
                     onClick={() => (
                       changeLanguage("SE"), setIsLangMenuOpen(false)
@@ -143,9 +143,7 @@ export const Menu = () => {
                   <span
                     id="main-menu-language-en"
                     className={
-                      language.name === "English"
-                        ? "font-weight-bold"
-                        : "font-weight-normal"
+                      language.name === "English" ? "fw-bold" : "fw-normal"
                     }
                     onClick={() => (
                       changeLanguage("EN"), setIsLangMenuOpen(false)
@@ -289,8 +287,8 @@ export const Menu = () => {
                   id="main-menu-language-se"
                   className={
                     language.name === "Svenska"
-                      ? "font-weight-bold ps-2"
-                      : "font-weight-normal ps-2"
+                      ? "fw-bold ps-2"
+                      : "fw-normal ps-2"
                   }
                   onClick={() => changeLanguage("SE")}
                 >
@@ -299,9 +297,7 @@ export const Menu = () => {
                 <span
                   id="main-menu-language-en"
                   className={
-                    language.name === "English"
-                      ? "font-weight-bold"
-                      : "font-weight-normal"
+                    language.name === "English" ? "fw-bold" : "fw-normal"
                   }
                   onClick={() => changeLanguage("EN")}
                 >
