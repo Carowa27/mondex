@@ -79,28 +79,37 @@ export const CollectionBanner = (props: IProps) => {
                     style={{ listStyle: "none", padding: 0 }}
                   >
                     <>
-                      {cards.slice(0, isDesktop ? 4 : 2).map((card) => (
-                        <li
-                          key={card.id}
-                          className={isDesktop ? "pt-2" : "pt-1"}
-                          style={isDesktop ? { width: "min-content" } : {}}
-                        >
-                          <div
-                            style={
-                              isDesktop
-                                ? { aspectRatio: "3/4", height: "7.5rem" }
-                                : { height: "8rem" }
-                            }
+                      {cards
+                        .slice(
+                          0,
+                          isDesktop
+                            ? window.location.pathname !== "/"
+                              ? 7
+                              : 3
+                            : 2
+                        )
+                        .map((card) => (
+                          <li
+                            key={card.id}
+                            className={isDesktop ? "pt-2" : "pt-1"}
+                            style={isDesktop ? { width: "min-content" } : {}}
                           >
-                            <img
-                              className="rounded"
-                              style={{ height: "100%" }}
-                              src={card.api_card_img_src_small}
-                              alt={card.api_pkmn_name}
-                            />
-                          </div>
-                        </li>
-                      ))}
+                            <div
+                              style={
+                                isDesktop
+                                  ? { aspectRatio: "3/4", height: "7.5rem" }
+                                  : { height: "8rem" }
+                              }
+                            >
+                              <img
+                                className="rounded"
+                                style={{ height: "100%" }}
+                                src={card.api_card_img_src_small}
+                                alt={card.api_pkmn_name}
+                              />
+                            </div>
+                          </li>
+                        ))}
                     </>
                   </ul>
                   <div className="w-100 d-flex justify-content-end">

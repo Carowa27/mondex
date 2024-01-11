@@ -3,11 +3,11 @@ import { Layout } from "./pages/layout/Layout";
 import { ErrorPage } from "./pages/ErrorPage";
 import { Home } from "./pages/Home";
 import { Search } from "./pages/Search";
-import { UserMyPages } from "./pages/UserMyPages";
 import { AboutProject } from "./pages/AboutProject";
 import { CollectionPage } from "./pages/CollectionPage";
 import { AllCollectionsListPage } from "./pages/AllCollectionsListPage";
 import { CreateCollectionPage } from "./pages/CreateCollectionPage";
+import { MyPages } from "./pages/MyPages";
 
 export const Router = createBrowserRouter([
   {
@@ -18,7 +18,7 @@ export const Router = createBrowserRouter([
       { path: "/", element: <Home></Home>, index: true },
       { path: "/search", element: <Search></Search> },
       { path: "/about", element: <AboutProject></AboutProject> },
-      { path: "/userpage", element: <UserMyPages></UserMyPages> },
+      { path: "/userpage", element: <MyPages></MyPages> },
       {
         path: "/collection/:collectionName",
         element: <CollectionPage></CollectionPage>,
