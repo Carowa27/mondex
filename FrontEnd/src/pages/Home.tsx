@@ -129,7 +129,7 @@ export const Home = () => {
         id="homepage-container"
         className={
           isDesktop
-            ? "row my-1 d-flex justify-content-around"
+            ? "row my-1 d-flex justify-content-between"
             : "my-1 d-flex flex-column"
         }
       >
@@ -138,15 +138,15 @@ export const Home = () => {
           className={
             isDesktop
               ? isAuthenticated
-                ? "rounded px-3 py-2 mx-2 d-flex flex-column flex-fill"
-                : "rounded px-3 py-2 my-2 d-flex flex-column"
+                ? "rounded px-3 py-2 ms-1 d-flex flex-column flex-fill" //mx-2
+                : "rounded px-3 py-2 ms-1 d-flex flex-column" //my-2
               : "w-100 rounded px-4 py-3 my-2 d-flex flex-column order-3"
           }
           style={
             isDesktop
               ? isAuthenticated
                 ? {
-                    width: "25%",
+                    width: "33%",
                     border: `2px solid rgba(${theme.typeColors.water.rgb},0.5)`,
                     backgroundColor: `rgba(${theme.typeColors.water.rgb},0.1)`,
                     minHeight: "90vh",
@@ -208,8 +208,8 @@ export const Home = () => {
         <div
           className={
             isDesktop
-              ? "w-25 rounded px-4 py-3 mx-2 d-flex flex-column"
-              : "w-100 rounded px-4 py-3 my-2 d-flex flex-column order-2"
+              ? "w-25 rounded px-4 py-3 d-flex flex-column" //mx-2
+              : "w-100 rounded px-4 py-3 d-flex flex-column order-2" //my-2
           }
           style={
             isDesktop
@@ -218,6 +218,7 @@ export const Home = () => {
                   backgroundColor: `rgba(${theme.typeColors.fire.rgb},0.1)`,
                   minHeight: "90vh",
                   height: "auto",
+                  width: "25%",
                 }
               : {
                   height: "auto",
@@ -346,8 +347,8 @@ export const Home = () => {
           className={
             isDesktop
               ? isAuthenticated
-                ? "rounded px-4 py-3 mx-2 d-flex "
-                : "rounded px-4 py-3 mx-2 d-flex h-auto"
+                ? "rounded px-4 py-3 me-1 d-flex " // mx-2
+                : "rounded px-4 py-3 me-1 d-flex h-auto" //mx-2
               : "w-100 rounded px-4 py-3 my-2 d-flex flex-row"
           }
           style={
@@ -358,7 +359,7 @@ export const Home = () => {
                   backgroundColor: `rgba(${theme.typeColors.grass.rgb},0.1)`,
                 }
               : {
-                  width: "25%",
+                  width: "33%",
                   border: `2px solid  rgba(${theme.typeColors.grass.rgb},0.5)`,
                   backgroundColor: `rgba(${theme.typeColors.grass.rgb},0.1)`,
                 }
