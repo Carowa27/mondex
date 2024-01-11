@@ -350,8 +350,8 @@ export const Home = () => {
           className={
             isDesktop
               ? isAuthenticated
-                ? "rounded px-4 py-3 me-1 d-flex"
-                : "rounded px-4 py-3 me-1 d-flex h-auto"
+                ? "rounded px-3 py-2 me-1 d-flex"
+                : "rounded px-3 py-2 me-1 d-flex h-auto"
               : "w-100 rounded px-4 py-3 my-2 d-flex flex-row"
           }
           style={
