@@ -128,6 +128,7 @@ export const Home = () => {
       ) : null}
       <div
         id="homepage-container"
+        style={{ gap: "0.5rem" }}
         className={
           isDesktop
             ? "row my-1 d-flex justify-content-between"
