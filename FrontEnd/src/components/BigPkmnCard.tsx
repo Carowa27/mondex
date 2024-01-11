@@ -200,7 +200,9 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
         <i className="bi bi-x-lg" onClick={changeShowPkmnInfo}></i>
       </BigCardHeader>
       <BigCardBody>
-        {cardInfo && isDesktop && <BigCardImg src={cardInfo.images.large} />}
+        {cardInfo && isDesktop && (
+          <BigCardImg className="rounded" src={cardInfo.images.large} />
+        )}
         <BigCardInfo>
           {cardInfo && (
             <>
