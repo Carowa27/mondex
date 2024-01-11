@@ -188,6 +188,10 @@ export const MyPages = () => {
                     alt={`profile picture of ${user?.nickname}`}
                   />
                 )}
+                <h6 className="mt-3">
+                  {language.lang_code.word_name}: {user?.given_name}{" "}
+                  {user?.family_name}
+                </h6>
                 <p>
                   <span className="font-weight-bold">
                     {language.lang_code.word_username}:
