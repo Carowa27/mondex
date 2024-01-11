@@ -422,7 +422,9 @@ export const Home = () => {
                     {language.lang_code.word_account}
                   </h4>
                   <p>{language.lang_code.account_description}</p>
-                  <LoginBtn />
+                  <div className="w-100 d-flex justify-content-center mt-5">
+                    <LoginBtn />
+                  </div>
                 </div>
               )}
             </>
