@@ -31,6 +31,12 @@ export const Menu = () => {
             style={{
               color: theme.primaryColors.link.hex,
             }}
+            onClick={() =>
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              })
+            }
           >
             <span
               id="main-menu-searchpage"
@@ -48,6 +54,12 @@ export const Menu = () => {
             style={{
               color: theme.primaryColors.link.hex,
             }}
+            onClick={() =>
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              })
+            }
           >
             <span id="main-menu-about" className="ps-2">
               {language.lang_code.about_about_project}
@@ -62,6 +74,12 @@ export const Menu = () => {
                   style={{
                     color: theme.primaryColors.link.hex,
                   }}
+                  onClick={() =>
+                    window.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    })
+                  }
                 >
                   {language.lang_code.my_pages_my_pages}
                 </Link>
@@ -195,7 +213,11 @@ export const Menu = () => {
                 className="text-decoration-none"
                 to="./search"
                 onClick={() => {
-                  setIsMobileMenuOpen(!isMobileMenuOpen);
+                  setIsMobileMenuOpen(!isMobileMenuOpen),
+                    window.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    });
                 }}
                 style={{
                   color: theme.primaryColors.link.hex,
@@ -209,7 +231,11 @@ export const Menu = () => {
                 className="text-decoration-none"
                 to="./about"
                 onClick={() => {
-                  setIsMobileMenuOpen(!isMobileMenuOpen);
+                  setIsMobileMenuOpen(!isMobileMenuOpen),
+                    window.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    });
                 }}
                 style={{
                   color: theme.primaryColors.link.hex,
@@ -225,7 +251,11 @@ export const Menu = () => {
                     className="text-decoration-none"
                     to="./userpage"
                     onClick={() => {
-                      setIsMobileMenuOpen(!isMobileMenuOpen);
+                      setIsMobileMenuOpen(!isMobileMenuOpen),
+                        window.scrollTo({
+                          top: 0,
+                          behavior: "smooth",
+                        });
                     }}
                     style={{
                       color: theme.primaryColors.link.hex,

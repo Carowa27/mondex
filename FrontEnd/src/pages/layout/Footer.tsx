@@ -44,6 +44,12 @@ export const Footer = () => {
             }}
           >
             <Link
+              onClick={() =>
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                })
+              }
               className="text-decoration-none"
               to="./search"
               style={{
@@ -58,6 +64,12 @@ export const Footer = () => {
               </span>
             </Link>
             <Link
+              onClick={() =>
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                })
+              }
               className="text-decoration-none"
               to="./about"
               style={{
@@ -72,6 +84,12 @@ export const Footer = () => {
               <>
                 <span id="footer-menu-mypages" className="ps-2">
                   <Link
+                    onClick={() =>
+                      window.scrollTo({
+                        top: 0,
+                        behavior: "smooth",
+                      })
+                    }
                     className="text-decoration-none"
                     to="./userpage"
                     style={{
