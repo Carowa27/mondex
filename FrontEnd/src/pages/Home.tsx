@@ -140,7 +140,7 @@ export const Home = () => {
           className={
             isDesktop
               ? isAuthenticated
-                ? "rounded px-3 py-2 ms-1 d-flex flex-column flex-fill"
+                ? "rounded px-3 py-2 ms-1 d-flex flex-column"
                 : "rounded px-3 py-2 ms-1 d-flex flex-column"
               : "w-100 rounded px-4 py-3 my-2 d-flex flex-column order-3"
           }
