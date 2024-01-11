@@ -126,7 +126,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
     padding: 0 2rem 2rem 2rem;
     z-index: 500;
     position: fixed;
-    background-color: ${theme.primaryColors.white.hex};
+    background-color: ${theme.primaryColors.background.hex};
     border-radius: 0.5rem;
     margin: 0 2rem;
 
