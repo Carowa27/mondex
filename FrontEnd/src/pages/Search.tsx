@@ -7,7 +7,7 @@ import { IPkmnCard } from "../interfaces/dataFromApi";
 import { LoadingModule } from "../components/LoadingModule";
 import { useAuth0 } from "@auth0/auth0-react";
 import { ThemeContext } from "../globals/theme";
-import { createCard } from "../services/cardServices";
+import { addCard, createCard } from "../services/cardServices";
 import { BigPkmnCard } from "../components/BigPkmnCard";
 import { ChooseCollectionPopUp } from "../components/ChooseCollectionPopUp";
 import { Pagination } from "./layout/Pagination";
@@ -49,14 +49,13 @@ export const Search = () => {
         setShowChooseAddCardPopup(true);
       } else {
         if (cardFromApi) {
-          createCard({
+          addCard({
             user,
-            collectionName: "Master_Collection",
-            cardFromApi,
-          }).then(() => {
-            setSeeCreatedCard(true),
-              setTimeout(() => setSeeCreatedCard(false), 1000);
+            cardToAdd: cardFromApi,
+            collection_name: "Master_Collection",
           });
+          setSeeCreatedCard(true),
+            setTimeout(() => setSeeCreatedCard(false), 1000);
         }
       }
     }
