@@ -195,7 +195,7 @@ export const Home = () => {
               ) : null}
             </>
           )}
-          {isAuthenticated ? (
+          {isAuthenticated || !isDesktop ? (
             <Link
               to="./about"
               className="mt-auto align-self-end"
