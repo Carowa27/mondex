@@ -148,7 +148,7 @@ export const Home = () => {
             isDesktop
               ? isAuthenticated
                 ? {
-                    width: "33%",
+                    width: "27%",
                     border: `2px solid rgba(${theme.typeColors.water.rgb},0.5)`,
                     backgroundColor: `rgba(${theme.typeColors.water.rgb},0.1)`,
                     minHeight: "90vh",
@@ -211,7 +211,7 @@ export const Home = () => {
         <div
           className={
             isDesktop
-              ? "w-25 rounded px-4 py-3 d-flex flex-column"
+              ? "rounded px-4 py-3 d-flex flex-column"
               : "w-100 rounded px-4 py-3 d-flex flex-column order-2"
           }
           style={
@@ -221,7 +221,7 @@ export const Home = () => {
                   backgroundColor: `rgba(${theme.typeColors.fire.rgb},0.1)`,
                   minHeight: "90vh",
                   height: "auto",
-                  width: "25%",
+                  width: "27%",
                 }
               : {
                   height: "auto",
@@ -362,7 +362,7 @@ export const Home = () => {
                   backgroundColor: `rgba(${theme.typeColors.grass.rgb},0.1)`,
                 }
               : {
-                  width: "33%",
+                  width: "27%",
                   border: `2px solid  rgba(${theme.typeColors.grass.rgb},0.5)`,
                   backgroundColor: `rgba(${theme.typeColors.grass.rgb},0.1)`,
                 }
