@@ -93,7 +93,7 @@ export const SwapCollectionPopUp = ({
 
   const SwapForm = styled.form`
     display: flex;
-    flex-wrap: no-wrap;
+    flex-direction: column;
     height: 80%;
     overflow-y: hidden;
     overflow-y: scroll;
@@ -139,8 +139,19 @@ export const SwapCollectionPopUp = ({
                       value={coll.collection_name}
                       onChange={handleChangeOnRadioBtn}
                       checked={selectedCollectionName === coll.collection_name}
-                    />{" "}
-                    {coll.collection_name.replace(/_/g, " ")}
+                      disabled={coll.collection_name === collectionName}
+                    />
+                    <span
+                      style={
+                        coll.collection_name === collectionName
+                          ? {
+                              color: theme.primaryColors.breadcrumbText.hex,
+                            }
+                          : {}
+                      }
+                    >
+                      {coll.collection_name.replace(/_/g, " ")}
+                    </span>
                   </SwapLabel>
                 ))}
             </SwapForm>
