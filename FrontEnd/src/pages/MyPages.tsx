@@ -53,6 +53,7 @@ export const MyPages = () => {
                   }
                 : {
                     color: theme.primaryColors.text.hex,
+                    border: `1px solid rgba(${theme.typeColors.metal.rgb},0.3)`,
                   }
             }
             className={"btn px-3 mb-2 py-1 me-1"}
@@ -72,17 +73,18 @@ export const MyPages = () => {
                   }
                 : {
                     color: theme.primaryColors.text.hex,
+                    border: `1px solid rgba(${theme.typeColors.metal.rgb},0.3)`,
                   }
             }
             className="btn px-3 mb-2 pt-1 me-1"
             onClick={() => (setShowCollections(false), setShowMyAccount(true))}
           >
             <h5 className={showMyAccount ? "m-0" : "m-0 fw-normal"}>
-              {language.lang_code.my_pages_my_pages}
+              {language.lang_code.my_pages_my_profile}
             </h5>
           </span>
         </div>
-        {isDesktop ? (
+        {isDesktop && showCollections ? (
           <div className={"mt-3 d-flex"}>
             <Link
               to="/create-new-collection"
@@ -180,25 +182,48 @@ export const MyPages = () => {
                 width: "fit-content",
               }}
             >
-              <div className="d-flex flex-column">
-                <img
-                  className="rounded-circle d-flex mb-3 mx-auto"
-                  src={user?.picture}
-                  alt={`profile picture of ${user?.nickname}`}
-                />
-                <p>
-                  <span className="font-weight-bold">
-                    {language.lang_code.word_username}:
-                  </span>{" "}
-                  {user?.nickname}
-                </p>
-                <p>
-                  <span className="font-weight-bold">
-                    {language.lang_code.word_email}:
-                  </span>{" "}
-                  {user?.email}
-                </p>
-                <LogoutBtn />
+              <div
+                className={isDesktop ? "d-flex flex-row" : "d-flex flex-column"}
+                style={{
+                  gap: isDesktop ? "2rem" : "",
+                }}
+              >
+                {user?.picture && (
+                  <div
+                    className="d-flex mb-3 mx-auto"
+                    style={{
+                      aspectRatio: 1,
+                    }}
+                  >
+                    <img
+                      className="rounded-circle"
+                      style={{
+                        minWidth: isDesktop ? "10rem" : "",
+                      }}
+                      src={user?.picture}
+                      alt={`profile picture of ${user?.nickname}`}
+                    />
+                  </div>
+                )}
+                <div>
+                  <h6 className="mt-3">
+                    {language.lang_code.word_name}: {user?.given_name}{" "}
+                    {user?.family_name}
+                  </h6>
+                  <p>
+                    <span className="font-weight-bold">
+                      {language.lang_code.word_username}:
+                    </span>{" "}
+                    {user?.nickname}
+                  </p>
+                  <p>
+                    <span className="font-weight-bold">
+                      {language.lang_code.word_email}:
+                    </span>{" "}
+                    {user?.email}
+                  </p>
+                  <LogoutBtn />
+                </div>
               </div>
             </div>
           </>

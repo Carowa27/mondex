@@ -168,24 +168,34 @@ export const CollectionPage = () => {
           ) : null}
         </div>
       </div>
-      <div
-        style={{ minHeight: "80vh" }}
-        className="mt-2 p-2 d-flex flex-column"
-      >
+      <div style={{ minHeight: "80vh" }} className="mt-2  d-flex flex-column">
         {!isLoading ? (
           <>
             {cardList.length !== 0 || collection?.api_set_id !== null ? (
               <>
                 {collection && collection?.api_set_id === null ? (
                   <ul
-                    className="d-flex flex-wrap justify-content-around"
-                    style={{ listStyle: "none", padding: 0 }}
+                    className={
+                      isDesktop
+                        ? "d-flex flex-wrap justify-content-around p-0"
+                        : "d-flex flex-wrap justify-content-between p-0"
+                    }
+                    style={{ listStyle: "none" }}
                   >
                     {cardList.slice(start, end).map((card: ICardFromDB) => (
-                      <li key={card.api_card_id} className="pt-2 px-1">
-                        <p className="fw-semibold ps-1 m-0">
-                          {card.api_pkmn_name}
-                        </p>
+                      <li
+                        key={card.api_card_id}
+                        className={
+                          isDesktop
+                            ? "pt-2 px-1"
+                            : "pt-2 d-flex justify-content-center"
+                        }
+                      >
+                        {isDesktop && (
+                          <p className="fw-semibold ps-1 m-0">
+                            {card.api_pkmn_name}
+                          </p>
+                        )}
                         <SmallPkmnCard
                           card={card}
                           collectionName={collectionName}
@@ -197,14 +207,27 @@ export const CollectionPage = () => {
                   </ul>
                 ) : (
                   <ul
-                    className="d-flex flex-wrap justify-content-around"
-                    style={{ listStyle: "none", padding: 0 }}
+                    className={
+                      isDesktop
+                        ? "d-flex flex-wrap justify-content-around p-0"
+                        : "d-flex flex-wrap justify-content-between p-0"
+                    }
+                    style={{ listStyle: "none" }}
                   >
                     {cardsFromApiList.map((cardFromApi: IPkmnCard) => (
-                      <li key={cardFromApi.id} className="pt-2 px-1">
-                        <p className="fw-semibold ps-1 m-0">
-                          {cardFromApi.name}
-                        </p>
+                      <li
+                        key={cardFromApi.id}
+                        className={
+                          isDesktop
+                            ? "pt-2 px-1"
+                            : "pt-2 d-flex justify-content-center"
+                        }
+                      >
+                        {isDesktop && (
+                          <p className="fw-semibold ps-1 m-0">
+                            {cardFromApi.name}
+                          </p>
+                        )}
 
                         <SmallPkmnCard
                           cardFromApi={cardFromApi}

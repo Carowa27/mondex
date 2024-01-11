@@ -13,6 +13,8 @@ export const Menu = () => {
   const { language, changeLanguage } = useContext(LanguageContext);
   const { theme, changeColorMode } = useContext(ThemeContext);
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+
+  console.log(language.name);
   return (
     <>
       {isDesktop ? (
@@ -31,6 +33,12 @@ export const Menu = () => {
             style={{
               color: theme.primaryColors.link.hex,
             }}
+            onClick={() =>
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              })
+            }
           >
             <span
               id="main-menu-searchpage"
@@ -48,6 +56,12 @@ export const Menu = () => {
             style={{
               color: theme.primaryColors.link.hex,
             }}
+            onClick={() =>
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              })
+            }
           >
             <span id="main-menu-about" className="ps-2">
               {language.lang_code.about_about_project}
@@ -62,6 +76,12 @@ export const Menu = () => {
                   style={{
                     color: theme.primaryColors.link.hex,
                   }}
+                  onClick={() =>
+                    window.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    })
+                  }
                 >
                   {language.lang_code.my_pages_my_pages}
                 </Link>
@@ -112,9 +132,7 @@ export const Menu = () => {
                   <span
                     id="main-menu-language-se"
                     className={
-                      language.name === "Svenska"
-                        ? "font-weight-bold"
-                        : "font-weight-normal"
+                      language.name === "Svenska" ? "fw-bold" : "fw-normal"
                     }
                     onClick={() => (
                       changeLanguage("SE"), setIsLangMenuOpen(false)
@@ -125,9 +143,7 @@ export const Menu = () => {
                   <span
                     id="main-menu-language-en"
                     className={
-                      language.name === "English"
-                        ? "font-weight-bold"
-                        : "font-weight-normal"
+                      language.name === "English" ? "fw-bold" : "fw-normal"
                     }
                     onClick={() => (
                       changeLanguage("EN"), setIsLangMenuOpen(false)
@@ -179,6 +195,7 @@ export const Menu = () => {
                 right: 0,
                 cursor: "pointer",
                 zIndex: "200",
+                minWidth: "fit-content",
                 width: "120px",
                 backgroundColor: `${theme.primaryColors.background.hex}`,
                 borderLeft: `2px solid rgba(${theme.typeColors.water.rgb},0.8)`,
@@ -195,7 +212,11 @@ export const Menu = () => {
                 className="text-decoration-none"
                 to="./search"
                 onClick={() => {
-                  setIsMobileMenuOpen(!isMobileMenuOpen);
+                  setIsMobileMenuOpen(!isMobileMenuOpen),
+                    window.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    });
                 }}
                 style={{
                   color: theme.primaryColors.link.hex,
@@ -209,7 +230,11 @@ export const Menu = () => {
                 className="text-decoration-none"
                 to="./about"
                 onClick={() => {
-                  setIsMobileMenuOpen(!isMobileMenuOpen);
+                  setIsMobileMenuOpen(!isMobileMenuOpen),
+                    window.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    });
                 }}
                 style={{
                   color: theme.primaryColors.link.hex,
@@ -225,7 +250,11 @@ export const Menu = () => {
                     className="text-decoration-none"
                     to="./userpage"
                     onClick={() => {
-                      setIsMobileMenuOpen(!isMobileMenuOpen);
+                      setIsMobileMenuOpen(!isMobileMenuOpen),
+                        window.scrollTo({
+                          top: 0,
+                          behavior: "smooth",
+                        });
                     }}
                     style={{
                       color: theme.primaryColors.link.hex,
@@ -259,21 +288,23 @@ export const Menu = () => {
                   id="main-menu-language-se"
                   className={
                     language.name === "Svenska"
-                      ? "font-weight-bold ps-2"
-                      : "font-weight-normal ps-2"
+                      ? "fw-bold ps-2"
+                      : "fw-normal ps-2"
                   }
-                  onClick={() => changeLanguage("SE")}
+                  onClick={() => (
+                    changeLanguage("SE"), setIsMobileMenuOpen(false)
+                  )}
                 >
                   SE
                 </span>
                 <span
                   id="main-menu-language-en"
                   className={
-                    language.name === "English"
-                      ? "font-weight-bold"
-                      : "font-weight-normal"
+                    language.name === "English" ? "fw-bold" : "fw-normal"
                   }
-                  onClick={() => changeLanguage("EN")}
+                  onClick={() => (
+                    changeLanguage("EN"), setIsMobileMenuOpen(false)
+                  )}
                 >
                   EN
                 </span>

@@ -7,7 +7,7 @@ import { IPkmnCard } from "../interfaces/dataFromApi";
 import { LoadingModule } from "../components/LoadingModule";
 import { useAuth0 } from "@auth0/auth0-react";
 import { ThemeContext } from "../globals/theme";
-import { addCard, createCard } from "../services/cardServices";
+import { addCard } from "../services/cardServices";
 import { BigPkmnCard } from "../components/BigPkmnCard";
 import { ChooseCollectionPopUp } from "../components/ChooseCollectionPopUp";
 import { Pagination } from "./layout/Pagination";
@@ -155,7 +155,7 @@ export const Search = () => {
           <div
             className="d-flex justify-content-center align-items-center py-2 px-3 my-3 mx-2 rounded"
             style={{
-              backgroundColor: `rgba(${theme.primaryColors.white.rgb})`,
+              backgroundColor: `rgba(${theme.primaryColors.background.rgb})`,
             }}
           >
             {language.lang_code.search_card_added}
@@ -271,7 +271,7 @@ export const Search = () => {
           />
         </div>
       </form>
-      <div style={{ minHeight: "80vh" }} className="mt-3 p-2">
+      <div style={{ minHeight: "80vh" }} className="mt-3 py-2">
         {!isLoading ? (
           <>
             {noHits ? (
@@ -284,34 +284,44 @@ export const Search = () => {
                 {pkmnList.length !== 0 ? (
                   <>
                     <ul
-                      className="d-flex flex-wrap justify-content-around"
-                      style={{ listStyle: "none", padding: 0 }}
+                      className={
+                        isDesktop
+                          ? "d-flex flex-wrap justify-content-around p-0"
+                          : "d-flex flex-wrap justify-content-between p-0"
+                      }
+                      style={{ listStyle: "none" }}
                     >
                       {pkmnList.map((cardFromApi: IPkmnCard) => (
                         <li
                           key={cardFromApi.id}
-                          className="pt-2 px-1"
+                          className={
+                            isDesktop
+                              ? "pt-2 px-1"
+                              : "pt-2 w-50 d-flex justify-content-center"
+                          }
                           onMouseEnter={() =>
                             setShowCardAlternatives(cardFromApi.id)
                           }
                           onMouseLeave={() => setShowCardAlternatives("")}
                         >
-                          <p className="fw-semibold ps-1 m-0">
-                            {searchParam === "pkmn" ? (
-                              <> {cardFromApi.set.name}</>
-                            ) : null}
-                            {searchParam === "artist" ? (
-                              <>{cardFromApi.name}</>
-                            ) : null}
-                            {searchParam === "set" ? (
-                              <>{cardFromApi.name}</>
-                            ) : null}
-                          </p>
+                          {isDesktop ? (
+                            <p className="fw-semibold ps-1 m-0">
+                              {searchParam === "pkmn" ? (
+                                <> {cardFromApi.set.name}</>
+                              ) : null}
+                              {searchParam === "artist" ? (
+                                <>{cardFromApi.name}</>
+                              ) : null}
+                              {searchParam === "set" ? (
+                                <>{cardFromApi.name}</>
+                              ) : null}
+                            </p>
+                          ) : null}
 
                           <div
                             style={{
                               aspectRatio: "3/4",
-                              width: "12.5rem",
+                              width: isDesktop ? "12.5rem" : "10rem",
                             }}
                           >
                             {showCardAlternatives || !isDesktop ? (
@@ -324,7 +334,7 @@ export const Search = () => {
                                         position: "absolute",
                                         color: `${theme.primaryColors.text.hex}`,
                                         aspectRatio: "3/4",
-                                        width: "12.5rem",
+                                        width: isDesktop ? "12.5rem" : "10rem",
                                         fontSize: "20pt",
                                         alignItems: "end",
                                         padding: "0.5rem",

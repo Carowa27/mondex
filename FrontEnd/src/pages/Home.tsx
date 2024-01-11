@@ -114,8 +114,9 @@ export const Home = () => {
             width: "100%",
             height: "100vh",
             position: "fixed",
+            zIndex: 400,
           }}
-          className="d-flex justify-content-center"
+          className="d-flex justify-content-center align-items-center"
           onClick={changeShowPkmnInfo}
         >
           <BigPkmnCard
@@ -127,9 +128,10 @@ export const Home = () => {
       ) : null}
       <div
         id="homepage-container"
+        style={{ gap: "0.5rem" }}
         className={
           isDesktop
-            ? "row my-1 d-flex justify-content-around"
+            ? "d-flex flex-row justify-content-around my-1 "
             : "my-1 d-flex flex-column"
         }
       >
@@ -138,15 +140,15 @@ export const Home = () => {
           className={
             isDesktop
               ? isAuthenticated
-                ? "rounded px-3 py-2 mx-2 d-flex flex-column flex-fill"
-                : "rounded px-3 py-2 my-2 d-flex flex-column"
+                ? "rounded px-3 py-2 ms-1 d-flex flex-column"
+                : "rounded px-3 py-2 ms-1 d-flex flex-column"
               : "w-100 rounded px-4 py-3 my-2 d-flex flex-column order-3"
           }
           style={
             isDesktop
               ? isAuthenticated
                 ? {
-                    width: "25%",
+                    width: "27%",
                     border: `2px solid rgba(${theme.typeColors.water.rgb},0.5)`,
                     backgroundColor: `rgba(${theme.typeColors.water.rgb},0.1)`,
                     minHeight: "90vh",
@@ -193,23 +195,24 @@ export const Home = () => {
               ) : null}
             </>
           )}
-
-          <Link
-            to="./about"
-            className="mt-auto align-self-end"
-            style={{
-              color: theme.primaryColors.link.hex,
-            }}
-          >
-            <i>{language.lang_code.read_more}</i>
-          </Link>
+          {isAuthenticated || !isDesktop ? (
+            <Link
+              to="./about"
+              className="mt-auto align-self-end"
+              style={{
+                color: theme.primaryColors.link.hex,
+              }}
+            >
+              <i>{language.lang_code.read_more}</i>
+            </Link>
+          ) : null}
         </div>
         {/* search column */}
         <div
           className={
             isDesktop
-              ? "w-25 rounded px-4 py-3 mx-2 d-flex flex-column"
-              : "w-100 rounded px-4 py-3 my-2 d-flex flex-column order-2"
+              ? "rounded px-4 py-3 d-flex flex-column"
+              : "w-100 rounded px-4 py-3 d-flex flex-column order-2"
           }
           style={
             isDesktop
@@ -218,6 +221,7 @@ export const Home = () => {
                   backgroundColor: `rgba(${theme.typeColors.fire.rgb},0.1)`,
                   minHeight: "90vh",
                   height: "auto",
+                  width: "27%",
                 }
               : {
                   height: "auto",
@@ -259,7 +263,7 @@ export const Home = () => {
                 </h6>
                 <div
                   className={isDesktop ? "" : "d-flex justify-content-center"}
-                  style={{ width: isDesktop ? "5.5rem" : "12.5rem" }}
+                  style={{ width: isDesktop ? "7rem" : "12.5rem" }}
                   onClick={() => {
                     setSeeBigCard(true);
                     setInfoPkmnCard(lastOpenedCard);
@@ -308,7 +312,7 @@ export const Home = () => {
 
                 <div
                   className={isDesktop ? "" : "d-flex justify-content-center"}
-                  style={{ width: isDesktop ? "5.5rem" : "12.5rem" }}
+                  style={{ width: isDesktop ? "7rem" : "12.5rem" }}
                   onClick={() => {
                     setSeeBigCard(true);
                     setInfoPkmnCard(valuableCard);
@@ -325,11 +329,11 @@ export const Home = () => {
                   className={
                     isDesktop
                       ? "m-0"
-                      : "w-100 d-flex justify-content-evenly m-0"
+                      : "w-100 d-flex flex-column justify-content-evenly m-0"
                   }
                 >
                   <span>{valuableCard.name}</span>
-                  <span className={isDesktop ? "ms-2" : ""}>
+                  <span className={isDesktop ? "ms-2" : "align-self-end"}>
                     {valuableCard.tcgplayer?.prices.normal?.market}$
                   </span>
                 </p>
@@ -346,8 +350,8 @@ export const Home = () => {
           className={
             isDesktop
               ? isAuthenticated
-                ? "rounded px-4 py-3 mx-2 d-flex "
-                : "rounded px-4 py-3 mx-2 d-flex h-auto"
+                ? "rounded px-3 py-2 me-1 d-flex"
+                : "rounded px-3 py-2 me-1 d-flex h-auto"
               : "w-100 rounded px-4 py-3 my-2 d-flex flex-row"
           }
           style={
@@ -358,7 +362,7 @@ export const Home = () => {
                   backgroundColor: `rgba(${theme.typeColors.grass.rgb},0.1)`,
                 }
               : {
-                  width: "25%",
+                  width: "27%",
                   border: `2px solid  rgba(${theme.typeColors.grass.rgb},0.5)`,
                   backgroundColor: `rgba(${theme.typeColors.grass.rgb},0.1)`,
                 }
@@ -419,7 +423,9 @@ export const Home = () => {
                     {language.lang_code.word_account}
                   </h4>
                   <p>{language.lang_code.account_description}</p>
-                  <LoginBtn />
+                  <div className="w-100 d-flex justify-content-center mt-5">
+                    <LoginBtn />
+                  </div>
                 </div>
               )}
             </>

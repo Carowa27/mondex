@@ -126,7 +126,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
     padding: 0 2rem 2rem 2rem;
     z-index: 500;
     position: fixed;
-    background-color: ${theme.primaryColors.white.hex};
+    background-color: ${theme.primaryColors.background.hex};
     border-radius: 0.5rem;
     margin: 0 2rem;
 
@@ -200,7 +200,9 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
         <i className="bi bi-x-lg" onClick={changeShowPkmnInfo}></i>
       </BigCardHeader>
       <BigCardBody>
-        {cardInfo && isDesktop && <BigCardImg src={cardInfo.images.large} />}
+        {cardInfo && isDesktop && (
+          <BigCardImg className="rounded" src={cardInfo.images.large} />
+        )}
         <BigCardInfo>
           {cardInfo && (
             <>

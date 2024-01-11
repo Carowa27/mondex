@@ -22,7 +22,10 @@ export const Footer = () => {
           : "mt-auto d-flex flex-column pb-2"
       }
       style={{
-        backgroundColor: `rgba(${theme.typeColors.colorless.rgb},0.1)`,
+        backgroundColor:
+          theme.name === "light"
+            ? `rgba(${theme.typeColors.metal.rgb},0.2)`
+            : `rgba(${theme.typeColors.colorless.rgb},0.1)`,
       }}
     >
       <div className={isDesktop ? "d-flex pt-3" : "pt-3"}>
@@ -41,6 +44,12 @@ export const Footer = () => {
             }}
           >
             <Link
+              onClick={() =>
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                })
+              }
               className="text-decoration-none"
               to="./search"
               style={{
@@ -55,6 +64,12 @@ export const Footer = () => {
               </span>
             </Link>
             <Link
+              onClick={() =>
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                })
+              }
               className="text-decoration-none"
               to="./about"
               style={{
@@ -69,6 +84,12 @@ export const Footer = () => {
               <>
                 <span id="footer-menu-mypages" className="ps-2">
                   <Link
+                    onClick={() =>
+                      window.scrollTo({
+                        top: 0,
+                        behavior: "smooth",
+                      })
+                    }
                     className="text-decoration-none"
                     to="./userpage"
                     style={{

@@ -26,6 +26,12 @@ export const Header = () => {
           style={{
             color: theme.primaryColors.link.hex,
           }}
+          onClick={() =>
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            })
+          }
         >
           <div id="main-logo" className="h-100 " style={{ width: "10rem" }}>
             <img src={mondex} alt="mondex logo" className="h-100 m-0 p-0" />
