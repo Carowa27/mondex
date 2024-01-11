@@ -89,7 +89,7 @@ export const DeleteCardPopUp = ({
       className={
         isDesktop ? "w-25 px-4 py-3 rounded" : "w-75 px-4 py-3 rounded"
       }
-      style={{ backgroundColor: theme.primaryColors.white.hex }}
+      style={{ backgroundColor: theme.primaryColors.background.hex }}
     >
       <header className="d-flex justify-content-end mt-2">
         <i className="bi bi-x-lg" onClick={changeShowDeleteCardPopUp}></i>

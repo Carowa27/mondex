@@ -155,7 +155,7 @@ export const Search = () => {
           <div
             className="d-flex justify-content-center align-items-center py-2 px-3 my-3 mx-2 rounded"
             style={{
-              backgroundColor: `rgba(${theme.primaryColors.white.rgb})`,
+              backgroundColor: `rgba(${theme.primaryColors.background.rgb})`,
             }}
           >
             {language.lang_code.search_card_added}

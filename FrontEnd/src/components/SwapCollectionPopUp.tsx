@@ -74,7 +74,7 @@ export const SwapCollectionPopUp = ({
     position: fixed;
     top: 20vh;
     left: 10vw;
-    background-color: ${theme.primaryColors.white.hex};
+    background-color: ${theme.primaryColors.background.hex};
     border-radius: 0.5rem;
 
     @media (${variables.breakpoints.desktop}) {
