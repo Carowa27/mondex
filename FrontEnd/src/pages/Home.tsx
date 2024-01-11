@@ -138,8 +138,8 @@ export const Home = () => {
           className={
             isDesktop
               ? isAuthenticated
-                ? "rounded px-3 py-2 ms-1 d-flex flex-column flex-fill" //mx-2
-                : "rounded px-3 py-2 ms-1 d-flex flex-column" //my-2
+                ? "rounded px-3 py-2 ms-1 d-flex flex-column flex-fill"
+                : "rounded px-3 py-2 ms-1 d-flex flex-column"
               : "w-100 rounded px-4 py-3 my-2 d-flex flex-column order-3"
           }
           style={
@@ -208,8 +208,8 @@ export const Home = () => {
         <div
           className={
             isDesktop
-              ? "w-25 rounded px-4 py-3 d-flex flex-column" //mx-2
-              : "w-100 rounded px-4 py-3 d-flex flex-column order-2" //my-2
+              ? "w-25 rounded px-4 py-3 d-flex flex-column"
+              : "w-100 rounded px-4 py-3 d-flex flex-column order-2"
           }
           style={
             isDesktop
@@ -347,8 +347,8 @@ export const Home = () => {
           className={
             isDesktop
               ? isAuthenticated
-                ? "rounded px-4 py-3 me-1 d-flex " // mx-2
-                : "rounded px-4 py-3 me-1 d-flex h-auto" //mx-2
+                ? "rounded px-4 py-3 me-1 d-flex"
+                : "rounded px-4 py-3 me-1 d-flex h-auto"
               : "w-100 rounded px-4 py-3 my-2 d-flex flex-row"
           }
           style={
