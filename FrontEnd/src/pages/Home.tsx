@@ -329,11 +329,11 @@ export const Home = () => {
                   className={
                     isDesktop
                       ? "m-0"
-                      : "w-100 d-flex justify-content-evenly m-0"
+                      : "w-100 d-flex flex-column justify-content-evenly m-0"
                   }
                 >
                   <span>{valuableCard.name}</span>
-                  <span className={isDesktop ? "ms-2" : ""}>
+                  <span className={isDesktop ? "ms-2" : "align-self-end"}>
                     {valuableCard.tcgplayer?.prices.normal?.market}$
                   </span>
                 </p>
