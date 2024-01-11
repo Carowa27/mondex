@@ -291,7 +291,9 @@ export const Menu = () => {
                       ? "fw-bold ps-2"
                       : "fw-normal ps-2"
                   }
-                  onClick={() => changeLanguage("SE")}
+                  onClick={() => (
+                    changeLanguage("SE"), setIsMobileMenuOpen(false)
+                  )}
                 >
                   SE
                 </span>
@@ -300,7 +302,9 @@ export const Menu = () => {
                   className={
                     language.name === "English" ? "fw-bold" : "fw-normal"
                   }
-                  onClick={() => changeLanguage("EN")}
+                  onClick={() => (
+                    changeLanguage("EN"), setIsMobileMenuOpen(false)
+                  )}
                 >
                   EN
                 </span>
