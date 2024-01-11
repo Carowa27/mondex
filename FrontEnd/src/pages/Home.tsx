@@ -31,18 +31,25 @@ export const Home = () => {
   const changeShowPkmnInfo = () => {
     setSeeBigCard(false);
   };
+  const getData = async () => {
+    if (user) {
+      await getAllOwnedCollections({ user }).then((res) => {
+        setCollections(res as ICollectionFromDB[]);
+      });
+    }
+  };
   useEffect(() => {
     if (isAuthenticated && user) {
-      const getData = async () => {
-        await getAllOwnedCollections({ user }).then((res) => {
-          setCollections(res as ICollectionFromDB[]);
-        });
-      };
       getData();
       checkForMasterCollection(user);
     }
   }, [isAuthenticated, user]);
 
+  useEffect(() => {
+    if (collections.length === 0) {
+      getData();
+    }
+  }, [collections]);
   useEffect(() => {
     const lastOpenedCard = localStorage.getItem("lastOpenedCard");
     lastOpenedCard && setLastOpenedCard(JSON.parse(lastOpenedCard).card);
