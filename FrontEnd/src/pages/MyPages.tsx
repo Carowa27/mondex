@@ -181,11 +181,13 @@ export const MyPages = () => {
               }}
             >
               <div className="d-flex flex-column">
-                <img
-                  className="rounded-circle d-flex mb-3 mx-auto"
-                  src={user?.picture}
-                  alt={`profile picture of ${user?.nickname}`}
-                />
+                {user?.picture && (
+                  <img
+                    className="rounded-circle d-flex mb-3 mx-auto"
+                    src={user?.picture}
+                    alt={`profile picture of ${user?.nickname}`}
+                  />
+                )}
                 <p>
                   <span className="font-weight-bold">
                     {language.lang_code.word_username}:
