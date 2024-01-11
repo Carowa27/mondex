@@ -131,7 +131,7 @@ export const Home = () => {
         style={{ gap: "0.5rem" }}
         className={
           isDesktop
-            ? "row my-1 d-flex justify-content-between"
+            ? "d-flex flex-row justify-content-around my-1 "
             : "my-1 d-flex flex-column"
         }
       >
