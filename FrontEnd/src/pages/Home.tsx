@@ -263,7 +263,7 @@ export const Home = () => {
                 </h6>
                 <div
                   className={isDesktop ? "" : "d-flex justify-content-center"}
-                  style={{ width: isDesktop ? "5.5rem" : "12.5rem" }}
+                  style={{ width: isDesktop ? "7rem" : "12.5rem" }}
                   onClick={() => {
                     setSeeBigCard(true);
                     setInfoPkmnCard(lastOpenedCard);
@@ -312,7 +312,7 @@ export const Home = () => {
 
                 <div
                   className={isDesktop ? "" : "d-flex justify-content-center"}
-                  style={{ width: isDesktop ? "5.5rem" : "12.5rem" }}
+                  style={{ width: isDesktop ? "7rem" : "12.5rem" }}
                   onClick={() => {
                     setSeeBigCard(true);
                     setInfoPkmnCard(valuableCard);
