@@ -78,7 +78,7 @@ export const CreateCollectionPage = () => {
   };
 
   return (
-    <>
+    <div style={{ minHeight: "90vh" }}>
       <h2>{language.lang_code.collection_create_new_collection}</h2>
       <form id="search-form" onSubmit={handleSubmit}>
         <div
@@ -163,7 +163,7 @@ export const CreateCollectionPage = () => {
                 : "btn btn-secondary mt-2 mx-2 mb-3"
             }
             type="submit"
-            value={language.lang_code.word_submit}
+            value={language.lang_code.word_create}
           />
         </div>
       </form>
@@ -190,6 +190,6 @@ export const CreateCollectionPage = () => {
           </p>
         </Link>
       ) : null}
-    </>
+    </div>
   );
 };

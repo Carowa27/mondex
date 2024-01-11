@@ -98,7 +98,7 @@ export const Footer = () => {
           </div>
         </div>
         <div className={isDesktop ? "w-75" : "px-3"}>
-          <h6>{language.lang_code.disclaimer}</h6>
+          <b className="fs-6">{language.lang_code.disclaimer}</b>
           <p>{language.lang_code.disclaimer_description}</p>
         </div>
       </div>

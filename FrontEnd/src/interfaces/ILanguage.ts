@@ -8,6 +8,7 @@ export interface ILanguageVariables {
   word_cancel: string;
   word_card: string;
   word_change: string;
+  word_create: string;
   word_delete: string;
   word_email: string;
   word_goal: string;
@@ -60,6 +61,7 @@ export interface ILanguageVariables {
   error_oh_no: string;
   error_pkmn_fled: string;
   my_pages_my_pages: string;
+  my_pages_my_collections: string;
   my_pages_see_my_info: string;
   my_pages_see_all_collections: string;
   search_card_added: string;

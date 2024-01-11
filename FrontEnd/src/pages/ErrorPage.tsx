@@ -137,7 +137,7 @@ export const ErrorPage = () => {
               <img
                 style={isDesktop ? inStyleDesktop(i) : inStyleMobile(i)}
                 key={i}
-                src={pkmn.sprites.front_default}
+                src={pkmn.sprites.other["official-artwork"].front_default}
                 alt={pkmn.forms[0].name}
               />
             </div>
