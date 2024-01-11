@@ -195,6 +195,7 @@ export const Menu = () => {
                 right: 0,
                 cursor: "pointer",
                 zIndex: "200",
+                minWidth: "fit-content",
                 width: "120px",
                 backgroundColor: `${theme.primaryColors.background.hex}`,
                 borderLeft: `2px solid rgba(${theme.typeColors.water.rgb},0.8)`,
