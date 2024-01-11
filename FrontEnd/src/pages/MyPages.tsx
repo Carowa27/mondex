@@ -41,77 +41,109 @@ export const MyPages = () => {
         </h1>
         <BreadCrumbs pageParam="userpage" />
       </div>
-      <header>
-        <span
-          style={
-            showCollections
-              ? {
-                  fontWeight: "600",
-                  color: theme.primaryColors.text.hex,
-                  backgroundColor: `rgba(${theme.typeColors.metal.rgb},0.3)`,
-                }
-              : {
-                  color: theme.primaryColors.text.hex,
-                }
-          }
-          className={"btn px-3 mb-2 py-1 me-1"}
-          onClick={() => (setShowCollections(true), setShowMyAccount(false))}
-        >
-          <h5 className={showCollections ? "m-0" : "m-0 fw-normal"}>
-            My collections
-          </h5>
-        </span>
-        <span
-          style={
-            showMyAccount
-              ? {
-                  fontWeight: "600",
-                  color: theme.primaryColors.text.hex,
-                  backgroundColor: `rgba(${theme.typeColors.metal.rgb},0.3)`,
-                }
-              : {
-                  color: theme.primaryColors.text.hex,
-                }
-          }
-          className="btn px-3 mb-2 pt-1 me-1"
-          onClick={() => (setShowCollections(false), setShowMyAccount(true))}
-        >
-          <h5 className={showMyAccount ? "m-0" : "m-0 fw-normal"}> My pages</h5>
-        </span>
+      <header className="d-flex justify-content-between align-items-center">
+        <div>
+          <span
+            style={
+              showCollections
+                ? {
+                    fontWeight: "600",
+                    color: theme.primaryColors.text.hex,
+                    backgroundColor: `rgba(${theme.typeColors.metal.rgb},0.3)`,
+                  }
+                : {
+                    color: theme.primaryColors.text.hex,
+                  }
+            }
+            className={"btn px-3 mb-2 py-1 me-1"}
+            onClick={() => (setShowCollections(true), setShowMyAccount(false))}
+          >
+            <h5 className={showCollections ? "m-0" : "m-0 fw-normal"}>
+              {language.lang_code.my_pages_my_collections}
+            </h5>
+          </span>
+          <span
+            style={
+              showMyAccount
+                ? {
+                    fontWeight: "600",
+                    color: theme.primaryColors.text.hex,
+                    backgroundColor: `rgba(${theme.typeColors.metal.rgb},0.3)`,
+                  }
+                : {
+                    color: theme.primaryColors.text.hex,
+                  }
+            }
+            className="btn px-3 mb-2 pt-1 me-1"
+            onClick={() => (setShowCollections(false), setShowMyAccount(true))}
+          >
+            <h5 className={showMyAccount ? "m-0" : "m-0 fw-normal"}>
+              {language.lang_code.my_pages_my_pages}
+            </h5>
+          </span>
+        </div>
+        {isDesktop ? (
+          <div className={"mt-3 d-flex"}>
+            <Link
+              to="/create-new-collection"
+              className="text-decoration-none me-5"
+              style={{
+                color: theme.primaryColors.link.hex,
+              }}
+            >
+              <h6 className={"m-0"}>
+                {language.lang_code.collection_create_new_collection}
+              </h6>
+            </Link>
+            <Link
+              className="fst-italic me-4"
+              to="/all-collections"
+              style={{
+                color: theme.primaryColors.link.hex,
+              }}
+            >
+              <h6 className={"m-0"}>
+                {language.lang_code.my_pages_see_all_collections}
+              </h6>
+            </Link>
+          </div>
+        ) : null}
       </header>
       <main className="mt-1">
         {showCollections && (
           <>
-            <div
-              className={
-                isDesktop
-                  ? "d-flex justify-content-end"
-                  : "d-flex justify-content-between mt-3"
-              }
-            >
-              <Link
-                to="/create-new-collection"
-                className="text-decoration-none"
-                style={{
-                  color: theme.primaryColors.link.hex,
-                }}
+            {!isDesktop ? (
+              <div
+                className={
+                  isDesktop
+                    ? "d-flex justify-content-end"
+                    : "d-flex justify-content-between mt-3"
+                }
               >
-                <h6 className={isDesktop ? "me-5 mb-0 pt-3" : "m-0"}>
-                  {language.lang_code.collection_create_new_collection}
-                </h6>
-              </Link>
-              <Link
-                className="fst-italic"
-                to="/all-collections"
-                style={{
-                  color: theme.primaryColors.link.hex,
-                }}
-              >
-                <h6 className={isDesktop ? "me-5 mb-0 pt-3" : "m-0"}>
-                  {language.lang_code.my_pages_see_all_collections}
-                </h6>
-              </Link>
-            </div>
+                <Link
+                  to="/create-new-collection"
+                  className="text-decoration-none"
+                  style={{
+                    color: theme.primaryColors.link.hex,
+                  }}
+                >
+                  <h6 className={isDesktop ? "me-5 mb-0 pt-3" : "m-0"}>
+                    {language.lang_code.collection_create_new_collection}
+                  </h6>
+                </Link>
+                <Link
+                  className="fst-italic"
+                  to="/all-collections"
+                  style={{
+                    color: theme.primaryColors.link.hex,
+                  }}
+                >
+                  <h6 className={isDesktop ? "me-5 mb-0 pt-3" : "m-0"}>
+                    {language.lang_code.my_pages_see_all_collections}
+                  </h6>
+                </Link>
+              </div>
+            ) : null}
             <div
               className={
                 isDesktop

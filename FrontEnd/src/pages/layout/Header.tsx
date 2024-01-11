@@ -12,9 +12,13 @@ export const Header = () => {
 
   return (
     <>
-      <div
+      <header
         className={"d-flex justify-content-between ps-3 pe-4 pt-1"}
-        style={isDesktop ? { height: "3.5rem" } : { height: "3rem" }}
+        style={
+          isDesktop
+            ? { height: "3.5rem", maxWidth: "100vw" }
+            : { height: "3rem", maxWidth: "100vw" }
+        }
       >
         <Link
           className="text-decoration-none"
@@ -23,12 +27,12 @@ export const Header = () => {
             color: theme.primaryColors.link.hex,
           }}
         >
-          <div id="main-logo" className="h-100">
+          <div id="main-logo" className="h-100 " style={{ width: "10rem" }}>
             <img src={mondex} alt="mondex logo" className="h-100 m-0 p-0" />
           </div>
         </Link>
         <Menu />
-      </div>
+      </header>
     </>
   );
 };
