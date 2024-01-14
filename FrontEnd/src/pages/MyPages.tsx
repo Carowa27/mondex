@@ -34,7 +34,7 @@ export const MyPages = () => {
   }, [isAuthenticated, user]);
 
   return (
-    <div style={{ height: "90vh" }}>
+    <div style={{ height: "min-content", minHeight: "90vh" }}>
       <div className="d-flex justify-content-between align-items-start">
         <h1>
           {language.lang_code.my_pages_my_pages} - {user?.given_name}
@@ -159,7 +159,7 @@ export const MyPages = () => {
                 <>
                   {collections && collections.length !== 0 ? (
                     <div className="mx-auto w-100">
-                      {collections.slice(0, 2).map((coll) => (
+                      {collections.slice(0, 3).map((coll) => (
                         <CollectionBanner
                           key={coll.id}
                           collectionName={coll.collection_name}
