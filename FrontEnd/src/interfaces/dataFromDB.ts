@@ -6,6 +6,7 @@ export interface ICardFromDB {
   api_card_img_src_small: string;
   api_card_img_src_large: string;
   api_pkmn_name: string;
+  api_set_id: string;
   collection_id: number;
   collection_name: string;
   created_at: Date;

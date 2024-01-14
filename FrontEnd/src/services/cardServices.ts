@@ -144,6 +144,7 @@ export const createCard = async ({
     api_card_img_src_small: cardFromApi.images.small,
     api_card_img_src_large: cardFromApi.images.large,
     api_pkmn_name: cardFromApi.name,
+    api_set_id: cardFromApi.set.id,
     collection_id: collectionId,
     collection_name: collectionName,
   };

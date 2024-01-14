@@ -10,9 +10,11 @@ CREATE TABLE cards (
     api_card_img_src_small VARCHAR(255),
     api_card_img_src_large VARCHAR(255),
     api_pkmn_name VARCHAR(255),
+    api_set_id VARCHAR(255),
     collection_id INT,
     collection_name VARCHAR(255),
-    created_at TIMESTAMP NOT NULL DEFAULT NOW()
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE collections (
@@ -20,5 +22,6 @@ CREATE TABLE collections (
     collection_name VARCHAR(255),
     user_auth0_id VARCHAR(255),
     api_set_id VARCHAR(255),
-    created_at TIMESTAMP NOT NULL DEFAULT NOW()
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );

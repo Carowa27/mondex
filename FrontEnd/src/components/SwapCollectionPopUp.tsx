@@ -139,11 +139,17 @@ export const SwapCollectionPopUp = ({
                       value={coll.collection_name}
                       onChange={handleChangeOnRadioBtn}
                       checked={selectedCollectionName === coll.collection_name}
-                      disabled={coll.collection_name === collectionName}
+                      disabled={
+                        coll.collection_name === collectionName ||
+                        (coll.api_set_id !== null &&
+                          cardToSwap.api_set_id !== coll.api_set_id)
+                      }
                     />
                     <span
                       style={
-                        coll.collection_name === collectionName
+                        coll.collection_name === collectionName ||
+                        (coll.api_set_id !== null &&
+                          cardToSwap.api_set_id !== coll.api_set_id)
                           ? {
                               color: theme.primaryColors.breadcrumbText.hex,
                             }
