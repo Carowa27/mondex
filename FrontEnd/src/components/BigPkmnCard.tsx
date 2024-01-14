@@ -214,9 +214,11 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
                 {cardInfo.nationalPokedexNumbers ? (
                   <NationalDex>
                     NationalDex:{" "}
-                    {cardInfo.nationalPokedexNumbers.map((nr) => (
-                      <span>{nr}</span>
-                    ))}
+                    {cardInfo.nationalPokedexNumbers.map(
+                      (nr: number, index: number) => (
+                        <span key={index}>{nr}</span>
+                      )
+                    )}
                   </NationalDex>
                 ) : null}
               </BigCardInfoRow>
