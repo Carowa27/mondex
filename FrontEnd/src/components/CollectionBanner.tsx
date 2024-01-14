@@ -73,7 +73,9 @@ export const CollectionBanner = (props: IProps) => {
                   <ul
                     className={
                       isDesktop
-                        ? "d-flex flex-wrap justify-content-around align-items-end"
+                        ? cards.length > 2
+                          ? "d-flex flex-wrap justify-content-around align-items-end"
+                          : "d-flex flex-wrap justify-content-start align-items-end"
                         : "d-flex flex-wrap justify-content-around"
                     }
                     style={{ listStyle: "none", padding: 0 }}
@@ -91,7 +93,13 @@ export const CollectionBanner = (props: IProps) => {
                         .map((card) => (
                           <li
                             key={card.id}
-                            className={isDesktop ? "pt-2" : "pt-1"}
+                            className={
+                              isDesktop
+                                ? cards.length > 2
+                                  ? "pt-2"
+                                  : "pt-2 px-3"
+                                : "pt-1"
+                            }
                             style={isDesktop ? { width: "min-content" } : {}}
                           >
                             <div
