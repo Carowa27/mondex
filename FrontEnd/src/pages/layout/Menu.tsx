@@ -13,8 +13,6 @@ export const Menu = () => {
   const { language, changeLanguage } = useContext(LanguageContext);
   const { theme, changeColorMode } = useContext(ThemeContext);
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
-
-  console.log(language.name);
   return (
     <>
       {isDesktop ? (

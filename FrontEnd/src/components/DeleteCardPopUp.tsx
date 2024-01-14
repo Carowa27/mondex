@@ -36,7 +36,7 @@ export const DeleteCardPopUp = ({
     if (user && cardToDelete) {
       const card = cardToDelete;
       await deleteOwnedCardById({ user, card }).then((res) => {
-        console.log(
+        console.info(
           "deleted: ",
           cardToDelete.api_pkmn_name,
           cardToDelete.api_card_id
@@ -59,7 +59,7 @@ export const DeleteCardPopUp = ({
 
     if (user && collection) {
       await deleteCollectionById({ user, collection }).then((res) => {
-        console.log("deleted: ", collection.collection_name);
+        console.info("deleted: ", collection.collection_name);
         window.location.href = "/all-collections";
       });
     }
@@ -76,7 +76,6 @@ export const DeleteCardPopUp = ({
         await getAllOwnedCards({ user }).then((res: ICardFromDB[] | void) => {
           if (res) {
             setCardList(res);
-            console.log(res);
           }
         });
       }
