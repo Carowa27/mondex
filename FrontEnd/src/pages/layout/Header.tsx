@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Menu } from "./Menu";
 import { useContext } from "react";
 import { ThemeContext } from "../../globals/theme";
-import mondex from "../../assets/logov2.png";
+import mondex from "../../assets/mondex.png";
 import { variables } from "../../globals/variables";
 import { useMediaQuery } from "react-responsive";
 

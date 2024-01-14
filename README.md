@@ -91,3 +91,7 @@ To get it up and running follow these steps:
 ![Own collection that is connected to set](image-3.png)
 
 ### Accessibility screenshots
+
+#### Lighthouse
+
+![Lighthouse navigation test](image-4.png)
