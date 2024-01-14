@@ -119,7 +119,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
   );
 
   const BigCardContainer = styled.div`
-    height: ${isDesktop ? "60vh" : "fit-content"};
+    height: "fit-content";
     width: 80vw;
     min-width: fit-content;
     min-height: fit-content;
@@ -131,7 +131,8 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
     margin: 0 2rem;
 
     @media (${variables.breakpoints.desktop}) {
-      height: 80vh;
+      height: fit-content;
+      min-height: 60vh;
       width: 50vw;
     }
   `;
@@ -155,7 +156,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
     }
   `;
   const BigCardImg = styled.img`
-    height: 100%;
+    height: 30rem;
   `;
   const BigCardInfo = styled.div`
     height: 90%;
@@ -183,7 +184,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
   const BigCardValueContainer = styled.div`
     border: solid 1px grey;
     margin-top: ${isDesktop ? "auto" : "1rem"};
-    margin-bottom: 0%.5;
+    margin-bottom: 0.5rem;
     padding: 1rem 2rem;
     border: 3px solid goldenrod;
     border-radius: 0.5rem;
