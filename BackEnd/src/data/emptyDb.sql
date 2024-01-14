@@ -14,7 +14,7 @@ CREATE TABLE cards (
     collection_id INT,
     collection_name VARCHAR(255),
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    FOREIGN KEY (collection_id) REFERENCES collections(id)
 );
 
 CREATE TABLE collections (
@@ -22,6 +22,5 @@ CREATE TABLE collections (
     collection_name VARCHAR(255),
     user_auth0_id VARCHAR(255),
     api_set_id VARCHAR(255),
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );

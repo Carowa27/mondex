@@ -1,4 +1,4 @@
-# EXsqrtl
+# MonDex
 
 ## Author and developer
 
@@ -54,7 +54,7 @@ _examples_
 
 #### Database
 
-![DB SQLite](https://img.shields.io/badge/DB-SQLite-003a55)
+![DB SQLite](https://img.shields.io/badge/DB-MySQL-003a55)
 
 ### Demo
 
@@ -69,11 +69,25 @@ To get it up and running follow these steps:
 #### Backend
 
 1. install all dependencies by writing "npm i" in the terminal (don't forget to be in the Backend folder)
-2. to seed the database with mockdata write "npm run seedDb"
-3. to get the server up at localhost "npm run start".
+2. you will need to have a database to get the database functions to run.
+3. to get the server up at localhost "npm run dev".
 
 ### Screenshots
 
-### Accessibility screenshots
+#### Home page
 
-# exsqrtl
+![Home page](image.png)
+
+#### Opened info card
+
+![Opened info card](image-1.png)
+
+#### Search page using artist to search
+
+![Search page using artist to search](image-2.png)
+
+#### Own collection that is connected to set
+
+![Own collection that is connected to set](image-3.png)
+
+### Accessibility screenshots
