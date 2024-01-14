@@ -78,7 +78,7 @@ export const SwapCollectionPopUp = ({
     border-radius: 0.5rem;
 
     @media (${variables.breakpoints.desktop}) {
-      height: 80vh;
+      height: fit-content;
       width: 50vw;
       top: 10vh;
       left: 25vw;
