@@ -126,8 +126,24 @@ export const ChooseCollectionPopUp = ({
                       value={coll.collection_name}
                       onChange={handleChangeOnRadioBtn}
                       checked={selectedCollectionName === coll.collection_name}
+                      disabled={
+                        coll.api_set_id !== null &&
+                        cardToAdd.set.id !== coll.api_set_id
+                      }
                     />
-                    <span> {coll.collection_name.replace(/_/g, " ")}</span>
+                    <span
+                      style={
+                        coll.api_set_id !== null &&
+                        cardToAdd.set.id !== coll.api_set_id
+                          ? {
+                              color: theme.primaryColors.breadcrumbText.hex,
+                            }
+                          : {}
+                      }
+                    >
+                      {" "}
+                      {coll.collection_name.replace(/_/g, " ")}
+                    </span>
                   </SwapLabel>
                 ))}
             </SwapForm>
