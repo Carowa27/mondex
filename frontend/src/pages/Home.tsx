@@ -18,6 +18,7 @@ import { IPkmnCard } from "../interfaces/dataFromApi";
 import { BigPkmnCard } from "../components/BigPkmnCard";
 
 export const Home = () => {
+  // CHANGE: all LS should be wrapped up in ONE LS object
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { language } = useContext(LanguageContext);
   const { theme, changeColorMode } = useContext(ThemeContext);
@@ -31,6 +32,9 @@ export const Home = () => {
   const changeShowPkmnInfo = () => {
     setSeeBigCard(false);
   };
+  // CHANGE: should check if saved data in LS
+  // IF YES: show data that is fetched from LS
+  // IF NO: show text "no cards saved"
   const getData = async () => {
     if (user) {
       await getAllOwnedCollections({ user }).then((res) => {
@@ -50,6 +54,8 @@ export const Home = () => {
       getData();
     }
   }, [collections]);
+
+  // INFO: last opened should not be changed
   useEffect(() => {
     const lastOpenedCard = localStorage.getItem("lastOpenedCard");
     lastOpenedCard && setLastOpenedCard(JSON.parse(lastOpenedCard).card);
@@ -83,6 +89,7 @@ export const Home = () => {
       }
     }
   }, []);
+  // INFO: theme should not be changed
   const getTheme = () => {
     const activeTheme = localStorage.getItem("activeTheme");
 
@@ -142,78 +149,6 @@ export const Home = () => {
             : "my-1 d-flex flex-column"
         }
       >
-        {/* about column */}
-        <div
-          className={
-            isDesktop
-              ? isAuthenticated
-                ? "rounded px-3 py-2 ms-1 d-flex flex-column"
-                : "rounded px-3 py-2 ms-1 d-flex flex-column"
-              : "w-100 rounded px-4 py-3 my-2 d-flex flex-column order-3"
-          }
-          style={
-            isDesktop
-              ? isAuthenticated
-                ? {
-                    width: "27%",
-                    border: `2px solid rgba(${theme.typeColors.water.rgb},0.5)`,
-                    backgroundColor: `rgba(${theme.typeColors.water.rgb},0.1)`,
-                    minHeight: "90vh",
-                    height: "auto",
-                  }
-                : {
-                    width: "40%",
-                    border: `2px solid rgba(${theme.typeColors.water.rgb},0.5)`,
-                    backgroundColor: `rgba(${theme.typeColors.water.rgb},0.1)`,
-                    minHeight: "90vh",
-                    height: "auto",
-                  }
-              : {
-                  border: `2px solid  rgba(${theme.typeColors.water.rgb},0.5)`,
-                  backgroundColor: `rgba(${theme.typeColors.water.rgb},0.1)`,
-                }
-          }
-        >
-          <Link
-            to="/about"
-            className="text-decoration-none"
-            style={{
-              color: theme.primaryColors.link.hex,
-            }}
-          >
-            <h4 id="main-card-about-header">
-              {language.lang_code.about_about_project}
-            </h4>
-          </Link>
-          <p className={isDesktop ? "" : "m-0"}>
-            {language.lang_code.about_description_exam}
-          </p>
-          {isDesktop && (
-            <>
-              <h5>{language.lang_code.word_purpose}</h5>
-              <p>{language.lang_code.about_description_purpose}</p>
-              {!isAuthenticated ? (
-                <>
-                  <h5>{language.lang_code.word_goal}</h5>
-                  <p className="m-0">
-                    {language.lang_code.about_description_goal}
-                  </p>{" "}
-                </>
-              ) : null}
-            </>
-          )}
-          {isAuthenticated || !isDesktop ? (
-            <Link
-              to="./about"
-              className="mt-auto align-self-end"
-              style={{
-                color: theme.primaryColors.link.hex,
-              }}
-            >
-              <i>{language.lang_code.read_more}</i>
-            </Link>
-          ) : null}
-        </div>
         {/* search column */}
         <div
           className={
