@@ -22,12 +22,12 @@ export const Home = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { language } = useContext(LanguageContext);
   const { theme, changeColorMode } = useContext(ThemeContext);
-  const { isLoading, isAuthenticated, user, error } = useAuth0();
   const [collections, setCollections] = useState<ICollectionFromDB[]>([]);
   const [valuableCard, setValuableCard] = useState<IPkmnCard>();
   const [lastOpenedCard, setLastOpenedCard] = useState<IPkmnCard>();
   const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const changeShowPkmnInfo = () => {
     setSeeBigCard(false);
@@ -36,18 +36,18 @@ export const Home = () => {
   // IF YES: show data that is fetched from LS
   // IF NO: show text "no cards saved"
   const getData = async () => {
-    if (user) {
-      await getAllOwnedCollections({ user }).then((res) => {
-        setCollections(res as ICollectionFromDB[]);
-      });
-    }
+    // if (user) {
+    //   await getAllOwnedCollections({ user }).then((res) => {
+    //     setCollections(res as ICollectionFromDB[]);
+    //   });
+    // }
   };
-  useEffect(() => {
-    if (isAuthenticated && user) {
-      getData();
-      checkForMasterCollection(user);
-    }
-  }, [isAuthenticated, user]);
+  // useEffect(() => {
+  //   if (isAuthenticated && user) {
+  //     getData();
+  //     checkForMasterCollection(user);
+  //   }
+  // }, [isAuthenticated, user]);
 
   useEffect(() => {
     if (collections.length === 0) {
@@ -291,27 +291,26 @@ export const Home = () => {
         <div
           className={
             isDesktop
-              ? isAuthenticated
-                ? "rounded px-3 py-2 me-1 d-flex"
-                : "rounded px-3 py-2 me-1 d-flex h-auto"
+              ? //  isAuthenticated
+                //   ? "rounded px-3 py-2 me-1 d-flex":
+                "rounded px-3 py-2 me-1 d-flex h-auto"
               : "w-100 rounded px-4 py-3 my-2 d-flex flex-row"
           }
           style={
-            isAuthenticated
-              ? {
-                  width: "40%",
-                  border: `2px solid  rgba(${theme.typeColors.grass.rgb},0.5)`,
-                  backgroundColor: `rgba(${theme.typeColors.grass.rgb},0.1)`,
-                }
-              : {
-                  width: "27%",
-                  border: `2px solid  rgba(${theme.typeColors.grass.rgb},0.5)`,
-                  backgroundColor: `rgba(${theme.typeColors.grass.rgb},0.1)`,
-                }
+            // isAuthenticated
+            //   ? {
+            //       width: "40%",
+            //       border: `2px solid  rgba(${theme.typeColors.grass.rgb},0.5)`,
+            //       backgroundColor: `rgba(${theme.typeColors.grass.rgb},0.1)`,
+            //     }:
+            {
+              width: "27%",
+              border: `2px solid  rgba(${theme.typeColors.grass.rgb},0.5)`,
+              backgroundColor: `rgba(${theme.typeColors.grass.rgb},0.1)`,
+            }
           }
         >
-          {error && <p>Error with authentication</p>}
-          {!error && isLoading ? (
+          {isLoading ? (
             <LoadingModule />
           ) : (
             <>
@@ -330,9 +329,9 @@ export const Home = () => {
                   }}
                 >
                   <h4 id="main-card-account-header-user">
-                    {user
-                      ? `${language.lang_code.word_welcome}, ${user?.given_name}!`
-                      : `${language.lang_code.word_welcome}!`}
+                    {/* {user
+                      ? `${language.lang_code.word_welcome}, ${user?.given_name}!`: */}
+                    {language.lang_code.word_welcome}!{/* } */}
                   </h4>
                 </Link>
 
