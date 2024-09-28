@@ -44,6 +44,7 @@ export interface ILanguageVariables {
   card_collection_to_remove_card_from: string;
   card_add_to_collection: string;
   collection_collection: string;
+  collection_no_collections_created: string;
   collection_all_collections: string;
   collection_create_new_collection: string;
   collection_created: string;

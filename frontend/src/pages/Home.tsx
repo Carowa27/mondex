@@ -315,61 +315,53 @@ export const Home = () => {
             <LoadingModule />
           ) : (
             <>
-              {isAuthenticated ? (
-                <div
+              <div
+                className={
+                  isDesktop
+                    ? "d-flex flex-column h-100 w-100"
+                    : "d-flex flex-column w-100"
+                }
+              >
+                <Link
+                  to="/userpage"
+                  className="text-decoration-none"
+                  style={{
+                    color: theme.primaryColors.link.hex,
+                  }}
+                >
+                  <h4 id="main-card-account-header-user">
+                    {user
+                      ? `${language.lang_code.word_welcome}, ${user?.given_name}!`
+                      : `${language.lang_code.word_welcome}!`}
+                  </h4>
+                </Link>
+
+                {collections && collections.length !== 0 ? (
+                  <>
+                    {collections.slice(0, 2).map((coll) => (
+                      <CollectionBanner
+                        key={coll.id}
+                        collectionName={coll.collection_name}
+                      />
+                    ))}
+                  </>
+                ) : (
+                  <>{language.lang_code.collection_no_collections_created}</>
+                )}
+                <Link
                   className={
                     isDesktop
-                      ? "d-flex flex-column h-100 w-100"
-                      : "d-flex flex-column w-100"
+                      ? "mt-auto align-self-end mb-2 me-2"
+                      : "align-self-end mb-2 me-2"
                   }
+                  to="/all-collections"
+                  style={{
+                    color: theme.primaryColors.link.hex,
+                  }}
                 >
-                  <Link
-                    to="/userpage"
-                    className="text-decoration-none"
-                    style={{
-                      color: theme.primaryColors.link.hex,
-                    }}
-                  >
-                    <h4 id="main-card-account-header-user">{`${language.lang_code.word_welcome}, ${user?.given_name}!`}</h4>
-                  </Link>
-
-                  {collections && collections.length !== 0 ? (
-                    <>
-                      {collections.slice(0, 2).map((coll) => (
-                        <CollectionBanner
-                          key={coll.id}
-                          collectionName={coll.collection_name}
-                        />
-                      ))}
-                    </>
-                  ) : (
-                    <>{language.lang_code.error_something_went_wrong}</>
-                  )}
-                  <Link
-                    className={
-                      isDesktop
-                        ? "mt-auto align-self-end mb-2 me-2"
-                        : "align-self-end mb-2 me-2"
-                    }
-                    to="/all-collections"
-                    style={{
-                      color: theme.primaryColors.link.hex,
-                    }}
-                  >
-                    <i> {language.lang_code.my_pages_see_all_collections}</i>
-                  </Link>
-                </div>
-              ) : (
-                <div className="">
-                  <h4 id="main-card-account-header">
-                    {language.lang_code.word_account}
-                  </h4>
-                  <p>{language.lang_code.account_description}</p>
-                  <div className="w-100 d-flex justify-content-center mt-5">
-                    <LoginBtn />
-                  </div>
-                </div>
-              )}
+                  <i> {language.lang_code.my_pages_see_all_collections}</i>
+                </Link>
+              </div>
             </>
           )}
         </div>

@@ -42,6 +42,7 @@
   "card_collection_to_remove_card_from": "Från kollektion",
   "card_add_to_collection": "Lägg till i kollektion",
   "collection_collection": "Kollektion",
+  "collection_no_collections_created": "Inga kollektioner är skapade, när du skapat en kollektion kommer de att dyka upp här",
   "collection_all_collections": "Alla kollektioner",
   "collection_create_new_collection": "Skapa ny kollektion",
   "collection_created": "Kollektion skapad",
