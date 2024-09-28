@@ -215,7 +215,7 @@ export const Search = () => {
           <div>
             <div className="d-flex justify-content-around">
               <label htmlFor="search_text" className="pt-2 m-0">
-                {language.lang_code.word_name}:{" "}
+                {language.lang_code.search_word}:{" "}
                 <input
                   type="text"
                   id="search_text"
@@ -230,7 +230,7 @@ export const Search = () => {
               className="d-flex justify-content-between align-items-center mt-1"
             >
               <label htmlFor="search_pkmn" className="m-0 me-2">
-                Pokémon:{" "}
+                {language.lang_code.word_name}:{" "}
                 <input
                   type="radio"
                   name="search_for"

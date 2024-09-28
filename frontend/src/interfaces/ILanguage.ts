@@ -69,6 +69,7 @@ export interface ILanguageVariables {
   search_new_sets_might_be_unavailable: string;
   search_you_can_search_for: string;
   search_start: string;
+  search_word: string;
   last_updated_at: string;
   last_opened: string;
   most_valuable: string;
