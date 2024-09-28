@@ -1,16 +1,10 @@
 import { IPkmnCard } from "./dataFromApi";
 
 export interface ILSContainer {
-  // ADD: should include:
-  // theme,
   theme: Theme;
-  // ADD: user with collections,
   user: IUser;
-  // lastOpenedCard,
   lastOpenedCard: IPkmnCard;
-  // mostValuableCard
   mostValuableCard: IPkmnCard;
-  // langVariable
   language: Lang;
 }
 interface IUser {
