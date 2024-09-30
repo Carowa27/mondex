@@ -3,16 +3,9 @@ import { variables } from "../globals/variables";
 import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { LanguageContext } from "../globals/language/language";
-import { useAuth0 } from "@auth0/auth0-react";
-import { LoginBtn } from "../components/LoginBtn";
 import { CollectionBanner } from "../components/CollectionBanner";
 import { ThemeContext } from "../globals/theme";
 import { LoadingModule } from "../components/LoadingModule";
-import {
-  checkForMasterCollection,
-  getAllOwnedCollections,
-} from "../services/collectionServices";
-import { ICollectionFromDB } from "../interfaces/dataFromDB";
 import { getMostValuableCardFromApi } from "../services/pkmnTcgApiServices";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { BigPkmnCard } from "../components/BigPkmnCard";
