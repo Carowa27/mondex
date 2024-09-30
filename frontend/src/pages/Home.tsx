@@ -16,13 +16,15 @@ import { ICollectionFromDB } from "../interfaces/dataFromDB";
 import { getMostValuableCardFromApi } from "../services/pkmnTcgApiServices";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { BigPkmnCard } from "../components/BigPkmnCard";
+import { ICollection, ILSContainer } from "../interfaces/LSInterface";
 
 export const Home = () => {
   // CHANGE: all LS should be wrapped up in ONE LS object
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { language } = useContext(LanguageContext);
   const { theme, changeColorMode } = useContext(ThemeContext);
-  const [collections, setCollections] = useState<ICollectionFromDB[]>([]);
+  const [user, setUser] = useState<string>("");
+  const [collections, setCollections] = useState<ICollection[]>([]);
   const [valuableCard, setValuableCard] = useState<IPkmnCard>();
   const [lastOpenedCard, setLastOpenedCard] = useState<IPkmnCard>();
   const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
@@ -36,24 +38,31 @@ export const Home = () => {
   // IF YES: show data that is fetched from LS
   // IF NO: show text "no cards saved"
   const getData = async () => {
-    // if (user) {
-    //   await getAllOwnedCollections({ user }).then((res) => {
-    //     setCollections(res as ICollectionFromDB[]);
-    //   });
-    // }
+    let LS = localStorage.getItem("mondex");
+    let userData: ILSContainer | null = null;
+    if (LS !== null) {
+      userData = JSON.parse(LS) as ILSContainer;
+    }
+
+    if (userData !== null) {
+      console.log("in if");
+      setLastOpenedCard(userData.lastOpenedCard);
+      setValuableCard(userData.mostValuableCard);
+      setUser(userData.user.username);
+      setCollections(userData.user.collections);
+      setIsLoading(false);
+    } else {
+      setUser("new user");
+      setIsLoading(false);
+    }
   };
-  // useEffect(() => {
-  //   if (isAuthenticated && user) {
-  //     getData();
-  //     checkForMasterCollection(user);
-  //   }
-  // }, [isAuthenticated, user]);
 
   useEffect(() => {
     if (collections.length === 0) {
+      setIsLoading(true);
       getData();
     }
-  }, [collections]);
+  }, []);
 
   // INFO: last opened should not be changed
   useEffect(() => {
