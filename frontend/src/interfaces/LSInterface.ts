@@ -3,8 +3,8 @@ import { IPkmnCard } from "./dataFromApi";
 export interface ILSContainer {
   theme: Theme;
   user: IUser;
-  lastOpenedCard: IPkmnCard;
-  mostValuableCard: IPkmnCard;
+  lastOpenedCard?: IPkmnCard;
+  mostValuableCard?: IValuableSavedCard;
   language: Lang;
 }
 interface IUser {
@@ -20,7 +20,10 @@ export interface ICollection {
 export interface ICard {
   amount: number;
   card: IPkmnCard;
-  added_date: string;
+}
+export interface IValuableSavedCard {
+  card: IPkmnCard;
+  savedOn: string;
 }
 export enum Theme {
   DARK = "dark",

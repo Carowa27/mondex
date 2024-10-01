@@ -9,16 +9,23 @@ import { LoadingModule } from "../components/LoadingModule";
 import { getMostValuableCardFromApi } from "../services/pkmnTcgApiServices";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { BigPkmnCard } from "../components/BigPkmnCard";
-import { ICollection, ILSContainer } from "../interfaces/LSInterface";
+import {
+  ICollection,
+  ILSContainer,
+  IValuableSavedCard,
+  Lang,
+  Theme,
+} from "../interfaces/LSInterface";
 
 export const Home = () => {
   // CHANGE: all LS should be wrapped up in ONE LS object
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { language } = useContext(LanguageContext);
   const { theme, changeColorMode } = useContext(ThemeContext);
+  const [lsContainer, setLsContainer] = useState<ILSContainer>();
   const [user, setUser] = useState<string>("");
-  const [collections, setCollections] = useState<ICollection[]>([]);
-  const [valuableCard, setValuableCard] = useState<IPkmnCard>();
+  const [collections, setCollections] = useState<ICollection[] | []>([]);
+  const [valuableCard, setValuableCard] = useState<IValuableSavedCard>();
   const [lastOpenedCard, setLastOpenedCard] = useState<IPkmnCard>();
   const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
@@ -30,19 +37,19 @@ export const Home = () => {
   // CHANGE: should check if saved data in LS
   // IF YES: show data that is fetched from LS
   // IF NO: show text "no cards saved"
-  const getData = async () => {
+  const getData = () => {
     let LS = localStorage.getItem("mondex");
     let userData: ILSContainer | null = null;
     if (LS !== null) {
-      userData = JSON.parse(LS) as ILSContainer;
+      userData = JSON.parse(LS);
     }
-
     if (userData !== null) {
-      console.log("in if");
+      console.log("userData", userData);
+      setLsContainer(userData);
       setLastOpenedCard(userData.lastOpenedCard);
       setValuableCard(userData.mostValuableCard);
-      setUser(userData.user.username);
-      setCollections(userData.user.collections);
+      setUser(userData?.user?.username || "");
+      setCollections(userData?.user?.collections || []);
       setIsLoading(false);
     } else {
       setUser("new user");
@@ -50,47 +57,57 @@ export const Home = () => {
     }
   };
 
+  const date = new Date().getDate();
+  const month = new Date().getMonth() + 1;
+  const year = new Date().getFullYear();
+  const today = `${year}-${month}-${date}`;
+
+  const getValuableCard = async () => {
+    await getMostValuableCardFromApi(`normal`).then((res) => {
+      if (res) {
+        const newValue = {
+          ...lsContainer,
+          mostValuableCard: { card: res, savedOn: today },
+          theme: lsContainer?.theme || Theme.LIGHT,
+          user: lsContainer?.user || { username: "", collections: [] },
+          lastOpenedCard: lsContainer?.lastOpenedCard || undefined,
+          language: lsContainer?.language || Lang.EN,
+        };
+        setLsContainer(newValue);
+        localStorage.setItem("mondex", JSON.stringify(newValue));
+      }
+      setIsLoading(false);
+    });
+  };
   useEffect(() => {
-    if (collections.length === 0) {
+    if (collections && collections.length === 0) {
       setIsLoading(true);
       getData();
     }
   }, []);
-
-  // INFO: last opened should not be changed
   useEffect(() => {
-    const lastOpenedCard = localStorage.getItem("lastOpenedCard");
-    lastOpenedCard && setLastOpenedCard(JSON.parse(lastOpenedCard).card);
-
-    const savedValuableCard = localStorage.getItem("mostValuableCard");
-    savedValuableCard && setValuableCard(JSON.parse(savedValuableCard).card);
-
-    const date = new Date().getDate();
-    const month = new Date().getMonth() + 1;
-    const year = new Date().getFullYear();
-    const today = `${year}-${month}-${date}`;
-
-    const getData = async () => {
-      await getMostValuableCardFromApi(`normal`).then((res) => {
-        if (res) {
-          setValuableCard(res);
-          localStorage.setItem(
-            "mostValuableCard",
-            JSON.stringify({ card: res, savedOn: today })
-          );
-        }
-      });
-    };
-    if (savedValuableCard === null) {
-      getData();
+    if (valuableCard === null) {
+      setIsLoading(true);
+      getValuableCard();
     } else {
-      const savedCard = JSON.parse(savedValuableCard);
-
-      if (savedCard.savedOn !== today) {
-        getData();
+      if (valuableCard?.savedOn !== today) {
+        setIsLoading(true);
+        getValuableCard();
       }
     }
+    console.log("card", lsContainer?.mostValuableCard);
   }, []);
+  useEffect(() => {
+    setIsLoading(true);
+    if (lsContainer !== undefined) {
+      setLastOpenedCard(lsContainer.lastOpenedCard);
+      setValuableCard(lsContainer.mostValuableCard);
+      setUser(lsContainer?.user?.username || "");
+      setCollections(lsContainer?.user?.collections || []);
+      setIsLoading(false);
+    }
+  }, [lsContainer]);
+
   // INFO: theme should not be changed
   const getTheme = () => {
     const activeTheme = localStorage.getItem("activeTheme");
@@ -259,14 +276,14 @@ export const Home = () => {
                   style={{ width: isDesktop ? "7rem" : "12.5rem" }}
                   onClick={() => {
                     setSeeBigCard(true);
-                    setInfoPkmnCard(valuableCard);
+                    setInfoPkmnCard(valuableCard.card);
                   }}
                 >
                   <img
                     className="rounded"
                     style={{ width: isDesktop ? "100%" : "40%" }}
-                    src={valuableCard.images.small}
-                    alt={valuableCard.name}
+                    src={valuableCard.card.images.small}
+                    alt={valuableCard.card.name}
                   />
                 </div>
                 <p
@@ -276,14 +293,14 @@ export const Home = () => {
                       : "w-100 d-flex flex-column justify-content-evenly m-0"
                   }
                 >
-                  <span>{valuableCard.name}</span>
+                  <span>{valuableCard.card.name}</span>
                   <span className={isDesktop ? "ms-2" : "align-self-end"}>
-                    {valuableCard.tcgplayer?.prices.normal?.market}$
+                    {valuableCard.card.tcgplayer?.prices.normal?.market}$
                   </span>
                 </p>
                 <span style={{ fontSize: "x-small" }}>
                   {language.lang_code.last_updated_at}:{" "}
-                  {valuableCard.tcgplayer?.updatedAt}
+                  {valuableCard.card.tcgplayer?.updatedAt}
                 </span>
               </div>
             ) : null}
