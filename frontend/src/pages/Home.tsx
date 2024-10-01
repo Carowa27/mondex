@@ -9,13 +9,7 @@ import { LoadingModule } from "../components/LoadingModule";
 import { getMostValuableCardFromApi } from "../services/pkmnTcgApiServices";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { BigPkmnCard } from "../components/BigPkmnCard";
-import {
-  ICollection,
-  ILSContainer,
-  IValuableSavedCard,
-  Lang,
-  Theme,
-} from "../interfaces/LSInterface";
+import { ILSContainer, Lang, Theme } from "../interfaces/LSInterface";
 import { getMondexLs, setMondexLs } from "../functions/LSFunctions";
 
 export const Home = () => {
@@ -70,7 +64,7 @@ export const Home = () => {
           language: lsContainer?.language || Lang.EN,
         };
         setLsContainer(newValue);
-        localStorage.setItem("mondex", JSON.stringify(newValue));
+        setMondexLs(newValue);
       }
       setIsLoading(false);
     });
