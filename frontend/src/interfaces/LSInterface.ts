@@ -3,9 +3,9 @@ import { IPkmnCard } from "./dataFromApi";
 export interface ILSContainer {
   theme: Theme;
   user: IUser;
-  lastOpenedCard?: IPkmnCard;
-  mostValuableCard?: IValuableSavedCard;
   language: Lang;
+  mostValuableCard: IValuableSavedCard | undefined;
+  lastOpenedCard: IPkmnCard | undefined;
 }
 interface IUser {
   username: string;

@@ -7,6 +7,8 @@ import { getCardFromApi } from "../services/pkmnTcgApiServices";
 import { variables } from "../globals/variables";
 import { useMediaQuery } from "react-responsive";
 import { LanguageContext } from "../globals/language/language";
+import { ILSContainer } from "../interfaces/LSInterface";
+import { getMondexLs, setMondexLs } from "../functions/LSFunctions";
 
 interface IProps {
   card: ICardFromDB | undefined;
@@ -35,16 +37,16 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
   }, [card, pkmnCard]);
 
   useEffect(() => {
-    const date = new Date().getDate();
-    const month = new Date().getMonth() + 1;
-    const year = new Date().getFullYear();
-    const today = `${year}-${month}-${date}`;
-
     if (pkmnCard && window.location.href.includes(`/search`)) {
-      localStorage.setItem(
-        "lastOpenedCard",
-        JSON.stringify({ card: pkmnCard, searched: today })
-      );
+      const oldValue = getMondexLs();
+      const newValue: ILSContainer = {
+        mostValuableCard: oldValue.mostValuableCard,
+        theme: oldValue.theme,
+        user: oldValue.user,
+        lastOpenedCard: pkmnCard,
+        language: oldValue.language,
+      };
+      setMondexLs(newValue);
     }
   }, [pkmnCard]);
 

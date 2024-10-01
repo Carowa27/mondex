@@ -16,6 +16,7 @@ import {
   Lang,
   Theme,
 } from "../interfaces/LSInterface";
+import { getMondexLs, setMondexLs } from "../functions/LSFunctions";
 
 export const Home = () => {
   // CHANGE: all LS should be wrapped up in ONE LS object
@@ -23,10 +24,6 @@ export const Home = () => {
   const { language } = useContext(LanguageContext);
   const { theme, changeColorMode } = useContext(ThemeContext);
   const [lsContainer, setLsContainer] = useState<ILSContainer>();
-  const [user, setUser] = useState<string>("");
-  const [collections, setCollections] = useState<ICollection[] | []>([]);
-  const [valuableCard, setValuableCard] = useState<IValuableSavedCard>();
-  const [lastOpenedCard, setLastOpenedCard] = useState<IPkmnCard>();
   const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -37,23 +34,23 @@ export const Home = () => {
   // CHANGE: should check if saved data in LS
   // IF YES: show data that is fetched from LS
   // IF NO: show text "no cards saved"
-  const getData = () => {
-    let LS = localStorage.getItem("mondex");
-    let userData: ILSContainer | null = null;
-    if (LS !== null) {
-      userData = JSON.parse(LS);
-    }
-    if (userData !== null) {
-      console.log("userData", userData);
+
+  const getLSData = () => {
+    let userData = getMondexLs();
+    if (userData !== undefined) {
       setLsContainer(userData);
-      setLastOpenedCard(userData.lastOpenedCard);
-      setValuableCard(userData.mostValuableCard);
-      setUser(userData?.user?.username || "");
-      setCollections(userData?.user?.collections || []);
       setIsLoading(false);
     } else {
-      setUser("new user");
       setIsLoading(false);
+    }
+    if (userData?.mostValuableCard === undefined) {
+      setIsLoading(true);
+      getValuableCard();
+    } else {
+      if (userData?.mostValuableCard.savedOn !== today) {
+        setIsLoading(true);
+        getValuableCard();
+      }
     }
   };
 
@@ -66,11 +63,10 @@ export const Home = () => {
     await getMostValuableCardFromApi(`normal`).then((res) => {
       if (res) {
         const newValue = {
-          ...lsContainer,
           mostValuableCard: { card: res, savedOn: today },
           theme: lsContainer?.theme || Theme.LIGHT,
           user: lsContainer?.user || { username: "", collections: [] },
-          lastOpenedCard: lsContainer?.lastOpenedCard || undefined,
+          lastOpenedCard: lsContainer?.lastOpenedCard,
           language: lsContainer?.language || Lang.EN,
         };
         setLsContainer(newValue);
@@ -80,34 +76,9 @@ export const Home = () => {
     });
   };
   useEffect(() => {
-    if (collections && collections.length === 0) {
-      setIsLoading(true);
-      getData();
-    }
-  }, []);
-  useEffect(() => {
-    if (valuableCard === null) {
-      setIsLoading(true);
-      getValuableCard();
-    } else {
-      if (valuableCard?.savedOn !== today) {
-        setIsLoading(true);
-        getValuableCard();
-      }
-    }
-    console.log("card", lsContainer?.mostValuableCard);
-  }, []);
-  useEffect(() => {
     setIsLoading(true);
-    if (lsContainer !== undefined) {
-      setLastOpenedCard(lsContainer.lastOpenedCard);
-      setValuableCard(lsContainer.mostValuableCard);
-      setUser(lsContainer?.user?.username || "");
-      setCollections(lsContainer?.user?.collections || []);
-      setIsLoading(false);
-    }
-  }, [lsContainer]);
-
+    getLSData();
+  }, []);
   // INFO: theme should not be changed
   const getTheme = () => {
     const activeTheme = localStorage.getItem("activeTheme");
@@ -211,7 +182,7 @@ export const Home = () => {
             </span>
           )}
           <div className={isDesktop ? "" : "d-flex "}>
-            {lastOpenedCard ? (
+            {lsContainer?.lastOpenedCard ? (
               <div
                 className={
                   isDesktop
@@ -227,14 +198,14 @@ export const Home = () => {
                   style={{ width: isDesktop ? "7rem" : "12.5rem" }}
                   onClick={() => {
                     setSeeBigCard(true);
-                    setInfoPkmnCard(lastOpenedCard);
+                    setInfoPkmnCard(lsContainer?.lastOpenedCard);
                   }}
                 >
                   <img
                     className="rounded"
                     style={{ width: isDesktop ? "100%" : "40%" }}
-                    src={lastOpenedCard.images.small}
-                    alt={lastOpenedCard.name}
+                    src={lsContainer?.lastOpenedCard.images.small}
+                    alt={lsContainer?.lastOpenedCard.name}
                   />
                 </div>
                 <p
@@ -244,15 +215,11 @@ export const Home = () => {
                       : "w-100 d-flex justify-content-evenly m-0"
                   }
                 >
-                  <span>{lastOpenedCard.name}</span>
+                  <span>{lsContainer?.lastOpenedCard.name}</span>
                 </p>
-                <span style={{ fontSize: "x-small" }}>
-                  {language.lang_code.last_opened}:{" "}
-                  {lastOpenedCard.tcgplayer?.updatedAt}
-                </span>
               </div>
             ) : null}
-            {valuableCard ? (
+            {lsContainer?.mostValuableCard ? (
               <div
                 className={
                   isDesktop
@@ -276,14 +243,14 @@ export const Home = () => {
                   style={{ width: isDesktop ? "7rem" : "12.5rem" }}
                   onClick={() => {
                     setSeeBigCard(true);
-                    setInfoPkmnCard(valuableCard.card);
+                    setInfoPkmnCard(lsContainer?.mostValuableCard?.card);
                   }}
                 >
                   <img
                     className="rounded"
                     style={{ width: isDesktop ? "100%" : "40%" }}
-                    src={valuableCard.card.images.small}
-                    alt={valuableCard.card.name}
+                    src={lsContainer?.mostValuableCard.card.images.small}
+                    alt={lsContainer?.mostValuableCard.card.name}
                   />
                 </div>
                 <p
@@ -293,14 +260,18 @@ export const Home = () => {
                       : "w-100 d-flex flex-column justify-content-evenly m-0"
                   }
                 >
-                  <span>{valuableCard.card.name}</span>
+                  <span>{lsContainer?.mostValuableCard.card.name}</span>
                   <span className={isDesktop ? "ms-2" : "align-self-end"}>
-                    {valuableCard.card.tcgplayer?.prices.normal?.market}$
+                    {
+                      lsContainer?.mostValuableCard.card.tcgplayer?.prices
+                        .normal?.market
+                    }
+                    $
                   </span>
                 </p>
                 <span style={{ fontSize: "x-small" }}>
                   {language.lang_code.last_updated_at}:{" "}
-                  {valuableCard.card.tcgplayer?.updatedAt}
+                  {lsContainer?.mostValuableCard.card.tcgplayer?.updatedAt}
                 </span>
               </div>
             ) : null}
@@ -354,9 +325,10 @@ export const Home = () => {
                   </h4>
                 </Link>
 
-                {collections && collections.length !== 0 ? (
+                {lsContainer?.user.collections &&
+                lsContainer?.user.collections.length !== 0 ? (
                   <>
-                    {collections.slice(0, 2).map((coll) => (
+                    {lsContainer?.user.collections.slice(0, 2).map((coll) => (
                       <CollectionBanner
                         key={coll.id}
                         collectionName={coll.collection_name}
