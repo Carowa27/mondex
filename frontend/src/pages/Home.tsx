@@ -17,7 +17,13 @@ export const Home = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { language } = useContext(LanguageContext);
   const { theme, changeColorMode } = useContext(ThemeContext);
-  const [lsContainer, setLsContainer] = useState<ILSContainer>();
+  const [lsContainer, setLsContainer] = useState<ILSContainer>({
+    mostValuableCard: undefined,
+    theme: Theme.LIGHT,
+    user: { username: "", collections: [] },
+    lastOpenedCard: undefined,
+    language: Lang.EN,
+  });
   const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -56,15 +62,10 @@ export const Home = () => {
   const getValuableCard = async () => {
     await getMostValuableCardFromApi(`normal`).then((res) => {
       if (res) {
-        const newValue = {
+        setLsContainer((prevState) => ({
+          ...prevState,
           mostValuableCard: { card: res, savedOn: today },
-          theme: lsContainer?.theme || Theme.LIGHT,
-          user: lsContainer?.user || { username: "", collections: [] },
-          lastOpenedCard: lsContainer?.lastOpenedCard,
-          language: lsContainer?.language || Lang.EN,
-        };
-        setLsContainer(newValue);
-        setMondexLs(newValue);
+        }));
       }
       setIsLoading(false);
     });
@@ -73,6 +74,9 @@ export const Home = () => {
     setIsLoading(true);
     getLSData();
   }, []);
+  useEffect(() => {
+    setMondexLs(lsContainer);
+  }, [lsContainer]);
   // INFO: theme should not be changed
   const getTheme = () => {
     const activeTheme = localStorage.getItem("activeTheme");

@@ -7,7 +7,7 @@ import { getCardFromApi } from "../services/pkmnTcgApiServices";
 import { variables } from "../globals/variables";
 import { useMediaQuery } from "react-responsive";
 import { LanguageContext } from "../globals/language/language";
-import { ILSContainer } from "../interfaces/LSInterface";
+import { ILSContainer, Lang, Theme } from "../interfaces/LSInterface";
 import { getMondexLs, setMondexLs } from "../functions/LSFunctions";
 
 interface IProps {
@@ -20,7 +20,19 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
   const { language } = useContext(LanguageContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const [cardInfo, setCardInfo] = useState<IPkmnCard>();
-
+  const [lsContainer, setLsContainer] = useState<ILSContainer>({
+    mostValuableCard: undefined,
+    theme: Theme.LIGHT,
+    user: { username: "", collections: [] },
+    lastOpenedCard: undefined,
+    language: Lang.EN,
+  });
+  useEffect(() => {
+    if (pkmnCard && window.location.href.includes(`/search`)) {
+      let value = getMondexLs();
+      setLsContainer(value);
+    }
+  }, []);
   useEffect(() => {
     if (card) {
       const getData = async () => {
@@ -38,17 +50,15 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
 
   useEffect(() => {
     if (pkmnCard && window.location.href.includes(`/search`)) {
-      const oldValue = getMondexLs();
-      const newValue: ILSContainer = {
-        mostValuableCard: oldValue.mostValuableCard,
-        theme: oldValue.theme,
-        user: oldValue.user,
+      setLsContainer((prevState) => ({
+        ...prevState,
         lastOpenedCard: pkmnCard,
-        language: oldValue.language,
-      };
-      setMondexLs(newValue);
+      }));
     }
   }, [pkmnCard]);
+  useEffect(() => {
+    setMondexLs(lsContainer);
+  }, [lsContainer]);
 
   const valueHTML = (cardInfo: IPkmnCard) => (
     <>
