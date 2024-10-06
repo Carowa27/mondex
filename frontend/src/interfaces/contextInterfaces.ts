@@ -1,12 +1,6 @@
 import { IPkmnCard } from "./dataFromApi";
 import { ILanguageVariables } from "./ILanguage";
-import {
-  ICollection,
-  ILSContainer,
-  IValuableSavedCard,
-  Lang,
-  Theme,
-} from "./LSInterface";
+import { ICollection, IValuableSavedCard, Lang, Theme } from "./LSInterface";
 
 //ThemeContext
 export interface IThemeContext {

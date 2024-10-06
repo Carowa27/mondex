@@ -1,10 +1,5 @@
 import { createContext } from "react";
-import {
-  ILSContainer,
-  IValuableSavedCard,
-  Lang,
-  Theme,
-} from "../interfaces/LSInterface";
+import { IValuableSavedCard, Lang, Theme } from "../interfaces/LSInterface";
 import { IContainerContext } from "../interfaces/contextInterfaces";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 
