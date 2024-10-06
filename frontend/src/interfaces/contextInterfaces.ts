@@ -1,4 +1,12 @@
+import { IPkmnCard } from "./dataFromApi";
 import { ILanguageVariables } from "./ILanguage";
+import {
+  ICollection,
+  ILSContainer,
+  IValuableSavedCard,
+  Lang,
+  Theme,
+} from "./LSInterface";
 
 //ThemeContext
 export interface IThemeContext {
@@ -49,4 +57,25 @@ export interface ILanguageContext {
 export interface ILanguage {
   lang_code: ILanguageVariables;
   name: string;
+}
+export interface IContainerContext {
+  theme: Theme;
+  user: { username: string; collections: ICollection[] };
+  language: Lang;
+  mostValuableCard: IValuableSavedCard | undefined;
+  lastOpenedCard: IPkmnCard | undefined;
+  updateContainer: (
+    updatedData:
+      | Theme
+      | { username: ""; collections: [] }
+      | Lang
+      | IValuableSavedCard
+      | IPkmnCard,
+    whatToUpdate:
+      | "theme"
+      | "user"
+      | "language"
+      | "valuableCard"
+      | "lastOpenedCard"
+  ) => void;
 }

@@ -7,7 +7,7 @@ export interface ILSContainer {
   mostValuableCard: IValuableSavedCard | undefined;
   lastOpenedCard: IPkmnCard | undefined;
 }
-interface IUser {
+export interface IUser {
   username: string;
   collections: ICollection[];
 }
