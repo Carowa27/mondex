@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { lang } from "../globals/language/language";
 import { CollectionBanner } from "../components/CollectionBanner";
-import { ThemeContext } from "../globals/theme";
+import { colorModes, ThemeContext } from "../globals/theme";
 import { LoadingModule } from "../components/LoadingModule";
 import { getMostValuableCardFromApi } from "../services/pkmnTcgApiServices";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { BigPkmnCard } from "../components/BigPkmnCard";
-import { ILSContainer, Theme } from "../interfaces/LSInterface";
+import { ILSContainer } from "../interfaces/LSInterface";
 import { getMondexLs, setMondexLs } from "../functions/LSFunctions";
 import { ContainerContext } from "../globals/containerContext";
 
@@ -20,7 +20,7 @@ export const Home = () => {
   const { theme, changeColorMode } = useContext(ThemeContext);
   const [lsContainer, setLsContainer] = useState<ILSContainer>({
     mostValuableCard: undefined,
-    theme: Theme.LIGHT,
+    theme: colorModes.Light,
     user: { username: "", collections: [] },
     lastOpenedCard: undefined,
     language: lang.EN,
@@ -93,7 +93,7 @@ export const Home = () => {
     } else {
       if (activeTheme === "dark") {
         changeColorMode("dark");
-        updateContainer(Theme.DARK, "theme");
+        updateContainer(colorModes.Dark, "theme");
       }
     }
   };

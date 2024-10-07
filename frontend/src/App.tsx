@@ -12,7 +12,6 @@ import {
   ILSContainer,
   IUser,
   IValuableSavedCard,
-  Theme,
 } from "./interfaces/LSInterface";
 import { IPkmnCard } from "./interfaces/dataFromApi";
 import { ContainerContext } from "./globals/containerContext";
@@ -38,7 +37,7 @@ function App() {
   const [container, setContainer] = useState<IContainerContext>({
     container: {
       mostValuableCard: undefined,
-      theme: Theme.LIGHT,
+      theme: colorModes.Light,
       user: { username: "", collections: [] },
       lastOpenedCard: undefined,
       language: lang.EN,
@@ -49,7 +48,12 @@ function App() {
     },
   });
   container.updateContainer = (
-    updatedData: Theme | IUser | ILanguage | IValuableSavedCard | IPkmnCard,
+    updatedData:
+      | IColorMode
+      | IUser
+      | ILanguage
+      | IValuableSavedCard
+      | IPkmnCard,
     whatToUpdate:
       | "theme"
       | "user"
@@ -60,7 +64,7 @@ function App() {
     whatToUpdate === "theme" &&
       setContainer((prevState) => ({
         ...prevState,
-        container: { ...prevState.container, theme: updatedData as Theme },
+        container: { ...prevState.container, theme: updatedData as IColorMode },
       }));
     whatToUpdate === "user" &&
       setContainer((prevState) => ({

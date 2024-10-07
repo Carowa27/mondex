@@ -45,7 +45,7 @@ export interface IColorMode {
 //ContainerContext
 export interface IContainerContext {
   container: {
-    theme: Theme;
+    theme: IColorMode;
     user: { username: string; collections: ICollection[] };
     language: ILanguage;
     mostValuableCard: IValuableSavedCard | undefined;
@@ -53,7 +53,7 @@ export interface IContainerContext {
   };
   updateContainer: (
     updatedData:
-      | Theme
+      | IColorMode
       | { username: ""; collections: [] }
       | ILanguage
       | IValuableSavedCard

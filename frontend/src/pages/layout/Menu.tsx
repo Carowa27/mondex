@@ -15,6 +15,8 @@ export const Menu = () => {
   const { container, updateContainer } = useContext(ContainerContext);
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const language = container.language;
+  console.log("test", theme, container.theme);
+  // const theme=container.theme
   return (
     <>
       {isDesktop ? (

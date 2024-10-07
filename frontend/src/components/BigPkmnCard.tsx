@@ -1,13 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { styled } from "styled-components";
-import { ThemeContext } from "../globals/theme";
+import { colorModes, ThemeContext } from "../globals/theme";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { ICardFromDB } from "../interfaces/dataFromDB";
 import { getCardFromApi } from "../services/pkmnTcgApiServices";
 import { variables } from "../globals/variables";
 import { useMediaQuery } from "react-responsive";
 import { lang } from "../globals/language/language";
-import { ILSContainer, Theme } from "../interfaces/LSInterface";
+import { ILSContainer } from "../interfaces/LSInterface";
 import { getMondexLs, setMondexLs } from "../functions/LSFunctions";
 import { ContainerContext } from "../globals/containerContext";
 
@@ -23,7 +23,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
   const [cardInfo, setCardInfo] = useState<IPkmnCard>();
   const [lsContainer, setLsContainer] = useState<ILSContainer>({
     mostValuableCard: undefined,
-    theme: Theme.LIGHT,
+    theme: colorModes.Light,
     user: { username: "", collections: [] },
     lastOpenedCard: undefined,
     language: lang.EN,

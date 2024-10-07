@@ -1,8 +1,9 @@
+import { IColorMode } from "./contextInterfaces";
 import { IPkmnCard } from "./dataFromApi";
 import { ILanguage } from "./ILanguage";
 
 export interface ILSContainer {
-  theme: Theme;
+  theme: IColorMode;
   user: IUser;
   language: ILanguage;
   mostValuableCard: IValuableSavedCard | undefined;
