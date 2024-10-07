@@ -3,7 +3,7 @@ import { Router } from "./Router";
 import { colorModes } from "./globals/theme";
 import { useState } from "react";
 import { lang } from "./globals/language/language";
-import { IColorMode, IContainerContext } from "./interfaces/contextInterfaces";
+import { IContainerContext } from "./interfaces/contextInterfaces";
 import {
   ILSContainer,
   IUser,
@@ -12,6 +12,7 @@ import {
 import { IPkmnCard } from "./interfaces/dataFromApi";
 import { ContainerContext } from "./globals/containerContext";
 import { ILanguage } from "./interfaces/ILanguage";
+import { IColorMode } from "./interfaces/colorInterfaces";
 
 function App() {
   const [container, setContainer] = useState<IContainerContext>({

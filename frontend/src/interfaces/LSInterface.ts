@@ -1,4 +1,4 @@
-import { IColorMode } from "./contextInterfaces";
+import { IColorMode } from "./colorInterfaces";
 import { IPkmnCard } from "./dataFromApi";
 import { ILanguage } from "./ILanguage";
 

@@ -1,10 +1,11 @@
 import { createContext } from "react";
 import { IUser, IValuableSavedCard } from "../interfaces/LSInterface";
-import { IColorMode, IContainerContext } from "../interfaces/contextInterfaces";
+import { IContainerContext } from "../interfaces/contextInterfaces";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { lang } from "./language/language";
 import { ILanguage } from "../interfaces/ILanguage";
 import { colorModes } from "./theme";
+import { IColorMode } from "../interfaces/colorInterfaces";
 
 export const container = {
   mostValuableCard: undefined,
