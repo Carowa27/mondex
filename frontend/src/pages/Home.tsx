@@ -1,7 +1,7 @@
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { Link } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
 import { CollectionBanner } from "../components/CollectionBanner";
 import { LoadingModule } from "../components/LoadingModule";
 import { getMostValuableCardFromApi } from "../services/pkmnTcgApiServices";
@@ -9,6 +9,7 @@ import { IPkmnCard } from "../interfaces/dataFromApi";
 import { BigPkmnCard } from "../components/BigPkmnCard";
 import { getMondexLs, updateMondexLs } from "../functions/LSFunctions";
 import { ContainerContext } from "../globals/containerContext";
+import { IUser } from "../interfaces/LSInterface";
 
 export const Home = () => {
   const { container, updateContainer } = useContext(ContainerContext);
@@ -17,6 +18,7 @@ export const Home = () => {
   const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [username, setUsername] = useState<string>("");
   const language = container.language;
   const theme = container.theme;
   const date = new Date().getDate();
@@ -58,7 +60,16 @@ export const Home = () => {
       setIsLoading(false);
     });
   };
-
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setUsername(value);
+    console.log(value);
+  };
+  const saveUserName = (e: FormEvent) => {
+    e.preventDefault();
+    updateContainer({ username, collections: [] }, "user");
+    console.log(username);
+  };
   useEffect(() => {
     setIsLoading(true);
     getLSData();
@@ -297,7 +308,48 @@ export const Home = () => {
                     ))}
                   </>
                 ) : (
-                  <>{language?.lang_code.collection_no_collections_created}</>
+                  <>
+                    <div>
+                      <form
+                        style={{
+                          margin: "1rem",
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
+                        onSubmit={(e) => saveUserName(e)}
+                      >
+                        <label
+                          htmlFor="username"
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "0.5rem",
+                          }}
+                        >
+                          Username:
+                          <input
+                            type="text"
+                            id="username"
+                            style={{ margin: "0" }}
+                            onChange={handleChange}
+                          />
+                        </label>
+                        <button
+                          type="submit"
+                          style={{
+                            width: "max-content",
+                            alignSelf: "end",
+                            marginTop: "0.5rem",
+                            padding: "0.2rem 0.5rem",
+                            borderRadius: "10px",
+                          }}
+                        >
+                          Save username
+                        </button>
+                      </form>
+                    </div>
+                    {language?.lang_code.collection_no_collections_created}
+                  </>
                 )}
                 <Link
                   className={

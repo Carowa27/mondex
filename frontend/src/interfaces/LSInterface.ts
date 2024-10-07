@@ -11,7 +11,7 @@ export interface ILSContainer {
 }
 export interface IUser {
   username: string;
-  collections: ICollection[];
+  collections: ICollection[] | [];
 }
 export interface ICollection {
   id: number;
