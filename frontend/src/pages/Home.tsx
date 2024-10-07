@@ -2,22 +2,18 @@ import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import { lang } from "../globals/language/language";
 import { CollectionBanner } from "../components/CollectionBanner";
 import { LoadingModule } from "../components/LoadingModule";
 import { getMostValuableCardFromApi } from "../services/pkmnTcgApiServices";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { BigPkmnCard } from "../components/BigPkmnCard";
-import { ILSContainer } from "../interfaces/LSInterface";
 import { getMondexLs, updateMondexLs } from "../functions/LSFunctions";
 import { ContainerContext } from "../globals/containerContext";
-import { colorModes } from "../globals/theme";
 
 export const Home = () => {
   const { container, updateContainer } = useContext(ContainerContext);
   // CHANGE: all LS should be wrapped up in ONE LS object
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  const [lsContainer, setLsContainer] = useState<ILSContainer>();
   const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -163,7 +159,7 @@ export const Home = () => {
                   style={{ width: isDesktop ? "7rem" : "12.5rem" }}
                   onClick={() => {
                     setSeeBigCard(true);
-                    setInfoPkmnCard(lsContainer?.lastOpenedCard);
+                    setInfoPkmnCard(container?.lastOpenedCard);
                   }}
                 >
                   <img
