@@ -6,6 +6,7 @@ import { LanguageContext, lang } from "./globals/language/language";
 import {
   IColorMode,
   IContainerContext,
+  ILanguage,
   ILanguageContext,
   IThemeContext,
 } from "./interfaces/contextInterfaces";
@@ -13,7 +14,6 @@ import {
   ILSContainer,
   IUser,
   IValuableSavedCard,
-  Lang,
   Theme,
 } from "./interfaces/LSInterface";
 import { IPkmnCard } from "./interfaces/dataFromApi";
@@ -53,18 +53,20 @@ function App() {
     setLanguage({ ...language, language: active });
   };
   const [container, setContainer] = useState<IContainerContext>({
-    mostValuableCard: undefined,
-    theme: Theme.LIGHT,
-    user: { username: "", collections: [] },
-    lastOpenedCard: undefined,
-    language: Lang.EN,
+    container: {
+      mostValuableCard: undefined,
+      theme: Theme.LIGHT,
+      user: { username: "", collections: [] },
+      lastOpenedCard: undefined,
+      language: lang.EN,
+    },
     //@ts-expect-error type definition
     updateContainer: (updatedData: ILSContainer) => {
       return;
     },
   });
   container.updateContainer = (
-    updatedData: Theme | IUser | Lang | IValuableSavedCard | IPkmnCard,
+    updatedData: Theme | IUser | ILanguage | IValuableSavedCard | IPkmnCard,
     whatToUpdate:
       | "theme"
       | "user"
@@ -75,27 +77,36 @@ function App() {
     whatToUpdate === "theme" &&
       setContainer((prevState) => ({
         ...prevState,
-        theme: updatedData as Theme,
+        container: { ...prevState.container, theme: updatedData as Theme },
       }));
     whatToUpdate === "user" &&
       setContainer((prevState) => ({
         ...prevState,
-        user: updatedData as IUser,
+        container: { ...prevState.container, user: updatedData as IUser },
       }));
     whatToUpdate === "language" &&
       setContainer((prevState) => ({
         ...prevState,
-        language: updatedData as Lang,
+        container: {
+          ...prevState.container,
+          language: updatedData as ILanguage,
+        },
       }));
     whatToUpdate === "valuableCard" &&
       setContainer((prevState) => ({
         ...prevState,
-        mostValuableCard: updatedData as IValuableSavedCard,
+        container: {
+          ...prevState.container,
+          mostValuableCard: updatedData as IValuableSavedCard,
+        },
       }));
     whatToUpdate === "lastOpenedCard" &&
       setContainer((prevState) => ({
         ...prevState,
-        lastOpenedCard: updatedData as IPkmnCard,
+        container: {
+          ...prevState.container,
+          lastOpenedCard: updatedData as IPkmnCard,
+        },
       }));
   };
   return (

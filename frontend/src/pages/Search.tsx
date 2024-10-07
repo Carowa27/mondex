@@ -136,7 +136,6 @@ export const Search = () => {
       searchWithPkmnApi(searchParam, searchValue);
     }
   }, [page]);
-
   return (
     <>
       {seeCreatedCard ? (

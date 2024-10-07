@@ -1,30 +1,28 @@
 import { createContext } from "react";
-import { IValuableSavedCard, Lang, Theme } from "../interfaces/LSInterface";
+import { IUser, IValuableSavedCard, Theme } from "../interfaces/LSInterface";
 import { IContainerContext } from "../interfaces/contextInterfaces";
 import { IPkmnCard } from "../interfaces/dataFromApi";
+import { lang } from "./language/language";
 
 export const container = {
   mostValuableCard: undefined,
   theme: Theme.LIGHT,
   user: { username: "", collections: [] },
   lastOpenedCard: undefined,
-  language: Lang.EN,
+  language: "EN",
 };
 
 export const ContainerContext = createContext<IContainerContext>({
-  mostValuableCard: undefined,
-  theme: Theme.LIGHT,
-  user: { username: "", collections: [] },
-  lastOpenedCard: undefined,
-  language: Lang.EN,
+  container: {
+    mostValuableCard: undefined,
+    theme: Theme.LIGHT,
+    user: { username: "", collections: [] },
+    lastOpenedCard: undefined,
+    language: lang.EN,
+  },
   updateContainer: (
     //@ts-expect-error type definition
-    updatedData:
-      | Theme
-      | { username: ""; collections: [] }
-      | Lang
-      | IValuableSavedCard
-      | IPkmnCard,
+    updatedData: Theme | IUser | ILanguage | IValuableSavedCard | IPkmnCard,
     //@ts-expect-error type definition
     whatToUpdate:
       | "theme"

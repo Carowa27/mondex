@@ -2,17 +2,19 @@ import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import { LanguageContext } from "../globals/language/language";
+import { lang, LanguageContext } from "../globals/language/language";
 import { CollectionBanner } from "../components/CollectionBanner";
 import { ThemeContext } from "../globals/theme";
 import { LoadingModule } from "../components/LoadingModule";
 import { getMostValuableCardFromApi } from "../services/pkmnTcgApiServices";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { BigPkmnCard } from "../components/BigPkmnCard";
-import { ILSContainer, Lang, Theme } from "../interfaces/LSInterface";
+import { ILSContainer, Theme } from "../interfaces/LSInterface";
 import { getMondexLs, setMondexLs } from "../functions/LSFunctions";
+import { ContainerContext } from "../globals/containerContext";
 
 export const Home = () => {
+  const { container, updateContainer } = useContext(ContainerContext);
   // CHANGE: all LS should be wrapped up in ONE LS object
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { language } = useContext(LanguageContext);
@@ -22,7 +24,7 @@ export const Home = () => {
     theme: Theme.LIGHT,
     user: { username: "", collections: [] },
     lastOpenedCard: undefined,
-    language: Lang.EN,
+    language: lang.EN,
   });
   const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
@@ -66,6 +68,7 @@ export const Home = () => {
           ...prevState,
           mostValuableCard: { card: res, savedOn: today },
         }));
+        updateContainer({ card: res, savedOn: today }, "valuableCard");
       }
       setIsLoading(false);
     });
@@ -90,13 +93,17 @@ export const Home = () => {
     } else {
       if (activeTheme === "dark") {
         changeColorMode("dark");
+        updateContainer(Theme.DARK, "theme");
       }
     }
   };
   useEffect(() => {
     getTheme();
+    console.log(container);
   }, []);
-
+  useEffect(() => {
+    console.log(container);
+  }, [container]);
   useEffect(() => {
     if (theme.name === "light") {
       localStorage.setItem("activeTheme", "light");
@@ -104,7 +111,6 @@ export const Home = () => {
       localStorage.setItem("activeTheme", "dark");
     }
   }, [theme.name]);
-
   return (
     <>
       {seeBigCard ? (

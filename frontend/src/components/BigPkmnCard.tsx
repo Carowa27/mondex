@@ -6,9 +6,10 @@ import { ICardFromDB } from "../interfaces/dataFromDB";
 import { getCardFromApi } from "../services/pkmnTcgApiServices";
 import { variables } from "../globals/variables";
 import { useMediaQuery } from "react-responsive";
-import { LanguageContext } from "../globals/language/language";
+import { lang, LanguageContext } from "../globals/language/language";
 import { ILSContainer, Lang, Theme } from "../interfaces/LSInterface";
 import { getMondexLs, setMondexLs } from "../functions/LSFunctions";
+import { ContainerContext } from "../globals/containerContext";
 
 interface IProps {
   card: ICardFromDB | undefined;
@@ -18,6 +19,7 @@ interface IProps {
 export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
   const { theme } = useContext(ThemeContext);
   const { language } = useContext(LanguageContext);
+  const { updateContainer } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const [cardInfo, setCardInfo] = useState<IPkmnCard>();
   const [lsContainer, setLsContainer] = useState<ILSContainer>({
@@ -25,7 +27,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
     theme: Theme.LIGHT,
     user: { username: "", collections: [] },
     lastOpenedCard: undefined,
-    language: Lang.EN,
+    language: lang.EN,
   });
   useEffect(() => {
     if (pkmnCard && window.location.href.includes(`/search`)) {
@@ -54,6 +56,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
         ...prevState,
         lastOpenedCard: pkmnCard,
       }));
+      updateContainer(pkmnCard, "lastOpenedCard");
     }
   }, [pkmnCard]);
   useEffect(() => {

@@ -2,9 +2,11 @@ import { useMediaQuery } from "react-responsive";
 import { Link } from "react-router-dom";
 import { variables } from "../../globals/variables";
 import { useContext, useState } from "react";
-import { LanguageContext } from "../../globals/language/language";
+import { lang, LanguageContext } from "../../globals/language/language";
 import { ThemeContext } from "../../globals/theme";
 import { useAuth0 } from "@auth0/auth0-react";
+import { ContainerContext } from "../../globals/containerContext";
+import { Lang } from "../../interfaces/LSInterface";
 
 export const Menu = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -12,7 +14,9 @@ export const Menu = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { language, changeLanguage } = useContext(LanguageContext);
   const { theme, changeColorMode } = useContext(ThemeContext);
+  const { container, updateContainer } = useContext(ContainerContext);
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+
   return (
     <>
       {isDesktop ? (
@@ -133,7 +137,9 @@ export const Menu = () => {
                       language.name === "Svenska" ? "fw-bold" : "fw-normal"
                     }
                     onClick={() => (
-                      changeLanguage("SE"), setIsLangMenuOpen(false)
+                      changeLanguage("SE"),
+                      setIsLangMenuOpen(false),
+                      updateContainer(lang.SE, "language")
                     )}
                   >
                     SE
@@ -144,7 +150,9 @@ export const Menu = () => {
                       language.name === "English" ? "fw-bold" : "fw-normal"
                     }
                     onClick={() => (
-                      changeLanguage("EN"), setIsLangMenuOpen(false)
+                      changeLanguage("EN"),
+                      setIsLangMenuOpen(false),
+                      updateContainer(lang.EN, "language")
                     )}
                   >
                     EN
@@ -290,7 +298,9 @@ export const Menu = () => {
                       : "fw-normal ps-2"
                   }
                   onClick={() => (
-                    changeLanguage("SE"), setIsMobileMenuOpen(false)
+                    changeLanguage("SE"),
+                    setIsMobileMenuOpen(false),
+                    updateContainer(lang.SE, "language")
                   )}
                 >
                   SE
@@ -301,7 +311,9 @@ export const Menu = () => {
                     language.name === "English" ? "fw-bold" : "fw-normal"
                   }
                   onClick={() => (
-                    changeLanguage("EN"), setIsMobileMenuOpen(false)
+                    changeLanguage("EN"),
+                    setIsMobileMenuOpen(false),
+                    updateContainer(lang.EN, "language")
                   )}
                 >
                   EN

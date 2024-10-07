@@ -1,9 +1,10 @@
+import { ILanguage } from "./contextInterfaces";
 import { IPkmnCard } from "./dataFromApi";
 
 export interface ILSContainer {
   theme: Theme;
   user: IUser;
-  language: Lang;
+  language: ILanguage;
   mostValuableCard: IValuableSavedCard | undefined;
   lastOpenedCard: IPkmnCard | undefined;
 }
