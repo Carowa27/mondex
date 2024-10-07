@@ -12,15 +12,7 @@ import { colorModes } from "./theme";
 import { IColorMode } from "../interfaces/colorInterfaces";
 import { getMondexLs } from "../functions/LSFunctions";
 
-// export const container = {
-//   mostValuableCard: undefined,
-//   theme: colorModes.Light,
-//   user: { username: "", collections: [] },
-//   lastOpenedCard: undefined,
-//   language: "EN",
-// };
 const value: ILSContainer = getMondexLs();
-console.log("contextvalue", value);
 
 export const ContainerContext = createContext<IContainerContext>({
   container: {

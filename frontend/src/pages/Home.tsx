@@ -79,11 +79,6 @@ export const Home = () => {
   };
 
   useEffect(() => {
-    const ls = JSON.parse(localStorage.getItem("mondex")!);
-    console.log(container, ls);
-  }, [container]);
-
-  useEffect(() => {
     setIsLoading(true);
     getLSData();
     // getTheme();
