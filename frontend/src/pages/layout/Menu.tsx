@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { variables } from "../../globals/variables";
 import { useContext, useState } from "react";
 import { lang } from "../../globals/language/language";
-import { ThemeContext } from "../../globals/theme";
+import { colorModes } from "../../globals/theme";
 import { useAuth0 } from "@auth0/auth0-react";
 import { ContainerContext } from "../../globals/containerContext";
 
@@ -11,12 +11,10 @@ export const Menu = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  const { theme, changeColorMode } = useContext(ThemeContext);
   const { container, updateContainer } = useContext(ContainerContext);
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const language = container.language;
-  console.log("test", theme, container.theme);
-  // const theme=container.theme
+  const theme = container.theme;
   return (
     <>
       {isDesktop ? (
@@ -174,13 +172,13 @@ export const Menu = () => {
           <div className="ps-3">
             {theme.name === "light" ? (
               <i
-                onClick={() => changeColorMode("dark")}
+                onClick={() => updateContainer(colorModes.Dark, "theme")}
                 className="bi bi-moon-fill"
                 style={{ color: "#554d42" }}
               ></i>
             ) : (
               <i
-                onClick={() => changeColorMode("light")}
+                onClick={() => updateContainer(colorModes.Light, "theme")}
                 className="bi bi-brightness-high-fill"
                 style={{ color: "#FFC233" }}
               ></i>
@@ -348,14 +346,14 @@ export const Menu = () => {
             {theme.name === "light" ? (
               <i
                 id="main-menu-theme-light"
-                onClick={() => changeColorMode("dark")}
+                onClick={() => updateContainer(colorModes.Dark, "theme")}
                 className="bi bi-moon-fill"
                 style={{ color: theme.primaryColors.sunmoon.hex }}
               ></i>
             ) : (
               <i
                 id="main-menu-theme-light"
-                onClick={() => changeColorMode("light")}
+                onClick={() => updateContainer(colorModes.Light, "theme")}
                 className="bi bi-brightness-high-fill"
                 style={{ color: theme.primaryColors.sunmoon.hex }}
               ></i>

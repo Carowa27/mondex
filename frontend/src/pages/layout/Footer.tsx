@@ -2,16 +2,15 @@ import { useMediaQuery } from "react-responsive";
 import { variables } from "../../globals/variables";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { ThemeContext } from "../../globals/theme";
 import { useAuth0 } from "@auth0/auth0-react";
 import { ContainerContext } from "../../globals/containerContext";
 
 export const Footer = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { container } = useContext(ContainerContext);
-  const { theme } = useContext(ThemeContext);
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const language = container.language;
+  const theme = container.theme;
 
   const thisYear = new Date().getFullYear();
 

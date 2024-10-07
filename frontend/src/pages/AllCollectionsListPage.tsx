@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import { ThemeContext } from "../globals/theme";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -13,7 +12,6 @@ import { ContainerContext } from "../globals/containerContext";
 
 export const AllCollectionsListPage = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  const { theme } = useContext(ThemeContext);
   const { container } = useContext(ContainerContext);
   const { isLoading, isAuthenticated, user, error } = useAuth0();
   const [collections, setCollections] = useState<ICollectionFromDB[]>([]);
@@ -21,6 +19,7 @@ export const AllCollectionsListPage = () => {
   const [start, setStart] = useState<number>(0);
   const [end, setEnd] = useState<number>(isDesktop ? 21 : 13);
   const language = container.language;
+  const theme = container.theme;
 
   const updateSearch = (newPage: number) => {
     setPage(newPage);

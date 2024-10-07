@@ -1,5 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import { ThemeContext } from "../globals/theme";
 import { useAuth0 } from "@auth0/auth0-react";
 import { LogoutBtn } from "../components/LogoutBtn";
 import { BreadCrumbs } from "./layout/BreadCrumbs";
@@ -13,7 +12,6 @@ import { CollectionBanner } from "../components/CollectionBanner";
 import { ContainerContext } from "../globals/containerContext";
 
 export const MyPages = () => {
-  const { theme } = useContext(ThemeContext);
   const { container } = useContext(ContainerContext);
   const { isLoading, isAuthenticated, user, error } = useAuth0();
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
@@ -23,6 +21,7 @@ export const MyPages = () => {
   const [collections, setCollections] = useState<ICollectionFromDB[]>([]);
 
   const language = container.language;
+  const theme = container.theme;
 
   useEffect(() => {
     if (isAuthenticated && user) {

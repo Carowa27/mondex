@@ -1,7 +1,6 @@
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
-import { ThemeContext } from "../globals/theme";
 import { styled } from "styled-components";
 import { ICollectionFromDB } from "../interfaces/dataFromDB";
 import { getAllOwnedCollections } from "../services/collectionServices";
@@ -19,7 +18,6 @@ export const ChooseCollectionPopUp = ({
   changeShowAddCardPopup,
   cardToAdd,
 }: IProps) => {
-  const { theme } = useContext(ThemeContext);
   const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { user, isAuthenticated } = useAuth0();
@@ -29,6 +27,7 @@ export const ChooseCollectionPopUp = ({
     useState<ICollectionFromDB[]>();
   const [selectedCollectionName, setSelectedCollectionName] =
     useState<string>();
+  const theme = container.theme;
 
   const getCollections = async () => {
     if (isAuthenticated && user) {

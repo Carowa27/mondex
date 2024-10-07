@@ -1,13 +1,9 @@
 import { RouterProvider } from "react-router-dom";
 import { Router } from "./Router";
-import { ThemeContext, colorModes } from "./globals/theme";
+import { colorModes } from "./globals/theme";
 import { useState } from "react";
 import { lang } from "./globals/language/language";
-import {
-  IColorMode,
-  IContainerContext,
-  IThemeContext,
-} from "./interfaces/contextInterfaces";
+import { IColorMode, IContainerContext } from "./interfaces/contextInterfaces";
 import {
   ILSContainer,
   IUser,
@@ -18,22 +14,6 @@ import { ContainerContext } from "./globals/containerContext";
 import { ILanguage } from "./interfaces/ILanguage";
 
 function App() {
-  const [theme, setTheme] = useState<IThemeContext>({
-    theme: colorModes.Light,
-    //@ts-expect-error type definition
-    changeColorMode: (wantedColorMode: string) => {
-      return;
-    },
-  });
-  theme.changeColorMode = (wantedColorMode: string) => {
-    let active: IColorMode = colorModes.Light;
-    if (wantedColorMode === "light") {
-      active = colorModes.Light;
-    } else {
-      active = colorModes.Dark;
-    }
-    setTheme({ ...theme, theme: active });
-  };
   const [container, setContainer] = useState<IContainerContext>({
     container: {
       mostValuableCard: undefined,
@@ -99,9 +79,7 @@ function App() {
   return (
     <>
       <ContainerContext.Provider value={container}>
-        <ThemeContext.Provider value={theme}>
-          <RouterProvider router={Router}></RouterProvider>
-        </ThemeContext.Provider>
+        <RouterProvider router={Router}></RouterProvider>
       </ContainerContext.Provider>
     </>
   );

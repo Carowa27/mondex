@@ -1,13 +1,12 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useContext } from "react";
-import { ThemeContext } from "../globals/theme";
 import { ContainerContext } from "../globals/containerContext";
 
 export const LoginBtn = () => {
   const { container } = useContext(ContainerContext);
-  const { theme } = useContext(ThemeContext);
   const { loginWithRedirect, isAuthenticated } = useAuth0();
   const language = container.language;
+  const theme = container.theme;
   return (
     <>
       {!isAuthenticated && (

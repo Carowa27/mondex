@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
-import { ThemeContext } from "../globals/theme";
 import { ICardFromDB, ICollectionFromDB } from "../interfaces/dataFromDB";
 import { useAuth0 } from "@auth0/auth0-react";
 import {
@@ -26,12 +25,12 @@ export const DeleteCardPopUp = ({
   collectionName,
   updateData,
 }: IProps) => {
-  const { theme } = useContext(ThemeContext);
   const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { user } = useAuth0();
   const [cardList, setCardList] = useState<ICardFromDB[]>();
   const language = container.language;
+  const theme = container.theme;
 
   const handleSubmitToDelete = async () => {
     if (user && cardToDelete) {

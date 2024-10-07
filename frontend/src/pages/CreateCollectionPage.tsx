@@ -5,13 +5,11 @@ import { createCollection } from "../services/collectionServices";
 import { User, useAuth0 } from "@auth0/auth0-react";
 import { getSetFromApi } from "../services/pkmnTcgApiServices";
 import { Link } from "react-router-dom";
-import { ThemeContext } from "../globals/theme";
 import { ContainerContext } from "../globals/containerContext";
 
 export const CreateCollectionPage = () => {
   const { isAuthenticated, user } = useAuth0();
   const { container } = useContext(ContainerContext);
-  const { theme } = useContext(ThemeContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const [collectionName, setCollectionName] = useState<string>("");
   const [isSetCollection, setIsSetCollection] = useState<boolean>(false);
@@ -21,6 +19,7 @@ export const CreateCollectionPage = () => {
   const [createdCollection, setCreatedCollection] = useState<boolean>(false);
   const [savedCollectionName, setSavedCollectionName] = useState<string>("");
   const language = container.language;
+  const theme = container.theme;
 
   useEffect(() => {
     if (setInputValue.includes(".") || setInputValue.includes(",")) {

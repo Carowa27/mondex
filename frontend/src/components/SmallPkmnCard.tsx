@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-import { ThemeContext } from "../globals/theme";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { ICardFromDB } from "../interfaces/dataFromDB";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -13,6 +12,7 @@ import { SwapCollectionPopUp } from "./SwapCollectionPopUp";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { DeleteCardPopUp } from "./DeleteCardPopUp";
+import { ContainerContext } from "../globals/containerContext";
 
 interface IProps {
   card?: ICardFromDB;
@@ -29,7 +29,7 @@ export const SmallPkmnCard = ({
   getData,
   cardList,
 }: IProps) => {
-  const { theme } = useContext(ThemeContext);
+  const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { isAuthenticated, user } = useAuth0();
   const [showCardAlternatives, setShowCardAlternatives] = useState<string>("");
@@ -44,6 +44,7 @@ export const SmallPkmnCard = ({
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
   const [cardToSwap, setCardToSwap] = useState<ICardFromDB>();
   const [cardToDelete, setCardToDelete] = useState<ICardFromDB>();
+  const theme = container.theme;
 
   const handleSwap = (
     card: ICardFromDB | undefined,

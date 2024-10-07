@@ -5,7 +5,6 @@ import { getPkmnFromApi } from "../services/pkmnTcgApiServices";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { LoadingModule } from "../components/LoadingModule";
 import { useAuth0 } from "@auth0/auth0-react";
-import { ThemeContext } from "../globals/theme";
 import { addCard } from "../services/cardServices";
 import { BigPkmnCard } from "../components/BigPkmnCard";
 import { ChooseCollectionPopUp } from "../components/ChooseCollectionPopUp";
@@ -16,7 +15,6 @@ import { ContainerContext } from "../globals/containerContext";
 export const Search = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { container } = useContext(ContainerContext);
-  const { theme } = useContext(ThemeContext);
   const { isAuthenticated, user } = useAuth0();
   const [searchValue, setSearchValue] = useState<string>("");
   const [searchParam, setSearchParam] = useState<string>("pkmn");
@@ -38,6 +36,7 @@ export const Search = () => {
   }>();
   const [page, setPage] = useState<number>(1);
   const language = container.language;
+  const theme = container.theme;
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);

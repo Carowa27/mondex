@@ -1,15 +1,16 @@
 import { Link } from "react-router-dom";
 import { Menu } from "./Menu";
 import { useContext } from "react";
-import { ThemeContext } from "../../globals/theme";
 import mondex from "../../assets/mondex.png";
 import { variables } from "../../globals/variables";
 import { useMediaQuery } from "react-responsive";
+import { ContainerContext } from "../../globals/containerContext";
 
 export const Header = () => {
-  const { theme } = useContext(ThemeContext);
+  const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
 
+  const theme = container.theme;
   return (
     <>
       <header

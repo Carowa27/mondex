@@ -3,7 +3,6 @@ import { variables } from "../globals/variables";
 import { useAuth0 } from "@auth0/auth0-react";
 import { LoadingModule } from "../components/LoadingModule";
 import { useContext, useEffect, useState } from "react";
-import { ThemeContext } from "../globals/theme";
 import { getAllCardsFromCollectionById } from "../services/cardServices";
 import { ICardFromDB, ICollectionFromDB } from "../interfaces/dataFromDB";
 import { getOwnedCollectionByCollectionName } from "../services/collectionServices";
@@ -16,7 +15,6 @@ import { DeleteCardPopUp } from "../components/DeleteCardPopUp";
 import { ContainerContext } from "../globals/containerContext";
 
 export const CollectionPage = () => {
-  const { theme } = useContext(ThemeContext);
   const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { isAuthenticated, user } = useAuth0();
@@ -38,6 +36,7 @@ export const CollectionPage = () => {
   const language = container.language;
   const collectionName = window.location.href.split("/")[4];
   const collectionNameToShow = collectionName.replace(/_/g, " ");
+  const theme = container.theme;
 
   const getData = async () => {
     if (isAuthenticated && user && collectionName) {

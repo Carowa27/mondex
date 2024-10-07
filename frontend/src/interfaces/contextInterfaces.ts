@@ -1,6 +1,6 @@
 import { IPkmnCard } from "./dataFromApi";
 import { ILanguage } from "./ILanguage";
-import { ICollection, IValuableSavedCard, Theme } from "./LSInterface";
+import { ICollection, IValuableSavedCard } from "./LSInterface";
 //ThemeContext
 export interface IThemeContext {
   theme: IColorMode;

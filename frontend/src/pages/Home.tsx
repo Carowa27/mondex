@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { lang } from "../globals/language/language";
 import { CollectionBanner } from "../components/CollectionBanner";
-import { colorModes, ThemeContext } from "../globals/theme";
+import { colorModes } from "../globals/theme";
 import { LoadingModule } from "../components/LoadingModule";
 import { getMostValuableCardFromApi } from "../services/pkmnTcgApiServices";
 import { IPkmnCard } from "../interfaces/dataFromApi";
@@ -17,7 +17,6 @@ export const Home = () => {
   const { container, updateContainer } = useContext(ContainerContext);
   // CHANGE: all LS should be wrapped up in ONE LS object
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  const { theme, changeColorMode } = useContext(ThemeContext);
   const [lsContainer, setLsContainer] = useState<ILSContainer>({
     mostValuableCard: undefined,
     theme: colorModes.Light,
@@ -29,6 +28,7 @@ export const Home = () => {
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const language = container.language;
+  const theme = container.theme;
 
   const changeShowPkmnInfo = () => {
     setSeeBigCard(false);
@@ -92,7 +92,7 @@ export const Home = () => {
       }
     } else {
       if (activeTheme === "dark") {
-        changeColorMode("dark");
+        // changeColorMode("dark");
         updateContainer(colorModes.Dark, "theme");
       }
     }

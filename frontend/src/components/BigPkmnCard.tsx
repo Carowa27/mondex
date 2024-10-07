@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { styled } from "styled-components";
-import { colorModes, ThemeContext } from "../globals/theme";
+import { colorModes } from "../globals/theme";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { ICardFromDB } from "../interfaces/dataFromDB";
 import { getCardFromApi } from "../services/pkmnTcgApiServices";
@@ -17,7 +17,6 @@ interface IProps {
   changeShowPkmnInfo: () => void;
 }
 export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
-  const { theme } = useContext(ThemeContext);
   const { container, updateContainer } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const [cardInfo, setCardInfo] = useState<IPkmnCard>();
@@ -29,6 +28,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
     language: lang.EN,
   });
   const language = container.language;
+  const theme = container.theme;
   useEffect(() => {
     if (pkmnCard && window.location.href.includes(`/search`)) {
       let value = getMondexLs();

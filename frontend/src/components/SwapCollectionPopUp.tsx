@@ -1,6 +1,5 @@
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { variables } from "../globals/variables";
-import { ThemeContext } from "../globals/theme";
 import { styled } from "styled-components";
 import { ICardFromDB, ICollectionFromDB } from "../interfaces/dataFromDB";
 import { getAllOwnedCollections } from "../services/collectionServices";
@@ -20,10 +19,10 @@ export const SwapCollectionPopUp = ({
   collectionName,
   updateData,
 }: IProps) => {
-  const { theme } = useContext(ThemeContext);
   const { container } = useContext(ContainerContext);
   const { user } = useAuth0();
   const language = container.language;
+  const theme = container.theme;
 
   const [listOfOwnedCollections, setListOfOwnedCollections] =
     useState<ICollectionFromDB[]>();
