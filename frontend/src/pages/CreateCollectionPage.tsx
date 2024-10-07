@@ -6,10 +6,12 @@ import { User, useAuth0 } from "@auth0/auth0-react";
 import { getSetFromApi } from "../services/pkmnTcgApiServices";
 import { Link } from "react-router-dom";
 import { ContainerContext } from "../globals/containerContext";
+import { getToday } from "../functions/dateFunctions";
+import { ICollection } from "../interfaces/LSInterface";
+import { updateMondexLs } from "../functions/LSFunctions";
 
 export const CreateCollectionPage = () => {
-  const { isAuthenticated, user } = useAuth0();
-  const { container } = useContext(ContainerContext);
+  const { container, updateContainer } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const [collectionName, setCollectionName] = useState<string>("");
   const [isSetCollection, setIsSetCollection] = useState<boolean>(false);
@@ -20,6 +22,9 @@ export const CreateCollectionPage = () => {
   const [savedCollectionName, setSavedCollectionName] = useState<string>("");
   const language = container.language;
   const theme = container.theme;
+  // CREATE today const
+  // CREATE create collection function
+  // CREATE id = collection_name+today
 
   useEffect(() => {
     if (setInputValue.includes(".") || setInputValue.includes(",")) {
@@ -41,20 +46,76 @@ export const CreateCollectionPage = () => {
     event.preventDefault();
     const collection_name = collectionName.replace(/ /g, "_");
     let api_set_id: string | null = setId;
-    if (user && isAuthenticated) {
-      if (isSetCollection === true) {
-        await getSetFromApi(api_set_id).then((res) => {
-          if (res === undefined) {
-            setNotCorrectSetId(true);
-          } else {
-            getData(user, collection_name, api_set_id);
-          }
-        });
-      } else {
-        api_set_id = null;
-        getData(user, collection_name, api_set_id);
-      }
+
+    console.log("test", collection_name, api_set_id);
+    if (isSetCollection) {
+      await getSetFromApi(api_set_id).then((res) => {
+        if (res === undefined) {
+          setNotCorrectSetId(true);
+        } else {
+          const newCollection = {
+            id: collection_name + getToday(),
+            collection_name: collection_name,
+            set_id: api_set_id,
+            cards_in_collection: [],
+            created_on: getToday(),
+          };
+          const updatedCollections = [
+            ...container.user!.collections,
+            newCollection,
+          ];
+
+          console.log(updatedCollections);
+          updateContainer(
+            {
+              username: container.user!.username,
+              collections: updatedCollections as ICollection[],
+            },
+            "user"
+          );
+          setCreatedCollection(true);
+          setSavedCollectionName(collectionName);
+          // getData(user, collection_name, api_set_id);
+        }
+      });
+    } else {
+      const newCollection = {
+        id: collection_name + getToday(),
+        collection_name: collection_name,
+        cards_in_collection: [],
+        created_on: getToday(),
+      };
+      const updatedCollections = [
+        ...container.user!.collections,
+        newCollection,
+      ];
+
+      console.log(updatedCollections);
+      updateContainer(
+        {
+          username: container.user!.username,
+          collections: updatedCollections as ICollection[],
+        },
+        "user"
+      );
+      setCreatedCollection(true);
+      setSavedCollectionName(collectionName);
+      // getData(user, collection_name, api_set_id);
     }
+    // if (user && isAuthenticated) {
+    //   if (isSetCollection === true) {
+    //     await getSetFromApi(api_set_id).then((res) => {
+    //       if (res === undefined) {
+    //         setNotCorrectSetId(true);
+    //       } else {
+    //         getData(user, collection_name, api_set_id);
+    //       }
+    //     });
+    //   } else {
+    //     api_set_id = null;
+    //     getData(user, collection_name, api_set_id);
+    //   }
+    // }
   };
   const getData = async (
     user: User,
@@ -76,6 +137,9 @@ export const CreateCollectionPage = () => {
   const handleSetIdChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSetInputValue(event.target.value);
   };
+  useEffect(() => {
+    updateMondexLs(container);
+  }, [container]);
 
   return (
     <div style={{ minHeight: "90vh" }}>

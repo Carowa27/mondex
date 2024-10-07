@@ -1,24 +1,19 @@
 import { useContext, useState } from "react";
 import { IPkmnCard } from "../interfaces/dataFromApi";
-import { ICardFromDB } from "../interfaces/dataFromDB";
-import { useAuth0 } from "@auth0/auth0-react";
-import {
-  addAmountOnCard,
-  createCard,
-  subAmountOnCard,
-} from "../services/cardServices";
+// import { useAuth0 } from "@auth0/auth0-react";
 import { BigPkmnCard } from "./BigPkmnCard";
 import { SwapCollectionPopUp } from "./SwapCollectionPopUp";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { DeleteCardPopUp } from "./DeleteCardPopUp";
 import { ContainerContext } from "../globals/containerContext";
+import { ICard } from "../interfaces/LSInterface";
 
 interface IProps {
-  card?: ICardFromDB;
+  card?: ICard;
   cardFromApi?: IPkmnCard;
   collectionName: string;
-  cardList: ICardFromDB[];
+  cardList: ICard[];
   getData: () => void;
 }
 
@@ -31,7 +26,7 @@ export const SmallPkmnCard = ({
 }: IProps) => {
   const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  const { isAuthenticated, user } = useAuth0();
+  // const { isAuthenticated, user } = useAuth0();
   const [showCardAlternatives, setShowCardAlternatives] = useState<string>("");
   const [hoverPlusBtn, setHoverPlusBtn] = useState<boolean>(false);
   const [hoverMinusBtn, setHoverMinusBtn] = useState<boolean>(false);
@@ -40,48 +35,49 @@ export const SmallPkmnCard = ({
   const [showSwapCollection, setShowSwapCollection] = useState<boolean>(false);
   const [showDeleteCard, setShowDeleteCard] = useState<boolean>(false);
   const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
-  const [infoCard, setInfoCard] = useState<ICardFromDB>();
+  const [infoCard, setInfoCard] = useState<ICard>();
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
-  const [cardToSwap, setCardToSwap] = useState<ICardFromDB>();
-  const [cardToDelete, setCardToDelete] = useState<ICardFromDB>();
+  const [cardToSwap, setCardToSwap] = useState<ICard>();
+  const [cardToDelete, setCardToDelete] = useState<ICard>();
   const theme = container.theme;
 
   const handleSwap = (
-    card: ICardFromDB | undefined,
+    card: ICard | undefined,
     cardFromApi: IPkmnCard | undefined
   ) => {
-    if (card !== undefined) {
-      setCardToSwap(card);
-    }
-    if (cardFromApi !== undefined) {
-      setCardToSwap(
-        cardList.find((cardFromDb) => cardFromDb.api_card_id === cardFromApi.id)
-      );
-    }
-    setShowSwapCollection(true);
+    console.log("toSwap", card, cardFromApi);
+    // if (card !== undefined) {
+    //   setCardToSwap(card);
+    // }
+    // if (cardFromApi !== undefined) {
+    //   setCardToSwap(
+    //     cardList.find((IPkmnCard) => card?.id === card.id)
+    //   );
+    // }
+    // setShowSwapCollection(true);
   };
 
-  const subAmount = (cardFromApi?: IPkmnCard, card?: ICardFromDB) => {
+  const subAmount = (cardFromApi?: IPkmnCard, card?: ICard) => {
     if (cardFromApi !== undefined) {
-      const card = cardList.find((card) => card.api_card_id === cardFromApi.id);
-      if (card !== undefined && user) {
+      const card = cardList.find((card) => card.card.id === cardFromApi.id);
+      if (card !== undefined && container.user) {
         if (card.amount !== 0) {
           if (card.amount === 1) {
             setShowDeleteCard(true);
-            setCardToDelete(card);
+            // setCardToDelete(card);
           } else {
-            subAmountOnCard({ user, card });
+            // subAmountOnCard({ user, card });
           }
         }
       }
     } else {
-      if (card !== undefined && user) {
+      if (card !== undefined && container.user) {
         if (card.amount !== 0) {
           if (card.amount === 1) {
             setShowDeleteCard(true);
-            setCardToDelete(card);
+            // setCardToDelete(card);
           } else {
-            subAmountOnCard({ user, card });
+            // subAmountOnCard({ user, card });
           }
         }
       }
@@ -96,19 +92,19 @@ export const SmallPkmnCard = ({
       getData();
     }, 500);
   };
-  const addAmount = (cardFromApi?: IPkmnCard, card?: ICardFromDB) => {
+  const addAmount = (cardFromApi?: IPkmnCard, card?: ICard) => {
     if (cardFromApi) {
-      const card = cardList.find((card) => card.api_card_id === cardFromApi.id);
-      if (user) {
+      const card = cardList.find((card) => card.card.id === cardFromApi.id);
+      if (container.user) {
         if (card !== undefined) {
-          addAmountOnCard({ user, card });
+          // addAmountOnCard({ user, card });
         } else {
-          createCard({ user, cardFromApi, collectionName });
+          // createCard({ user, cardFromApi, collectionName });
         }
       }
     }
-    if (card && user) {
-      addAmountOnCard({ user, card });
+    if (card && container.user) {
+      // addAmountOnCard({ user, card });
     }
     setTimeout(() => {
       getData();
@@ -124,7 +120,7 @@ export const SmallPkmnCard = ({
     setShowDeleteCard(false);
   };
   const saveCardToGetInfoOn = (
-    card: ICardFromDB | undefined,
+    card: ICard | undefined,
     pkmnCard: IPkmnCard | undefined
   ) => {
     if (card !== undefined) {
@@ -211,18 +207,18 @@ export const SmallPkmnCard = ({
         }}
         onMouseEnter={() =>
           setShowCardAlternatives(
-            card ? card.api_card_id : cardFromApi ? cardFromApi.id : ""
+            card ? card.card.id : cardFromApi ? cardFromApi.id : ""
           )
         }
         onMouseLeave={() => setShowCardAlternatives("")}
       >
-        {(showCardAlternatives && isAuthenticated) || !isDesktop ? (
+        {(showCardAlternatives && container.user) || !isDesktop ? (
           <div
             className="px-2 py-3"
             style={
               showCardAlternatives ===
                 (card !== undefined
-                  ? card.api_card_id
+                  ? card.card.id
                   : cardFromApi
                   ? cardFromApi.id
                   : "") || !isDesktop
@@ -284,7 +280,7 @@ export const SmallPkmnCard = ({
                 className={
                   (cardFromApi &&
                     cardList.find(
-                      (cardFromDb) => cardFromDb.api_card_id === cardFromApi.id
+                      (cardFromDb) => cardFromDb.card.id === cardFromApi.id
                     )) ||
                   card
                     ? "rounded-circle d-flex align-items-center justify-content-center"
@@ -313,7 +309,7 @@ export const SmallPkmnCard = ({
                 className={
                   (cardFromApi &&
                     cardList.find(
-                      (cardFromDb) => cardFromDb.api_card_id === cardFromApi.id
+                      (cardFromDb) => cardFromDb.card.id === cardFromApi.id
                     )) ||
                   card
                     ? "rounded-circle d-flex align-items-center justify-content-center"
@@ -371,9 +367,8 @@ export const SmallPkmnCard = ({
           }}
         >
           {(cardFromApi &&
-            cardList.find(
-              (cardFromDb) => cardFromDb.api_card_id === cardFromApi.id
-            )?.amount) ||
+            cardList.find((cardFromDb) => cardFromDb.card.id === cardFromApi.id)
+              ?.amount) ||
           (card && card.amount) ? (
             <span
               style={{
@@ -398,7 +393,7 @@ export const SmallPkmnCard = ({
                 <span>
                   {cardFromApi &&
                     cardList.find(
-                      (cardFromDb) => cardFromDb.api_card_id === cardFromApi.id
+                      (cardFromDb) => cardFromDb.card.id === cardFromApi.id
                     )?.amount}
                   {card && card.amount}
                 </span>
@@ -411,7 +406,7 @@ export const SmallPkmnCard = ({
           style={
             cardFromApi
               ? cardList.find(
-                  (cardFromDb) => cardFromDb.api_card_id === cardFromApi.id
+                  (cardFromDb) => cardFromDb.card.id === cardFromApi.id
                 )
                 ? { width: "100%", opacity: 1 }
                 : {
@@ -422,10 +417,10 @@ export const SmallPkmnCard = ({
               : { width: "100%" }
           }
           src={
-            (card && card.api_card_img_src_small) ||
+            (card && card.card.images.small) ||
             (cardFromApi && cardFromApi.images.small)
           }
-          alt={card && card.api_pkmn_name}
+          alt={card && card.card.name}
         />
       </div>
     </>

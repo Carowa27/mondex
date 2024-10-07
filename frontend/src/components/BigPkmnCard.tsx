@@ -2,17 +2,16 @@ import { useContext, useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { colorModes } from "../globals/theme";
 import { IPkmnCard } from "../interfaces/dataFromApi";
-import { ICardFromDB } from "../interfaces/dataFromDB";
 import { getCardFromApi } from "../services/pkmnTcgApiServices";
 import { variables } from "../globals/variables";
 import { useMediaQuery } from "react-responsive";
 import { lang } from "../globals/language/language";
-import { ILSContainer } from "../interfaces/LSInterface";
+import { ICard, ILSContainer } from "../interfaces/LSInterface";
 import { getMondexLs, updateMondexLs } from "../functions/LSFunctions";
 import { ContainerContext } from "../globals/containerContext";
 
 interface IProps {
-  card: ICardFromDB | undefined;
+  card: ICard | undefined;
   pkmnCard: IPkmnCard | undefined;
   changeShowPkmnInfo: () => void;
 }
@@ -38,7 +37,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
   useEffect(() => {
     if (card) {
       const getData = async () => {
-        await getCardFromApi(card.api_card_id).then((res) => {
+        await getCardFromApi(card.card.id).then((res) => {
           setCardInfo(res as IPkmnCard);
         });
       };

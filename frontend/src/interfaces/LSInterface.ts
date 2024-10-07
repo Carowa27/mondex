@@ -14,9 +14,10 @@ export interface IUser {
   collections: ICollection[] | [];
 }
 export interface ICollection {
-  id: number;
+  id: string;
   collection_name: string;
-  cards_in_collection: ICard[];
+  set_id?: string;
+  cards_in_collection: ICard[] | [];
   created_date: string;
 }
 export interface ICard {

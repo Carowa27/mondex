@@ -1,14 +1,14 @@
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { variables } from "../globals/variables";
 import { styled } from "styled-components";
-import { ICardFromDB, ICollectionFromDB } from "../interfaces/dataFromDB";
 import { getAllOwnedCollections } from "../services/collectionServices";
 import { useAuth0 } from "@auth0/auth0-react";
 import { swapCardToOtherCollection } from "../services/cardServices";
 import { ContainerContext } from "../globals/containerContext";
+import { ICard, ICollection } from "../interfaces/LSInterface";
 interface IProps {
   changeShowSwapPopUp: () => void;
-  cardToSwap: ICardFromDB | undefined;
+  cardToSwap: ICard | undefined;
   collectionName: string;
   updateData: () => void;
 }
@@ -25,7 +25,7 @@ export const SwapCollectionPopUp = ({
   const theme = container.theme;
 
   const [listOfOwnedCollections, setListOfOwnedCollections] =
-    useState<ICollectionFromDB[]>();
+    useState<ICollection[]>();
   const [selectedCollectionName, setSelectedCollectionName] =
     useState<string>();
 
@@ -51,12 +51,12 @@ export const SwapCollectionPopUp = ({
     const newCollectionName = selectedCollectionName;
     const oldCollectionName = collectionName;
     if (cardToSwap && user && newCollectionName) {
-      await swapCardToOtherCollection({
-        user,
-        cardToSwap,
-        newCollectionName,
-        oldCollectionName,
-      });
+      // await swapCardToOtherCollection({
+      //   user,
+      //   cardToSwap,
+      //   newCollectionName,
+      //   oldCollectionName,
+      // });
     }
     setTimeout(() => {
       updateData();
@@ -118,7 +118,7 @@ export const SwapCollectionPopUp = ({
           <p>
             <h6>{language?.lang_code.card_card_to_swap}: </h6>
             <span>
-              {cardToSwap?.api_pkmn_name}, {cardToSwap.api_card_id}
+              {cardToSwap?.card.name}, {cardToSwap.card.id}
             </span>
           </p>
           <p>
@@ -140,15 +140,15 @@ export const SwapCollectionPopUp = ({
                       checked={selectedCollectionName === coll.collection_name}
                       disabled={
                         coll.collection_name === collectionName ||
-                        (coll.api_set_id !== null &&
-                          cardToSwap.api_set_id !== coll.api_set_id)
+                        (coll.set_id !== null &&
+                          cardToSwap.card.set.id !== coll.set_id)
                       }
                     />
                     <span
                       style={
                         coll.collection_name === collectionName ||
-                        (coll.api_set_id !== null &&
-                          cardToSwap.api_set_id !== coll.api_set_id)
+                        (coll.set_id !== null &&
+                          cardToSwap.card.set.id !== coll.set_id)
                           ? {
                               color: theme?.primaryColors.breadcrumbText.hex,
                             }

@@ -1,11 +1,7 @@
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
-import { useAuth0 } from "@auth0/auth0-react";
 import { LoadingModule } from "../components/LoadingModule";
 import { useContext, useEffect, useState } from "react";
-import { getAllCardsFromCollectionById } from "../services/cardServices";
-import { ICardFromDB, ICollectionFromDB } from "../interfaces/dataFromDB";
-import { getOwnedCollectionByCollectionName } from "../services/collectionServices";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { getPkmnFromApi } from "../services/pkmnTcgApiServices";
 import { SmallPkmnCard } from "../components/SmallPkmnCard";
@@ -13,15 +9,15 @@ import { Pagination } from "./layout/Pagination";
 import { BreadCrumbs } from "./layout/BreadCrumbs";
 import { DeleteCardPopUp } from "../components/DeleteCardPopUp";
 import { ContainerContext } from "../globals/containerContext";
+import { ICard, ICollection } from "../interfaces/LSInterface";
 
 export const CollectionPage = () => {
   const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  const { isAuthenticated, user } = useAuth0();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [cardList, setCardList] = useState<ICardFromDB[]>([]);
+  const [cardList, setCardList] = useState<ICard[]>([]);
   const [cardsFromApiList, setCardsFromApiList] = useState<IPkmnCard[]>([]);
-  const [collection, setCollection] = useState<ICollectionFromDB>();
+  const [collection, setCollection] = useState<ICollection>();
 
   const [pageInfo, setPageInfo] = useState<{
     page: number;
@@ -39,34 +35,41 @@ export const CollectionPage = () => {
   const theme = container.theme;
 
   const getData = async () => {
-    if (isAuthenticated && user && collectionName) {
-      await getAllCardsFromCollectionById({ collectionName, user }).then(
-        (res) => {
-          if (res && res.length === 0) {
-            setIsLoading(false);
-          } else {
-            setCardList(res as ICardFromDB[]);
-          }
-        }
+    if (collectionName) {
+      const collection = container.user!.collections.find(
+        (col) => col.collection_name === collectionName
       );
-      await getOwnedCollectionByCollectionName({ collectionName, user }).then(
-        (res) => {
-          const result = res as ICollectionFromDB;
+      console.log(collection);
+      setCardList(collection?.cards_in_collection as ICard[]);
+      setCollection(collection);
+      setIsLoading(false);
+      // await getAllCardsFromCollectionById({ collectionName, user }).then(
+      //   (res) => {
+      //     if (res && res.length === 0) {
+      //       setIsLoading(false);
+      //     } else {
+      //       setCardList(res as ICardFromDB[]);
+      //     }
+      //   }
+      // );
+      // await getOwnedCollectionByCollectionName({ collectionName, user }).then(
+      //   (res) => {
+      //     const result = res as ICollectionFromDB;
 
-          setCollection(result);
-        }
-      );
+      //     setCollection(result);
+      //   }
+      // );
     }
   };
   useEffect(() => {
     getData();
-  }, [isAuthenticated, user]);
+  }, []);
 
   const updateSearch = (newPage: number) => {
     setPage(newPage);
     setCardsFromApiList([]);
     setIsLoading(true);
-    if (collection?.api_set_id !== undefined) {
+    if (collection?.set_id !== undefined) {
       if (isDesktop) {
         if (newPage === 1) {
           setStart(0);
@@ -92,30 +95,29 @@ export const CollectionPage = () => {
 
   useEffect(() => {
     if (collection) {
-      if (cardList.length !== 0 && collection.api_set_id === null) {
+      if (cardList.length !== 0 && collection.set_id === null) {
         setIsLoading(false);
       }
-      if (cardsFromApiList.length !== 0 && collection.api_set_id !== null) {
+      if (cardsFromApiList.length !== 0 && collection.set_id !== null) {
         setIsLoading(false);
       }
     }
   }, [cardList, cardsFromApiList, collection]);
 
   const getSetFromApi = async () => {
-    if (collection && collection?.api_set_id !== null) {
-      await getPkmnFromApi(
-        `?q=!set.id:%22${collection.api_set_id}%22`,
-        page
-      ).then((res) => {
-        if (res) {
-          setCardsFromApiList(res.data as IPkmnCard[]);
-          setPageInfo({
-            page: res.page,
-            pageSize: res.pageSize,
-            totalCount: res.totalCount,
-          });
+    if (collection && collection?.set_id !== null) {
+      await getPkmnFromApi(`?q=!set.id:%22${collection.set_id}%22`, page).then(
+        (res) => {
+          if (res) {
+            setCardsFromApiList(res.data as IPkmnCard[]);
+            setPageInfo({
+              page: res.page,
+              pageSize: res.pageSize,
+              totalCount: res.totalCount,
+            });
+          }
         }
-      });
+      );
     }
   };
   useEffect(() => {
@@ -170,9 +172,9 @@ export const CollectionPage = () => {
       <div style={{ minHeight: "80vh" }} className="mt-2  d-flex flex-column">
         {!isLoading ? (
           <>
-            {cardList.length !== 0 || collection?.api_set_id !== null ? (
+            {cardList.length !== 0 || collection?.set_id !== null ? (
               <>
-                {collection && collection?.api_set_id === null ? (
+                {collection && collection?.set_id === null ? (
                   <ul
                     className={
                       isDesktop
@@ -181,9 +183,9 @@ export const CollectionPage = () => {
                     }
                     style={{ listStyle: "none" }}
                   >
-                    {cardList.slice(start, end).map((card: ICardFromDB) => (
+                    {cardList.slice(start, end).map((card: ICard) => (
                       <li
-                        key={card.api_card_id}
+                        key={card.card.id}
                         className={
                           isDesktop
                             ? "pt-2 px-1"
@@ -192,7 +194,7 @@ export const CollectionPage = () => {
                       >
                         {isDesktop && (
                           <p className="fw-semibold ps-1 m-0">
-                            {card.api_pkmn_name}
+                            {card.card.name}
                           </p>
                         )}
                         <SmallPkmnCard

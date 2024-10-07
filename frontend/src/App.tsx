@@ -87,6 +87,7 @@ function App() {
         ...prevState,
         ...(updatedData as ILSContainer),
       }));
+    console.log(container);
   };
   return (
     <>

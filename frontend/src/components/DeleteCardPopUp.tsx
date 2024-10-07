@@ -1,19 +1,18 @@
 import { useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
-import { ICardFromDB, ICollectionFromDB } from "../interfaces/dataFromDB";
-import { useAuth0 } from "@auth0/auth0-react";
 import {
   deleteOwnedCardById,
   getAllOwnedCards,
 } from "../services/cardServices";
 import { deleteCollectionById } from "../services/collectionServices";
 import { ContainerContext } from "../globals/containerContext";
+import { ICard, ICollection } from "../interfaces/LSInterface";
 
 interface IProps {
   changeShowDeleteCardPopUp: () => void;
-  cardToDelete?: ICardFromDB | undefined;
-  collection?: ICollectionFromDB | undefined;
+  cardToDelete?: ICard | undefined;
+  collection?: ICollection | undefined;
   collectionName: string;
   updateData: () => void;
 }
@@ -27,42 +26,42 @@ export const DeleteCardPopUp = ({
 }: IProps) => {
   const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  const { user } = useAuth0();
-  const [cardList, setCardList] = useState<ICardFromDB[]>();
+  const [cardList, setCardList] = useState<ICard[]>();
   const language = container.language;
   const theme = container.theme;
+  const user = container.user;
 
   const handleSubmitToDelete = async () => {
     if (user && cardToDelete) {
       const card = cardToDelete;
-      await deleteOwnedCardById({ user, card }).then(() => {
-        console.info(
-          "deleted: ",
-          cardToDelete.api_pkmn_name,
-          cardToDelete.api_card_id
-        );
-      });
+      // await deleteOwnedCardById({ user, card }).then(() => {
+      //   console.info(
+      //     "deleted: ",
+      //     cardToDelete.api_pkmn_name,
+      //     cardToDelete.api_card_id
+      //   );
+      // });
     }
 
-    if (cardList && collection) {
-      const findCardsConnectedToSet: ICardFromDB[] = cardList.filter((card) => {
-        return card.collection_id === collection.id;
-      });
-      let card: ICardFromDB;
-      for (let i = 0; i < findCardsConnectedToSet.length; i++) {
-        card = findCardsConnectedToSet[i];
-        if (user) {
-          await deleteOwnedCardById({ user, card });
-        }
-      }
-    }
+    // if (cardList && collection) {
+    //   const findCardsConnectedToSet: ICard[] = cardList.filter((card) => {
+    //     return card.collection_id === collection.id;
+    //   });
+    //   let card: ICard;
+    //   for (let i = 0; i < findCardsConnectedToSet.length; i++) {
+    //     card = findCardsConnectedToSet[i];
+    //     if (user) {
+    //       await deleteOwnedCardById({ user, card });
+    //     }
+    //   }
+    // }
 
-    if (user && collection) {
-      await deleteCollectionById({ user, collection }).then(() => {
-        console.info("deleted: ", collection.collection_name);
-        window.location.href = "/all-collections";
-      });
-    }
+    // if (user && collection) {
+    //   await deleteCollectionById({ user, collection }).then(() => {
+    //     console.info("deleted: ", collection.collection_name);
+    //     window.location.href = "/all-collections";
+    //   });
+    // }
 
     setTimeout(() => {
       updateData();
@@ -73,11 +72,11 @@ export const DeleteCardPopUp = ({
   useEffect(() => {
     const getData = async () => {
       if (user) {
-        await getAllOwnedCards({ user }).then((res: ICardFromDB[] | void) => {
-          if (res) {
-            setCardList(res);
-          }
-        });
+        // await getAllOwnedCards({ user }).then((res: ICardFromDB[] | void) => {
+        //   if (res) {
+        //     setCardList(res);
+        //   }
+        // });
       }
     };
     getData();
@@ -99,7 +98,7 @@ export const DeleteCardPopUp = ({
             <div className="mb-4">
               <h6>{language?.lang_code.card_card_to_delete}: </h6>
               <span>
-                {cardToDelete?.api_pkmn_name}, {cardToDelete.api_card_id}
+                {cardToDelete?.card.name}, {cardToDelete.card.id}
               </span>
             </div>
             <div className="mb-4">
@@ -114,7 +113,7 @@ export const DeleteCardPopUp = ({
             <h6>{language?.lang_code.collection_to_delete}: </h6>
             <span>
               {collection?.collection_name.replace(/_/g, " ")}
-              {collection?.api_set_id ? `, ${collection.api_set_id}` : null}
+              {collection?.set_id ? `, ${collection.set_id}` : null}
             </span>
           </div>
         )}
