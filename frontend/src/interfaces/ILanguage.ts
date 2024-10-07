@@ -85,3 +85,8 @@ export interface ILanguageVariables {
 }
 export const SE: ILanguageVariables = swedish;
 export const EN: ILanguageVariables = english;
+
+export interface ILanguage {
+  lang_code: ILanguageVariables;
+  name: string;
+}

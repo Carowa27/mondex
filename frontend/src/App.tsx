@@ -6,7 +6,6 @@ import { lang } from "./globals/language/language";
 import {
   IColorMode,
   IContainerContext,
-  ILanguage,
   IThemeContext,
 } from "./interfaces/contextInterfaces";
 import {
@@ -17,6 +16,7 @@ import {
 } from "./interfaces/LSInterface";
 import { IPkmnCard } from "./interfaces/dataFromApi";
 import { ContainerContext } from "./globals/containerContext";
+import { ILanguage } from "./interfaces/ILanguage";
 
 function App() {
   const [theme, setTheme] = useState<IThemeContext>({

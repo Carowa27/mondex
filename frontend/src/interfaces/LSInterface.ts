@@ -1,5 +1,5 @@
-import { ILanguage } from "./contextInterfaces";
 import { IPkmnCard } from "./dataFromApi";
+import { ILanguage } from "./ILanguage";
 
 export interface ILSContainer {
   theme: Theme;
