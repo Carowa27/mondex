@@ -366,6 +366,11 @@ export const Home = () => {
                     {language?.lang_code.collection_no_collections_created}
                   </>
                 )}
+                {/* TODO add read more link */}
+                <i style={{ marginTop: "auto" }}>
+                  Everything saved on this page is saved in your browser, if you
+                  want to delete all data, read more here
+                </i>
               </div>
             </>
           )}
