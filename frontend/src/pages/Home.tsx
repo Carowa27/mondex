@@ -291,9 +291,9 @@ export const Home = () => {
                   }}
                 >
                   <h4 id="main-card-account-header-user">
-                    {/* {user
-                      ? `${language.lang_code.word_welcome}, ${user?.given_name}!`: */}
-                    {language?.lang_code.word_welcome}!{/* } */}
+                    {container.user
+                      ? `${language?.lang_code.word_welcome}, ${container?.user?.username}!`
+                      : `${language?.lang_code.word_welcome}!`}
                   </h4>
                 </Link>
 
@@ -306,64 +306,66 @@ export const Home = () => {
                         collectionName={coll.collection_name}
                       />
                     ))}
+                    <Link
+                      className={
+                        isDesktop
+                          ? "mt-auto align-self-end mb-2 me-2"
+                          : "align-self-end mb-2 me-2"
+                      }
+                      to="/all-collections"
+                      style={{
+                        color: theme?.primaryColors.link.hex,
+                      }}
+                    >
+                      <i> {language?.lang_code.my_pages_see_all_collections}</i>
+                    </Link>
                   </>
                 ) : (
                   <>
-                    <div>
-                      <form
-                        style={{
-                          margin: "1rem",
-                          display: "flex",
-                          flexDirection: "column",
-                        }}
-                        onSubmit={(e) => saveUserName(e)}
-                      >
-                        <label
-                          htmlFor="username"
+                    {!container.user && (
+                      <div>
+                        <form
                           style={{
+                            margin: "1rem",
                             display: "flex",
                             flexDirection: "column",
-                            gap: "0.5rem",
                           }}
+                          onSubmit={(e) => saveUserName(e)}
                         >
-                          Username:
-                          <input
-                            type="text"
-                            id="username"
-                            style={{ margin: "0" }}
-                            onChange={handleChange}
-                          />
-                        </label>
-                        <button
-                          type="submit"
-                          style={{
-                            width: "max-content",
-                            alignSelf: "end",
-                            marginTop: "0.5rem",
-                            padding: "0.2rem 0.5rem",
-                            borderRadius: "10px",
-                          }}
-                        >
-                          Save username
-                        </button>
-                      </form>
-                    </div>
+                          <label
+                            htmlFor="username"
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: "0.5rem",
+                            }}
+                          >
+                            Username:
+                            <input
+                              type="text"
+                              id="username"
+                              style={{ margin: "0" }}
+                              onChange={handleChange}
+                            />
+                          </label>
+                          <button
+                            type="submit"
+                            style={{
+                              width: "max-content",
+                              alignSelf: "end",
+                              marginTop: "0.5rem",
+                              padding: "0.2rem 0.5rem",
+                              borderRadius: "10px",
+                            }}
+                          >
+                            Save username
+                          </button>
+                        </form>
+                      </div>
+                    )}
                     {language?.lang_code.collection_no_collections_created}
                   </>
                 )}
-                <Link
-                  className={
-                    isDesktop
-                      ? "mt-auto align-self-end mb-2 me-2"
-                      : "align-self-end mb-2 me-2"
-                  }
-                  to="/all-collections"
-                  style={{
-                    color: theme?.primaryColors.link.hex,
-                  }}
-                >
-                  <i> {language?.lang_code.my_pages_see_all_collections}</i>
-                </Link>
               </div>
             </>
           )}
