@@ -13,15 +13,19 @@ import { IPkmnCard } from "./interfaces/dataFromApi";
 import { ContainerContext } from "./globals/containerContext";
 import { ILanguage } from "./interfaces/ILanguage";
 import { IColorMode } from "./interfaces/colorInterfaces";
+import { getMondexLs } from "./functions/LSFunctions";
 
+const value: ILSContainer = getMondexLs();
 function App() {
   const [container, setContainer] = useState<IContainerContext>({
     container: {
-      mostValuableCard: undefined,
-      theme: colorModes.Light,
-      user: { username: "", collections: [] },
-      lastOpenedCard: undefined,
-      language: lang.EN,
+      mostValuableCard:
+        value && value.mostValuableCard ? value.mostValuableCard : undefined,
+      theme: value && value.theme ? value.theme : colorModes.Light,
+      user: value && value.user ? value.user : undefined,
+      lastOpenedCard:
+        value && value.lastOpenedCard ? value.lastOpenedCard : undefined,
+      language: value && value.language ? value.language : lang.EN,
     },
     //@ts-expect-error type definition
     updateContainer: (updatedData: ILSContainer) => {
