@@ -8,7 +8,7 @@ import { variables } from "../globals/variables";
 import { useMediaQuery } from "react-responsive";
 import { lang } from "../globals/language/language";
 import { ILSContainer } from "../interfaces/LSInterface";
-import { getMondexLs, setMondexLs } from "../functions/LSFunctions";
+import { getMondexLs, updateMondexLs } from "../functions/LSFunctions";
 import { ContainerContext } from "../globals/containerContext";
 
 interface IProps {
@@ -60,7 +60,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
     }
   }, [pkmnCard]);
   useEffect(() => {
-    setMondexLs(lsContainer);
+    updateMondexLs(lsContainer);
   }, [lsContainer]);
 
   const valueHTML = (cardInfo: IPkmnCard) => (

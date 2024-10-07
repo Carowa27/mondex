@@ -9,7 +9,7 @@ import { getMostValuableCardFromApi } from "../services/pkmnTcgApiServices";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { BigPkmnCard } from "../components/BigPkmnCard";
 import { ILSContainer } from "../interfaces/LSInterface";
-import { getMondexLs, setMondexLs } from "../functions/LSFunctions";
+import { getMondexLs, updateMondexLs } from "../functions/LSFunctions";
 import { ContainerContext } from "../globals/containerContext";
 import { colorModes } from "../globals/theme";
 
@@ -62,31 +62,14 @@ export const Home = () => {
       setIsLoading(false);
     });
   };
-  // INFO: theme should not be changed
-  const getTheme = () => {
-    const activeTheme = container.theme;
-    if (activeTheme === undefined) {
-      if (theme?.name === "light") {
-        updateContainer(colorModes.Light, "theme");
-      } else {
-        updateContainer(colorModes.Dark, "theme");
-      }
-    } else {
-      if (theme?.name === "dark") {
-        updateContainer(colorModes.Dark, "theme");
-      }
-    }
-  };
 
   useEffect(() => {
     setIsLoading(true);
     getLSData();
-    // getTheme();
-    getMondexLs();
   }, []);
 
   useEffect(() => {
-    setMondexLs(container);
+    updateMondexLs(container);
   }, [container]);
 
   return (

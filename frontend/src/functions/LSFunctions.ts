@@ -1,6 +1,6 @@
 import { ILSContainer } from "../interfaces/LSInterface";
 
-export const setMondexLs = (value: ILSContainer) => {
+export const updateMondexLs = (value: ILSContainer) => {
   localStorage.setItem("mondex", JSON.stringify(value));
 };
 export const getMondexLs = () => {
