@@ -36,7 +36,7 @@ export const DeleteCardPopUp = ({
   const handleSubmitToDelete = async () => {
     if (user && cardToDelete) {
       const card = cardToDelete;
-      await deleteOwnedCardById({ user, card }).then((res) => {
+      await deleteOwnedCardById({ user, card }).then(() => {
         console.info(
           "deleted: ",
           cardToDelete.api_pkmn_name,
@@ -59,7 +59,7 @@ export const DeleteCardPopUp = ({
     }
 
     if (user && collection) {
-      await deleteCollectionById({ user, collection }).then((res) => {
+      await deleteCollectionById({ user, collection }).then(() => {
         console.info("deleted: ", collection.collection_name);
         window.location.href = "/all-collections";
       });
