@@ -13,8 +13,8 @@ export const Layout = () => {
     <div
       style={{
         minHeight: "100vh",
-        color: theme.primaryColors.text.hex,
-        backgroundColor: theme.primaryColors.background.hex,
+        color: theme?.primaryColors.text.hex,
+        backgroundColor: theme?.primaryColors.background.hex,
         overflowY: "hidden",
         overflowX: "hidden",
       }}

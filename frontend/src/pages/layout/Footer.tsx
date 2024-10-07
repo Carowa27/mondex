@@ -23,9 +23,9 @@ export const Footer = () => {
       }
       style={{
         backgroundColor:
-          theme.name === "light"
-            ? `rgba(${theme.typeColors.metal.rgb},0.2)`
-            : `rgba(${theme.typeColors.colorless.rgb},0.1)`,
+          theme?.name === "light"
+            ? `rgba(${theme?.typeColors.metal.rgb},0.2)`
+            : `rgba(${theme?.typeColors.colorless.rgb},0.1)`,
       }}
     >
       <div className={isDesktop ? "d-flex pt-3" : "pt-3"}>
@@ -40,7 +40,7 @@ export const Footer = () => {
               width: "400px",
               minWidth: "fit-content",
               gap: "0.5rem",
-              color: `${theme.primaryColors.link.hex}`,
+              color: `${theme?.primaryColors.link.hex}`,
             }}
           >
             <Link
@@ -53,14 +53,14 @@ export const Footer = () => {
               className="text-decoration-none"
               to="./search"
               style={{
-                color: theme.primaryColors.link.hex,
+                color: theme?.primaryColors.link.hex,
               }}
             >
               <span
                 id="footer-menu-searchpage"
                 className={isDesktop ? "ps-2" : ""}
               >
-                {language.lang_code.word_search}
+                {language?.lang_code.word_search}
               </span>
             </Link>
             <Link
@@ -73,11 +73,11 @@ export const Footer = () => {
               className="text-decoration-none"
               to="./about"
               style={{
-                color: theme.primaryColors.link.hex,
+                color: theme?.primaryColors.link.hex,
               }}
             >
               <span id="footer-menu-about" className="ps-2">
-                {language.lang_code.about_about_project}
+                {language?.lang_code.about_about_project}
               </span>
             </Link>
             {isAuthenticated ? (
@@ -93,10 +93,10 @@ export const Footer = () => {
                     className="text-decoration-none"
                     to="./userpage"
                     style={{
-                      color: theme.primaryColors.link.hex,
+                      color: theme?.primaryColors.link.hex,
                     }}
                   >
-                    {language.lang_code.my_pages_my_pages}
+                    {language?.lang_code.my_pages_my_pages}
                   </Link>
                 </span>
                 <span
@@ -104,7 +104,7 @@ export const Footer = () => {
                   className="ps-2"
                   onClick={() => logout()}
                 >
-                  {language.lang_code.account_logout}
+                  {language?.lang_code.account_logout}
                 </span>
               </>
             ) : (
@@ -113,14 +113,14 @@ export const Footer = () => {
                 className="ps-2"
                 onClick={() => loginWithRedirect()}
               >
-                {language.lang_code.account_login}
+                {language?.lang_code.account_login}
               </span>
             )}
           </div>
         </div>
         <div className={isDesktop ? "w-75" : "px-3"}>
-          <b className="fs-6">{language.lang_code.disclaimer}</b>
-          <p>{language.lang_code.disclaimer_description}</p>
+          <b className="fs-6">{language?.lang_code.disclaimer}</b>
+          <p>{language?.lang_code.disclaimer_description}</p>
         </div>
       </div>
       <div className={"align-self-center"}>
@@ -129,7 +129,7 @@ export const Footer = () => {
           to="https://github.com/Carowa27"
           className="text-decoration-none"
           style={{
-            color: theme.primaryColors.link.hex,
+            color: theme?.primaryColors.link.hex,
           }}
         >
           Carowa27

@@ -38,7 +38,7 @@ export const MyPages = () => {
     <div style={{ height: "min-content", minHeight: "90vh" }}>
       <div className="d-flex justify-content-between align-items-start">
         <h1>
-          {language.lang_code.my_pages_my_pages} - {user?.given_name}
+          {language?.lang_code.my_pages_my_pages} - {user?.given_name}
         </h1>
         <BreadCrumbs pageParam="userpage" />
       </div>
@@ -49,19 +49,19 @@ export const MyPages = () => {
               showCollections
                 ? {
                     fontWeight: "600",
-                    color: theme.primaryColors.text.hex,
-                    backgroundColor: `rgba(${theme.typeColors.metal.rgb},0.3)`,
+                    color: theme?.primaryColors.text.hex,
+                    backgroundColor: `rgba(${theme?.typeColors.metal.rgb},0.3)`,
                   }
                 : {
-                    color: theme.primaryColors.text.hex,
-                    border: `1px solid rgba(${theme.typeColors.metal.rgb},0.3)`,
+                    color: theme?.primaryColors.text.hex,
+                    border: `1px solid rgba(${theme?.typeColors.metal.rgb},0.3)`,
                   }
             }
             className={"btn px-3 mb-2 py-1 me-1"}
             onClick={() => (setShowCollections(true), setShowMyAccount(false))}
           >
             <h5 className={showCollections ? "m-0" : "m-0 fw-normal"}>
-              {language.lang_code.my_pages_my_collections}
+              {language?.lang_code.my_pages_my_collections}
             </h5>
           </span>
           <span
@@ -69,19 +69,19 @@ export const MyPages = () => {
               showMyAccount
                 ? {
                     fontWeight: "600",
-                    color: theme.primaryColors.text.hex,
-                    backgroundColor: `rgba(${theme.typeColors.metal.rgb},0.3)`,
+                    color: theme?.primaryColors.text.hex,
+                    backgroundColor: `rgba(${theme?.typeColors.metal.rgb},0.3)`,
                   }
                 : {
-                    color: theme.primaryColors.text.hex,
-                    border: `1px solid rgba(${theme.typeColors.metal.rgb},0.3)`,
+                    color: theme?.primaryColors.text.hex,
+                    border: `1px solid rgba(${theme?.typeColors.metal.rgb},0.3)`,
                   }
             }
             className="btn px-3 mb-2 pt-1 me-1"
             onClick={() => (setShowCollections(false), setShowMyAccount(true))}
           >
             <h5 className={showMyAccount ? "m-0" : "m-0 fw-normal"}>
-              {language.lang_code.my_pages_my_profile}
+              {language?.lang_code.my_pages_my_profile}
             </h5>
           </span>
         </div>
@@ -91,22 +91,22 @@ export const MyPages = () => {
               to="/create-new-collection"
               className="text-decoration-none me-5"
               style={{
-                color: theme.primaryColors.link.hex,
+                color: theme?.primaryColors.link.hex,
               }}
             >
               <h6 className={"m-0"}>
-                {language.lang_code.collection_create_new_collection}
+                {language?.lang_code.collection_create_new_collection}
               </h6>
             </Link>
             <Link
               className="fst-italic me-4"
               to="/all-collections"
               style={{
-                color: theme.primaryColors.link.hex,
+                color: theme?.primaryColors.link.hex,
               }}
             >
               <h6 className={"m-0"}>
-                {language.lang_code.my_pages_see_all_collections}
+                {language?.lang_code.my_pages_see_all_collections}
               </h6>
             </Link>
           </div>
@@ -127,22 +127,22 @@ export const MyPages = () => {
                   to="/create-new-collection"
                   className="text-decoration-none"
                   style={{
-                    color: theme.primaryColors.link.hex,
+                    color: theme?.primaryColors.link.hex,
                   }}
                 >
                   <h6 className={isDesktop ? "me-5 mb-0 pt-3" : "m-0"}>
-                    {language.lang_code.collection_create_new_collection}
+                    {language?.lang_code.collection_create_new_collection}
                   </h6>
                 </Link>
                 <Link
                   className="fst-italic"
                   to="/all-collections"
                   style={{
-                    color: theme.primaryColors.link.hex,
+                    color: theme?.primaryColors.link.hex,
                   }}
                 >
                   <h6 className={isDesktop ? "me-5 mb-0 pt-3" : "m-0"}>
-                    {language.lang_code.my_pages_see_all_collections}
+                    {language?.lang_code.my_pages_see_all_collections}
                   </h6>
                 </Link>
               </div>
@@ -168,7 +168,7 @@ export const MyPages = () => {
                       ))}
                     </div>
                   ) : (
-                    <>{language.lang_code.error_something_went_wrong}</>
+                    <>{language?.lang_code.error_something_went_wrong}</>
                   )}
                 </>
               )}
@@ -208,18 +208,18 @@ export const MyPages = () => {
                 )}
                 <div>
                   <h6 className="mt-3">
-                    {language.lang_code.word_name}: {user?.given_name}{" "}
+                    {language?.lang_code.word_name}: {user?.given_name}{" "}
                     {user?.family_name}
                   </h6>
                   <p>
                     <span className="font-weight-bold">
-                      {language.lang_code.word_username}:
+                      {language?.lang_code.word_username}:
                     </span>{" "}
                     {user?.nickname}
                   </p>
                   <p>
                     <span className="font-weight-bold">
-                      {language.lang_code.word_email}:
+                      {language?.lang_code.word_email}:
                     </span>{" "}
                     {user?.email}
                   </p>

@@ -61,17 +61,17 @@ export const AllCollectionsListPage = () => {
           {isAuthenticated ? (
             <>
               <div className="d-flex justify-content-between">
-                <h2>{language.lang_code.collection_all_collections}</h2>
+                <h2>{language?.lang_code.collection_all_collections}</h2>
                 <div className="d-flex flex-column align-items-end">
                   <BreadCrumbs pageParam="allCollections" />
                   <Link
                     to="/create-new-collection"
                     style={{
-                      color: theme.primaryColors.link.hex,
+                      color: theme?.primaryColors.link.hex,
                     }}
                   >
                     <h6 className="me-2 mb-0">
-                      {language.lang_code.collection_create_new_collection}
+                      {language?.lang_code.collection_create_new_collection}
                     </h6>
                   </Link>
                 </div>
@@ -100,7 +100,7 @@ export const AllCollectionsListPage = () => {
                           <Link
                             to={`/collection/${coll.collection_name}`}
                             style={{
-                              color: theme.primaryColors.link.hex,
+                              color: theme?.primaryColors.link.hex,
                             }}
                           >
                             <p className="fw-bold m-0">
@@ -114,7 +114,7 @@ export const AllCollectionsListPage = () => {
                       ))}
                   </div>
                 ) : (
-                  <>{language.lang_code.error_something_went_wrong}</>
+                  <>{language?.lang_code.error_something_went_wrong}</>
                 )}
               </div>
               <Pagination
@@ -125,7 +125,7 @@ export const AllCollectionsListPage = () => {
               ></Pagination>
             </>
           ) : (
-            <>{language.lang_code.error_something_went_wrong}</>
+            <>{language?.lang_code.error_something_went_wrong}</>
           )}
         </>
       )}

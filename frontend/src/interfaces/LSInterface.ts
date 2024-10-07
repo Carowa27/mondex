@@ -3,9 +3,9 @@ import { IPkmnCard } from "./dataFromApi";
 import { ILanguage } from "./ILanguage";
 
 export interface ILSContainer {
-  theme: IColorMode;
-  user: IUser;
-  language: ILanguage;
+  theme: IColorMode | undefined;
+  user: IUser | undefined;
+  language: ILanguage | undefined;
   mostValuableCard: IValuableSavedCard | undefined;
   lastOpenedCard: IPkmnCard | undefined;
 }

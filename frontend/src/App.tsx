@@ -34,13 +34,15 @@ function App() {
       | IUser
       | ILanguage
       | IValuableSavedCard
-      | IPkmnCard,
+      | IPkmnCard
+      | ILSContainer,
     whatToUpdate:
       | "theme"
       | "user"
       | "language"
       | "valuableCard"
       | "lastOpenedCard"
+      | "containerObject"
   ) => {
     whatToUpdate === "theme" &&
       setContainer((prevState) => ({
@@ -75,6 +77,11 @@ function App() {
           ...prevState.container,
           lastOpenedCard: updatedData as IPkmnCard,
         },
+      }));
+    whatToUpdate === "containerObject" &&
+      setContainer((prevState) => ({
+        ...prevState,
+        ...(updatedData as ILSContainer),
       }));
   };
   return (

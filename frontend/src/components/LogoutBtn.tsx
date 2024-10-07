@@ -14,11 +14,11 @@ export const LogoutBtn = () => {
           className="btn m-2"
           onClick={() => logout()}
           style={{
-            border: `1px solid ${theme.primaryColors.text.hex}`,
-            color: theme.primaryColors.text.hex,
+            border: `1px solid ${theme?.primaryColors.text.hex}`,
+            color: theme?.primaryColors.text.hex,
           }}
         >
-          {language.lang_code.account_logout}
+          {language?.lang_code.account_logout}
         </button>
       )}
     </>

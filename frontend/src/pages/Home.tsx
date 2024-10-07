@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { lang } from "../globals/language/language";
 import { CollectionBanner } from "../components/CollectionBanner";
-import { colorModes } from "../globals/theme";
 import { LoadingModule } from "../components/LoadingModule";
 import { getMostValuableCardFromApi } from "../services/pkmnTcgApiServices";
 import { IPkmnCard } from "../interfaces/dataFromApi";
@@ -12,23 +11,22 @@ import { BigPkmnCard } from "../components/BigPkmnCard";
 import { ILSContainer } from "../interfaces/LSInterface";
 import { getMondexLs, setMondexLs } from "../functions/LSFunctions";
 import { ContainerContext } from "../globals/containerContext";
+import { colorModes } from "../globals/theme";
 
 export const Home = () => {
   const { container, updateContainer } = useContext(ContainerContext);
   // CHANGE: all LS should be wrapped up in ONE LS object
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  const [lsContainer, setLsContainer] = useState<ILSContainer>({
-    mostValuableCard: undefined,
-    theme: colorModes.Light,
-    user: { username: "", collections: [] },
-    lastOpenedCard: undefined,
-    language: lang.EN,
-  });
+  const [lsContainer, setLsContainer] = useState<ILSContainer>();
   const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const language = container.language;
   const theme = container.theme;
+  const date = new Date().getDate();
+  const month = new Date().getMonth() + 1;
+  const year = new Date().getFullYear();
+  const today = `${year}-${month}-${date}`;
 
   const changeShowPkmnInfo = () => {
     setSeeBigCard(false);
@@ -40,7 +38,7 @@ export const Home = () => {
   const getLSData = () => {
     let userData = getMondexLs();
     if (userData !== undefined) {
-      setLsContainer(userData);
+      updateContainer(userData, "containerObject");
       setIsLoading(false);
     } else {
       setIsLoading(false);
@@ -56,67 +54,52 @@ export const Home = () => {
     }
   };
 
-  const date = new Date().getDate();
-  const month = new Date().getMonth() + 1;
-  const year = new Date().getFullYear();
-  const today = `${year}-${month}-${date}`;
-
   const getValuableCard = async () => {
     await getMostValuableCardFromApi(`normal`).then((res) => {
       if (res) {
-        setLsContainer((prevState) => ({
-          ...prevState,
-          mostValuableCard: { card: res, savedOn: today },
-        }));
         updateContainer({ card: res, savedOn: today }, "valuableCard");
       }
       setIsLoading(false);
     });
   };
-  useEffect(() => {
-    setIsLoading(true);
-    getLSData();
-  }, []);
-  useEffect(() => {
-    setMondexLs(lsContainer);
-  }, [lsContainer]);
   // INFO: theme should not be changed
   const getTheme = () => {
-    const activeTheme = localStorage.getItem("activeTheme");
-
+    const activeTheme = container.theme;
     if (activeTheme === undefined) {
-      if (theme.name === "light") {
-        localStorage.setItem("activeTheme", "light");
+      if (theme?.name === "light") {
+        updateContainer(colorModes.Light, "theme");
       } else {
-        localStorage.setItem("activeTheme", "dark");
+        updateContainer(colorModes.Dark, "theme");
       }
     } else {
-      if (activeTheme === "dark") {
-        // changeColorMode("dark");
+      if (theme?.name === "dark") {
         updateContainer(colorModes.Dark, "theme");
       }
     }
   };
+
   useEffect(() => {
-    getTheme();
-    console.log(container);
-  }, []);
-  useEffect(() => {
-    console.log(container);
+    const ls = JSON.parse(localStorage.getItem("mondex")!);
+    console.log(container, ls);
   }, [container]);
+
   useEffect(() => {
-    if (theme.name === "light") {
-      localStorage.setItem("activeTheme", "light");
-    } else {
-      localStorage.setItem("activeTheme", "dark");
-    }
-  }, [theme.name]);
+    setIsLoading(true);
+    getLSData();
+    // getTheme();
+    getMondexLs();
+  }, []);
+
+  useEffect(() => {
+    setMondexLs(container);
+  }, [container]);
+
   return (
     <>
       {seeBigCard ? (
         <div
           style={{
-            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.7)`,
+            backgroundColor: `rgba(${theme?.primaryColors.black.rgb}, 0.7)`,
             top: 0,
             left: 0,
             width: "100%",
@@ -153,16 +136,16 @@ export const Home = () => {
           style={
             isDesktop
               ? {
-                  border: `2px solid  rgba(${theme.typeColors.fire.rgb},0.5)`,
-                  backgroundColor: `rgba(${theme.typeColors.fire.rgb},0.1)`,
+                  border: `2px solid  rgba(${theme?.typeColors.fire.rgb},0.5)`,
+                  backgroundColor: `rgba(${theme?.typeColors.fire.rgb},0.1)`,
                   minHeight: "90vh",
                   height: "auto",
                   width: "27%",
                 }
               : {
                   height: "auto",
-                  border: `2px solid  rgba(${theme.typeColors.fire.rgb},0.5)`,
-                  backgroundColor: `rgba(${theme.typeColors.fire.rgb},0.1)`,
+                  border: `2px solid  rgba(${theme?.typeColors.fire.rgb},0.5)`,
+                  backgroundColor: `rgba(${theme?.typeColors.fire.rgb},0.1)`,
                 }
           }
         >
@@ -170,23 +153,23 @@ export const Home = () => {
             to="/search"
             className={"text-decoration-none mb-2"}
             style={{
-              color: theme.primaryColors.link.hex,
+              color: theme?.primaryColors.link.hex,
             }}
           >
             <h4 id="main-card-search-header">
-              {language.lang_code.word_search}
+              {language?.lang_code.word_search}
             </h4>
           </Link>
           <span className={isDesktop ? "" : "mb-3"}>
-            {language.lang_code.search_you_can_search_for}.{" "}
+            {language?.lang_code.search_you_can_search_for}.{" "}
           </span>
           {isDesktop && (
             <span className="mb-2">
-              {language.lang_code.search_new_sets_might_be_unavailable}.
+              {language?.lang_code.search_new_sets_might_be_unavailable}.
             </span>
           )}
           <div className={isDesktop ? "" : "d-flex "}>
-            {lsContainer?.lastOpenedCard ? (
+            {container.lastOpenedCard ? (
               <div
                 className={
                   isDesktop
@@ -195,7 +178,7 @@ export const Home = () => {
                 }
               >
                 <h6 className={isDesktop ? "align-self-start" : "text-center"}>
-                  {language.lang_code.your_last_searched}
+                  {language?.lang_code.your_last_searched}
                 </h6>
                 <div
                   className={isDesktop ? "" : "d-flex justify-content-center"}
@@ -208,8 +191,8 @@ export const Home = () => {
                   <img
                     className="rounded"
                     style={{ width: isDesktop ? "100%" : "40%" }}
-                    src={lsContainer?.lastOpenedCard.images.small}
-                    alt={lsContainer?.lastOpenedCard.name}
+                    src={container.lastOpenedCard.images.small}
+                    alt={container.lastOpenedCard.name}
                   />
                 </div>
                 <p
@@ -219,11 +202,11 @@ export const Home = () => {
                       : "w-100 d-flex justify-content-evenly m-0"
                   }
                 >
-                  <span>{lsContainer?.lastOpenedCard.name}</span>
+                  <span>{container.lastOpenedCard.name}</span>
                 </p>
               </div>
             ) : null}
-            {lsContainer?.mostValuableCard ? (
+            {container.mostValuableCard ? (
               <div
                 className={
                   isDesktop
@@ -233,12 +216,12 @@ export const Home = () => {
               >
                 {isDesktop ? (
                   <h6 className="align-self-start mt-3">
-                    {language.lang_code.most_valuable} <i>normal</i>{" "}
-                    {language.lang_code.word_card.toLowerCase()}
+                    {language?.lang_code.most_valuable} <i>normal</i>{" "}
+                    {language?.lang_code.word_card.toLowerCase()}
                   </h6>
                 ) : (
                   <h6 className="text-center">
-                    {language.lang_code.todays_valuable_card}
+                    {language?.lang_code.todays_valuable_card}
                   </h6>
                 )}
 
@@ -247,14 +230,14 @@ export const Home = () => {
                   style={{ width: isDesktop ? "7rem" : "12.5rem" }}
                   onClick={() => {
                     setSeeBigCard(true);
-                    setInfoPkmnCard(lsContainer?.mostValuableCard?.card);
+                    setInfoPkmnCard(container?.mostValuableCard?.card);
                   }}
                 >
                   <img
                     className="rounded"
                     style={{ width: isDesktop ? "100%" : "40%" }}
-                    src={lsContainer?.mostValuableCard.card.images.small}
-                    alt={lsContainer?.mostValuableCard.card.name}
+                    src={container.mostValuableCard.card.images.small}
+                    alt={container.mostValuableCard.card.name}
                   />
                 </div>
                 <p
@@ -264,18 +247,18 @@ export const Home = () => {
                       : "w-100 d-flex flex-column justify-content-evenly m-0"
                   }
                 >
-                  <span>{lsContainer?.mostValuableCard.card.name}</span>
+                  <span>{container.mostValuableCard.card.name}</span>
                   <span className={isDesktop ? "ms-2" : "align-self-end"}>
                     {
-                      lsContainer?.mostValuableCard.card.tcgplayer?.prices
-                        .normal?.market
+                      container.mostValuableCard.card.tcgplayer?.prices.normal
+                        ?.market
                     }
                     $
                   </span>
                 </p>
                 <span style={{ fontSize: "x-small" }}>
-                  {language.lang_code.last_updated_at}:{" "}
-                  {lsContainer?.mostValuableCard.card.tcgplayer?.updatedAt}
+                  {language?.lang_code.last_updated_at}:{" "}
+                  {container.mostValuableCard.card.tcgplayer?.updatedAt}
                 </span>
               </div>
             ) : null}
@@ -299,8 +282,8 @@ export const Home = () => {
             //     }:
             {
               width: "27%",
-              border: `2px solid  rgba(${theme.typeColors.grass.rgb},0.5)`,
-              backgroundColor: `rgba(${theme.typeColors.grass.rgb},0.1)`,
+              border: `2px solid  rgba(${theme?.typeColors.grass.rgb},0.5)`,
+              backgroundColor: `rgba(${theme?.typeColors.grass.rgb},0.1)`,
             }
           }
         >
@@ -319,20 +302,20 @@ export const Home = () => {
                   to="/userpage"
                   className="text-decoration-none"
                   style={{
-                    color: theme.primaryColors.link.hex,
+                    color: theme?.primaryColors.link.hex,
                   }}
                 >
                   <h4 id="main-card-account-header-user">
                     {/* {user
                       ? `${language.lang_code.word_welcome}, ${user?.given_name}!`: */}
-                    {language.lang_code.word_welcome}!{/* } */}
+                    {language?.lang_code.word_welcome}!{/* } */}
                   </h4>
                 </Link>
 
-                {lsContainer?.user.collections &&
-                lsContainer?.user.collections.length !== 0 ? (
+                {container?.user?.collections &&
+                container.user.collections.length !== 0 ? (
                   <>
-                    {lsContainer?.user.collections.slice(0, 2).map((coll) => (
+                    {container?.user.collections.slice(0, 2).map((coll) => (
                       <CollectionBanner
                         key={coll.id}
                         collectionName={coll.collection_name}
@@ -340,7 +323,7 @@ export const Home = () => {
                     ))}
                   </>
                 ) : (
-                  <>{language.lang_code.collection_no_collections_created}</>
+                  <>{language?.lang_code.collection_no_collections_created}</>
                 )}
                 <Link
                   className={
@@ -350,10 +333,10 @@ export const Home = () => {
                   }
                   to="/all-collections"
                   style={{
-                    color: theme.primaryColors.link.hex,
+                    color: theme?.primaryColors.link.hex,
                   }}
                 >
-                  <i> {language.lang_code.my_pages_see_all_collections}</i>
+                  <i> {language?.lang_code.my_pages_see_all_collections}</i>
                 </Link>
               </div>
             </>

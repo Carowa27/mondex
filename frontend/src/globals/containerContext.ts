@@ -1,5 +1,9 @@
 import { createContext } from "react";
-import { IUser, IValuableSavedCard } from "../interfaces/LSInterface";
+import {
+  ILSContainer,
+  IUser,
+  IValuableSavedCard,
+} from "../interfaces/LSInterface";
 import { IContainerContext } from "../interfaces/contextInterfaces";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { lang } from "./language/language";
@@ -7,21 +11,21 @@ import { ILanguage } from "../interfaces/ILanguage";
 import { colorModes } from "./theme";
 import { IColorMode } from "../interfaces/colorInterfaces";
 
-export const container = {
-  mostValuableCard: undefined,
-  theme: colorModes.Light,
-  user: { username: "", collections: [] },
-  lastOpenedCard: undefined,
-  language: "EN",
-};
+// export const container = {
+//   mostValuableCard: undefined,
+//   theme: colorModes.Light,
+//   user: { username: "", collections: [] },
+//   lastOpenedCard: undefined,
+//   language: "EN",
+// };
 
 export const ContainerContext = createContext<IContainerContext>({
   container: {
     mostValuableCard: undefined,
-    theme: colorModes.Light,
-    user: { username: "", collections: [] },
+    theme: undefined,
+    user: undefined,
     lastOpenedCard: undefined,
-    language: lang.EN,
+    language: undefined,
   },
   updateContainer: (
     //@ts-expect-error type definition
@@ -30,7 +34,8 @@ export const ContainerContext = createContext<IContainerContext>({
       | IUser
       | ILanguage
       | IValuableSavedCard
-      | IPkmnCard,
+      | IPkmnCard
+      | ILSContainer,
     //@ts-expect-error type definition
     whatToUpdate:
       | "theme"
@@ -38,6 +43,7 @@ export const ContainerContext = createContext<IContainerContext>({
       | "language"
       | "valuableCard"
       | "lastOpenedCard"
+      | "containerObject"
   ) => {
     return;
   },

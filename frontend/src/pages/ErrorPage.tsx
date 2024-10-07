@@ -102,28 +102,28 @@ export const ErrorPage = () => {
     <div
       style={{
         height: "100vh",
-        backgroundColor: theme.primaryColors.background.hex,
-        color: theme.primaryColors.text.hex,
+        backgroundColor: theme?.primaryColors.background.hex,
+        color: theme?.primaryColors.text.hex,
       }}
     >
       <div className=" d-flex justify-content-center flex-column h-75 ms-3">
-        <h1>{language.lang_code.error_oh_no}</h1>
+        <h1>{language?.lang_code.error_oh_no}</h1>
         <h5>
-          {language.lang_code.error_something_went_wrong},{" "}
-          {language.lang_code.error_pkmn_fled}?!
+          {language?.lang_code.error_something_went_wrong},{" "}
+          {language?.lang_code.error_pkmn_fled}?!
         </h5>
         <Link
           to="/"
           className="text-decoration-none ps-3 mt-4"
           style={{
-            color: theme.primaryColors.link.hex,
+            color: theme?.primaryColors.link.hex,
           }}
         >
           <button
             className="btn"
             style={{
-              border: `1px solid ${theme.primaryColors.text.hex}`,
-              color: theme.primaryColors.text.hex,
+              border: `1px solid ${theme?.primaryColors.text.hex}`,
+              color: theme?.primaryColors.text.hex,
             }}
           >
             Home

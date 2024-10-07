@@ -136,7 +136,7 @@ export const CollectionPage = () => {
       {showDeleteCollection ? (
         <div
           style={{
-            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.7)`,
+            backgroundColor: `rgba(${theme?.primaryColors.black.rgb}, 0.7)`,
             top: 0,
             left: 0,
             width: "100%",
@@ -259,7 +259,7 @@ export const CollectionPage = () => {
                 )}
               </>
             ) : (
-              <>{language.lang_code.collection_with_no_cards_more_words}</>
+              <>{language?.lang_code.collection_with_no_cards_more_words}</>
             )}
           </>
         ) : (

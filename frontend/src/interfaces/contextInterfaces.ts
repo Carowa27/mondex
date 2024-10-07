@@ -1,14 +1,14 @@
 import { IColorMode } from "./colorInterfaces";
 import { IPkmnCard } from "./dataFromApi";
 import { ILanguage } from "./ILanguage";
-import { IUser, IValuableSavedCard } from "./LSInterface";
+import { ILSContainer, IUser, IValuableSavedCard } from "./LSInterface";
 
 //ContainerContext
 export interface IContainerContext {
   container: {
-    theme: IColorMode;
-    user: IUser;
-    language: ILanguage;
+    theme: IColorMode | undefined;
+    user: IUser | undefined;
+    language: ILanguage | undefined;
     mostValuableCard: IValuableSavedCard | undefined;
     lastOpenedCard: IPkmnCard | undefined;
   };
@@ -18,12 +18,14 @@ export interface IContainerContext {
       | IUser
       | ILanguage
       | IValuableSavedCard
-      | IPkmnCard,
+      | IPkmnCard
+      | ILSContainer,
     whatToUpdate:
       | "theme"
       | "user"
       | "language"
       | "valuableCard"
       | "lastOpenedCard"
+      | "containerObject"
   ) => void;
 }

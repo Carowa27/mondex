@@ -79,7 +79,7 @@ export const CreateCollectionPage = () => {
 
   return (
     <div style={{ minHeight: "90vh" }}>
-      <h2>{language.lang_code.collection_create_new_collection}</h2>
+      <h2>{language?.lang_code.collection_create_new_collection}</h2>
       <form id="search-form" onSubmit={handleSubmit}>
         <div
           id="search-form-container"
@@ -93,14 +93,14 @@ export const CreateCollectionPage = () => {
             <div id="search_type" className="d-flex flex-column mt-1">
               <div className="input-group mb-3">
                 <span className="input-group-text" id="collection_name">
-                  {language.lang_code.collection_name}:
+                  {language?.lang_code.collection_name}:
                 </span>
                 <input
                   type="text"
                   value={collectionName}
                   onChange={handleCollectionNameChange}
                   className="form-control"
-                  placeholder={language.lang_code.collection_name}
+                  placeholder={language?.lang_code.collection_name}
                   aria-label="Collection Name"
                   aria-describedby="collection_name"
                 />
@@ -108,7 +108,7 @@ export const CreateCollectionPage = () => {
               <div>
                 <div className="input-group mb-3 d-flex align-items-center rounded">
                   <span className="input-group-text" id="is-set">
-                    {language.lang_code.collection_is_set_collection}:
+                    {language?.lang_code.collection_is_set_collection}:
                   </span>
                   <div className="form-check ms-3">
                     <input
@@ -120,7 +120,7 @@ export const CreateCollectionPage = () => {
                       onChange={() => setIsSetCollection(false)}
                     />
                     <label className="form-check-label" htmlFor="is-set-no">
-                      {language.lang_code.word_no}
+                      {language?.lang_code.word_no}
                     </label>
                   </div>
                   <div className="form-check ms-3">
@@ -133,7 +133,7 @@ export const CreateCollectionPage = () => {
                       onChange={() => setIsSetCollection(true)}
                     />
                     <label className="form-check-label" htmlFor="is-set-yes">
-                      {language.lang_code.word_yes}
+                      {language?.lang_code.word_yes}
                     </label>
                   </div>
                 </div>
@@ -141,14 +141,14 @@ export const CreateCollectionPage = () => {
               {isSetCollection ? (
                 <div className="input-group mb-3">
                   <span className="input-group-text" id="set-name">
-                    {language.lang_code.collection_set_id}
+                    {language?.lang_code.collection_set_id}
                   </span>
                   <input
                     type="text"
                     className="form-control"
                     value={setInputValue}
                     onChange={handleSetIdChange}
-                    placeholder={language.lang_code.collection_set_id}
+                    placeholder={language?.lang_code.collection_set_id}
                     aria-label="Set Name"
                     aria-describedby="set-name"
                   />
@@ -163,12 +163,12 @@ export const CreateCollectionPage = () => {
                 : "btn btn-secondary mt-2 mx-2 mb-3"
             }
             type="submit"
-            value={language.lang_code.word_create}
+            value={language?.lang_code.word_create}
           />
         </div>
       </form>
       {notCorrectSetId ? (
-        <>{language.lang_code.collection_not_correct_set_id}</>
+        <>{language?.lang_code.collection_not_correct_set_id}</>
       ) : null}
       {createdCollection ? (
         <Link
@@ -179,11 +179,11 @@ export const CreateCollectionPage = () => {
               : `/collection/${savedCollectionName}`
           }
           style={{
-            color: theme.primaryColors.link.hex,
+            color: theme?.primaryColors.link.hex,
           }}
         >
           <p>
-            {language.lang_code.collection_created}:{" "}
+            {language?.lang_code.collection_created}:{" "}
             <span className="text-decoration-underline fst-italic">
               {savedCollectionName}
             </span>

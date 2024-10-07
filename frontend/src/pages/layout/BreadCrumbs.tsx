@@ -24,20 +24,20 @@ export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
                 to="/"
                 className="text-decoration-none"
                 style={{
-                  color: theme.primaryColors.breadcrumbText.hex,
+                  color: theme?.primaryColors.breadcrumbText.hex,
                 }}
               >
-                <span>{language.lang_code.word_home}&nbsp;/&nbsp;</span>
+                <span>{language?.lang_code.word_home}&nbsp;/&nbsp;</span>
               </Link>
 
               <Link
                 to="/about"
                 className="text-decoration-none"
                 style={{
-                  color: theme.primaryColors.breadcrumbText.hex,
+                  color: theme?.primaryColors.breadcrumbText.hex,
                 }}
               >
-                <span>{language.lang_code.word_about}</span>
+                <span>{language?.lang_code.word_about}</span>
               </Link>
             </p>
           ) : null}
@@ -47,28 +47,28 @@ export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
                 to="/"
                 className="text-decoration-none"
                 style={{
-                  color: theme.primaryColors.breadcrumbText.hex,
+                  color: theme?.primaryColors.breadcrumbText.hex,
                 }}
               >
-                <span>{language.lang_code.word_home}&nbsp;/&nbsp;</span>
+                <span>{language?.lang_code.word_home}&nbsp;/&nbsp;</span>
               </Link>
 
               <Link
                 to="/userpage"
                 className="text-decoration-none"
                 style={{
-                  color: theme.primaryColors.breadcrumbText.hex,
+                  color: theme?.primaryColors.breadcrumbText.hex,
                 }}
               >
-                <span>{language.lang_code.word_userpage}</span>
+                <span>{language?.lang_code.word_userpage}</span>
               </Link>
             </p>
           ) : null}
           {/* {pageParam === "account" ? 
             <p className="m-0">
-            <Link to="/" className="text-decoration-none"><span>{language.lang_code.word_home}</span></Link>
+            <Link to="/" className="text-decoration-none"><span>{language?.lang_code.word_home}</span></Link>
               &nbsp;/&nbsp;
-              <Link to="/home" className="text-decoration-none"><span>{language.lang_code.word_userpage}</span></Link
+              <Link to="/home" className="text-decoration-none"><span>{language?.lang_code.word_userpage}</span></Link
               &nbsp;/&nbsp;
               <Link to="/home" className="text-decoration-none"><span>account</span></Link>
             </p> : null} */}
@@ -78,30 +78,30 @@ export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
                 to="/"
                 className="text-decoration-none"
                 style={{
-                  color: theme.primaryColors.breadcrumbText.hex,
+                  color: theme?.primaryColors.breadcrumbText.hex,
                 }}
               >
-                <span>{language.lang_code.word_home}&nbsp;/&nbsp;</span>
+                <span>{language?.lang_code.word_home}&nbsp;/&nbsp;</span>
               </Link>
 
               <Link
                 to="/userpage"
                 className="text-decoration-none"
                 style={{
-                  color: theme.primaryColors.breadcrumbText.hex,
+                  color: theme?.primaryColors.breadcrumbText.hex,
                 }}
               >
-                <span>{language.lang_code.word_userpage}&nbsp;/&nbsp;</span>
+                <span>{language?.lang_code.word_userpage}&nbsp;/&nbsp;</span>
               </Link>
 
               <Link
                 to="/all-collections"
                 className="text-decoration-none"
                 style={{
-                  color: theme.primaryColors.breadcrumbText.hex,
+                  color: theme?.primaryColors.breadcrumbText.hex,
                 }}
               >
-                <span>{language.lang_code.collection_all_collections}</span>
+                <span>{language?.lang_code.collection_all_collections}</span>
               </Link>
             </p>
           ) : null}
@@ -111,31 +111,31 @@ export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
                 to="/"
                 className="text-decoration-none"
                 style={{
-                  color: theme.primaryColors.breadcrumbText.hex,
+                  color: theme?.primaryColors.breadcrumbText.hex,
                 }}
               >
-                <span>{language.lang_code.word_home}&nbsp;/&nbsp;</span>
+                <span>{language?.lang_code.word_home}&nbsp;/&nbsp;</span>
               </Link>
 
               <Link
                 to="/userpage"
                 className="text-decoration-none"
                 style={{
-                  color: theme.primaryColors.breadcrumbText.hex,
+                  color: theme?.primaryColors.breadcrumbText.hex,
                 }}
               >
-                <span>{language.lang_code.word_userpage}&nbsp;/&nbsp;</span>
+                <span>{language?.lang_code.word_userpage}&nbsp;/&nbsp;</span>
               </Link>
 
               <Link
                 to="/all-collections"
                 className="text-decoration-none"
                 style={{
-                  color: theme.primaryColors.breadcrumbText.hex,
+                  color: theme?.primaryColors.breadcrumbText.hex,
                 }}
               >
                 <span>
-                  {language.lang_code.collection_all_collections}&nbsp;/&nbsp;
+                  {language?.lang_code.collection_all_collections}&nbsp;/&nbsp;
                 </span>
               </Link>
 
@@ -143,7 +143,7 @@ export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
                 to={`/collection/${collectionName}`}
                 className="text-decoration-none"
                 style={{
-                  color: theme.primaryColors.breadcrumbText.hex,
+                  color: theme?.primaryColors.breadcrumbText.hex,
                 }}
               >
                 {collectionName && collectionName.replace(/_/g, " ")}

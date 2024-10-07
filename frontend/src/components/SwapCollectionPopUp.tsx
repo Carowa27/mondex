@@ -73,7 +73,7 @@ export const SwapCollectionPopUp = ({
     position: fixed;
     top: 20vh;
     left: 10vw;
-    background-color: ${theme.primaryColors.background.hex};
+    background-color: ${theme?.primaryColors.background.hex};
     border-radius: 0.5rem;
 
     @media (${variables.breakpoints.desktop}) {
@@ -116,16 +116,16 @@ export const SwapCollectionPopUp = ({
       {cardToSwap && (
         <SwapMain>
           <p>
-            <h6>{language.lang_code.card_card_to_swap}: </h6>
+            <h6>{language?.lang_code.card_card_to_swap}: </h6>
             <span>
               {cardToSwap?.api_pkmn_name}, {cardToSwap.api_card_id}
             </span>
           </p>
           <p>
-            <h6>{language.lang_code.card_collection_to_remove_card_from}: </h6>
+            <h6>{language?.lang_code.card_collection_to_remove_card_from}: </h6>
             <span>{collectionName.replace(/_/g, " ")}</span>
           </p>
-          <h6>{language.lang_code.collection_to_change_to}:</h6>
+          <h6>{language?.lang_code.collection_to_change_to}:</h6>
           <SwapFormContainer>
             <SwapForm id="swap-form">
               {listOfOwnedCollections &&
@@ -150,7 +150,7 @@ export const SwapCollectionPopUp = ({
                         (coll.api_set_id !== null &&
                           cardToSwap.api_set_id !== coll.api_set_id)
                           ? {
-                              color: theme.primaryColors.breadcrumbText.hex,
+                              color: theme?.primaryColors.breadcrumbText.hex,
                             }
                           : {}
                       }
@@ -165,21 +165,21 @@ export const SwapCollectionPopUp = ({
                 className="btn"
                 onClick={changeShowSwapPopUp}
                 style={{
-                  border: `1px solid ${theme.primaryColors.text.hex}`,
-                  color: theme.primaryColors.text.hex,
+                  border: `1px solid ${theme?.primaryColors.text.hex}`,
+                  color: theme?.primaryColors.text.hex,
                 }}
               >
-                {language.lang_code.word_cancel}
+                {language?.lang_code.word_cancel}
               </button>
               <button
                 className="btn"
                 onClick={handleSubmitToSwap}
                 style={{
-                  border: `1px solid ${theme.primaryColors.text.hex}`,
-                  color: theme.primaryColors.text.hex,
+                  border: `1px solid ${theme?.primaryColors.text.hex}`,
+                  color: theme?.primaryColors.text.hex,
                 }}
               >
-                {language.lang_code.word_change}
+                {language?.lang_code.word_change}
               </button>
             </div>
           </SwapFormContainer>

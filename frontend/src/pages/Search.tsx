@@ -141,7 +141,7 @@ export const Search = () => {
       {seeCreatedCard ? (
         <div
           style={{
-            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.3)`,
+            backgroundColor: `rgba(${theme?.primaryColors.black.rgb}, 0.3)`,
             top: 0,
             left: 0,
             width: "100%",
@@ -154,17 +154,17 @@ export const Search = () => {
           <div
             className="d-flex justify-content-center align-items-center py-2 px-3 my-3 mx-2 rounded"
             style={{
-              backgroundColor: `rgba(${theme.primaryColors.background.rgb})`,
+              backgroundColor: `rgba(${theme?.primaryColors.background.rgb})`,
             }}
           >
-            {language.lang_code.search_card_added}
+            {language?.lang_code.search_card_added}
           </div>
         </div>
       ) : null}
       {showChooseAddCardPopup ? (
         <div
           style={{
-            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.7)`,
+            backgroundColor: `rgba(${theme?.primaryColors.black.rgb}, 0.7)`,
             top: 0,
             left: 0,
             width: "100%",
@@ -183,7 +183,7 @@ export const Search = () => {
       {seeBigCard ? (
         <div
           style={{
-            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.7)`,
+            backgroundColor: `rgba(${theme?.primaryColors.black.rgb}, 0.7)`,
             top: 0,
             left: 0,
             width: "100%",
@@ -201,7 +201,7 @@ export const Search = () => {
           />
         </div>
       ) : null}
-      <h2 id="search-header">{language.lang_code.word_search}</h2>
+      <h2 id="search-header">{language?.lang_code.word_search}</h2>
       <form id="search-form" onSubmit={handleSubmit}>
         <div
           id="search-form-container"
@@ -214,7 +214,7 @@ export const Search = () => {
           <div>
             <div className="d-flex justify-content-around">
               <label htmlFor="search_text" className="pt-2 m-0">
-                {language.lang_code.search_word}:{" "}
+                {language?.lang_code.search_word}:{" "}
                 <input
                   type="text"
                   id="search_text"
@@ -229,7 +229,7 @@ export const Search = () => {
               className="d-flex justify-content-between align-items-center mt-1"
             >
               <label htmlFor="search_pkmn" className="m-0 me-2">
-                {language.lang_code.word_name}:{" "}
+                {language?.lang_code.word_name}:{" "}
                 <input
                   type="radio"
                   name="search_for"
@@ -266,7 +266,7 @@ export const Search = () => {
           <input
             className="btn btn-secondary m-2"
             type="submit"
-            value={language.lang_code.word_search}
+            value={language?.lang_code.word_search}
           />
         </div>
       </form>
@@ -275,8 +275,8 @@ export const Search = () => {
           <>
             {noHits ? (
               <>
-                <p> {language.lang_code.error_search_no_hits}</p>
-                <p>{language.lang_code.error_search_new_set}</p>
+                <p> {language?.lang_code.error_search_no_hits}</p>
+                <p>{language?.lang_code.error_search_new_set}</p>
               </>
             ) : (
               <>
@@ -331,7 +331,7 @@ export const Search = () => {
                                     ? {
                                         display: "flex",
                                         position: "absolute",
-                                        color: `${theme.primaryColors.text.hex}`,
+                                        color: `${theme?.primaryColors.text.hex}`,
                                         aspectRatio: "3/4",
                                         width: isDesktop ? "12.5rem" : "10rem",
                                         fontSize: "20pt",
@@ -344,7 +344,7 @@ export const Search = () => {
                                 <div
                                   className="rounded-pill w-100 d-flex justify-content-around"
                                   style={{
-                                    backgroundColor: `${theme.primaryColors.buttonBackground.hex}`,
+                                    backgroundColor: `${theme?.primaryColors.buttonBackground.hex}`,
                                     padding: "0.3rem",
                                   }}
                                 >
@@ -353,12 +353,12 @@ export const Search = () => {
                                       style={
                                         hoverAddBtn
                                           ? {
-                                              backgroundColor: `rgba(${theme.typeColors.fire.rgb},0.6)`,
+                                              backgroundColor: `rgba(${theme?.typeColors.fire.rgb},0.6)`,
                                               width: "25px",
                                               height: "25px",
                                             }
                                           : {
-                                              backgroundColor: `rgba(${theme.typeColors.fire.rgb},0.4)`,
+                                              backgroundColor: `rgba(${theme?.typeColors.fire.rgb},0.4)`,
                                               width: "25px",
                                               height: "25px",
                                             }
@@ -379,12 +379,12 @@ export const Search = () => {
                                     style={
                                       hoverInfoBtn
                                         ? {
-                                            backgroundColor: `rgba(${theme.typeColors.water.rgb},0.6)`,
+                                            backgroundColor: `rgba(${theme?.typeColors.water.rgb},0.6)`,
                                             width: "1.7rem",
                                             height: "1.7rem",
                                           }
                                         : {
-                                            backgroundColor: `rgba(${theme.typeColors.water.rgb},0.4)`,
+                                            backgroundColor: `rgba(${theme?.typeColors.water.rgb},0.4)`,
                                             width: "1.7rem",
                                             height: "1.7rem",
                                           }
@@ -430,7 +430,7 @@ export const Search = () => {
                     ) : null}
                   </>
                 ) : (
-                  <>{language.lang_code.search_start}</>
+                  <>{language?.lang_code.search_start}</>
                 )}
               </>
             )}

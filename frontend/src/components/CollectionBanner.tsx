@@ -49,14 +49,14 @@ export const CollectionBanner = (props: IProps) => {
                 ? "mb-2 rounded p-1 w-100"
                 : "py-2 my-3 col-5 rounded w-100"
             }
-            style={{ border: `1px solid ${theme.primaryColors.text.hex}` }}
+            style={{ border: `1px solid ${theme?.primaryColors.text.hex}` }}
           >
             <h6 className={isDesktop ? "ms-2 mt-1 mb-0" : "ms-2 mt-1 mb-2"}>
               <Link
                 to={`/collection/${props.collectionName}`}
                 className="text-decoration-none"
                 style={{
-                  color: theme.primaryColors.link.hex,
+                  color: theme?.primaryColors.link.hex,
                 }}
               >
                 {collectionName}
@@ -124,24 +124,24 @@ export const CollectionBanner = (props: IProps) => {
                     <Link
                       to={`/collection/${props.collectionName}`}
                       style={{
-                        color: theme.primaryColors.link.hex,
+                        color: theme?.primaryColors.link.hex,
                       }}
                     >
-                      <i>{language.lang_code.see_all_cards}</i>
+                      <i>{language?.lang_code.see_all_cards}</i>
                     </Link>
                   </div>
                 </div>
               ) : (
                 <>
-                  <p>{language.lang_code.collection_with_no_cards} </p>
+                  <p>{language?.lang_code.collection_with_no_cards} </p>
                   <div className="w-100 d-flex justify-content-end">
                     <Link
                       to={`/collection/${props.collectionName}`}
                       style={{
-                        color: theme.primaryColors.link.hex,
+                        color: theme?.primaryColors.link.hex,
                       }}
                     >
-                      <i>{language.lang_code.see_collection}</i>
+                      <i>{language?.lang_code.see_collection}</i>
                     </Link>
                   </div>
                 </>

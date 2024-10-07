@@ -140,7 +140,7 @@ export const SmallPkmnCard = ({
       {showDeleteCard ? (
         <div
           style={{
-            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.7)`,
+            backgroundColor: `rgba(${theme?.primaryColors.black.rgb}, 0.7)`,
             top: 0,
             left: 0,
             width: "100%",
@@ -162,7 +162,7 @@ export const SmallPkmnCard = ({
       {showSwapCollection ? (
         <div
           style={{
-            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.7)`,
+            backgroundColor: `rgba(${theme?.primaryColors.black.rgb}, 0.7)`,
             top: 0,
             left: 0,
             width: "100%",
@@ -184,7 +184,7 @@ export const SmallPkmnCard = ({
       {seeBigCard ? (
         <div
           style={{
-            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.7)`,
+            backgroundColor: `rgba(${theme?.primaryColors.black.rgb}, 0.7)`,
             top: 0,
             left: 0,
             width: "100%",
@@ -230,7 +230,7 @@ export const SmallPkmnCard = ({
                     display: "flex",
                     zIndex: 300,
                     position: "absolute",
-                    color: `${theme.primaryColors.text.hex}`,
+                    color: `${theme?.primaryColors.text.hex}`,
                     aspectRatio: "3/4",
                     width: isDesktop ? "12.5rem" : "10rem",
                     fontSize: "20pt",
@@ -242,7 +242,7 @@ export const SmallPkmnCard = ({
             <div
               className="rounded-pill w-100 d-flex justify-content-around"
               style={{
-                backgroundColor: `${theme.primaryColors.buttonBackground.hex}`,
+                backgroundColor: `${theme?.primaryColors.buttonBackground.hex}`,
                 padding: "0.3rem",
               }}
             >
@@ -250,12 +250,12 @@ export const SmallPkmnCard = ({
                 style={
                   hoverPlusBtn
                     ? {
-                        backgroundColor: `rgba(${theme.typeColors.grass.rgb},0.6)`,
+                        backgroundColor: `rgba(${theme?.typeColors.grass.rgb},0.6)`,
                         width: "1.7rem",
                         height: "1.7rem",
                       }
                     : {
-                        backgroundColor: `rgba(${theme.typeColors.grass.rgb},0.4)`,
+                        backgroundColor: `rgba(${theme?.typeColors.grass.rgb},0.4)`,
                         width: "1.7rem",
                         height: "1.7rem",
                       }
@@ -271,12 +271,12 @@ export const SmallPkmnCard = ({
                 style={
                   hoverMinusBtn
                     ? {
-                        backgroundColor: `rgba(${theme.typeColors.fire.rgb},0.6)`,
+                        backgroundColor: `rgba(${theme?.typeColors.fire.rgb},0.6)`,
                         width: "1.7rem",
                         height: "1.7rem",
                       }
                     : {
-                        backgroundColor: `rgba(${theme.typeColors.fire.rgb},0.4)`,
+                        backgroundColor: `rgba(${theme?.typeColors.fire.rgb},0.4)`,
                         width: "1.7rem",
                         height: "1.7rem",
                       }
@@ -300,12 +300,12 @@ export const SmallPkmnCard = ({
                 style={
                   hoverSwapBtn
                     ? {
-                        backgroundColor: `rgba(${theme.typeColors.fighting.rgb},0.6)`,
+                        backgroundColor: `rgba(${theme?.typeColors.fighting.rgb},0.6)`,
                         width: "1.7rem",
                         height: "1.7rem",
                       }
                     : {
-                        backgroundColor: `rgba(${theme.typeColors.fighting.rgb},0.4)`,
+                        backgroundColor: `rgba(${theme?.typeColors.fighting.rgb},0.4)`,
                         width: "1.7rem",
                         height: "1.7rem",
                       }
@@ -332,12 +332,12 @@ export const SmallPkmnCard = ({
                 style={
                   hoverInfoBtn
                     ? {
-                        backgroundColor: `rgba(${theme.typeColors.water.rgb},0.6)`,
+                        backgroundColor: `rgba(${theme?.typeColors.water.rgb},0.6)`,
                         width: "1.7rem",
                         height: "1.7rem",
                       }
                     : {
-                        backgroundColor: `rgba(${theme.typeColors.water.rgb},0.4)`,
+                        backgroundColor: `rgba(${theme?.typeColors.water.rgb},0.4)`,
                         width: "1.7rem",
                         height: "1.7rem",
                       }
@@ -361,7 +361,7 @@ export const SmallPkmnCard = ({
           style={{
             display: "flex",
             position: "absolute",
-            color: `${theme.primaryColors.text.hex}`,
+            color: `${theme?.primaryColors.text.hex}`,
             aspectRatio: "auto",
             width: isDesktop ? "13.2rem" : "10rem",
             height: isDesktop ? "18.2rem" : "14.5rem",
@@ -377,7 +377,7 @@ export const SmallPkmnCard = ({
           (card && card.amount) ? (
             <span
               style={{
-                backgroundColor: `${theme.primaryColors.white.hex}`,
+                backgroundColor: `${theme?.primaryColors.white.hex}`,
                 width: isDesktop ? "40px" : "30px",
                 height: isDesktop ? "40px" : "30px",
                 border: "1px grey solid",
@@ -386,7 +386,7 @@ export const SmallPkmnCard = ({
             >
               <i
                 className="m-0 p-0"
-                style={{ color: theme.primaryColors.black.hex }}
+                style={{ color: theme?.primaryColors.black.hex }}
               >
                 <span
                   style={{

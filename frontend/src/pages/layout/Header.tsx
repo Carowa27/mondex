@@ -25,7 +25,7 @@ export const Header = () => {
           className="text-decoration-none"
           to="./"
           style={{
-            color: theme.primaryColors.link.hex,
+            color: theme?.primaryColors.link.hex,
           }}
           onClick={() =>
             window.scrollTo({

@@ -65,7 +65,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
 
   const valueHTML = (cardInfo: IPkmnCard) => (
     <>
-      <h5>{language.lang_code.word_market_value}</h5>
+      <h5>{language?.lang_code.word_market_value}</h5>
       <h6>TCG Player</h6>
       {cardInfo.tcgplayer?.prices["1stEdition"]?.market ? (
         <BigCardInfoRow>
@@ -141,7 +141,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
     padding: 0 2rem 2rem 2rem;
     z-index: 500;
     position: fixed;
-    background-color: ${theme.primaryColors.background.hex};
+    background-color: ${theme?.primaryColors.background.hex};
     border-radius: 0.5rem;
     margin: 0 2rem;
 
@@ -247,7 +247,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
                 <span>Nr: {cardInfo.number}</span>
               </BigCardInfoRow>
               <BigCardInfoRow>
-                <span>{language.lang_code.word_release_date}: </span>
+                <span>{language?.lang_code.word_release_date}: </span>
                 <span>{cardInfo.set.releaseDate}</span>
               </BigCardInfoRow>
               <BigCardInfoRow>

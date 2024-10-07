@@ -16,7 +16,7 @@ export const LoadingModule = () => {
   return (
     <>
       <h5>
-        {language.lang_code.word_loading}..
+        {language?.lang_code.word_loading}..
         {isThirdDot ? <>.</> : null}
       </h5>
     </>

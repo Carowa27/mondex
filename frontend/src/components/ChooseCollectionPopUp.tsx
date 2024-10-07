@@ -69,7 +69,7 @@ export const ChooseCollectionPopUp = ({
     position: fixed;
     top: 20vh;
     left: 10vw;
-    background-color: ${theme.primaryColors.background.hex};
+    background-color: ${theme?.primaryColors.background.hex};
     border-radius: 0.5rem;
 
     @media (${variables.breakpoints.desktop}) {
@@ -108,12 +108,12 @@ export const ChooseCollectionPopUp = ({
       {cardToAdd && (
         <SwapMain>
           <p>
-            <h6>{language.lang_code.card_card_to_add}: </h6>
+            <h6>{language?.lang_code.card_card_to_add}: </h6>
             <span>
               {cardToAdd?.name}, {cardToAdd.id}
             </span>
           </p>
-          <h6>{language.lang_code.card_add_to_collection}:</h6>
+          <h6>{language?.lang_code.card_add_to_collection}:</h6>
           <SwapFormContainer>
             <SwapForm id="swap-form">
               {listOfOwnedCollections &&
@@ -136,7 +136,7 @@ export const ChooseCollectionPopUp = ({
                         coll.api_set_id !== null &&
                         cardToAdd.set.id !== coll.api_set_id
                           ? {
-                              color: theme.primaryColors.breadcrumbText.hex,
+                              color: theme?.primaryColors.breadcrumbText.hex,
                             }
                           : {}
                       }
@@ -158,21 +158,21 @@ export const ChooseCollectionPopUp = ({
                 className="btn"
                 onClick={changeShowAddCardPopup}
                 style={{
-                  border: `1px solid ${theme.primaryColors.text.hex}`,
-                  color: theme.primaryColors.text.hex,
+                  border: `1px solid ${theme?.primaryColors.text.hex}`,
+                  color: theme?.primaryColors.text.hex,
                 }}
               >
-                {language.lang_code.word_cancel}
+                {language?.lang_code.word_cancel}
               </button>
               <button
                 className="btn"
                 onClick={handleSubmitToAddCard}
                 style={{
-                  border: `1px solid ${theme.primaryColors.text.hex}`,
-                  color: theme.primaryColors.text.hex,
+                  border: `1px solid ${theme?.primaryColors.text.hex}`,
+                  color: theme?.primaryColors.text.hex,
                 }}
               >
-                {language.lang_code.word_add}
+                {language?.lang_code.word_add}
               </button>
             </div>
           </SwapFormContainer>

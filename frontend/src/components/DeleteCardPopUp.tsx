@@ -88,7 +88,7 @@ export const DeleteCardPopUp = ({
       className={
         isDesktop ? "w-25 px-4 py-3 rounded" : "w-75 px-4 py-3 rounded"
       }
-      style={{ backgroundColor: theme.primaryColors.background.hex }}
+      style={{ backgroundColor: theme?.primaryColors.background.hex }}
     >
       <header className="d-flex justify-content-end mt-2">
         <i className="bi bi-x-lg" onClick={changeShowDeleteCardPopUp}></i>
@@ -97,21 +97,21 @@ export const DeleteCardPopUp = ({
         {cardToDelete ? (
           <>
             <div className="mb-4">
-              <h6>{language.lang_code.card_card_to_delete}: </h6>
+              <h6>{language?.lang_code.card_card_to_delete}: </h6>
               <span>
                 {cardToDelete?.api_pkmn_name}, {cardToDelete.api_card_id}
               </span>
             </div>
             <div className="mb-4">
               <h6>
-                {language.lang_code.card_collection_to_remove_card_from}:{" "}
+                {language?.lang_code.card_collection_to_remove_card_from}:{" "}
               </h6>
               <span>{collectionName.replace(/_/g, " ")}</span>
             </div>
           </>
         ) : (
           <div className="mb-4">
-            <h6>{language.lang_code.collection_to_delete}: </h6>
+            <h6>{language?.lang_code.collection_to_delete}: </h6>
             <span>
               {collection?.collection_name.replace(/_/g, " ")}
               {collection?.api_set_id ? `, ${collection.api_set_id}` : null}
@@ -119,27 +119,27 @@ export const DeleteCardPopUp = ({
           </div>
         )}
 
-        <i>{language.lang_code.warning_delete}</i>
+        <i>{language?.lang_code.warning_delete}</i>
         <div className="d-flex justify-content-around mt-3">
           <button
             className="btn"
             onClick={changeShowDeleteCardPopUp}
             style={{
-              border: `1px solid ${theme.primaryColors.text.hex}`,
-              color: theme.primaryColors.text.hex,
+              border: `1px solid ${theme?.primaryColors.text.hex}`,
+              color: theme?.primaryColors.text.hex,
             }}
           >
-            {language.lang_code.word_cancel}
+            {language?.lang_code.word_cancel}
           </button>
           <button
             className="btn text-danger fw-bolder"
             onClick={handleSubmitToDelete}
             style={{
-              border: `1px solid ${theme.primaryColors.text.hex}`,
-              color: theme.primaryColors.text.hex,
+              border: `1px solid ${theme?.primaryColors.text.hex}`,
+              color: theme?.primaryColors.text.hex,
             }}
           >
-            {language.lang_code.word_delete}
+            {language?.lang_code.word_delete}
           </button>
         </div>
       </div>
