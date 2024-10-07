@@ -324,6 +324,8 @@ export const Home = () => {
                   <>
                     {!container.user && (
                       <div>
+                        To add cards and collections, please start by adding
+                        your name or username
                         <form
                           style={{
                             margin: "1rem",
@@ -364,6 +366,24 @@ export const Home = () => {
                       </div>
                     )}
                     {language?.lang_code.collection_no_collections_created}
+                    {container.user?.collections.length === 0 && (
+                      <button
+                        style={{
+                          width: "max-content",
+                          alignSelf: "center",
+                          marginTop: "1rem",
+                          padding: "0.4rem 1.0rem",
+                          borderRadius: "10px",
+                        }}
+                      >
+                        <Link
+                          to={"/create-new-collection"}
+                          style={{ textDecoration: "none", color: "inherit" }}
+                        >
+                          Create your first collection
+                        </Link>
+                      </button>
+                    )}
                   </>
                 )}
                 {/* TODO add read more link */}
