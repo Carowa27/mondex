@@ -1,7 +1,6 @@
 import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
-import { LanguageContext } from "../globals/language/language";
 import { getPkmnFromApi } from "../services/pkmnTcgApiServices";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { LoadingModule } from "../components/LoadingModule";
@@ -12,10 +11,11 @@ import { BigPkmnCard } from "../components/BigPkmnCard";
 import { ChooseCollectionPopUp } from "../components/ChooseCollectionPopUp";
 import { Pagination } from "./layout/Pagination";
 import { getAllOwnedCollections } from "../services/collectionServices";
+import { ContainerContext } from "../globals/containerContext";
 
 export const Search = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  const { language } = useContext(LanguageContext);
+  const { container } = useContext(ContainerContext);
   const { theme } = useContext(ThemeContext);
   const { isAuthenticated, user } = useAuth0();
   const [searchValue, setSearchValue] = useState<string>("");
@@ -37,6 +37,7 @@ export const Search = () => {
     totalCount: number;
   }>();
   const [page, setPage] = useState<number>(1);
+  const language = container.language;
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);

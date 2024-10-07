@@ -5,8 +5,8 @@ import { getAllOwnedCards } from "../services/cardServices";
 import { useState, useEffect, useContext } from "react";
 import { ICardFromDB } from "../interfaces/dataFromDB";
 import { Link } from "react-router-dom";
-import { LanguageContext } from "../globals/language/language";
 import { ThemeContext } from "../globals/theme";
+import { ContainerContext } from "../globals/containerContext";
 
 interface IProps {
   type?: string;
@@ -14,11 +14,12 @@ interface IProps {
 }
 
 export const CollectionBanner = (props: IProps) => {
-  const { language } = useContext(LanguageContext);
+  const { container } = useContext(ContainerContext);
   const { theme } = useContext(ThemeContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { user, isAuthenticated } = useAuth0();
   const [cards, setCards] = useState<ICardFromDB[]>([]);
+  const language = container.language;
 
   useEffect(() => {
     if (isAuthenticated && user) {

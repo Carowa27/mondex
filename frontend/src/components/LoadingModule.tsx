@@ -1,8 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-import { LanguageContext } from "../globals/language/language";
+import { ContainerContext } from "../globals/containerContext";
 
 export const LoadingModule = () => {
-  const { language } = useContext(LanguageContext);
+  const { container } = useContext(ContainerContext);
+  const language = container.language;
   const [isThirdDot, setThirdDot] = useState<boolean>(false);
   useEffect(() => {
     setInterval(() => {

@@ -3,7 +3,7 @@ import { useMediaQuery } from "react-responsive";
 import { variables } from "../../globals/variables";
 import { Link } from "react-router-dom";
 import { ThemeContext } from "../../globals/theme";
-import { LanguageContext } from "../../globals/language/language";
+import { ContainerContext } from "../../globals/containerContext";
 
 interface IProps {
   pageParam: string;
@@ -13,7 +13,8 @@ interface IProps {
 export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { theme } = useContext(ThemeContext);
-  const { language } = useContext(LanguageContext);
+  const { container } = useContext(ContainerContext);
+  const language = container.language;
   return (
     <>
       {isDesktop && (

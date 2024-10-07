@@ -1,14 +1,15 @@
 import { useContext } from "react";
-import { LanguageContext } from "../globals/language/language";
 import { ThemeContext } from "../globals/theme";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { BreadCrumbs } from "./layout/BreadCrumbs";
+import { ContainerContext } from "../globals/containerContext";
 
 export const AboutProject = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  const { language } = useContext(LanguageContext);
+  const { container } = useContext(ContainerContext);
   const { theme } = useContext(ThemeContext);
+  const language = container.language;
   return (
     <>
       <div className="d-flex justify-content-between align-items-start">

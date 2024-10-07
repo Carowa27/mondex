@@ -1,7 +1,6 @@
 import { IPkmnCard } from "./dataFromApi";
 import { ILanguageVariables } from "./ILanguage";
 import { ICollection, IValuableSavedCard, Theme } from "./LSInterface";
-import { LanguageContext, lang } from "../globals/language/language";
 //ThemeContext
 export interface IThemeContext {
   theme: IColorMode;
@@ -43,11 +42,7 @@ export interface IColorMode {
   typeColors: ITypeColors;
 }
 
-//LanguageContext
-export interface ILanguageContext {
-  language: ILanguage;
-  changeLanguage: (wantedLanguage: string) => void;
-}
+//ContainerContext
 export interface ILanguage {
   lang_code: ILanguageVariables;
   name: string;

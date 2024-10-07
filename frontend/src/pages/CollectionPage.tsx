@@ -13,11 +13,11 @@ import { SmallPkmnCard } from "../components/SmallPkmnCard";
 import { Pagination } from "./layout/Pagination";
 import { BreadCrumbs } from "./layout/BreadCrumbs";
 import { DeleteCardPopUp } from "../components/DeleteCardPopUp";
-import { LanguageContext } from "../globals/language/language";
+import { ContainerContext } from "../globals/containerContext";
 
 export const CollectionPage = () => {
   const { theme } = useContext(ThemeContext);
-  const { language } = useContext(LanguageContext);
+  const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { isAuthenticated, user } = useAuth0();
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -35,7 +35,7 @@ export const CollectionPage = () => {
   const [end, setEnd] = useState<number>(isDesktop ? 50 : 20);
   const [showDeleteCollection, setShowDeleteCollection] =
     useState<boolean>(false);
-
+  const language = container.language;
   const collectionName = window.location.href.split("/")[4];
   const collectionNameToShow = collectionName.replace(/_/g, " ");
 

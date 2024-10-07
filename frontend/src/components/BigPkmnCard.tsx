@@ -6,8 +6,8 @@ import { ICardFromDB } from "../interfaces/dataFromDB";
 import { getCardFromApi } from "../services/pkmnTcgApiServices";
 import { variables } from "../globals/variables";
 import { useMediaQuery } from "react-responsive";
-import { lang, LanguageContext } from "../globals/language/language";
-import { ILSContainer, Lang, Theme } from "../interfaces/LSInterface";
+import { lang } from "../globals/language/language";
+import { ILSContainer, Theme } from "../interfaces/LSInterface";
 import { getMondexLs, setMondexLs } from "../functions/LSFunctions";
 import { ContainerContext } from "../globals/containerContext";
 
@@ -18,8 +18,7 @@ interface IProps {
 }
 export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
   const { theme } = useContext(ThemeContext);
-  const { language } = useContext(LanguageContext);
-  const { updateContainer } = useContext(ContainerContext);
+  const { container, updateContainer } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const [cardInfo, setCardInfo] = useState<IPkmnCard>();
   const [lsContainer, setLsContainer] = useState<ILSContainer>({
@@ -29,6 +28,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
     lastOpenedCard: undefined,
     language: lang.EN,
   });
+  const language = container.language;
   useEffect(() => {
     if (pkmnCard && window.location.href.includes(`/search`)) {
       let value = getMondexLs();

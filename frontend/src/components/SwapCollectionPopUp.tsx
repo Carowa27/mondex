@@ -6,8 +6,7 @@ import { ICardFromDB, ICollectionFromDB } from "../interfaces/dataFromDB";
 import { getAllOwnedCollections } from "../services/collectionServices";
 import { useAuth0 } from "@auth0/auth0-react";
 import { swapCardToOtherCollection } from "../services/cardServices";
-import { LanguageContext } from "../globals/language/language";
-
+import { ContainerContext } from "../globals/containerContext";
 interface IProps {
   changeShowSwapPopUp: () => void;
   cardToSwap: ICardFromDB | undefined;
@@ -22,8 +21,9 @@ export const SwapCollectionPopUp = ({
   updateData,
 }: IProps) => {
   const { theme } = useContext(ThemeContext);
-  const { language } = useContext(LanguageContext);
+  const { container } = useContext(ContainerContext);
   const { user } = useAuth0();
+  const language = container.language;
 
   const [listOfOwnedCollections, setListOfOwnedCollections] =
     useState<ICollectionFromDB[]>();

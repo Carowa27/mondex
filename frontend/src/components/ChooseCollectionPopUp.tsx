@@ -8,7 +8,7 @@ import { getAllOwnedCollections } from "../services/collectionServices";
 import { useAuth0 } from "@auth0/auth0-react";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { addCard } from "../services/cardServices";
-import { LanguageContext } from "../globals/language/language";
+import { ContainerContext } from "../globals/containerContext";
 
 interface IProps {
   changeShowAddCardPopup: () => void;
@@ -20,9 +20,10 @@ export const ChooseCollectionPopUp = ({
   cardToAdd,
 }: IProps) => {
   const { theme } = useContext(ThemeContext);
-  const { language } = useContext(LanguageContext);
+  const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { user, isAuthenticated } = useAuth0();
+  const language = container.language;
 
   const [listOfOwnedCollections, setListOfOwnedCollections] =
     useState<ICollectionFromDB[]>();

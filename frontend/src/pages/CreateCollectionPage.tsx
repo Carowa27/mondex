@@ -1,16 +1,16 @@
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
-import { LanguageContext } from "../globals/language/language";
 import { createCollection } from "../services/collectionServices";
 import { User, useAuth0 } from "@auth0/auth0-react";
 import { getSetFromApi } from "../services/pkmnTcgApiServices";
 import { Link } from "react-router-dom";
 import { ThemeContext } from "../globals/theme";
+import { ContainerContext } from "../globals/containerContext";
 
 export const CreateCollectionPage = () => {
   const { isAuthenticated, user } = useAuth0();
-  const { language } = useContext(LanguageContext);
+  const { container } = useContext(ContainerContext);
   const { theme } = useContext(ThemeContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const [collectionName, setCollectionName] = useState<string>("");
@@ -20,6 +20,7 @@ export const CreateCollectionPage = () => {
   const [notCorrectSetId, setNotCorrectSetId] = useState<boolean>(false);
   const [createdCollection, setCreatedCollection] = useState<boolean>(false);
   const [savedCollectionName, setSavedCollectionName] = useState<string>("");
+  const language = container.language;
 
   useEffect(() => {
     if (setInputValue.includes(".") || setInputValue.includes(",")) {

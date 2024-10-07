@@ -2,12 +2,11 @@ import { RouterProvider } from "react-router-dom";
 import { Router } from "./Router";
 import { ThemeContext, colorModes } from "./globals/theme";
 import { useState } from "react";
-import { LanguageContext, lang } from "./globals/language/language";
+import { lang } from "./globals/language/language";
 import {
   IColorMode,
   IContainerContext,
   ILanguage,
-  ILanguageContext,
   IThemeContext,
 } from "./interfaces/contextInterfaces";
 import {
@@ -35,22 +34,6 @@ function App() {
       active = colorModes.Dark;
     }
     setTheme({ ...theme, theme: active });
-  };
-  const [language, setLanguage] = useState<ILanguageContext>({
-    language: lang.SE,
-    //@ts-expect-error type definition
-    changeLanguage: (wantedLanguage: string) => {
-      return;
-    },
-  });
-  language.changeLanguage = (wantedLanguage: string) => {
-    let active = lang.SE;
-    if (wantedLanguage === "SE") {
-      active = lang.SE;
-    } else {
-      active = lang.EN;
-    }
-    setLanguage({ ...language, language: active });
   };
   const [container, setContainer] = useState<IContainerContext>({
     container: {
@@ -112,11 +95,9 @@ function App() {
   return (
     <>
       <ContainerContext.Provider value={container}>
-        <LanguageContext.Provider value={language}>
-          <ThemeContext.Provider value={theme}>
-            <RouterProvider router={Router}></RouterProvider>
-          </ThemeContext.Provider>
-        </LanguageContext.Provider>
+        <ThemeContext.Provider value={theme}>
+          <RouterProvider router={Router}></RouterProvider>
+        </ThemeContext.Provider>
       </ContainerContext.Provider>
     </>
   );

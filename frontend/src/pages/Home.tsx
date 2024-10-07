@@ -2,7 +2,7 @@ import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { Link } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import { lang, LanguageContext } from "../globals/language/language";
+import { lang } from "../globals/language/language";
 import { CollectionBanner } from "../components/CollectionBanner";
 import { ThemeContext } from "../globals/theme";
 import { LoadingModule } from "../components/LoadingModule";
@@ -17,7 +17,6 @@ export const Home = () => {
   const { container, updateContainer } = useContext(ContainerContext);
   // CHANGE: all LS should be wrapped up in ONE LS object
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  const { language } = useContext(LanguageContext);
   const { theme, changeColorMode } = useContext(ThemeContext);
   const [lsContainer, setLsContainer] = useState<ILSContainer>({
     mostValuableCard: undefined,
@@ -29,6 +28,7 @@ export const Home = () => {
   const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const language = container.language;
 
   const changeShowPkmnInfo = () => {
     setSeeBigCard(false);

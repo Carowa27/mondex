@@ -1,18 +1,19 @@
 import { CSSProperties, useContext, useEffect, useState } from "react";
-import { LanguageContext } from "../globals/language/language";
 import { ThemeContext } from "../globals/theme";
 import { getPokemonFromApi } from "../services/pokeApiService";
 import { IPokeResponse } from "../interfaces/dataFromApi";
 import { Link } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
+import { ContainerContext } from "../globals/containerContext";
 
 export const ErrorPage = () => {
-  const { language } = useContext(LanguageContext);
+  const { container } = useContext(ContainerContext);
   const { theme } = useContext(ThemeContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const [pokemonList, setPokemonList] = useState<IPokeResponse[]>();
   const [numberList, setNumberList] = useState<string[]>();
+  const language = container.language;
 
   const getNumberArray = () => {
     const numbers: string[] = [];

@@ -9,7 +9,7 @@ import {
   getAllOwnedCards,
 } from "../services/cardServices";
 import { deleteCollectionById } from "../services/collectionServices";
-import { LanguageContext } from "../globals/language/language";
+import { ContainerContext } from "../globals/containerContext";
 
 interface IProps {
   changeShowDeleteCardPopUp: () => void;
@@ -27,10 +27,11 @@ export const DeleteCardPopUp = ({
   updateData,
 }: IProps) => {
   const { theme } = useContext(ThemeContext);
-  const { language } = useContext(LanguageContext);
+  const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { user } = useAuth0();
   const [cardList, setCardList] = useState<ICardFromDB[]>();
+  const language = container.language;
 
   const handleSubmitToDelete = async () => {
     if (user && cardToDelete) {

@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../globals/theme";
 import { useAuth0 } from "@auth0/auth0-react";
-import { LanguageContext } from "../globals/language/language";
 import { LogoutBtn } from "../components/LogoutBtn";
 import { BreadCrumbs } from "./layout/BreadCrumbs";
 import { LoadingModule } from "../components/LoadingModule";
@@ -11,16 +10,19 @@ import { ICollectionFromDB } from "../interfaces/dataFromDB";
 import { getAllOwnedCollections } from "../services/collectionServices";
 import { Link } from "react-router-dom";
 import { CollectionBanner } from "../components/CollectionBanner";
+import { ContainerContext } from "../globals/containerContext";
 
 export const MyPages = () => {
   const { theme } = useContext(ThemeContext);
-  const { language } = useContext(LanguageContext);
+  const { container } = useContext(ContainerContext);
   const { isLoading, isAuthenticated, user, error } = useAuth0();
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
 
   const [showCollections, setShowCollections] = useState<boolean>(true);
   const [showMyAccount, setShowMyAccount] = useState<boolean>(false);
   const [collections, setCollections] = useState<ICollectionFromDB[]>([]);
+
+  const language = container.language;
 
   useEffect(() => {
     if (isAuthenticated && user) {

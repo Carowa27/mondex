@@ -9,17 +9,18 @@ import { ICollectionFromDB } from "../interfaces/dataFromDB";
 import { Link } from "react-router-dom";
 import { Pagination } from "./layout/Pagination";
 import { BreadCrumbs } from "./layout/BreadCrumbs";
-import { LanguageContext } from "../globals/language/language";
+import { ContainerContext } from "../globals/containerContext";
 
 export const AllCollectionsListPage = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { theme } = useContext(ThemeContext);
-  const { language } = useContext(LanguageContext);
+  const { container } = useContext(ContainerContext);
   const { isLoading, isAuthenticated, user, error } = useAuth0();
   const [collections, setCollections] = useState<ICollectionFromDB[]>([]);
   const [page, setPage] = useState<number>(1);
   const [start, setStart] = useState<number>(0);
   const [end, setEnd] = useState<number>(isDesktop ? 21 : 13);
+  const language = container.language;
 
   const updateSearch = (newPage: number) => {
     setPage(newPage);
