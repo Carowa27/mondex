@@ -13,7 +13,7 @@ import { IPkmnCard } from "./interfaces/dataFromApi";
 import { ContainerContext } from "./globals/containerContext";
 import { ILanguage } from "./interfaces/ILanguage";
 import { IColorMode } from "./interfaces/colorInterfaces";
-import { getMondexLs } from "./functions/LSFunctions";
+import { getMondexLs, updateMondexLs } from "./functions/LSFunctions";
 
 const value: ILSContainer = getMondexLs();
 function App() {
@@ -87,8 +87,9 @@ function App() {
         ...prevState,
         ...(updatedData as ILSContainer),
       }));
-    console.log(container);
   };
+  updateMondexLs(container.container);
+  console.log(container.container.user?.collections);
   return (
     <>
       <ContainerContext.Provider value={container}>

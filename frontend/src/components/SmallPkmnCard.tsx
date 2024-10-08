@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 // import { useAuth0 } from "@auth0/auth0-react";
 import { BigPkmnCard } from "./BigPkmnCard";
@@ -7,7 +7,9 @@ import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { DeleteCardPopUp } from "./DeleteCardPopUp";
 import { ContainerContext } from "../globals/containerContext";
-import { ICard } from "../interfaces/LSInterface";
+import { ICard, ICollection } from "../interfaces/LSInterface";
+import { addCardToCollection } from "../functions/cardFunctions";
+import { updateMondexLs } from "../functions/LSFunctions";
 
 interface IProps {
   card?: ICard;
@@ -15,6 +17,10 @@ interface IProps {
   collectionName: string;
   cardList: ICard[];
   getData: () => void;
+  addCard: (
+    card: ICard | undefined,
+    cardFromApi: IPkmnCard | undefined
+  ) => void;
 }
 
 export const SmallPkmnCard = ({
@@ -23,8 +29,9 @@ export const SmallPkmnCard = ({
   collectionName,
   getData,
   cardList,
+  addCard,
 }: IProps) => {
-  const { container } = useContext(ContainerContext);
+  const { container, updateContainer } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   // const { isAuthenticated, user } = useAuth0();
   const [showCardAlternatives, setShowCardAlternatives] = useState<string>("");
@@ -92,24 +99,6 @@ export const SmallPkmnCard = ({
       getData();
     }, 500);
   };
-  const addAmount = (cardFromApi?: IPkmnCard, card?: ICard) => {
-    if (cardFromApi) {
-      const card = cardList.find((card) => card.card.id === cardFromApi.id);
-      if (container.user) {
-        if (card !== undefined) {
-          // addAmountOnCard({ user, card });
-        } else {
-          // createCard({ user, cardFromApi, collectionName });
-        }
-      }
-    }
-    if (card && container.user) {
-      // addAmountOnCard({ user, card });
-    }
-    setTimeout(() => {
-      getData();
-    }, 100);
-  };
   const changeShowPkmnInfo = () => {
     setSeeBigCard(false);
   };
@@ -130,7 +119,6 @@ export const SmallPkmnCard = ({
       setInfoPkmnCard(pkmnCard);
     }
   };
-
   return (
     <>
       {showDeleteCard ? (
@@ -259,7 +247,15 @@ export const SmallPkmnCard = ({
                 className="rounded-circle d-flex align-items-center justify-content-center"
                 onMouseEnter={() => setHoverPlusBtn(true)}
                 onMouseLeave={() => setHoverPlusBtn(false)}
-                onClick={() => addAmount(cardFromApi, card)}
+                // onClick={() =>
+                //   addCardToCollection({
+                //     cardFromApi,
+                //     card,
+                //     cardList,
+                //     collectionName,
+                //   })
+                // }
+                onClick={() => addCard(card, cardFromApi)}
               >
                 <i title="add amount" className="bi bi-plus m-0 p-0"></i>
               </span>
@@ -405,9 +401,7 @@ export const SmallPkmnCard = ({
           className="rounded"
           style={
             cardFromApi
-              ? cardList.find(
-                  (cardFromDb) => cardFromDb.card.id === cardFromApi.id
-                )
+              ? cardList.find((card) => card.card.id === cardFromApi.id)
                 ? { width: "100%", opacity: 1 }
                 : {
                     width: "100%",

@@ -48,7 +48,6 @@ export const CreateCollectionPage = () => {
     const collection_name = collectionName.replace(/ /g, "_");
     let api_set_id: string | null = setId;
 
-    console.log("test", collection_name, api_set_id);
     if (isSetCollection) {
       await getSetFromApi(api_set_id).then((res) => {
         if (res === undefined) {
@@ -61,7 +60,18 @@ export const CreateCollectionPage = () => {
             cards_in_collection: [],
             created_date: getToday(),
           };
-          addCollection(newCollection);
+          const updatedCollections = [
+            ...container.user!.collections,
+            newCollection,
+          ];
+
+          updateContainer(
+            {
+              username: container.user!.username,
+              collections: updatedCollections as ICollection[],
+            },
+            "user"
+          );
           setCreatedCollection(true);
           setSavedCollectionName(collectionName);
         }
@@ -71,14 +81,13 @@ export const CreateCollectionPage = () => {
         id: collection_name + getToday(),
         collection_name: collection_name,
         cards_in_collection: [],
-        created_on: getToday(),
+        created_date: getToday(),
       };
       const updatedCollections = [
         ...container.user!.collections,
         newCollection,
       ];
 
-      console.log(updatedCollections);
       updateContainer(
         {
           username: container.user!.username,
