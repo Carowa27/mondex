@@ -77,6 +77,7 @@ export const CollectionPage = () => {
     if (collection?.set_id !== undefined) {
       setPkmnSetInfo(collection && collection.cards_in_collection[0].card?.set);
     }
+    console.log("cardlist collpage", cardList);
   }, []);
 
   useEffect(() => {
@@ -190,7 +191,7 @@ export const CollectionPage = () => {
             )}
             {(cardList?.length !== 0 || collection?.set_id !== null) && (
               <>
-                {collection && collection?.set_id === null ? (
+                {collection && collection?.set_id === undefined ? (
                   <ul
                     className={
                       isDesktop
