@@ -1,15 +1,12 @@
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
-import { createCollection } from "../services/collectionServices";
-import { User, useAuth0 } from "@auth0/auth0-react";
 import { getSetFromApi } from "../services/pkmnTcgApiServices";
 import { Link } from "react-router-dom";
 import { ContainerContext } from "../globals/containerContext";
 import { getToday } from "../functions/dateFunctions";
 import { ICollection } from "../interfaces/LSInterface";
 import { updateMondexLs } from "../functions/LSFunctions";
-import { addCollection } from "../functions/collectionFunctions";
 
 export const CreateCollectionPage = () => {
   const { container, updateContainer } = useContext(ContainerContext);
@@ -113,20 +110,6 @@ export const CreateCollectionPage = () => {
     //     getData(user, collection_name, api_set_id);
     //   }
     // }
-  };
-  const getData = async (
-    user: User,
-    collection_name: string,
-    api_set_id: string | null
-  ) => {
-    await createCollection({ user, collection_name, api_set_id }).then(
-      (res) => {
-        if (res?.status === 200) {
-          setCreatedCollection(true);
-          setSavedCollectionName(collectionName);
-        }
-      }
-    );
   };
   const handleCollectionNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setCollectionName(event.target.value);
