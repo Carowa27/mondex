@@ -18,7 +18,7 @@ export const Router = createBrowserRouter([
       { path: "/", element: <Home></Home>, index: true },
       { path: "/search", element: <Search></Search> },
       { path: "/about", element: <AboutProject></AboutProject> },
-      { path: "/userpage", element: <MyPages></MyPages> },
+      // { path: "/userpage", element: <MyPages></MyPages> },
       {
         path: "/collection/:collectionName",
         element: <CollectionPage></CollectionPage>,
