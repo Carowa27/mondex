@@ -2,7 +2,7 @@ import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { LoadingModule } from "../components/LoadingModule";
 import { useContext, useEffect, useState } from "react";
-import { IPkmnCard } from "../interfaces/dataFromApi";
+import { IPkmnCard, IPkmnSet } from "../interfaces/dataFromApi";
 import { getPkmnFromApi } from "../services/pkmnTcgApiServices";
 import { SmallPkmnCard } from "../components/SmallPkmnCard";
 import { Pagination } from "./layout/Pagination";
@@ -30,6 +30,7 @@ export const CollectionPage = () => {
   const [end, setEnd] = useState<number>(isDesktop ? 50 : 20);
   const [showDeleteCollection, setShowDeleteCollection] =
     useState<boolean>(false);
+  const [pkmnSetInfo, setPkmnSetInfo] = useState<IPkmnSet | undefined>();
   const language = container.language;
   const collectionName = window.location.href.split("/")[4];
   const collectionNameToShow = collectionName.replace(/_/g, " ");
@@ -45,9 +46,6 @@ export const CollectionPage = () => {
       setCollection(collection);
     }
   };
-  useEffect(() => {
-    getData();
-  }, []);
   const addCard = (
     card: ICard | undefined,
     cardFromApi: IPkmnCard | undefined
@@ -303,6 +301,14 @@ export const CollectionPage = () => {
       }
     }
   };
+
+  useEffect(() => {
+    getData();
+    if (collection?.set_id !== undefined || collection?.set_id !== null) {
+      setPkmnSetInfo(cardList[0].card.set);
+    }
+  }, []);
+
   useEffect(() => {
     getSetFromApi();
   }, [page]);
@@ -317,11 +323,6 @@ export const CollectionPage = () => {
       }
     }
   }, [cardList, cardsFromApiList, collection]);
-
-  // useEffect(() => {
-  //   updateMondexLs(container);
-  //   // getData();
-  // }, [container]);
 
   const getSetFromApi = async () => {
     if (collection && collection?.set_id !== null) {
@@ -377,7 +378,29 @@ export const CollectionPage = () => {
         </div>
       ) : null}
       <div className="d-flex justify-content-between">
-        <h2 className="m-0">{collectionNameToShow}</h2>
+        <h2 className="m-0 align-self-center">
+          {collectionNameToShow}
+          {pkmnSetInfo !== null && (
+            <span style={{ fontSize: "16px", margin: "0 1rem" }}>
+              Set id:{pkmnSetInfo?.id}
+            </span>
+          )}
+        </h2>
+        {pkmnSetInfo !== null && (
+          <div style={{ alignSelf: "center" }}>
+            {isDesktop ? (
+              <img
+                src={pkmnSetInfo?.images.logo}
+                alt={`${pkmnSetInfo?.name} logo`}
+                style={{
+                  maxHeight: "5rem",
+                }}
+              />
+            ) : (
+              <p>{pkmnSetInfo?.name}</p>
+            )}
+          </div>
+        )}
         <div className="d-flex flex-column align-items-end">
           <BreadCrumbs pageParam="collection" collectionName={collectionName} />
           {collection?.collection_name !== `Master_Collection` ? (
