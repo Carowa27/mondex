@@ -9,6 +9,7 @@ import { ContainerContext } from "../globals/containerContext";
 import { getToday } from "../functions/dateFunctions";
 import { ICollection } from "../interfaces/LSInterface";
 import { updateMondexLs } from "../functions/LSFunctions";
+import { addCollection } from "../functions/collectionFunctions";
 
 export const CreateCollectionPage = () => {
   const { container, updateContainer } = useContext(ContainerContext);
@@ -58,24 +59,11 @@ export const CreateCollectionPage = () => {
             collection_name: collection_name,
             set_id: api_set_id,
             cards_in_collection: [],
-            created_on: getToday(),
+            created_date: getToday(),
           };
-          const updatedCollections = [
-            ...container.user!.collections,
-            newCollection,
-          ];
-
-          console.log(updatedCollections);
-          updateContainer(
-            {
-              username: container.user!.username,
-              collections: updatedCollections as ICollection[],
-            },
-            "user"
-          );
+          addCollection(newCollection);
           setCreatedCollection(true);
           setSavedCollectionName(collectionName);
-          // getData(user, collection_name, api_set_id);
         }
       });
     } else {
