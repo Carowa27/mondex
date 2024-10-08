@@ -4,18 +4,16 @@ import { variables } from "../globals/variables";
 import { getPkmnFromApi } from "../services/pkmnTcgApiServices";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { LoadingModule } from "../components/LoadingModule";
-import { useAuth0 } from "@auth0/auth0-react";
-import { addCard } from "../services/cardServices";
 import { BigPkmnCard } from "../components/BigPkmnCard";
 import { ChooseCollectionPopUp } from "../components/ChooseCollectionPopUp";
 import { Pagination } from "./layout/Pagination";
-import { getAllOwnedCollections } from "../services/collectionServices";
 import { ContainerContext } from "../globals/containerContext";
+import { ICard, ICollection } from "../interfaces/LSInterface";
 
 export const Search = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  const { container } = useContext(ContainerContext);
-  const { isAuthenticated, user } = useAuth0();
+  const { container, updateContainer } = useContext(ContainerContext);
+  // const { isAuthenticated, user } = useAuth0();
   const [searchValue, setSearchValue] = useState<string>("");
   const [searchParam, setSearchParam] = useState<string>("pkmn");
   const [pkmnList, setPkmnList] = useState<IPkmnCard[]>([]);
@@ -43,20 +41,85 @@ export const Search = () => {
     setPkmnList([]);
   };
   const handleAddCardToCollection = async (cardFromApi: IPkmnCard) => {
-    if (user) {
-      const collections = await getAllOwnedCollections({ user });
+    if (container.user) {
+      const collections = container.user.collections;
       if (collections.length > 1) {
         setShowChooseAddCardPopup(true);
       } else {
         if (cardFromApi) {
-          addCard({
-            user,
-            cardToAdd: cardFromApi,
-            collection_name: "Master_Collection",
-          });
           setSeeCreatedCard(true),
             setTimeout(() => setSeeCreatedCard(false), 1000);
         }
+      }
+    }
+  };
+  const addCard = (cardToAdd: IPkmnCard, collectionName: string) => {
+    const collectionIndex = container.user!.collections.findIndex(
+      (col) => col.collection_name === collectionName
+    );
+    const collection = container.user!.collections.find(
+      (col) => col.collection_name === collectionName
+    );
+    if (container.user) {
+      const cardFound = collection?.cards_in_collection.find(
+        (card) => card.card.id === cardToAdd.id
+      );
+      if (cardFound !== undefined) {
+        const cardIndex = container.user.collections[
+          collectionIndex
+        ].cards_in_collection.findIndex(
+          (c: ICard) => c.card.name === cardToAdd.name
+        );
+        const updatedCard = {
+          ...container.user.collections[collectionIndex].cards_in_collection[
+            cardIndex
+          ],
+          amount: cardFound!.amount + 1,
+        };
+        const updatedCollection = {
+          ...container.user.collections[collectionIndex],
+          cards_in_collection: [
+            ...container.user.collections[
+              collectionIndex
+            ].cards_in_collection.slice(0, cardIndex),
+            updatedCard,
+            ...container.user.collections[
+              collectionIndex
+            ].cards_in_collection.slice(cardIndex + 1),
+          ],
+        };
+        const updatedCollections = [
+          ...container.user.collections.slice(0, collectionIndex),
+          updatedCollection,
+          ...container.user.collections.slice(collectionIndex + 1),
+        ];
+        updateContainer(
+          {
+            username: container.user!.username,
+            collections: updatedCollections as ICollection[],
+          },
+          "user"
+        );
+      } else {
+        const updatedCollection = {
+          ...container.user.collections[collectionIndex],
+          cards_in_collection: [
+            ...container.user.collections[collectionIndex].cards_in_collection,
+            { card: cardToAdd, amount: 1 },
+          ],
+        };
+        const updatedCollections = [
+          ...container.user.collections.slice(0, collectionIndex),
+          updatedCollection,
+          ...container.user.collections.slice(collectionIndex + 1),
+        ];
+        updateContainer(
+          {
+            username: container.user!.username,
+            collections: updatedCollections as ICollection[],
+          },
+          "user"
+        );
       }
     }
   };
@@ -177,6 +240,7 @@ export const Search = () => {
           <ChooseCollectionPopUp
             changeShowAddCardPopup={changeShowAddCardPopup}
             cardToAdd={infoPkmnCard!}
+            addCard={addCard}
           ></ChooseCollectionPopUp>
         </div>
       ) : null}

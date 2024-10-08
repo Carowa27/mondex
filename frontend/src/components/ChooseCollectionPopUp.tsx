@@ -6,34 +6,36 @@ import { ICollectionFromDB } from "../interfaces/dataFromDB";
 import { getAllOwnedCollections } from "../services/collectionServices";
 import { useAuth0 } from "@auth0/auth0-react";
 import { IPkmnCard } from "../interfaces/dataFromApi";
-import { addCard } from "../services/cardServices";
 import { ContainerContext } from "../globals/containerContext";
+import { ICard, ICollection } from "../interfaces/LSInterface";
 
 interface IProps {
   changeShowAddCardPopup: () => void;
   cardToAdd: IPkmnCard;
+  addCard: (cardToAdd: IPkmnCard, collectionName: string) => void;
 }
 
 export const ChooseCollectionPopUp = ({
   changeShowAddCardPopup,
   cardToAdd,
+  addCard,
 }: IProps) => {
   const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  const { user, isAuthenticated } = useAuth0();
+  // const { user, isAuthenticated } = useAuth0();
   const language = container.language;
 
   const [listOfOwnedCollections, setListOfOwnedCollections] =
-    useState<ICollectionFromDB[]>();
+    useState<ICollection[]>();
   const [selectedCollectionName, setSelectedCollectionName] =
     useState<string>();
   const theme = container.theme;
 
   const getCollections = async () => {
-    if (isAuthenticated && user) {
-      await getAllOwnedCollections({ user }).then((res) =>
-        setListOfOwnedCollections(res)
-      );
+    if (container.user) {
+      if (container.user.collections) {
+        setListOfOwnedCollections(container.user.collections);
+      }
     }
   };
 
@@ -47,12 +49,13 @@ export const ChooseCollectionPopUp = ({
   };
 
   const handleSubmitToAddCard = async () => {
-    if (cardToAdd && user && selectedCollectionName) {
-      await addCard({
-        user,
-        cardToAdd,
-        collection_name: selectedCollectionName,
-      });
+    if (cardToAdd && container.user && selectedCollectionName) {
+      // await addCard({
+      //   user,
+      //   cardToAdd,
+      //   collection_name: selectedCollectionName,
+      // });
+      addCard(cardToAdd, selectedCollectionName);
     }
 
     setTimeout(() => {
@@ -127,14 +130,13 @@ export const ChooseCollectionPopUp = ({
                       onChange={handleChangeOnRadioBtn}
                       checked={selectedCollectionName === coll.collection_name}
                       disabled={
-                        coll.api_set_id !== null &&
-                        cardToAdd.set.id !== coll.api_set_id
+                        coll.set_id !== undefined &&
+                        cardToAdd.set.id !== coll.set_id
                       }
                     />
                     <span
                       style={
-                        coll.api_set_id !== null &&
-                        cardToAdd.set.id !== coll.api_set_id
+                        coll.set_id !== null && cardToAdd.set.id !== coll.set_id
                           ? {
                               color: theme?.primaryColors.breadcrumbText.hex,
                             }
@@ -171,6 +173,7 @@ export const ChooseCollectionPopUp = ({
                   border: `1px solid ${theme?.primaryColors.text.hex}`,
                   color: theme?.primaryColors.text.hex,
                 }}
+                disabled={selectedCollectionName === undefined}
               >
                 {language?.lang_code.word_add}
               </button>
