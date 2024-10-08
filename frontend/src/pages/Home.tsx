@@ -300,12 +300,14 @@ export const Home = () => {
                 {container?.user?.collections &&
                 container.user.collections.length !== 0 ? (
                   <>
-                    {container?.user.collections.slice(0, 2).map((coll) => (
-                      <CollectionBanner
-                        key={coll.id}
-                        collectionName={coll.collection_name}
-                      />
-                    ))}
+                    {container?.user.collections
+                      .slice(0, isDesktop ? 3 : 2)
+                      .map((coll) => (
+                        <CollectionBanner
+                          key={coll.id}
+                          collectionName={coll.collection_name}
+                        />
+                      ))}
                     <Link
                       className={
                         isDesktop
@@ -387,7 +389,14 @@ export const Home = () => {
                   </>
                 )}
                 {/* TODO add read more link */}
-                <i style={{ marginTop: "auto" }}>
+                <i
+                  style={
+                    container.user === undefined ||
+                    container?.user.username === undefined
+                      ? { marginTop: "auto" }
+                      : {}
+                  }
+                >
                   Everything saved on this page is saved in your browser, if you
                   want to delete all data, read more here
                 </i>
