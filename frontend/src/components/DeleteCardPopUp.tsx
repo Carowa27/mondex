@@ -114,7 +114,7 @@ export const DeleteCardPopUp = ({
             <h6>{language?.lang_code.collection_to_delete}: </h6>
             <span>
               {collection?.collection_name.replace(/_/g, " ")}
-              {collection?.set_id ? `, ${collection.set_id}` : null}
+              {collection?.set?.id ? `, ${collection.set?.id}` : null}
             </span>
           </div>
         )}

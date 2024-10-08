@@ -7,6 +7,7 @@ import { ContainerContext } from "../globals/containerContext";
 import { getToday } from "../functions/dateFunctions";
 import { ICollection } from "../interfaces/LSInterface";
 import { updateMondexLs } from "../functions/LSFunctions";
+import { IPkmnSet } from "../interfaces/dataFromApi";
 
 export const CreateCollectionPage = () => {
   const { container, updateContainer } = useContext(ContainerContext);
@@ -14,6 +15,7 @@ export const CreateCollectionPage = () => {
   const [collectionName, setCollectionName] = useState<string>("");
   const [isSetCollection, setIsSetCollection] = useState<boolean>(false);
   const [setId, setSetId] = useState<string>("");
+  const [pkmnSetInfo, setPkmnSetInfo] = useState<IPkmnSet | undefined>();
   const [setInputValue, setSetInputValue] = useState<string>("");
   const [notCorrectSetId, setNotCorrectSetId] = useState<boolean>(false);
   const [createdCollection, setCreatedCollection] = useState<boolean>(false);
@@ -53,7 +55,7 @@ export const CreateCollectionPage = () => {
           const newCollection = {
             id: collection_name + getToday(),
             collection_name: collection_name,
-            set_id: api_set_id,
+            set: res,
             cards_in_collection: [],
             created_date: getToday(),
           };
@@ -96,19 +98,14 @@ export const CreateCollectionPage = () => {
       setSavedCollectionName(collectionName);
       // getData(user, collection_name, api_set_id);
     }
-    // if (user && isAuthenticated) {
-    //   if (isSetCollection === true) {
-    //     await getSetFromApi(api_set_id).then((res) => {
-    //       if (res === undefined) {
-    //         setNotCorrectSetId(true);
-    //       } else {
-    //         getData(user, collection_name, api_set_id);
-    //       }
-    //     });
-    //   } else {
-    //     api_set_id = null;
-    //     getData(user, collection_name, api_set_id);
-    //   }
+    // if (isSetCollection === true) {
+    //   await getSetFromApi(api_set_id).then((res) => {
+    //     if (res === undefined) {
+    //       setNotCorrectSetId(true);
+    //     } else {
+    //       setPkmnSetInfo(res);
+    //     }
+    //   });
     // }
   };
   const handleCollectionNameChange = (event: ChangeEvent<HTMLInputElement>) => {

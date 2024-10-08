@@ -1,5 +1,5 @@
 import { IColorMode } from "./colorInterfaces";
-import { IPkmnCard } from "./dataFromApi";
+import { IPkmnCard, IPkmnSet } from "./dataFromApi";
 import { ILanguage } from "./ILanguage";
 
 export interface ILSContainer {
@@ -16,7 +16,7 @@ export interface IUser {
 export interface ICollection {
   id: string;
   collection_name: string;
-  set_id?: string;
+  set?: IPkmnSet;
   cards_in_collection: ICard[] | [];
   created_date: string;
 }

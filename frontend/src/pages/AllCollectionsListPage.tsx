@@ -104,8 +104,8 @@ export const AllCollectionsListPage = () => {
                         >
                           <p className="fw-bold m-0">
                             {coll.collection_name.replace(/_/g, " ")}
-                            {coll.set_id ? (
-                              <i className="fw-normal">, {coll.set_id}</i>
+                            {coll.set?.id ? (
+                              <i className="fw-normal">, {coll.set.id}</i>
                             ) : null}
                           </p>
                         </Link>

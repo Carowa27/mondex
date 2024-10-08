@@ -51,7 +51,7 @@ export const CollectionPage = () => {
     setPage(newPage);
     setCardsFromApiList([]);
     setIsLoading(true);
-    if (collection?.set_id !== undefined) {
+    if (collection?.set !== undefined) {
       if (isDesktop) {
         if (newPage === 1) {
           setStart(0);
@@ -74,17 +74,11 @@ export const CollectionPage = () => {
 
   useEffect(() => {
     getData();
-    if (collection?.set_id !== undefined) {
-      const getSet = async () => {
-        await getSetFromApi(collection?.set_id!).then((res) => {
-          if (res) {
-            setPkmnSetInfo(res);
-          }
-        });
-      };
-      getSet();
-    }
+    getPkmnToSet();
   }, []);
+  useEffect(() => {
+    getPkmnToSet();
+  }, [collection]);
 
   useEffect(() => {
     getPkmnToSet();
@@ -103,8 +97,8 @@ export const CollectionPage = () => {
   }, [cardList, cardsFromApiList, collection]);
 
   const getPkmnToSet = async () => {
-    if (collection && collection?.set_id !== null) {
-      await getPkmnFromApi(`?q=!set.id:%22${collection.set_id}%22`, page).then(
+    if (collection && collection.set !== undefined) {
+      await getPkmnFromApi(`?q=!set.id:%22${collection.set.id}%22`, page).then(
         (res) => {
           if (res) {
             setCardsFromApiList(res.data as IPkmnCard[]);
@@ -118,9 +112,6 @@ export const CollectionPage = () => {
       );
     }
   };
-  useEffect(() => {
-    getPkmnToSet();
-  }, [collection]);
 
   const changeShowDeleteCardPopUp = () => {
     setShowDeleteCollection(false);
@@ -168,8 +159,8 @@ export const CollectionPage = () => {
           <div style={{ alignSelf: "center" }}>
             {isDesktop ? (
               <img
-                src={pkmnSetInfo?.images.logo}
-                alt={`${pkmnSetInfo?.name} logo`}
+                src={collection?.set?.images.logo}
+                alt={`${collection?.set?.name} logo`}
                 style={{
                   maxHeight: "5rem",
                 }}
@@ -194,12 +185,12 @@ export const CollectionPage = () => {
           <>
             {collection?.cards_in_collection.length === 0 ||
               (collection?.cards_in_collection.length === 0 &&
-                collection?.set_id !== undefined && (
+                collection?.set?.id !== undefined && (
                   <>{language?.lang_code.collection_with_no_cards_more_words}</>
                 ))}
-            {(cardList?.length !== 0 || collection?.set_id !== null) && (
+            {(cardList?.length !== 0 || collection?.set?.id !== null) && (
               <>
-                {collection && collection?.set_id === undefined ? (
+                {collection && collection?.set?.id === undefined ? (
                   <ul
                     className={
                       isDesktop

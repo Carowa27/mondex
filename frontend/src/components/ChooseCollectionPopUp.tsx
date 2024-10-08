@@ -130,13 +130,14 @@ export const ChooseCollectionPopUp = ({
                       onChange={handleChangeOnRadioBtn}
                       checked={selectedCollectionName === coll.collection_name}
                       disabled={
-                        coll.set_id !== undefined &&
-                        cardToAdd.set.id !== coll.set_id
+                        coll.set?.id !== undefined &&
+                        cardToAdd.set.id !== coll.set.id
                       }
                     />
                     <span
                       style={
-                        coll.set_id !== null && cardToAdd.set.id !== coll.set_id
+                        coll.set?.id !== null &&
+                        cardToAdd.set.id !== coll.set?.id
                           ? {
                               color: theme?.primaryColors.breadcrumbText.hex,
                             }

@@ -30,16 +30,6 @@ export const CollectionBanner = (props: IProps) => {
     if (coll) {
       setCards(coll.cards_in_collection);
     }
-    if (coll?.set_id !== undefined) {
-      const getSet = async () => {
-        await getSetFromApi(coll?.set_id!).then((res) => {
-          if (res) {
-            setPkmnSet(res);
-          }
-        });
-      };
-      getSet();
-    }
   }, []);
 
   const collectionNameToShow = props.collectionName.replace(/_/g, " ");
@@ -68,11 +58,11 @@ export const CollectionBanner = (props: IProps) => {
               >
                 {collectionNameToShow}
               </Link>
-              {coll?.set_id !== undefined && (
+              {coll?.set?.id !== undefined && (
                 <div>
                   <img
-                    src={pkmnSet?.images.symbol}
-                    alt={`${pkmnSet?.name} logo`}
+                    src={coll.set.images.symbol}
+                    alt={`${coll.set.name} logo`}
                     style={{
                       maxHeight: "1.5rem",
                       marginRight: "1rem",
