@@ -348,7 +348,7 @@ export const Search = () => {
                                     padding: "0.3rem",
                                   }}
                                 >
-                                  {isAuthenticated ? (
+                                  {container.user ? (
                                     <span
                                       style={
                                         hoverAddBtn
