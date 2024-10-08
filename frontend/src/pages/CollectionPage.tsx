@@ -304,8 +304,8 @@ export const CollectionPage = () => {
 
   useEffect(() => {
     getData();
-    if (collection?.set_id !== undefined || collection?.set_id !== null) {
-      setPkmnSetInfo(cardList[0].card.set);
+    if (collection?.set_id !== undefined) {
+      setPkmnSetInfo(collection && collection.cards_in_collection[0].card?.set);
     }
   }, []);
 
@@ -315,12 +315,13 @@ export const CollectionPage = () => {
 
   useEffect(() => {
     if (collection) {
-      if (cardList.length !== 0 && collection.set_id === null) {
-        setIsLoading(false);
-      }
-      if (cardsFromApiList.length !== 0 && collection.set_id !== null) {
-        setIsLoading(false);
-      }
+      setIsLoading(false);
+      // if (cardList.length !== 0 && collection.set_id === null) {
+      //   setIsLoading(false);
+      // }
+      // if (cardsFromApiList.length !== 0 && collection.set_id !== null) {
+      //   setIsLoading(false);
+      // }
     }
   }, [cardList, cardsFromApiList, collection]);
 
@@ -380,13 +381,13 @@ export const CollectionPage = () => {
       <div className="d-flex justify-content-between">
         <h2 className="m-0 align-self-center">
           {collectionNameToShow}
-          {pkmnSetInfo !== null && (
+          {collection?.set_id !== undefined && (
             <span style={{ fontSize: "16px", margin: "0 1rem" }}>
               Set id:{pkmnSetInfo?.id}
             </span>
           )}
         </h2>
-        {pkmnSetInfo !== null && (
+        {collection?.set_id !== undefined && (
           <div style={{ alignSelf: "center" }}>
             {isDesktop ? (
               <img
@@ -414,7 +415,10 @@ export const CollectionPage = () => {
       <div style={{ minHeight: "80vh" }} className="mt-2  d-flex flex-column">
         {!isLoading ? (
           <>
-            {cardList?.length !== 0 || collection?.set_id !== null ? (
+            {collection?.cards_in_collection.length === 0 && (
+              <>{language?.lang_code.collection_with_no_cards_more_words}</>
+            )}
+            {(cardList?.length !== 0 || collection?.set_id !== null) && (
               <>
                 {collection && collection?.set_id === null ? (
                   <ul
@@ -506,8 +510,6 @@ export const CollectionPage = () => {
                   </div>
                 )}
               </>
-            ) : (
-              <>{language?.lang_code.collection_with_no_cards_more_words}</>
             )}
           </>
         ) : (

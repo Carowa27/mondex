@@ -9,17 +9,20 @@ import { Link } from "react-router-dom";
 import { Pagination } from "./layout/Pagination";
 import { BreadCrumbs } from "./layout/BreadCrumbs";
 import { ContainerContext } from "../globals/containerContext";
+import { ICollection } from "../interfaces/LSInterface";
 
 export const AllCollectionsListPage = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { container } = useContext(ContainerContext);
-  const { isLoading, isAuthenticated, user, error } = useAuth0();
-  const [collections, setCollections] = useState<ICollectionFromDB[]>([]);
+  // const { isLoading, isAuthenticated, user, error } = useAuth0();
+  // const [collections, setCollections] = useState<ICollectionFromDB[]>([]);
   const [page, setPage] = useState<number>(1);
   const [start, setStart] = useState<number>(0);
   const [end, setEnd] = useState<number>(isDesktop ? 21 : 13);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const language = container.language;
   const theme = container.theme;
+  const collections = container.user?.collections;
 
   const updateSearch = (newPage: number) => {
     setPage(newPage);
@@ -42,23 +45,23 @@ export const AllCollectionsListPage = () => {
     }
   };
 
-  useEffect(() => {
-    if (isAuthenticated && user) {
-      const getData = async () => {
-        await getAllOwnedCollections({ user }).then((res) => {
-          setCollections(res as ICollectionFromDB[]);
-        });
-      };
-      getData();
-    }
-  }, [isAuthenticated, user]);
+  // useEffect(() => {
+  //   if (isAuthenticated && user) {
+  //     const getData = async () => {
+  //       await getAllOwnedCollections({ user }).then((res) => {
+  //         setCollections(res as ICollectionFromDB[]);
+  //       });
+  //     };
+  //     getData();
+  //   }
+  // }, [isAuthenticated, user]);
   return (
     <>
-      {!error && isLoading ? (
+      {isLoading ? (
         <LoadingModule />
       ) : (
         <>
-          {isAuthenticated ? (
+          {container.user ? (
             <>
               <div className="d-flex justify-content-between">
                 <h2>{language?.lang_code.collection_all_collections}</h2>
@@ -88,41 +91,39 @@ export const AllCollectionsListPage = () => {
                         : "w-100 rounded d-flex mx-3 mt-2 py-4 flex-column"
                     }
                   >
-                    {collections
-                      .slice(start, end)
-                      .map((coll: ICollectionFromDB) => (
-                        <div
-                          className={
-                            isDesktop ? "mx-4 w-25" : "mx-4 w-100 mb-4"
-                          }
-                          key={coll.id}
+                    {collections.slice(start, end).map((coll: ICollection) => (
+                      <div
+                        className={isDesktop ? "mx-4 w-25" : "mx-4 w-100 mb-4"}
+                        key={coll.id}
+                      >
+                        <Link
+                          to={`/collection/${coll.collection_name}`}
+                          style={{
+                            color: theme?.primaryColors.link.hex,
+                          }}
                         >
-                          <Link
-                            to={`/collection/${coll.collection_name}`}
-                            style={{
-                              color: theme?.primaryColors.link.hex,
-                            }}
-                          >
-                            <p className="fw-bold m-0">
-                              {coll.collection_name.replace(/_/g, " ")}
-                              {coll.api_set_id ? (
-                                <i className="fw-normal">, {coll.api_set_id}</i>
-                              ) : null}
-                            </p>
-                          </Link>
-                        </div>
-                      ))}
+                          <p className="fw-bold m-0">
+                            {coll.collection_name.replace(/_/g, " ")}
+                            {coll.set_id ? (
+                              <i className="fw-normal">, {coll.set_id}</i>
+                            ) : null}
+                          </p>
+                        </Link>
+                      </div>
+                    ))}
                   </div>
                 ) : (
                   <>{language?.lang_code.error_something_went_wrong}</>
                 )}
               </div>
-              <Pagination
-                pageSize={isDesktop ? 21 : 13}
-                totalCount={collections.length}
-                page={page}
-                updateSearch={updateSearch}
-              ></Pagination>
+              {collections && (
+                <Pagination
+                  pageSize={isDesktop ? 21 : 13}
+                  totalCount={collections.length}
+                  page={page}
+                  updateSearch={updateSearch}
+                ></Pagination>
+              )}
             </>
           ) : (
             <>{language?.lang_code.error_something_went_wrong}</>
