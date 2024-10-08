@@ -6,6 +6,7 @@ import { useState, useEffect, useContext } from "react";
 import { ICardFromDB } from "../interfaces/dataFromDB";
 import { Link } from "react-router-dom";
 import { ContainerContext } from "../globals/containerContext";
+import { ICard, ICollection } from "../interfaces/LSInterface";
 
 interface IProps {
   type?: string;
@@ -15,33 +16,24 @@ interface IProps {
 export const CollectionBanner = (props: IProps) => {
   const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  const { user, isAuthenticated } = useAuth0();
-  const [cards, setCards] = useState<ICardFromDB[]>([]);
+  // const { user, isAuthenticated } = useAuth0();
+  const [cards, setCards] = useState<ICard[] | undefined>();
   const language = container.language;
   const theme = container.theme;
-
+  const coll = container.user?.collections.find(
+    (col: ICollection) => col.collection_name === props.collectionName
+  );
   useEffect(() => {
-    if (isAuthenticated && user) {
-      const getData = async () => {
-        await getAllOwnedCards({ user }).then((res) => {
-          if (res) {
-            const cardsInCollection = res.filter(
-              (card: ICardFromDB) =>
-                card.collection_name === props.collectionName
-            );
-
-            setCards(cardsInCollection);
-          }
-        });
-      };
-      getData();
+    console.log("coll", coll);
+    if (coll) {
+      setCards(coll.cards_in_collection);
     }
-  }, [isAuthenticated]);
+  }, []);
 
-  const collectionName = props.collectionName.replace(/_/g, " ");
+  const collectionNameToShow = props.collectionName.replace(/_/g, " ");
   return (
     <>
-      {isAuthenticated && (
+      {container.user && (
         <>
           <div
             className={
@@ -51,7 +43,10 @@ export const CollectionBanner = (props: IProps) => {
             }
             style={{ border: `1px solid ${theme?.primaryColors.text.hex}` }}
           >
-            <h6 className={isDesktop ? "ms-2 mt-1 mb-0" : "ms-2 mt-1 mb-2"}>
+            <h5
+              className={isDesktop ? "ms-2 mt-1 mb-0" : "ms-2 mt-1 mb-2"}
+              style={{ display: "flex", justifyContent: "space-between" }}
+            >
               <Link
                 to={`/collection/${props.collectionName}`}
                 className="text-decoration-none"
@@ -59,21 +54,33 @@ export const CollectionBanner = (props: IProps) => {
                   color: theme?.primaryColors.link.hex,
                 }}
               >
-                {collectionName}
+                {collectionNameToShow}
               </Link>
-            </h6>
+              {coll?.set_id !== undefined && (
+                <div>
+                  <img
+                    src={cards && cards[0].card.set.images.symbol}
+                    alt={`${cards && cards[0].card.set.name} logo`}
+                    style={{
+                      maxHeight: "1.5rem",
+                      marginRight: "1rem",
+                    }}
+                  />
+                </div>
+              )}
+            </h5>
 
             <div
               className={
                 isDesktop ? "row d-flex justify-content-around px-3" : "px-3"
               }
             >
-              {cards.length !== 0 ? (
+              {cards && cards.length !== 0 ? (
                 <div>
                   <ul
                     className={
                       isDesktop
-                        ? cards.length > 2
+                        ? cards && cards.length > 2
                           ? "d-flex flex-wrap justify-content-around align-items-end"
                           : "d-flex flex-wrap justify-content-start align-items-end"
                         : "d-flex flex-wrap justify-content-around"
@@ -81,43 +88,44 @@ export const CollectionBanner = (props: IProps) => {
                     style={{ listStyle: "none", padding: 0 }}
                   >
                     <>
-                      {cards
-                        .slice(
-                          0,
-                          isDesktop
-                            ? window.location.pathname !== "/"
-                              ? 7
-                              : 3
-                            : 2
-                        )
-                        .map((card) => (
-                          <li
-                            key={card.id}
-                            className={
-                              isDesktop
-                                ? cards.length > 2
-                                  ? "pt-2"
-                                  : "pt-2 px-3"
-                                : "pt-1"
-                            }
-                            style={isDesktop ? { width: "min-content" } : {}}
-                          >
-                            <div
-                              style={
+                      {cards &&
+                        cards
+                          .slice(
+                            0,
+                            isDesktop
+                              ? window.location.pathname !== "/"
+                                ? 7
+                                : 3
+                              : 2
+                          )
+                          .map((card) => (
+                            <li
+                              key={card.card.id}
+                              className={
                                 isDesktop
-                                  ? { aspectRatio: "3/4", height: "7.5rem" }
-                                  : { height: "8rem" }
+                                  ? cards.length > 2
+                                    ? "pt-2"
+                                    : "pt-2 px-3"
+                                  : "pt-1"
                               }
+                              style={isDesktop ? { width: "min-content" } : {}}
                             >
-                              <img
-                                className="rounded"
-                                style={{ height: "100%" }}
-                                src={card.api_card_img_src_small}
-                                alt={card.api_pkmn_name}
-                              />
-                            </div>
-                          </li>
-                        ))}
+                              <div
+                                style={
+                                  isDesktop
+                                    ? { aspectRatio: "3/4", height: "7.5rem" }
+                                    : { height: "8rem" }
+                                }
+                              >
+                                <img
+                                  className="rounded"
+                                  style={{ height: "100%" }}
+                                  src={card.card.images.small}
+                                  alt={card.card.name}
+                                />
+                              </div>
+                            </li>
+                          ))}
                     </>
                   </ul>
                   <div className="w-100 d-flex justify-content-end">
