@@ -63,12 +63,10 @@ export const Home = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setUsername(value);
-    console.log(value);
   };
   const saveUserName = (e: FormEvent) => {
     e.preventDefault();
     updateContainer({ username, collections: [] }, "user");
-    console.log(username);
   };
   useEffect(() => {
     setIsLoading(true);

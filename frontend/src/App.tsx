@@ -89,7 +89,6 @@ function App() {
       }));
   };
   updateMondexLs(container.container);
-  console.log(container.container);
   return (
     <>
       <ContainerContext.Provider value={container}>

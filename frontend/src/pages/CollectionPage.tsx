@@ -84,7 +84,6 @@ export const CollectionPage = () => {
       };
       getSet();
     }
-    console.log(pkmnSetInfo);
   }, []);
 
   useEffect(() => {
