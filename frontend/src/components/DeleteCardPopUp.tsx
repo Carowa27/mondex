@@ -1,13 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
-import {
-  deleteOwnedCardById,
-  getAllOwnedCards,
-} from "../services/cardServices";
-import { deleteCollectionById } from "../services/collectionServices";
 import { ContainerContext } from "../globals/containerContext";
 import { ICard, ICollection } from "../interfaces/LSInterface";
+import { IPkmnCard } from "../interfaces/dataFromApi";
 
 interface IProps {
   changeShowDeleteCardPopUp: () => void;
@@ -15,6 +11,10 @@ interface IProps {
   collection?: ICollection | undefined;
   collectionName: string;
   updateData: () => void;
+  delCard?: (
+    card: ICard | undefined,
+    cardFromApi: IPkmnCard | undefined
+  ) => void;
 }
 
 export const DeleteCardPopUp = ({
@@ -23,6 +23,7 @@ export const DeleteCardPopUp = ({
   collection,
   collectionName,
   updateData,
+  delCard,
 }: IProps) => {
   const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
@@ -33,7 +34,7 @@ export const DeleteCardPopUp = ({
 
   const handleSubmitToDelete = async () => {
     if (user && cardToDelete) {
-      const card = cardToDelete;
+      delCard && delCard(cardToDelete, undefined);
       // await deleteOwnedCardById({ user, card }).then(() => {
       //   console.info(
       //     "deleted: ",
@@ -98,7 +99,7 @@ export const DeleteCardPopUp = ({
             <div className="mb-4">
               <h6>{language?.lang_code.card_card_to_delete}: </h6>
               <span>
-                {cardToDelete?.card.name}, {cardToDelete.card.id}
+                {cardToDelete.card.name}, {cardToDelete.card.id}
               </span>
             </div>
             <div className="mb-4">

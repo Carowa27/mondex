@@ -21,6 +21,10 @@ interface IProps {
     card: ICard | undefined,
     cardFromApi: IPkmnCard | undefined
   ) => void;
+  delCard: (
+    card: ICard | undefined,
+    cardFromApi: IPkmnCard | undefined
+  ) => void;
 }
 
 export const SmallPkmnCard = ({
@@ -30,6 +34,7 @@ export const SmallPkmnCard = ({
   getData,
   cardList,
   addCard,
+  delCard,
 }: IProps) => {
   const { container, updateContainer } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
@@ -71,9 +76,9 @@ export const SmallPkmnCard = ({
         if (card.amount !== 0) {
           if (card.amount === 1) {
             setShowDeleteCard(true);
-            // setCardToDelete(card);
+            setCardToDelete(card);
           } else {
-            // subAmountOnCard({ user, card });
+            delCard(card, cardFromApi);
           }
         }
       }
@@ -82,9 +87,9 @@ export const SmallPkmnCard = ({
         if (card.amount !== 0) {
           if (card.amount === 1) {
             setShowDeleteCard(true);
-            // setCardToDelete(card);
+            setCardToDelete(card);
           } else {
-            // subAmountOnCard({ user, card });
+            delCard(card, cardFromApi);
           }
         }
       }
@@ -93,7 +98,6 @@ export const SmallPkmnCard = ({
       getData();
     }, 100);
   };
-
   const updateData = () => {
     setTimeout(() => {
       getData();
@@ -140,6 +144,7 @@ export const SmallPkmnCard = ({
             cardToDelete={cardToDelete}
             collectionName={collectionName}
             updateData={updateData}
+            delCard={delCard}
           ></DeleteCardPopUp>
         </div>
       ) : null}

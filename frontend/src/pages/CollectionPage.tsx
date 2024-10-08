@@ -166,6 +166,119 @@ export const CollectionPage = () => {
       getData();
     }, 100);
   };
+
+  const deleteCard = (
+    card: ICard | undefined,
+    cardFromApi: IPkmnCard | undefined
+  ) => {
+    const collectionIndex = container.user!.collections.findIndex(
+      (col) => col.collection_name === collectionName
+    );
+    if (container.user) {
+      if (cardFromApi) {
+        const cardFound = cardList.find(
+          (card) => card.card.id === cardFromApi.id
+        );
+        if (cardFound !== undefined) {
+          if (cardFound.amount > 1) {
+            // om kort hittas & amount===1 amount-1
+            // addAmountOnCard({ user, card });
+            const cardIndex = container.user.collections[
+              collectionIndex
+            ].cards_in_collection.findIndex(
+              (c: ICard) => c.card.name === cardFromApi.name
+            );
+            const updatedCard = {
+              ...container.user.collections[collectionIndex]
+                .cards_in_collection[cardIndex],
+              amount: cardFound!.amount - 1,
+            };
+            const updatedCollection = {
+              ...container.user.collections[collectionIndex],
+              cards_in_collection: [
+                ...container.user.collections[
+                  collectionIndex
+                ].cards_in_collection.slice(0, cardIndex),
+                updatedCard,
+                ...container.user.collections[
+                  collectionIndex
+                ].cards_in_collection.slice(cardIndex + 1),
+              ],
+            };
+            const updatedCollections = [
+              ...container.user.collections.slice(0, collectionIndex),
+              updatedCollection,
+              ...container.user.collections.slice(collectionIndex + 1),
+            ];
+            updateContainer(
+              {
+                username: container.user!.username,
+                collections: updatedCollections as ICollection[],
+              },
+              "user"
+            );
+          } else {
+            const cardIndex = container.user.collections[
+              collectionIndex
+            ].cards_in_collection.findIndex(
+              (c: ICard) => c.card.name === cardFromApi.name
+            );
+            const updatedCollection = {
+              ...container.user.collections[collectionIndex],
+              cards_in_collection: [
+                ...container.user.collections[
+                  collectionIndex
+                ].cards_in_collection.filter((_, index) => index !== cardIndex),
+              ],
+            };
+            const updatedCollections = [
+              ...container.user.collections.slice(0, collectionIndex),
+              updatedCollection,
+              ...container.user.collections.slice(collectionIndex + 1),
+            ];
+            updateContainer(
+              {
+                username: container.user!.username,
+                collections: updatedCollections as ICollection[],
+              },
+              "user"
+            );
+          }
+        }
+      } else {
+        if (card) {
+          const cardIndex = container.user.collections[
+            collectionIndex
+          ].cards_in_collection.findIndex(
+            (c: ICard) => c.card.name === card.card.name
+          );
+          const updatedCollection = {
+            ...container.user.collections[collectionIndex],
+            cards_in_collection: [
+              ...container.user.collections[
+                collectionIndex
+              ].cards_in_collection.filter((_, index) => index !== cardIndex),
+            ],
+          };
+          const updatedCollections = [
+            ...container.user.collections.slice(0, collectionIndex),
+            updatedCollection,
+            ...container.user.collections.slice(collectionIndex + 1),
+          ];
+          updateContainer(
+            {
+              username: container.user!.username,
+              collections: updatedCollections as ICollection[],
+            },
+            "user"
+          );
+        }
+      }
+    }
+    setTimeout(() => {
+      getData();
+    }, 100);
+  };
   const updateSearch = (newPage: number) => {
     setPage(newPage);
     setCardsFromApiList([]);
@@ -308,6 +421,7 @@ export const CollectionPage = () => {
                           collectionName={collectionName}
                           cardList={cardList}
                           addCard={addCard}
+                          delCard={deleteCard}
                           getData={getData}
                         />
                       </li>
@@ -342,6 +456,7 @@ export const CollectionPage = () => {
                           collectionName={collectionName}
                           getData={getData}
                           addCard={addCard}
+                          delCard={deleteCard}
                           cardList={cardList}
                         />
                       </li>
