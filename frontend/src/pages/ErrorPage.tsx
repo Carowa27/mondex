@@ -133,7 +133,7 @@ export const ErrorPage = () => {
       <div>
         {pokemonList &&
           pokemonList?.map((pkmn, i) => (
-            <div>
+            <div key={i}>
               <img
                 style={isDesktop ? inStyleDesktop(i) : inStyleMobile(i)}
                 key={i}
