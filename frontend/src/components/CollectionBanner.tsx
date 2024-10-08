@@ -7,6 +7,8 @@ import { ICardFromDB } from "../interfaces/dataFromDB";
 import { Link } from "react-router-dom";
 import { ContainerContext } from "../globals/containerContext";
 import { ICard, ICollection } from "../interfaces/LSInterface";
+import { getSetFromApi } from "../services/pkmnTcgApiServices";
+import { IPkmnSet } from "../interfaces/dataFromApi";
 
 interface IProps {
   type?: string;
@@ -18,15 +20,25 @@ export const CollectionBanner = (props: IProps) => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   // const { user, isAuthenticated } = useAuth0();
   const [cards, setCards] = useState<ICard[] | undefined>();
+  const [pkmnSet, setPkmnSet] = useState<IPkmnSet | undefined>();
   const language = container.language;
   const theme = container.theme;
   const coll = container.user?.collections.find(
     (col: ICollection) => col.collection_name === props.collectionName
   );
   useEffect(() => {
-    console.log("coll", coll);
     if (coll) {
       setCards(coll.cards_in_collection);
+    }
+    if (coll?.set_id !== undefined) {
+      const getSet = async () => {
+        await getSetFromApi(coll?.set_id!).then((res) => {
+          if (res) {
+            setPkmnSet(res);
+          }
+        });
+      };
+      getSet();
     }
   }, []);
 
@@ -59,8 +71,8 @@ export const CollectionBanner = (props: IProps) => {
               {coll?.set_id !== undefined && (
                 <div>
                   <img
-                    src={cards && cards[0].card.set.images.symbol}
-                    alt={`${cards && cards[0].card.set.name} logo`}
+                    src={pkmnSet?.images.symbol}
+                    alt={`${pkmnSet?.name} logo`}
                     style={{
                       maxHeight: "1.5rem",
                       marginRight: "1rem",

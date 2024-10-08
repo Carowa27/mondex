@@ -3,7 +3,7 @@ import { variables } from "../globals/variables";
 import { LoadingModule } from "../components/LoadingModule";
 import { useContext, useEffect, useState } from "react";
 import { IPkmnCard, IPkmnSet } from "../interfaces/dataFromApi";
-import { getPkmnFromApi } from "../services/pkmnTcgApiServices";
+import { getPkmnFromApi, getSetFromApi } from "../services/pkmnTcgApiServices";
 import { SmallPkmnCard } from "../components/SmallPkmnCard";
 import { Pagination } from "./layout/Pagination";
 import { BreadCrumbs } from "./layout/BreadCrumbs";
@@ -75,13 +75,20 @@ export const CollectionPage = () => {
   useEffect(() => {
     getData();
     if (collection?.set_id !== undefined) {
-      setPkmnSetInfo(collection && collection.cards_in_collection[0].card?.set);
+      const getSet = async () => {
+        await getSetFromApi(collection?.set_id!).then((res) => {
+          if (res) {
+            setPkmnSetInfo(res);
+          }
+        });
+      };
+      getSet();
     }
-    console.log("cardlist collpage", cardList);
+    console.log(pkmnSetInfo);
   }, []);
 
   useEffect(() => {
-    getSetFromApi();
+    getPkmnToSet();
   }, [page]);
 
   useEffect(() => {
@@ -96,7 +103,7 @@ export const CollectionPage = () => {
     }
   }, [cardList, cardsFromApiList, collection]);
 
-  const getSetFromApi = async () => {
+  const getPkmnToSet = async () => {
     if (collection && collection?.set_id !== null) {
       await getPkmnFromApi(`?q=!set.id:%22${collection.set_id}%22`, page).then(
         (res) => {
@@ -113,7 +120,7 @@ export const CollectionPage = () => {
     }
   };
   useEffect(() => {
-    getSetFromApi();
+    getPkmnToSet();
   }, [collection]);
 
   const changeShowDeleteCardPopUp = () => {
@@ -154,7 +161,7 @@ export const CollectionPage = () => {
           {collectionNameToShow}
           {pkmnSetInfo !== undefined && (
             <span style={{ fontSize: "16px", margin: "0 1rem" }}>
-              Set id:{pkmnSetInfo?.id}
+              Set id: {pkmnSetInfo?.id.replace("pt", ".")}
             </span>
           )}
         </h3>
@@ -186,9 +193,11 @@ export const CollectionPage = () => {
       <div style={{ minHeight: "80vh" }} className="mt-2  d-flex flex-column">
         {!isLoading ? (
           <>
-            {collection?.cards_in_collection.length === 0 && (
-              <>{language?.lang_code.collection_with_no_cards_more_words}</>
-            )}
+            {collection?.cards_in_collection.length === 0 ||
+              (collection?.cards_in_collection.length === 0 &&
+                collection?.set_id !== undefined && (
+                  <>{language?.lang_code.collection_with_no_cards_more_words}</>
+                ))}
             {(cardList?.length !== 0 || collection?.set_id !== null) && (
               <>
                 {collection && collection?.set_id === undefined ? (
