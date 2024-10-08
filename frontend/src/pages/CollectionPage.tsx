@@ -149,15 +149,15 @@ export const CollectionPage = () => {
         </div>
       ) : null}
       <div className="d-flex justify-content-between">
-        <h2 className="m-0 align-self-center">
+        <h3 className="m-0 align-self-center">
           {collectionNameToShow}
-          {collection?.set_id !== undefined && (
+          {pkmnSetInfo !== undefined && (
             <span style={{ fontSize: "16px", margin: "0 1rem" }}>
               Set id:{pkmnSetInfo?.id}
             </span>
           )}
-        </h2>
-        {collection?.set_id !== undefined && (
+        </h3>
+        {pkmnSetInfo !== undefined && (
           <div style={{ alignSelf: "center" }}>
             {isDesktop ? (
               <img
