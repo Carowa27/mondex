@@ -169,17 +169,20 @@ export const MyPages = () => {
                               flexDirection: "row",
                               flexWrap: "wrap",
                               justifyContent: "space-evenly",
+                              gap: "2rem",
+                              width: "85.5%",
                             }
                           : {
                               display: "flex",
                               flexDirection: "row",
                               flexWrap: "wrap",
+                              justifyContent: "space-between",
                               gap: "2rem",
-                              width: "max-content",
+                              width: "85.5%",
                             }
                       }
                     >
-                      {collections.slice(0, 3).map((coll) => (
+                      {collections.slice(0, isDesktop ? 8 : 3).map((coll) => (
                         <CollectionBanner
                           key={coll.id}
                           collectionName={coll.collection_name}

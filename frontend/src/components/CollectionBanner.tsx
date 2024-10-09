@@ -34,7 +34,7 @@ export const CollectionBanner = (props: IProps) => {
             className={
               window.location.pathname === "/"
                 ? "mb-2 rounded p-1 w-100 px-3"
-                : "py-2 my-3 col-5 rounded px-3"
+                : "py-2 col-5 rounded px-3"
             }
             style={{
               border: `1px solid ${theme?.primaryColors.text.hex}`,
@@ -108,7 +108,7 @@ export const CollectionBanner = (props: IProps) => {
                               isDesktop
                                 ? cards.length > 2
                                   ? "pt-2"
-                                  : "pt-2 px-3"
+                                  : "pt-2"
                                 : "pt-1"
                             }
                             style={isDesktop ? { width: "min-content" } : {}}
