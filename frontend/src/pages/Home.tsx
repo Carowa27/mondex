@@ -487,6 +487,7 @@ export const Home = () => {
                       display: "flex",
                       justifyContent: "space-evenly",
                       width: "100%",
+                      marginTop: "0.5rem",
                     }}
                   >
                     {nextValuableCard?.map((card) => (
