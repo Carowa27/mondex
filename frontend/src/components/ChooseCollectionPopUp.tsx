@@ -19,7 +19,6 @@ export const ChooseCollectionPopUp = ({
 }: IProps) => {
   const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  // const { user, isAuthenticated } = useAuth0();
   const language = container.language;
 
   const [listOfOwnedCollections, setListOfOwnedCollections] =

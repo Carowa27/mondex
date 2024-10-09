@@ -2,8 +2,6 @@ import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { variables } from "../globals/variables";
 import { styled } from "styled-components";
 import { getAllOwnedCollections } from "../services/collectionServices";
-import { useAuth0 } from "@auth0/auth0-react";
-import { swapCardToOtherCollection } from "../services/cardServices";
 import { ContainerContext } from "../globals/containerContext";
 import { ICard, ICollection } from "../interfaces/LSInterface";
 interface IProps {
@@ -20,25 +18,26 @@ export const SwapCollectionPopUp = ({
   updateData,
 }: IProps) => {
   const { container } = useContext(ContainerContext);
-  const { user } = useAuth0();
   const language = container.language;
   const theme = container.theme;
+  const user = container.user;
+  const collections = user?.collections;
 
-  const [listOfOwnedCollections, setListOfOwnedCollections] =
-    useState<ICollection[]>();
+  // const [listOfOwnedCollections, setListOfOwnedCollections] =
+  //   useState<ICollection[]>();
   const [selectedCollectionName, setSelectedCollectionName] =
     useState<string>();
 
-  const getCollections = async () => {
-    if (user) {
-      await getAllOwnedCollections({ user }).then((res) =>
-        setListOfOwnedCollections(res)
-      );
-    }
-  };
+  // const getCollections = async () => {
+  //   if (user) {
+  //     await getAllOwnedCollections({ user }).then((res) =>
+  //       setListOfOwnedCollections(res)
+  //     );
+  //   }
+  // };
 
   useEffect(() => {
-    getCollections();
+    // getCollections();
     updateData();
   }, []);
 
@@ -128,8 +127,8 @@ export const SwapCollectionPopUp = ({
           <h6>{language?.lang_code.collection_to_change_to}:</h6>
           <SwapFormContainer>
             <SwapForm id="swap-form">
-              {listOfOwnedCollections &&
-                listOfOwnedCollections.map((coll) => (
+              {collections &&
+                collections.map((coll) => (
                   <SwapLabel htmlFor={`${coll.id}`} key={coll.id}>
                     <input
                       type="radio"
