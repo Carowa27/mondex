@@ -67,25 +67,27 @@ export const Menu = () => {
               {language?.lang_code.about_about_project}
             </span>
           </Link>
-          {/* {isAuthenticated ? (
-            <> */}
-          <span id="main-menu-mypages" className="ps-2">
-            <Link
-              className="text-decoration-none"
-              to="./userpage"
-              style={{
-                color: theme?.primaryColors.link.hex,
-              }}
-              onClick={() =>
-                window.scrollTo({
-                  top: 0,
-                  behavior: "smooth",
-                })
-              }
-            >
-              {language?.lang_code.my_pages_my_pages}
-            </Link>
-          </span>
+          {container.user && (
+            <>
+              <span id="main-menu-mypages" className="ps-2">
+                <Link
+                  className="text-decoration-none"
+                  to="./userpage"
+                  style={{
+                    color: theme?.primaryColors.link.hex,
+                  }}
+                  onClick={() =>
+                    window.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    })
+                  }
+                >
+                  {language?.lang_code.my_pages_my_pages}
+                </Link>
+              </span>
+            </>
+          )}
           {/*    <span
                 id="main-menu-logout"
                 className="ps-2"
@@ -102,7 +104,7 @@ export const Menu = () => {
             >
               {language?.lang_code.account_login}
             </span>
-          )} */}
+         )} */}
           {isLangMenuOpen ? (
             <>
               <div
