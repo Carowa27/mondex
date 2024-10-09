@@ -13,32 +13,34 @@ import { ContainerContext } from "../globals/containerContext";
 
 export const MyPages = () => {
   const { container } = useContext(ContainerContext);
-  const { isLoading, isAuthenticated, user, error } = useAuth0();
+  // const { isLoading, isAuthenticated, user, error } = useAuth0();
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
 
   const [showCollections, setShowCollections] = useState<boolean>(true);
   const [showMyAccount, setShowMyAccount] = useState<boolean>(false);
-  const [collections, setCollections] = useState<ICollectionFromDB[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  // const [collections, setCollections] = useState<ICollectionFromDB[]>([]);
 
   const language = container.language;
   const theme = container.theme;
-
-  useEffect(() => {
-    if (isAuthenticated && user) {
-      const getData = async () => {
-        await getAllOwnedCollections({ user }).then((res) => {
-          setCollections(res as ICollectionFromDB[]);
-        });
-      };
-      getData();
-    }
-  }, [isAuthenticated, user]);
+  const user = container.user;
+  const collections = container.user?.collections;
+  // useEffect(() => {
+  //   if (isAuthenticated && user) {
+  //     const getData = async () => {
+  //       await getAllOwnedCollections({ user }).then((res) => {
+  //         setCollections(res as ICollectionFromDB[]);
+  //       });
+  //     };
+  //     getData();
+  //   }
+  // }, [isAuthenticated, user]);
 
   return (
     <div style={{ height: "min-content", minHeight: "90vh" }}>
       <div className="d-flex justify-content-between align-items-start">
         <h1>
-          {language?.lang_code.my_pages_my_pages} - {user?.given_name}
+          {language?.lang_code.my_pages_my_pages} - {user?.username}
         </h1>
         <BreadCrumbs pageParam="userpage" />
       </div>
@@ -154,7 +156,7 @@ export const MyPages = () => {
                   : "col-12 mb-3"
               }
             >
-              {!error && isLoading ? (
+              {isLoading ? (
                 <LoadingModule />
               ) : (
                 <>
@@ -189,7 +191,7 @@ export const MyPages = () => {
                   gap: isDesktop ? "2rem" : "",
                 }}
               >
-                {user?.picture && (
+                {/* {user?.picture && (
                   <div
                     className="d-flex mb-3 mx-auto"
                     style={{
@@ -205,27 +207,29 @@ export const MyPages = () => {
                       alt={`profile picture of ${user?.nickname}`}
                     />
                   </div>
-                )}
+                )} */}
                 <div>
-                  <h6 className="mt-3">
+                  {/* <h6 className="mt-3">
                     {language?.lang_code.word_name}: {user?.given_name}{" "}
                     {user?.family_name}
-                  </h6>
+                  </h6> */}
                   <p>
                     <span className="font-weight-bold">
                       {language?.lang_code.word_username}:
                     </span>{" "}
-                    {user?.nickname}
+                    {user?.username}
                   </p>
-                  <p>
+                  {/* <p>
                     <span className="font-weight-bold">
                       {language?.lang_code.word_email}:
                     </span>{" "}
                     {user?.email}
-                  </p>
-                  <LogoutBtn />
+                  </p> 
+                  <LogoutBtn />*/}
                 </div>
               </div>
+              {/* TODO
+              Add text about removing all data, amount of collections, amount of cards saved, total market value on collection */}
             </div>
           </>
         )}

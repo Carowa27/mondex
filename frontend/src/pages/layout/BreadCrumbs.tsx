@@ -41,7 +41,7 @@ export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
               </Link>
             </p>
           ) : null}
-          {/* {pageParam === "userpage" ? (
+          {pageParam === "userpage" ? (
             <p className="m-0">
               <Link
                 to="/"
@@ -63,7 +63,7 @@ export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
                 <span>{language?.lang_code.word_userpage}</span>
               </Link>
             </p>
-          ) : null} */}
+          ) : null}
           {/* {pageParam === "account" ? 
             <p className="m-0">
             <Link to="/" className="text-decoration-none"><span>{language?.lang_code.word_home}</span></Link>
@@ -84,7 +84,7 @@ export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
                 <span>{language?.lang_code.word_home}&nbsp;/&nbsp;</span>
               </Link>
 
-              {/* <Link
+              <Link
                 to="/userpage"
                 className="text-decoration-none"
                 style={{
@@ -92,7 +92,7 @@ export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
                 }}
               >
                 <span>{language?.lang_code.word_userpage}&nbsp;/&nbsp;</span>
-              </Link> */}
+              </Link>
 
               <Link
                 to="/all-collections"
@@ -117,7 +117,7 @@ export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
                 <span>{language?.lang_code.word_home}&nbsp;/&nbsp;</span>
               </Link>
 
-              {/* <Link
+              <Link
                 to="/userpage"
                 className="text-decoration-none"
                 style={{
@@ -125,7 +125,7 @@ export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
                 }}
               >
                 <span>{language?.lang_code.word_userpage}&nbsp;/&nbsp;</span>
-              </Link> */}
+              </Link>
 
               <Link
                 to="/all-collections"
