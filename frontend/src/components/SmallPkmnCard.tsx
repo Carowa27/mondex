@@ -7,6 +7,10 @@ import { variables } from "../globals/variables";
 import { DeleteCardPopUp } from "./DeleteCardPopUp";
 import { ContainerContext } from "../globals/containerContext";
 import { ICard, ICollection } from "../interfaces/LSInterface";
+import {
+  addCardToCollection,
+  removeCardFromCollection,
+} from "../functions/cardFunctions";
 
 interface IProps {
   card?: ICard;
@@ -54,120 +58,27 @@ export const SmallPkmnCard = ({
     }
     setShowSwapCollection(true);
   };
+
   const addCard = (
     card: ICard | undefined,
     cardFromApi: IPkmnCard | undefined
   ) => {
-    const collectionIndex = container.user!.collections.findIndex(
-      (col) => col.collection_name === collectionName
+    const updatedCollections = addCardToCollection(
+      collectionName,
+      container.user!.collections,
+      false,
+      card,
+      cardFromApi
     );
-    if (container.user) {
-      if (cardFromApi) {
-        const cardFound = cardList.find(
-          (card) => card.card.id === cardFromApi.id
-        );
-        if (cardFound !== undefined) {
-          // om kort hittas amount+1
-          // addAmountOnCard({ user, card });
-          const cardIndex = container.user.collections[
-            collectionIndex
-          ].cards_in_collection.findIndex(
-            (c: ICard) => c.card.name === cardFromApi.name
-          );
-          const updatedCard = {
-            ...container.user.collections[collectionIndex].cards_in_collection[
-              cardIndex
-            ],
-            amount: cardFound!.amount + 1,
-          };
-          const updatedCollection = {
-            ...container.user.collections[collectionIndex],
-            cards_in_collection: [
-              ...container.user.collections[
-                collectionIndex
-              ].cards_in_collection.slice(0, cardIndex),
-              updatedCard,
-              ...container.user.collections[
-                collectionIndex
-              ].cards_in_collection.slice(cardIndex + 1),
-            ],
-          };
-          const updatedCollections = [
-            ...container.user.collections.slice(0, collectionIndex),
-            updatedCollection,
-            ...container.user.collections.slice(collectionIndex + 1),
-          ];
-          updateContainer(
-            {
-              username: container.user!.username,
-              collections: updatedCollections as ICollection[],
-            },
-            "user"
-          );
-        } else {
-          // om kort inte hittas add cart
-          const updatedCollection = {
-            ...container.user.collections[collectionIndex],
-            cards_in_collection: [
-              ...container.user.collections[collectionIndex]
-                .cards_in_collection,
-              { card: cardFromApi, amount: 1 },
-            ],
-          };
-          const updatedCollections = [
-            ...container.user.collections.slice(0, collectionIndex),
-            updatedCollection,
-            ...container.user.collections.slice(collectionIndex + 1),
-          ];
-          updateContainer(
-            {
-              username: container.user!.username,
-              collections: updatedCollections as ICollection[],
-            },
-            "user"
-          );
-          // createCard({ user, cardFromApi, collectionName });
-        }
-      }
-      if (card) {
-        // addAmountOnCard({ user, card });
-        const cardIndex = container.user.collections[
-          collectionIndex
-        ].cards_in_collection.findIndex(
-          (c: ICard) => c.card.name === card.card.name
-        );
-        const updatedCard = {
-          ...container.user.collections[collectionIndex].cards_in_collection[
-            cardIndex
-          ],
-          amount: card.amount + 1,
-        };
-        const updatedCollection = {
-          ...container.user.collections[collectionIndex],
-          cards_in_collection: [
-            ...container.user.collections[
-              collectionIndex
-            ].cards_in_collection.slice(0, cardIndex),
-            updatedCard,
-            ...container.user.collections[
-              collectionIndex
-            ].cards_in_collection.slice(cardIndex + 1),
-          ],
-        };
-        const updatedCollections = [
-          ...container.user.collections.slice(0, collectionIndex),
-          updatedCollection,
-          ...container.user.collections.slice(collectionIndex + 1),
-        ];
-        updateContainer(
-          {
-            username: container.user!.username,
-            collections: updatedCollections as ICollection[],
-          },
-          "user"
-        );
-      }
-    }
+
+    updateContainer(
+      {
+        username: container.user!.username,
+        collections: updatedCollections as ICollection[],
+      },
+      "user"
+    );
+
     setTimeout(() => {
       getData();
     }, 100);
@@ -177,110 +88,21 @@ export const SmallPkmnCard = ({
     card: ICard | undefined,
     cardFromApi: IPkmnCard | undefined
   ) => {
-    const collectionIndex = container.user!.collections.findIndex(
-      (col) => col.collection_name === collectionName
+    const updatedCollections = removeCardFromCollection(
+      card!,
+      collectionName,
+      container.user!.collections,
+      false
     );
-    if (container.user) {
-      if (cardFromApi) {
-        const cardFound = cardList.find(
-          (card) => card.card.id === cardFromApi.id
-        );
-        if (cardFound !== undefined) {
-          if (cardFound.amount > 1) {
-            // om kort hittas & amount===1 amount-1
-            // addAmountOnCard({ user, card });
-            const cardIndex = container.user.collections[
-              collectionIndex
-            ].cards_in_collection.findIndex(
-              (c: ICard) => c.card.name === cardFromApi.name
-            );
-            const updatedCard = {
-              ...container.user.collections[collectionIndex]
-                .cards_in_collection[cardIndex],
-              amount: cardFound!.amount - 1,
-            };
-            const updatedCollection = {
-              ...container.user.collections[collectionIndex],
-              cards_in_collection: [
-                ...container.user.collections[
-                  collectionIndex
-                ].cards_in_collection.slice(0, cardIndex),
-                updatedCard,
-                ...container.user.collections[
-                  collectionIndex
-                ].cards_in_collection.slice(cardIndex + 1),
-              ],
-            };
-            const updatedCollections = [
-              ...container.user.collections.slice(0, collectionIndex),
-              updatedCollection,
-              ...container.user.collections.slice(collectionIndex + 1),
-            ];
-            updateContainer(
-              {
-                username: container.user!.username,
-                collections: updatedCollections as ICollection[],
-              },
-              "user"
-            );
-          } else {
-            const cardIndex = container.user.collections[
-              collectionIndex
-            ].cards_in_collection.findIndex(
-              (c: ICard) => c.card.name === cardFromApi.name
-            );
-            const updatedCollection = {
-              ...container.user.collections[collectionIndex],
-              cards_in_collection: [
-                ...container.user.collections[
-                  collectionIndex
-                ].cards_in_collection.filter((_, index) => index !== cardIndex),
-              ],
-            };
-            const updatedCollections = [
-              ...container.user.collections.slice(0, collectionIndex),
-              updatedCollection,
-              ...container.user.collections.slice(collectionIndex + 1),
-            ];
-            updateContainer(
-              {
-                username: container.user!.username,
-                collections: updatedCollections as ICollection[],
-              },
-              "user"
-            );
-          }
-        }
-      } else {
-        if (card) {
-          const cardIndex = container.user.collections[
-            collectionIndex
-          ].cards_in_collection.findIndex(
-            (c: ICard) => c.card.name === card.card.name
-          );
-          const updatedCollection = {
-            ...container.user.collections[collectionIndex],
-            cards_in_collection: [
-              ...container.user.collections[
-                collectionIndex
-              ].cards_in_collection.filter((_, index) => index !== cardIndex),
-            ],
-          };
-          const updatedCollections = [
-            ...container.user.collections.slice(0, collectionIndex),
-            updatedCollection,
-            ...container.user.collections.slice(collectionIndex + 1),
-          ];
-          updateContainer(
-            {
-              username: container.user!.username,
-              collections: updatedCollections as ICollection[],
-            },
-            "user"
-          );
-        }
-      }
-    }
+
+    updateContainer(
+      {
+        username: container.user!.username,
+        collections: updatedCollections as ICollection[],
+      },
+      "user"
+    );
+
     setTimeout(() => {
       getData();
     }, 100);

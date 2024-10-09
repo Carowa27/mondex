@@ -2,14 +2,12 @@ import { ICard, ICollection } from "../interfaces/LSInterface";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 
 export const addCardToCollection = (
-  cardToAdd: ICard,
   collectionName: string,
   collections: ICollection[],
   swap?: boolean,
+  cardToAdd?: ICard,
   cardFromApi?: IPkmnCard
 ) => {
-  console.log("in fn", cardToAdd, cardFromApi);
-
   const collection = collections.find(
     (col) => col.collection_name === collectionName
   );
@@ -20,31 +18,30 @@ export const addCardToCollection = (
     (cardToFind) => cardToFind.card.id === cardToAdd?.card.id
   );
 
-  const updatedCard = {
-    ...collections[collectionIndex].cards_in_collection[cardIndex!],
-    card: cardToAdd.card,
-    amount: cardToAdd.amount + 1,
-  };
   const updatedCollection =
-    cardToAdd.amount === 1
+    cardToAdd === undefined
       ? {
+          ...collections[collectionIndex],
+          cards_in_collection: [
+            ...collections[collectionIndex].cards_in_collection,
+            { card: cardFromApi, amount: 1 },
+          ],
+        }
+      : {
           ...collections[collectionIndex],
           cards_in_collection: [
             ...collections[collectionIndex].cards_in_collection.slice(
               0,
               cardIndex
             ),
-            updatedCard,
+            {
+              ...collections[collectionIndex].cards_in_collection[cardIndex!],
+              card: cardToAdd!.card,
+              amount: cardToAdd!.amount + 1,
+            },
             ...collections[collectionIndex].cards_in_collection.slice(
               cardIndex! + 1
             ),
-          ],
-        }
-      : {
-          ...collections[collectionIndex],
-          cards_in_collection: [
-            ...collections[collectionIndex].cards_in_collection,
-            { card: cardFromApi, amount: 1 },
           ],
         };
 
@@ -132,10 +129,10 @@ export const swapCardToOtherCollection = (
     (coll) => coll.collection_name === updatedCollOne?.collection_name
   );
   const updatedCollTwo = addCardToCollection(
-    cardToSwap,
     newColl,
     collections,
-    true
+    true,
+    cardToSwap
   ) as ICollection;
   const collTwoIndex = collections.findIndex(
     (coll) => coll.collection_name === updatedCollTwo?.collection_name
