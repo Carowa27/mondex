@@ -161,7 +161,24 @@ export const MyPages = () => {
               ) : (
                 <>
                   {collections && collections.length !== 0 ? (
-                    <div className="mx-auto w-100">
+                    <div
+                      style={
+                        collections.length % 2 === 0
+                          ? {
+                              display: "flex",
+                              flexDirection: "row",
+                              flexWrap: "wrap",
+                              justifyContent: "space-evenly",
+                            }
+                          : {
+                              display: "flex",
+                              flexDirection: "row",
+                              flexWrap: "wrap",
+                              gap: "2rem",
+                              width: "max-content",
+                            }
+                      }
+                    >
                       {collections.slice(0, 3).map((coll) => (
                         <CollectionBanner
                           key={coll.id}
