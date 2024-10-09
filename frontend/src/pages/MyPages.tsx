@@ -1,40 +1,24 @@
-import { useContext, useEffect, useState } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
-import { LogoutBtn } from "../components/LogoutBtn";
+import { useContext, useState } from "react";
 import { BreadCrumbs } from "./layout/BreadCrumbs";
 import { LoadingModule } from "../components/LoadingModule";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
-import { ICollectionFromDB } from "../interfaces/dataFromDB";
-import { getAllOwnedCollections } from "../services/collectionServices";
 import { Link } from "react-router-dom";
 import { CollectionBanner } from "../components/CollectionBanner";
 import { ContainerContext } from "../globals/containerContext";
 
 export const MyPages = () => {
   const { container } = useContext(ContainerContext);
-  // const { isLoading, isAuthenticated, user, error } = useAuth0();
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
 
   const [showCollections, setShowCollections] = useState<boolean>(true);
   const [showMyAccount, setShowMyAccount] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  // const [collections, setCollections] = useState<ICollectionFromDB[]>([]);
 
   const language = container.language;
   const theme = container.theme;
   const user = container.user;
   const collections = container.user?.collections;
-  // useEffect(() => {
-  //   if (isAuthenticated && user) {
-  //     const getData = async () => {
-  //       await getAllOwnedCollections({ user }).then((res) => {
-  //         setCollections(res as ICollectionFromDB[]);
-  //       });
-  //     };
-  //     getData();
-  //   }
-  // }, [isAuthenticated, user]);
 
   return (
     <div style={{ height: "min-content", minHeight: "90vh" }}>
