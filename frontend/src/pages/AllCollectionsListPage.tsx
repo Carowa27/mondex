@@ -1,10 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
-import { useAuth0 } from "@auth0/auth0-react";
 import { LoadingModule } from "../components/LoadingModule";
-import { getAllOwnedCollections } from "../services/collectionServices";
-import { ICollectionFromDB } from "../interfaces/dataFromDB";
 import { Link } from "react-router-dom";
 import { Pagination } from "./layout/Pagination";
 import { BreadCrumbs } from "./layout/BreadCrumbs";
@@ -14,8 +11,6 @@ import { ICollection } from "../interfaces/LSInterface";
 export const AllCollectionsListPage = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { container } = useContext(ContainerContext);
-  // const { isLoading, isAuthenticated, user, error } = useAuth0();
-  // const [collections, setCollections] = useState<ICollectionFromDB[]>([]);
   const [page, setPage] = useState<number>(1);
   const [start, setStart] = useState<number>(0);
   const [end, setEnd] = useState<number>(isDesktop ? 21 : 13);

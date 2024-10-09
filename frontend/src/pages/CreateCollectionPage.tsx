@@ -7,7 +7,6 @@ import { ContainerContext } from "../globals/containerContext";
 import { getToday } from "../functions/dateFunctions";
 import { ICollection } from "../interfaces/LSInterface";
 import { updateMondexLs } from "../functions/LSFunctions";
-import { IPkmnSet } from "../interfaces/dataFromApi";
 
 export const CreateCollectionPage = () => {
   const { container, updateContainer } = useContext(ContainerContext);
@@ -15,7 +14,6 @@ export const CreateCollectionPage = () => {
   const [collectionName, setCollectionName] = useState<string>("");
   const [isSetCollection, setIsSetCollection] = useState<boolean>(false);
   const [setId, setSetId] = useState<string>("");
-  const [pkmnSetInfo, setPkmnSetInfo] = useState<IPkmnSet | undefined>();
   const [setInputValue, setSetInputValue] = useState<string>("");
   const [notCorrectSetId, setNotCorrectSetId] = useState<boolean>(false);
   const [createdCollection, setCreatedCollection] = useState<boolean>(false);

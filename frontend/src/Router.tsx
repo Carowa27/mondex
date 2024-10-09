@@ -7,7 +7,7 @@ import { AboutProject } from "./pages/AboutProject";
 import { CollectionPage } from "./pages/CollectionPage";
 import { AllCollectionsListPage } from "./pages/AllCollectionsListPage";
 import { CreateCollectionPage } from "./pages/CreateCollectionPage";
-import { MyPages } from "./pages/MyPages";
+// import { MyPages } from "./pages/MyPages";
 
 export const Router = createBrowserRouter([
   {

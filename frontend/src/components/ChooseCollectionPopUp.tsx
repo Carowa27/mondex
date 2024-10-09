@@ -2,12 +2,9 @@ import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { styled } from "styled-components";
-import { ICollectionFromDB } from "../interfaces/dataFromDB";
-import { getAllOwnedCollections } from "../services/collectionServices";
-import { useAuth0 } from "@auth0/auth0-react";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { ContainerContext } from "../globals/containerContext";
-import { ICard, ICollection } from "../interfaces/LSInterface";
+import { ICollection } from "../interfaces/LSInterface";
 
 interface IProps {
   changeShowAddCardPopup: () => void;

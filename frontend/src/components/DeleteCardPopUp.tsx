@@ -27,7 +27,6 @@ export const DeleteCardPopUp = ({
 }: IProps) => {
   const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  const [cardList, setCardList] = useState<ICard[]>();
   const language = container.language;
   const theme = container.theme;
   const user = container.user;

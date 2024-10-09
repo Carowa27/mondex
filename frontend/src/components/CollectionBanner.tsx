@@ -1,14 +1,9 @@
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
-import { useAuth0 } from "@auth0/auth0-react";
-import { getAllOwnedCards } from "../services/cardServices";
 import { useState, useEffect, useContext } from "react";
-import { ICardFromDB } from "../interfaces/dataFromDB";
 import { Link } from "react-router-dom";
 import { ContainerContext } from "../globals/containerContext";
 import { ICard, ICollection } from "../interfaces/LSInterface";
-import { getSetFromApi } from "../services/pkmnTcgApiServices";
-import { IPkmnSet } from "../interfaces/dataFromApi";
 
 interface IProps {
   type?: string;
@@ -20,7 +15,6 @@ export const CollectionBanner = (props: IProps) => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   // const { user, isAuthenticated } = useAuth0();
   const [cards, setCards] = useState<ICard[] | undefined>();
-  const [pkmnSet, setPkmnSet] = useState<IPkmnSet | undefined>();
   const language = container.language;
   const theme = container.theme;
   const coll = container.user?.collections.find(

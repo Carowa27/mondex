@@ -9,7 +9,6 @@ import { IPkmnCard } from "../interfaces/dataFromApi";
 import { BigPkmnCard } from "../components/BigPkmnCard";
 import { getMondexLs, updateMondexLs } from "../functions/LSFunctions";
 import { ContainerContext } from "../globals/containerContext";
-import { IUser } from "../interfaces/LSInterface";
 
 export const Home = () => {
   const { container, updateContainer } = useContext(ContainerContext);

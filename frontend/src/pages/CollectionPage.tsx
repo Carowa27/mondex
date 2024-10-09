@@ -2,18 +2,18 @@ import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { LoadingModule } from "../components/LoadingModule";
 import { useContext, useEffect, useState } from "react";
-import { IPkmnCard, IPkmnSet } from "../interfaces/dataFromApi";
-import { getPkmnFromApi, getSetFromApi } from "../services/pkmnTcgApiServices";
+import { IPkmnCard } from "../interfaces/dataFromApi";
+import { getPkmnFromApi } from "../services/pkmnTcgApiServices";
 import { SmallPkmnCard } from "../components/SmallPkmnCard";
 import { Pagination } from "./layout/Pagination";
 import { BreadCrumbs } from "./layout/BreadCrumbs";
 import { DeleteCardPopUp } from "../components/DeleteCardPopUp";
 import { ContainerContext } from "../globals/containerContext";
 import { ICard, ICollection } from "../interfaces/LSInterface";
-import { getMondexLs, updateMondexLs } from "../functions/LSFunctions";
+import { getMondexLs } from "../functions/LSFunctions";
 
 export const CollectionPage = () => {
-  const { container, updateContainer } = useContext(ContainerContext);
+  const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [cardList, setCardList] = useState<ICard[]>([]);
