@@ -1,9 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { ContainerContext } from "../globals/containerContext";
 import { ICard, ICollection } from "../interfaces/LSInterface";
-import { IPkmnCard } from "../interfaces/dataFromApi";
 
 interface IProps {
   changeShowDeleteCardPopUp: () => void;
@@ -11,10 +10,7 @@ interface IProps {
   collection?: ICollection | undefined;
   collectionName: string;
   updateData: () => void;
-  delCard?: (
-    card: ICard | undefined,
-    cardFromApi: IPkmnCard | undefined
-  ) => void;
+  delCard?: (card: ICard) => void;
 }
 
 export const DeleteCardPopUp = ({
@@ -33,54 +29,14 @@ export const DeleteCardPopUp = ({
 
   const handleSubmitToDelete = async () => {
     if (user && cardToDelete) {
-      delCard && delCard(cardToDelete, undefined);
-      // await deleteOwnedCardById({ user, card }).then(() => {
-      //   console.info(
-      //     "deleted: ",
-      //     cardToDelete.api_pkmn_name,
-      //     cardToDelete.api_card_id
-      //   );
-      // });
+      delCard && delCard(cardToDelete);
     }
-
-    // if (cardList && collection) {
-    //   const findCardsConnectedToSet: ICard[] = cardList.filter((card) => {
-    //     return card.collection_id === collection.id;
-    //   });
-    //   let card: ICard;
-    //   for (let i = 0; i < findCardsConnectedToSet.length; i++) {
-    //     card = findCardsConnectedToSet[i];
-    //     if (user) {
-    //       await deleteOwnedCardById({ user, card });
-    //     }
-    //   }
-    // }
-
-    // if (user && collection) {
-    //   await deleteCollectionById({ user, collection }).then(() => {
-    //     console.info("deleted: ", collection.collection_name);
-    //     window.location.href = "/all-collections";
-    //   });
-    // }
 
     setTimeout(() => {
       updateData();
       changeShowDeleteCardPopUp();
     }, 100);
   };
-
-  useEffect(() => {
-    const getData = async () => {
-      if (user) {
-        // await getAllOwnedCards({ user }).then((res: ICardFromDB[] | void) => {
-        //   if (res) {
-        //     setCardList(res);
-        //   }
-        // });
-      }
-    };
-    getData();
-  }, []);
 
   return (
     <div

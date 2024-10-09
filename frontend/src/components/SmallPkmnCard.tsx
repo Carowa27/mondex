@@ -84,10 +84,7 @@ export const SmallPkmnCard = ({
     }, 100);
   };
 
-  const delCard = (
-    card: ICard | undefined,
-    cardFromApi: IPkmnCard | undefined
-  ) => {
+  const delCard = (card: ICard) => {
     const updatedCollections = removeCardFromCollection(
       card!,
       collectionName,
@@ -116,7 +113,7 @@ export const SmallPkmnCard = ({
             setShowDeleteCard(true);
             setCardToDelete(card);
           } else {
-            delCard(card, cardFromApi);
+            delCard(card);
           }
         }
       }
@@ -127,7 +124,7 @@ export const SmallPkmnCard = ({
             setShowDeleteCard(true);
             setCardToDelete(card);
           } else {
-            delCard(card, cardFromApi);
+            delCard(card);
           }
         }
       }
