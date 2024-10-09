@@ -189,7 +189,10 @@ export const Search = () => {
   const changeShowPkmnInfo = () => {
     setSeeBigCard(false);
   };
-
+  const changeToAddPopup = () => {
+    setSeeBigCard(false);
+    setShowChooseAddCardPopup(true);
+  };
   const changeShowAddCardPopup = () => {
     setShowChooseAddCardPopup(false);
   };
@@ -267,6 +270,7 @@ export const Search = () => {
             card={undefined}
             pkmnCard={infoPkmnCard}
             changeShowPkmnInfo={changeShowPkmnInfo}
+            changeToAddPopup={changeToAddPopup}
           />
         </div>
       ) : null}

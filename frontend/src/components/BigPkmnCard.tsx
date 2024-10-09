@@ -14,8 +14,14 @@ interface IProps {
   card: ICard | undefined;
   pkmnCard: IPkmnCard | undefined;
   changeShowPkmnInfo: () => void;
+  changeToAddPopup: () => void;
 }
-export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
+export const BigPkmnCard = ({
+  card,
+  pkmnCard,
+  changeShowPkmnInfo,
+  changeToAddPopup,
+}: IProps) => {
   const { container, updateContainer } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const [cardInfo, setCardInfo] = useState<IPkmnCard>();
@@ -26,6 +32,8 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
     lastOpenedCard: undefined,
     language: lang.EN,
   });
+  const [hoverAddBtn, setHoverAddBtn] = useState<boolean>(false);
+  const [hoverInfoBtn, setHoverInfoBtn] = useState<boolean>(false);
   const language = container.language;
   const theme = container.theme;
   useEffect(() => {
@@ -277,6 +285,40 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
               <BigCardValueContainer>
                 {valueHTML(cardInfo)}
               </BigCardValueContainer>
+              {container.user ? (
+                <span
+                  style={
+                    hoverAddBtn
+                      ? {
+                          backgroundColor: `rgba(${theme?.typeColors.grass.rgb},0.6)`,
+                          width: "35px",
+                          height: "35px",
+                          fontSize: "30px",
+                          alignSelf: "end",
+                          marginRight: "0.5rem",
+                          marginTop: "0.5rem",
+                        }
+                      : {
+                          backgroundColor: `rgba(${theme?.typeColors.grass.rgb},0.4)`,
+                          width: "35px",
+                          height: "35px",
+                          fontSize: "30px",
+                          alignSelf: "end",
+                          marginRight: "0.5rem",
+                          marginTop: "0.5rem",
+                        }
+                  }
+                  className="rounded-circle d-flex align-items-center justify-content-center"
+                  onMouseEnter={() => setHoverAddBtn(true)}
+                  onMouseLeave={() => setHoverAddBtn(false)}
+                  title="add card"
+                  onClick={() => {
+                    changeToAddPopup();
+                  }}
+                >
+                  <i className="bi bi-plus m-0 p-0"></i>
+                </span>
+              ) : null}
             </>
           )}
         </BigCardInfo>
