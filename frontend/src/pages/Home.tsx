@@ -378,7 +378,7 @@ export const Home = () => {
                         </form>
                       </div>
                     )}
-                    {language?.lang_code.collection_no_collections_created}
+                    {/* {language?.lang_code.collection_no_collections_created} */}
                     {container.user?.collections.length === 0 && (
                       <button
                         style={{
