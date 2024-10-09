@@ -3,6 +3,8 @@ import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { ContainerContext } from "../globals/containerContext";
 import { ICard, ICollection } from "../interfaces/LSInterface";
+import { deleteCollection } from "../functions/collectionFunctions";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
   changeShowDeleteCardPopUp: () => void;
@@ -21,15 +23,28 @@ export const DeleteCardPopUp = ({
   updateData,
   delCard,
 }: IProps) => {
-  const { container } = useContext(ContainerContext);
+  const { container, updateContainer } = useContext(ContainerContext);
+  const navigate = useNavigate();
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const language = container.language;
   const theme = container.theme;
   const user = container.user;
+  const collections = user?.collections;
 
   const handleSubmitToDelete = async () => {
     if (user && cardToDelete) {
       delCard && delCard(cardToDelete);
+    }
+    if (user && !cardToDelete && collection) {
+      const updatedCollections = deleteCollection(collection, collections!);
+      updateContainer(
+        {
+          username: container.user!.username,
+          collections: updatedCollections as ICollection[],
+        },
+        "user"
+      );
+      navigate("/userpage", { replace: true });
     }
 
     setTimeout(() => {

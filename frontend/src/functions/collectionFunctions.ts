@@ -1,8 +1,4 @@
-import { useContext } from "react";
 import { ICollection } from "../interfaces/LSInterface";
-import { ContainerContext } from "../globals/containerContext";
-
-// const { container, updateContainer } = useContext(ContainerContext);
 
 export const addCollection = (newCollection: ICollection) => {
   // const updatedCollections = [...container.user!.collections, newCollection];
@@ -14,6 +10,16 @@ export const addCollection = (newCollection: ICollection) => {
   //   "user"
   // );
 };
-export const deleteCollection = (collection: ICollection) => {
+export const deleteCollection = (
+  collection: ICollection,
+  collections: ICollection[]
+) => {
+  const collectionIndex = collections.findIndex(
+    (coll) => coll.id === collection.id
+  );
   // delete collection
+  const updatedCollections = [
+    ...collections.filter((_, index) => index !== collectionIndex),
+  ];
+  return updatedCollections;
 };

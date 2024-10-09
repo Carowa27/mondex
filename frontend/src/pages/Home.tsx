@@ -311,7 +311,7 @@ export const Home = () => {
                 {container?.user?.collections &&
                 container.user.collections.length !== 0 ? (
                   <>
-                    {container?.user.collections
+                    {container.user.collections
                       .slice(0, isDesktop ? 3 : 2)
                       .map((coll) => (
                         <CollectionBanner
