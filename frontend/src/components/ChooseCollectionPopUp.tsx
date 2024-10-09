@@ -133,7 +133,7 @@ export const ChooseCollectionPopUp = ({
                     />
                     <span
                       style={
-                        coll.set?.id !== null &&
+                        coll.set !== undefined &&
                         cardToAdd.set.id !== coll.set?.id
                           ? {
                               color: theme?.primaryColors.breadcrumbText.hex,

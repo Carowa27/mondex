@@ -140,14 +140,14 @@ export const SwapCollectionPopUp = ({
                       checked={selectedCollectionName === coll.collection_name}
                       disabled={
                         coll.collection_name === collectionName ||
-                        (coll.set?.id !== null &&
+                        (coll.set?.id !== undefined &&
                           cardToSwap.card.set.id !== coll.set?.id)
                       }
                     />
                     <span
                       style={
                         coll.collection_name === collectionName ||
-                        (coll.set?.id !== null &&
+                        (coll.set?.id !== undefined &&
                           cardToSwap.card.set.id !== coll.set?.id)
                           ? {
                               color: theme?.primaryColors.breadcrumbText.hex,
