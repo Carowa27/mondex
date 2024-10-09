@@ -189,9 +189,9 @@ export const CollectionPage = () => {
               (collection?.cards_in_collection.length === 0 && (
                 <>{language?.lang_code.collection_with_no_cards_more_words}</>
               ))}
-            {(cardList?.length !== 0 || collection?.set?.id !== null) && (
+            {(cardList?.length !== 0 || collection?.set !== undefined) && (
               <>
-                {collection && collection?.set?.id === undefined ? (
+                {collection && collection?.set === undefined ? (
                   <ul
                     className={
                       isDesktop
