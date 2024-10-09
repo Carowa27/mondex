@@ -181,6 +181,11 @@ export const Search = () => {
     }
   }, [searchValue]);
 
+  useEffect(() => {
+    setPkmnList([]);
+    setPage(1);
+  }, [searchParam]);
+
   const changeShowPkmnInfo = () => {
     setSeeBigCard(false);
   };
