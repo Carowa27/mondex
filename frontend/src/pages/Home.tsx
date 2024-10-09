@@ -53,7 +53,7 @@ export const Home = () => {
   };
 
   const getValuableCard = async () => {
-    await getMostValuableCardFromApi(`normal`).then((res) => {
+    await getMostValuableCardFromApi().then((res) => {
       if (res) {
         updateContainer({ card: res, savedOn: today }, "valuableCard");
       }
@@ -164,21 +164,150 @@ export const Home = () => {
               {language?.lang_code.search_new_sets_might_be_unavailable}.
             </span>
           )}
-          <div className={isDesktop ? "" : "d-flex "}>
+          <div className={isDesktop ? "mt-auto" : "d-flex "}>
             {container.lastOpenedCard ? (
               <div
                 className={
                   isDesktop
-                    ? "d-flex flex-column w-100"
-                    : "d-flex flex-column w-25 align-items-center flex-fill"
+                    ? "d-flex flex-row w-100 flex-wrap"
+                    : "d-flex flex-column w-25 align-items-center flex-fill ms-3"
                 }
               >
-                <h6 className={isDesktop ? "align-self-start" : "text-center"}>
+                <h6
+                  className={
+                    isDesktop ? "align-self-start w-100" : "text-center"
+                  }
+                >
                   {language?.lang_code.your_last_searched}
-                </h6>
+                </h6>{" "}
+                <p
+                  className={
+                    isDesktop
+                      ? "m-0 w-50"
+                      : "w-100 d-flex flex-column justify-content-evenly m-0"
+                  }
+                >
+                  {isDesktop ? (
+                    <>
+                      <span>
+                        <b>Card: </b>
+                        {container.lastOpenedCard.name}
+                      </span>
+
+                      <br />
+                      <span>
+                        <b>Artist: </b>
+                        {container.lastOpenedCard.artist}
+                      </span>
+                      <br />
+                      <span>
+                        <b>Set: </b>
+                        {container.lastOpenedCard.set.name}
+                      </span>
+                      <br />
+                      <span>
+                        <b>Release date: </b>
+                        {container.lastOpenedCard.set.releaseDate}
+                      </span>
+                      <br />
+                      <span>
+                        <b>Rarity: </b>
+                        {container.lastOpenedCard.rarity}
+                      </span>
+                      <br />
+                      <span>
+                        <b>Value: </b>
+                        {container.lastOpenedCard.tcgplayer?.prices[
+                          "1stEdition"
+                        ]?.mid &&
+                          container.lastOpenedCard.tcgplayer?.prices[
+                            "1stEdition"
+                          ]?.mid}
+                        {container.lastOpenedCard.tcgplayer?.prices[
+                          "1stEditionHolofoil"
+                        ]?.mid &&
+                          container.lastOpenedCard.tcgplayer?.prices[
+                            "1stEditionHolofoil"
+                          ]?.mid}
+                        {container.lastOpenedCard.tcgplayer?.prices[
+                          "1stEditionNormal"
+                        ]?.mid &&
+                          container.lastOpenedCard.tcgplayer?.prices[
+                            "1stEditionNormal"
+                          ]?.mid}
+                        {container.lastOpenedCard.tcgplayer?.prices.holofoil
+                          ?.mid &&
+                          container.lastOpenedCard.tcgplayer?.prices.holofoil
+                            ?.mid}
+                        {container.lastOpenedCard.tcgplayer?.prices.normal
+                          ?.mid &&
+                          container.lastOpenedCard.tcgplayer?.prices.normal
+                            ?.mid}
+                        {container.lastOpenedCard.tcgplayer?.prices
+                          .reverseHolofoil &&
+                          container.lastOpenedCard.tcgplayer?.prices
+                            .reverseHolofoil.mid}
+                        {container.lastOpenedCard.tcgplayer?.prices.unlimited
+                          ?.mid &&
+                          container.lastOpenedCard.tcgplayer?.prices.unlimited
+                            ?.mid}
+                        {container.lastOpenedCard.tcgplayer?.prices
+                          .unlimitedHolofoil?.mid &&
+                          container.lastOpenedCard.tcgplayer?.prices
+                            .unlimitedHolofoil?.mid}
+                        $
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <span>{container.lastOpenedCard.name}</span>
+                      <span className={"align-self-end"}>
+                        {container.lastOpenedCard.tcgplayer?.prices[
+                          "1stEdition"
+                        ]?.mid &&
+                          container.lastOpenedCard.tcgplayer?.prices[
+                            "1stEdition"
+                          ]?.mid}
+                        {container.lastOpenedCard.tcgplayer?.prices[
+                          "1stEditionHolofoil"
+                        ]?.mid &&
+                          container.lastOpenedCard.tcgplayer?.prices[
+                            "1stEditionHolofoil"
+                          ]?.mid}
+                        {container.lastOpenedCard.tcgplayer?.prices[
+                          "1stEditionNormal"
+                        ]?.mid &&
+                          container.lastOpenedCard.tcgplayer?.prices[
+                            "1stEditionNormal"
+                          ]?.mid}
+                        {container.lastOpenedCard.tcgplayer?.prices.holofoil
+                          ?.mid &&
+                          container.lastOpenedCard.tcgplayer?.prices.holofoil
+                            ?.mid}
+                        {container.lastOpenedCard.tcgplayer?.prices.normal
+                          ?.mid &&
+                          container.lastOpenedCard.tcgplayer?.prices.normal
+                            ?.mid}
+                        {container.lastOpenedCard.tcgplayer?.prices
+                          .reverseHolofoil &&
+                          container.lastOpenedCard.tcgplayer?.prices
+                            .reverseHolofoil.mid}
+                        {container.lastOpenedCard.tcgplayer?.prices.unlimited
+                          ?.mid &&
+                          container.lastOpenedCard.tcgplayer?.prices.unlimited
+                            ?.mid}
+                        {container.lastOpenedCard.tcgplayer?.prices
+                          .unlimitedHolofoil?.mid &&
+                          container.lastOpenedCard.tcgplayer?.prices
+                            .unlimitedHolofoil?.mid}
+                        $
+                      </span>
+                    </>
+                  )}
+                </p>
                 <div
                   className={isDesktop ? "" : "d-flex justify-content-center"}
-                  style={{ width: isDesktop ? "7rem" : "12.5rem" }}
+                  style={{ width: "12.5rem" }}
                   onClick={() => {
                     setSeeBigCard(true);
                     setInfoPkmnCard(container?.lastOpenedCard);
@@ -191,7 +320,7 @@ export const Home = () => {
                     alt={container.lastOpenedCard.name}
                   />
                 </div>
-                <p
+                {/* <p
                   className={
                     isDesktop
                       ? "m-0"
@@ -199,31 +328,28 @@ export const Home = () => {
                   }
                 >
                   <span>{container.lastOpenedCard.name}</span>
-                </p>
+                </p> */}
               </div>
             ) : null}
             {container.mostValuableCard ? (
               <div
                 className={
                   isDesktop
-                    ? "d-flex flex-column w-100"
+                    ? "d-flex flex-row w-100 flex-wrap"
                     : "d-flex flex-column w-25 align-items-center flex-fill ms-3"
                 }
               >
-                {isDesktop ? (
-                  <h6 className="align-self-start mt-3">
-                    {language?.lang_code.most_valuable} <i>normal</i>{" "}
-                    {language?.lang_code.word_card.toLowerCase()}
-                  </h6>
-                ) : (
-                  <h6 className="text-center">
-                    {language?.lang_code.todays_valuable_card}
-                  </h6>
-                )}
+                <h5
+                  className={
+                    isDesktop ? "align-self-start mt-3 w-100" : "text-center"
+                  }
+                >
+                  {language?.lang_code.todays_valuable_card}
+                </h5>
 
                 <div
                   className={isDesktop ? "" : "d-flex justify-content-center"}
-                  style={{ width: isDesktop ? "7rem" : "12.5rem" }}
+                  style={{ width: "12.5rem" }}
                   onClick={() => {
                     setSeeBigCard(true);
                     setInfoPkmnCard(container?.mostValuableCard?.card);
@@ -239,18 +365,134 @@ export const Home = () => {
                 <p
                   className={
                     isDesktop
-                      ? "m-0"
+                      ? "m-0 w-50 ps-3 pt-3"
                       : "w-100 d-flex flex-column justify-content-evenly m-0"
                   }
                 >
-                  <span>{container.mostValuableCard.card.name}</span>
-                  <span className={isDesktop ? "ms-2" : "align-self-end"}>
-                    {
-                      container.mostValuableCard.card.tcgplayer?.prices.normal
-                        ?.market
-                    }
-                    $
-                  </span>
+                  {isDesktop ? (
+                    <>
+                      <span>
+                        <b>Card: </b>
+                        {container.mostValuableCard.card.name}
+                      </span>
+
+                      <br />
+                      <span>
+                        <b>Artist: </b>
+                        {container.mostValuableCard.card.artist}
+                      </span>
+                      <br />
+                      <span>
+                        <b>Set: </b>
+                        {container.mostValuableCard.card.set.name}
+                      </span>
+                      <br />
+                      <span>
+                        <b>Release date: </b>
+                        {container.mostValuableCard.card.set.releaseDate}
+                      </span>
+                      <br />
+                      <span>
+                        <b>Rarity: </b>
+                        {container.mostValuableCard.card.rarity}
+                      </span>
+                      <br />
+                      <span
+                        style={{
+                          fontSize: "48px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          height: "53%",
+                        }}
+                      >
+                        {container.mostValuableCard.card.tcgplayer?.prices[
+                          "1stEdition"
+                        ]?.mid &&
+                          container.mostValuableCard.card.tcgplayer?.prices[
+                            "1stEdition"
+                          ]?.mid}
+                        {container.mostValuableCard.card.tcgplayer?.prices[
+                          "1stEditionHolofoil"
+                        ]?.mid &&
+                          container.mostValuableCard.card.tcgplayer?.prices[
+                            "1stEditionHolofoil"
+                          ]?.mid}
+                        {container.mostValuableCard.card.tcgplayer?.prices[
+                          "1stEditionNormal"
+                        ]?.mid &&
+                          container.mostValuableCard.card.tcgplayer?.prices[
+                            "1stEditionNormal"
+                          ]?.mid}
+                        {container.mostValuableCard.card.tcgplayer?.prices
+                          .holofoil?.mid &&
+                          container.mostValuableCard.card.tcgplayer?.prices
+                            .holofoil?.mid}
+                        {container.mostValuableCard.card.tcgplayer?.prices
+                          .normal?.mid &&
+                          container.mostValuableCard.card.tcgplayer?.prices
+                            .normal?.mid}
+                        {container.mostValuableCard.card.tcgplayer?.prices
+                          .reverseHolofoil &&
+                          container.mostValuableCard.card.tcgplayer?.prices
+                            .reverseHolofoil.mid}
+                        {container.mostValuableCard.card.tcgplayer?.prices
+                          .unlimited?.mid &&
+                          container.mostValuableCard.card.tcgplayer?.prices
+                            .unlimited?.mid}
+                        {container.mostValuableCard.card.tcgplayer?.prices
+                          .unlimitedHolofoil?.mid &&
+                          container.mostValuableCard.card.tcgplayer?.prices
+                            .unlimitedHolofoil?.mid}
+                        $
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <span>{container.mostValuableCard.card.name}</span>
+                      <span className={"align-self-end"}>
+                        {container.mostValuableCard.card.tcgplayer?.prices[
+                          "1stEdition"
+                        ]?.mid &&
+                          container.mostValuableCard.card.tcgplayer?.prices[
+                            "1stEdition"
+                          ]?.mid}
+                        {container.mostValuableCard.card.tcgplayer?.prices[
+                          "1stEditionHolofoil"
+                        ]?.mid &&
+                          container.mostValuableCard.card.tcgplayer?.prices[
+                            "1stEditionHolofoil"
+                          ]?.mid}
+                        {container.mostValuableCard.card.tcgplayer?.prices[
+                          "1stEditionNormal"
+                        ]?.mid &&
+                          container.mostValuableCard.card.tcgplayer?.prices[
+                            "1stEditionNormal"
+                          ]?.mid}
+                        {container.mostValuableCard.card.tcgplayer?.prices
+                          .holofoil?.mid &&
+                          container.mostValuableCard.card.tcgplayer?.prices
+                            .holofoil?.mid}
+                        {container.mostValuableCard.card.tcgplayer?.prices
+                          .normal?.mid &&
+                          container.mostValuableCard.card.tcgplayer?.prices
+                            .normal?.mid}
+                        {container.mostValuableCard.card.tcgplayer?.prices
+                          .reverseHolofoil &&
+                          container.mostValuableCard.card.tcgplayer?.prices
+                            .reverseHolofoil.mid}
+                        {container.mostValuableCard.card.tcgplayer?.prices
+                          .unlimited?.mid &&
+                          container.mostValuableCard.card.tcgplayer?.prices
+                            .unlimited?.mid}
+                        {container.mostValuableCard.card.tcgplayer?.prices
+                          .unlimitedHolofoil?.mid &&
+                          container.mostValuableCard.card.tcgplayer?.prices
+                            .unlimitedHolofoil?.mid}
+                        $
+                      </span>
+                    </>
+                  )}
                 </p>
                 <span style={{ fontSize: "x-small" }}>
                   {language?.lang_code.last_updated_at}:{" "}
