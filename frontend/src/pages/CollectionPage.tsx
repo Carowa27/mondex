@@ -85,11 +85,13 @@ export const CollectionPage = () => {
 
   useEffect(() => {
     if (collection) {
-      // setIsLoading(false);
       if (cardList.length !== 0 && collection.set === null) {
         setIsLoading(false);
       }
       if (cardsFromApiList.length !== 0 && collection.set !== null) {
+        setIsLoading(false);
+      }
+      if (collection.cards_in_collection.length === 0) {
         setIsLoading(false);
       }
     }
@@ -182,11 +184,11 @@ export const CollectionPage = () => {
       <div style={{ minHeight: "80vh" }} className="mt-2  d-flex flex-column">
         {!isLoading ? (
           <>
-            {collection?.cards_in_collection.length === 0 ||
-              (collection?.cards_in_collection.length === 0 &&
-                collection?.set?.id !== undefined && (
-                  <>{language?.lang_code.collection_with_no_cards_more_words}</>
-                ))}
+            {(collection?.cards_in_collection.length === 0 &&
+              collection?.set?.id !== undefined) ||
+              (collection?.cards_in_collection.length === 0 && (
+                <>{language?.lang_code.collection_with_no_cards_more_words}</>
+              ))}
             {(cardList?.length !== 0 || collection?.set?.id !== null) && (
               <>
                 {collection && collection?.set?.id === undefined ? (
