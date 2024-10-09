@@ -13,7 +13,6 @@ import { ICard, ICollection } from "../interfaces/LSInterface";
 export const Search = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { container, updateContainer } = useContext(ContainerContext);
-  // const { isAuthenticated, user } = useAuth0();
   const [searchValue, setSearchValue] = useState<string>("");
   const [searchParam, setSearchParam] = useState<string>("pkmn");
   const [pkmnList, setPkmnList] = useState<IPkmnCard[]>([]);
@@ -417,12 +416,12 @@ export const Search = () => {
                                       style={
                                         hoverAddBtn
                                           ? {
-                                              backgroundColor: `rgba(${theme?.typeColors.fire.rgb},0.6)`,
+                                              backgroundColor: `rgba(${theme?.typeColors.grass.rgb},0.6)`,
                                               width: "25px",
                                               height: "25px",
                                             }
                                           : {
-                                              backgroundColor: `rgba(${theme?.typeColors.fire.rgb},0.4)`,
+                                              backgroundColor: `rgba(${theme?.typeColors.grass.rgb},0.4)`,
                                               width: "25px",
                                               height: "25px",
                                             }
