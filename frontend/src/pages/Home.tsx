@@ -9,6 +9,7 @@ import { IPkmnCard } from "../interfaces/dataFromApi";
 import { BigPkmnCard } from "../components/BigPkmnCard";
 import { getMondexLs, updateMondexLs } from "../functions/LSFunctions";
 import { ContainerContext } from "../globals/containerContext";
+import { getToday } from "../functions/dateFunctions";
 
 export const Home = () => {
   const { container, updateContainer } = useContext(ContainerContext);
@@ -65,7 +66,20 @@ export const Home = () => {
   };
   const saveUserName = (e: FormEvent) => {
     e.preventDefault();
-    updateContainer({ username, collections: [] }, "user");
+    updateContainer(
+      {
+        username,
+        collections: [
+          {
+            id: "Main_Collection" + getToday(),
+            collection_name: "Main_Collection",
+            cards_in_collection: [],
+            created_date: getToday(),
+          },
+        ],
+      },
+      "user"
+    );
   };
   useEffect(() => {
     setIsLoading(true);

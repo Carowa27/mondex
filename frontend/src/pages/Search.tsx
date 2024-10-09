@@ -46,6 +46,7 @@ export const Search = () => {
         setShowChooseAddCardPopup(true);
       } else {
         if (cardFromApi) {
+          addCard(cardFromApi, "Main_Collection");
           setSeeCreatedCard(true),
             setTimeout(() => setSeeCreatedCard(false), 1000);
         }

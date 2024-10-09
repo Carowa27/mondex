@@ -171,7 +171,7 @@ export const CollectionPage = () => {
         )}
         <div className="d-flex flex-column align-items-end">
           <BreadCrumbs pageParam="collection" collectionName={collectionName} />
-          {collection?.collection_name !== `Master_Collection` ? (
+          {collection?.collection_name !== `Main_Collection` ? (
             <h5
               className="bi bi-trash3 pe-4 m-0"
               onClick={() => setShowDeleteCollection(true)}
