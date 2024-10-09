@@ -44,15 +44,15 @@ export const SmallPkmnCard = ({
     cardFromApi: IPkmnCard | undefined
   ) => {
     console.log("toSwap", card, cardFromApi);
-    // if (card !== undefined) {
-    //   setCardToSwap(card);
-    // }
-    // if (cardFromApi !== undefined) {
-    //   setCardToSwap(
-    //     cardList.find((IPkmnCard) => card?.id === card.id)
-    //   );
-    // }
-    // setShowSwapCollection(true);
+    if (card !== undefined) {
+      setCardToSwap(card);
+    }
+    if (cardFromApi !== undefined) {
+      setCardToSwap(
+        cardList.find((cardToFind) => cardToFind?.card?.id === cardFromApi.id)
+      );
+    }
+    setShowSwapCollection(true);
   };
   const addCard = (
     card: ICard | undefined,

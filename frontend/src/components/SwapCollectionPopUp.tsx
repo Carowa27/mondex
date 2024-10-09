@@ -1,9 +1,9 @@
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { variables } from "../globals/variables";
 import { styled } from "styled-components";
-import { getAllOwnedCollections } from "../services/collectionServices";
 import { ContainerContext } from "../globals/containerContext";
 import { ICard, ICollection } from "../interfaces/LSInterface";
+import { swapCardToOtherCollection } from "../functions/cardFunctions";
 interface IProps {
   changeShowSwapPopUp: () => void;
   cardToSwap: ICard | undefined;
@@ -17,7 +17,7 @@ export const SwapCollectionPopUp = ({
   collectionName,
   updateData,
 }: IProps) => {
-  const { container } = useContext(ContainerContext);
+  const { container, updateContainer } = useContext(ContainerContext);
   const language = container.language;
   const theme = container.theme;
   const user = container.user;
@@ -49,13 +49,21 @@ export const SwapCollectionPopUp = ({
   const handleSubmitToSwap = async () => {
     const newCollectionName = selectedCollectionName;
     const oldCollectionName = collectionName;
-    if (cardToSwap && user && newCollectionName) {
-      // await swapCardToOtherCollection({
-      //   user,
-      //   cardToSwap,
-      //   newCollectionName,
-      //   oldCollectionName,
-      // });
+    console.log("swap", newCollectionName, oldCollectionName);
+    if (cardToSwap && collections && newCollectionName && oldCollectionName) {
+      const updatedCollections = swapCardToOtherCollection(
+        cardToSwap,
+        newCollectionName,
+        oldCollectionName,
+        collections
+      );
+      updateContainer(
+        {
+          username: container.user!.username,
+          collections: updatedCollections as ICollection[],
+        },
+        "user"
+      );
     }
     setTimeout(() => {
       updateData();

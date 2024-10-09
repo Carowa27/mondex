@@ -1,32 +1,154 @@
 import { ICard, ICollection } from "../interfaces/LSInterface";
-import { useContext } from "react";
-import { ContainerContext } from "../globals/containerContext";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 
-interface IAddCardProps {
-  cardFromApi: IPkmnCard | undefined;
-  card: ICard | undefined;
-  collectionName: string;
-  cardList: ICard[];
-}
+export const addCardToCollection = (
+  cardToAdd: ICard,
+  collectionName: string,
+  collections: ICollection[],
+  swap?: boolean,
+  cardFromApi?: IPkmnCard
+) => {
+  console.log("in fn", cardToAdd, cardFromApi);
 
-export const addCardToCollection = ({
-  card,
-  cardFromApi,
-  collectionName,
-  cardList,
-}: IAddCardProps) => {
-  console.log("in fn", card, cardFromApi);
-  if (card?.amount === 1) {
-    // add card
+  const collection = collections.find(
+    (col) => col.collection_name === collectionName
+  );
+  const collectionIndex = collections.findIndex(
+    (col) => col.collection_name === collectionName
+  );
+  const cardIndex = collection?.cards_in_collection.findIndex(
+    (cardToFind) => cardToFind.card.id === cardToAdd?.card.id
+  );
+
+  const updatedCard = {
+    ...collections[collectionIndex].cards_in_collection[cardIndex!],
+    card: cardToAdd.card,
+    amount: cardToAdd.amount + 1,
+  };
+  const updatedCollection =
+    cardToAdd.amount === 1
+      ? {
+          ...collections[collectionIndex],
+          cards_in_collection: [
+            ...collections[collectionIndex].cards_in_collection.slice(
+              0,
+              cardIndex
+            ),
+            updatedCard,
+            ...collections[collectionIndex].cards_in_collection.slice(
+              cardIndex! + 1
+            ),
+          ],
+        }
+      : {
+          ...collections[collectionIndex],
+          cards_in_collection: [
+            ...collections[collectionIndex].cards_in_collection,
+            { card: cardFromApi, amount: 1 },
+          ],
+        };
+
+  const updatedCollections = [
+    ...collections.slice(0, collectionIndex),
+    updatedCollection,
+    ...collections.slice(collectionIndex + 1),
+  ];
+  if (swap === true) {
+    return updatedCollection;
   } else {
-    // create amount
+    return updatedCollections;
   }
 };
-export const removeCardToCollection = (card: ICard) => {
-  if (card.amount === 1) {
-    // remove card
+export const removeCardFromCollection = (
+  cardToSub: ICard,
+  collectionName: string,
+  collections: ICollection[],
+  swap?: boolean
+) => {
+  const collection = collections.find(
+    (col) => col.collection_name === collectionName
+  );
+  const collectionIndex = collections.findIndex(
+    (col) => col.collection_name === collectionName
+  );
+  const cardIndex = collection?.cards_in_collection.findIndex(
+    (cardToFind) => cardToFind.card.id === cardToSub?.card.id
+  );
+
+  const updatedCard = {
+    ...collections[collectionIndex].cards_in_collection[cardIndex!],
+    card: cardToSub.card,
+    amount: cardToSub.amount - 1,
+  };
+  const updatedCollection =
+    cardToSub.amount === 1
+      ? {
+          ...collections[collectionIndex],
+          cards_in_collection: [
+            ...collections[collectionIndex].cards_in_collection.filter(
+              (_, index) => index !== cardIndex
+            ),
+          ],
+        }
+      : {
+          ...collections[collectionIndex],
+          cards_in_collection: [
+            ...collections[collectionIndex].cards_in_collection.slice(
+              0,
+              cardIndex
+            ),
+            updatedCard,
+            ...collections[collectionIndex].cards_in_collection.slice(
+              cardIndex! + 1
+            ),
+          ],
+        };
+
+  const updatedCollections = [
+    ...collections.slice(0, collectionIndex),
+    updatedCollection,
+    ...collections.slice(collectionIndex + 1),
+  ];
+  if (swap === true) {
+    return updatedCollection;
   } else {
-    // sub amount
+    return updatedCollections;
   }
+};
+
+export const swapCardToOtherCollection = (
+  cardToSwap: ICard,
+  newColl: string,
+  oldColl: string,
+  collections: ICollection[]
+) => {
+  const updatedCollOne = removeCardFromCollection(
+    cardToSwap,
+    oldColl,
+    collections,
+    true
+  ) as ICollection;
+  const collOneIndex = collections.findIndex(
+    (coll) => coll.collection_name === updatedCollOne?.collection_name
+  );
+  const updatedCollTwo = addCardToCollection(
+    cardToSwap,
+    newColl,
+    collections,
+    true
+  ) as ICollection;
+  const collTwoIndex = collections.findIndex(
+    (coll) => coll.collection_name === updatedCollTwo?.collection_name
+  );
+  const updatedStepOneCollections = [
+    ...collections.slice(0, collOneIndex),
+    updatedCollOne,
+    ...collections.slice(collOneIndex + 1),
+  ];
+  const updatedStepTwoCollections = [
+    ...updatedStepOneCollections.slice(0, collTwoIndex),
+    updatedCollTwo,
+    ...updatedStepOneCollections.slice(collTwoIndex + 1),
+  ];
+  return updatedStepTwoCollections;
 };
