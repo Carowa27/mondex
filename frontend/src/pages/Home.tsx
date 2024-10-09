@@ -10,6 +10,7 @@ import { BigPkmnCard } from "../components/BigPkmnCard";
 import { getMondexLs, updateMondexLs } from "../functions/LSFunctions";
 import { ContainerContext } from "../globals/containerContext";
 import { getToday } from "../functions/dateFunctions";
+import { SmallPkmnCard } from "../components/SmallPkmnCard";
 
 export const Home = () => {
   const { container, updateContainer } = useContext(ContainerContext);
@@ -25,6 +26,8 @@ export const Home = () => {
   const month = new Date().getMonth() + 1;
   const year = new Date().getFullYear();
   const today = `${year}-${month}-${date}`;
+  const mostValuableCard = container.mostValuableCard?.card[0];
+  const nextValuableCard = container.mostValuableCard?.card.slice(1, 6);
 
   const changeShowPkmnInfo = () => {
     setSeeBigCard(false);
@@ -352,14 +355,14 @@ export const Home = () => {
                   style={{ width: "12.5rem" }}
                   onClick={() => {
                     setSeeBigCard(true);
-                    setInfoPkmnCard(container?.mostValuableCard?.card);
+                    setInfoPkmnCard(mostValuableCard);
                   }}
                 >
                   <img
                     className="rounded"
                     style={{ width: isDesktop ? "100%" : "40%" }}
-                    src={container.mostValuableCard.card.images.small}
-                    alt={container.mostValuableCard.card.name}
+                    src={mostValuableCard?.images.small}
+                    alt={mostValuableCard?.name}
                   />
                 </div>
                 <p
@@ -373,28 +376,28 @@ export const Home = () => {
                     <>
                       <span>
                         <b>Card: </b>
-                        {container.mostValuableCard.card.name}
+                        {mostValuableCard?.name}
                       </span>
 
                       <br />
                       <span>
                         <b>Artist: </b>
-                        {container.mostValuableCard.card.artist}
+                        {mostValuableCard?.artist}
                       </span>
                       <br />
                       <span>
                         <b>Set: </b>
-                        {container.mostValuableCard.card.set.name}
+                        {mostValuableCard?.set.name}
                       </span>
                       <br />
                       <span>
                         <b>Release date: </b>
-                        {container.mostValuableCard.card.set.releaseDate}
+                        {mostValuableCard?.set.releaseDate}
                       </span>
                       <br />
                       <span>
                         <b>Rarity: </b>
-                        {container.mostValuableCard.card.rarity}
+                        {mostValuableCard?.rarity}
                       </span>
                       <br />
                       <span
@@ -406,89 +409,69 @@ export const Home = () => {
                           height: "53%",
                         }}
                       >
-                        {container.mostValuableCard.card.tcgplayer?.prices[
-                          "1stEdition"
-                        ]?.mid &&
-                          container.mostValuableCard.card.tcgplayer?.prices[
-                            "1stEdition"
-                          ]?.mid}
-                        {container.mostValuableCard.card.tcgplayer?.prices[
+                        {mostValuableCard?.tcgplayer?.prices["1stEdition"]
+                          ?.mid &&
+                          mostValuableCard?.tcgplayer?.prices["1stEdition"]
+                            ?.mid}
+                        {mostValuableCard?.tcgplayer?.prices[
                           "1stEditionHolofoil"
                         ]?.mid &&
-                          container.mostValuableCard.card.tcgplayer?.prices[
+                          mostValuableCard?.tcgplayer?.prices[
                             "1stEditionHolofoil"
                           ]?.mid}
-                        {container.mostValuableCard.card.tcgplayer?.prices[
-                          "1stEditionNormal"
-                        ]?.mid &&
-                          container.mostValuableCard.card.tcgplayer?.prices[
+                        {mostValuableCard?.tcgplayer?.prices["1stEditionNormal"]
+                          ?.mid &&
+                          mostValuableCard?.tcgplayer?.prices[
                             "1stEditionNormal"
                           ]?.mid}
-                        {container.mostValuableCard.card.tcgplayer?.prices
-                          .holofoil?.mid &&
-                          container.mostValuableCard.card.tcgplayer?.prices
-                            .holofoil?.mid}
-                        {container.mostValuableCard.card.tcgplayer?.prices
-                          .normal?.mid &&
-                          container.mostValuableCard.card.tcgplayer?.prices
-                            .normal?.mid}
-                        {container.mostValuableCard.card.tcgplayer?.prices
-                          .reverseHolofoil &&
-                          container.mostValuableCard.card.tcgplayer?.prices
-                            .reverseHolofoil.mid}
-                        {container.mostValuableCard.card.tcgplayer?.prices
-                          .unlimited?.mid &&
-                          container.mostValuableCard.card.tcgplayer?.prices
-                            .unlimited?.mid}
-                        {container.mostValuableCard.card.tcgplayer?.prices
-                          .unlimitedHolofoil?.mid &&
-                          container.mostValuableCard.card.tcgplayer?.prices
-                            .unlimitedHolofoil?.mid}
+                        {mostValuableCard?.tcgplayer?.prices.holofoil?.mid &&
+                          mostValuableCard?.tcgplayer?.prices.holofoil?.mid}
+                        {mostValuableCard?.tcgplayer?.prices.normal?.mid &&
+                          mostValuableCard?.tcgplayer?.prices.normal?.mid}
+                        {mostValuableCard?.tcgplayer?.prices.reverseHolofoil &&
+                          mostValuableCard?.tcgplayer?.prices.reverseHolofoil
+                            .mid}
+                        {mostValuableCard?.tcgplayer?.prices.unlimited?.mid &&
+                          mostValuableCard?.tcgplayer?.prices.unlimited?.mid}
+                        {mostValuableCard?.tcgplayer?.prices.unlimitedHolofoil
+                          ?.mid &&
+                          mostValuableCard?.tcgplayer?.prices.unlimitedHolofoil
+                            ?.mid}
                         $
                       </span>
                     </>
                   ) : (
                     <>
-                      <span>{container.mostValuableCard.card.name}</span>
+                      <span>{mostValuableCard?.name}</span>
                       <span className={"align-self-end"}>
-                        {container.mostValuableCard.card.tcgplayer?.prices[
-                          "1stEdition"
-                        ]?.mid &&
-                          container.mostValuableCard.card.tcgplayer?.prices[
-                            "1stEdition"
-                          ]?.mid}
-                        {container.mostValuableCard.card.tcgplayer?.prices[
+                        {mostValuableCard?.tcgplayer?.prices["1stEdition"]
+                          ?.mid &&
+                          mostValuableCard?.tcgplayer?.prices["1stEdition"]
+                            ?.mid}
+                        {mostValuableCard?.tcgplayer?.prices[
                           "1stEditionHolofoil"
                         ]?.mid &&
-                          container.mostValuableCard.card.tcgplayer?.prices[
+                          mostValuableCard?.tcgplayer?.prices[
                             "1stEditionHolofoil"
                           ]?.mid}
-                        {container.mostValuableCard.card.tcgplayer?.prices[
-                          "1stEditionNormal"
-                        ]?.mid &&
-                          container.mostValuableCard.card.tcgplayer?.prices[
+                        {mostValuableCard?.tcgplayer?.prices["1stEditionNormal"]
+                          ?.mid &&
+                          mostValuableCard?.tcgplayer?.prices[
                             "1stEditionNormal"
                           ]?.mid}
-                        {container.mostValuableCard.card.tcgplayer?.prices
-                          .holofoil?.mid &&
-                          container.mostValuableCard.card.tcgplayer?.prices
-                            .holofoil?.mid}
-                        {container.mostValuableCard.card.tcgplayer?.prices
-                          .normal?.mid &&
-                          container.mostValuableCard.card.tcgplayer?.prices
-                            .normal?.mid}
-                        {container.mostValuableCard.card.tcgplayer?.prices
-                          .reverseHolofoil &&
-                          container.mostValuableCard.card.tcgplayer?.prices
-                            .reverseHolofoil.mid}
-                        {container.mostValuableCard.card.tcgplayer?.prices
-                          .unlimited?.mid &&
-                          container.mostValuableCard.card.tcgplayer?.prices
-                            .unlimited?.mid}
-                        {container.mostValuableCard.card.tcgplayer?.prices
-                          .unlimitedHolofoil?.mid &&
-                          container.mostValuableCard.card.tcgplayer?.prices
-                            .unlimitedHolofoil?.mid}
+                        {mostValuableCard?.tcgplayer?.prices.holofoil?.mid &&
+                          mostValuableCard?.tcgplayer?.prices.holofoil?.mid}
+                        {mostValuableCard?.tcgplayer?.prices.normal?.mid &&
+                          mostValuableCard?.tcgplayer?.prices.normal?.mid}
+                        {mostValuableCard?.tcgplayer?.prices.reverseHolofoil &&
+                          mostValuableCard?.tcgplayer?.prices.reverseHolofoil
+                            .mid}
+                        {mostValuableCard?.tcgplayer?.prices.unlimited?.mid &&
+                          mostValuableCard?.tcgplayer?.prices.unlimited?.mid}
+                        {mostValuableCard?.tcgplayer?.prices.unlimitedHolofoil
+                          ?.mid &&
+                          mostValuableCard?.tcgplayer?.prices.unlimitedHolofoil
+                            ?.mid}
                         $
                       </span>
                     </>
@@ -496,8 +479,26 @@ export const Home = () => {
                 </p>
                 <span style={{ fontSize: "x-small" }}>
                   {language?.lang_code.last_updated_at}:{" "}
-                  {container.mostValuableCard.card.tcgplayer?.updatedAt}
+                  {mostValuableCard?.tcgplayer?.updatedAt}
                 </span>
+                {isDesktop && (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-evenly",
+                      width: "100%",
+                    }}
+                  >
+                    {nextValuableCard?.map((card) => (
+                      // TODO add onclick open bigcard
+                      <img
+                        style={{ width: "4rem" }}
+                        src={card.images.small}
+                        alt={`${card.name} card`}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
             ) : null}
           </div>

@@ -66,7 +66,7 @@ export const getMostValuableCardFromApi = async () => {
       `https://api.pokemontcg.io/v2/cards/?orderBy=-tcgplayer.prices`
     )
       .then((res) => {
-        return res.data.data[0] as IPkmnCard;
+        return res.data.data.slice(0, 6) as IPkmnCard[];
       })
       .catch((error) => {
         console.error(error);
