@@ -14,7 +14,7 @@ interface IProps {
   card: ICard | undefined;
   pkmnCard: IPkmnCard | undefined;
   changeShowPkmnInfo: () => void;
-  changeToAddPopup: () => void;
+  changeToAddPopup?: () => void;
 }
 export const BigPkmnCard = ({
   card,
@@ -33,7 +33,6 @@ export const BigPkmnCard = ({
     language: lang.EN,
   });
   const [hoverAddBtn, setHoverAddBtn] = useState<boolean>(false);
-  const [hoverInfoBtn, setHoverInfoBtn] = useState<boolean>(false);
   const language = container.language;
   const theme = container.theme;
   useEffect(() => {
@@ -301,7 +300,7 @@ export const BigPkmnCard = ({
               <BigCardValueContainer>
                 {valueHTML(cardInfo)}
               </BigCardValueContainer>
-              {container.user ? (
+              {container.user && changeToAddPopup ? (
                 <span
                   style={
                     hoverAddBtn

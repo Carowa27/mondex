@@ -335,7 +335,7 @@ export const Home = () => {
                   </>
                 ) : (
                   <>
-                    {!container.user && (
+                    {(!container.user || container.user.username === "") && (
                       <div>
                         To add cards and collections, please start by adding
                         your name or username
@@ -372,6 +372,7 @@ export const Home = () => {
                               padding: "0.2rem 0.5rem",
                               borderRadius: "10px",
                             }}
+                            disabled={username === ""}
                           >
                             Save username
                           </button>
