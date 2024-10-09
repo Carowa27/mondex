@@ -85,10 +85,10 @@ export const CollectionPage = () => {
 
   useEffect(() => {
     if (collection) {
-      if (cardList.length !== 0 && collection.set === null) {
+      if (cardList.length !== 0 && collection.set === undefined) {
         setIsLoading(false);
       }
-      if (cardsFromApiList.length !== 0 && collection.set !== null) {
+      if (cardsFromApiList.length !== 0 && collection.set !== undefined) {
         setIsLoading(false);
       }
       if (collection.cards_in_collection.length === 0) {
