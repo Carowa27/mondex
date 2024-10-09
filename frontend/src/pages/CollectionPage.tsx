@@ -30,7 +30,6 @@ export const CollectionPage = () => {
   const [end, setEnd] = useState<number>(isDesktop ? 50 : 20);
   const [showDeleteCollection, setShowDeleteCollection] =
     useState<boolean>(false);
-  const [pkmnSetInfo, setPkmnSetInfo] = useState<IPkmnSet | undefined>();
   const language = container.language;
   const collectionName = window.location.href.split("/")[4];
   const collectionNameToShow = collectionName.replace(/_/g, " ");
@@ -86,13 +85,13 @@ export const CollectionPage = () => {
 
   useEffect(() => {
     if (collection) {
-      setIsLoading(false);
-      // if (cardList.length !== 0 && collection.set_id === null) {
-      //   setIsLoading(false);
-      // }
-      // if (cardsFromApiList.length !== 0 && collection.set_id !== null) {
-      //   setIsLoading(false);
-      // }
+      // setIsLoading(false);
+      if (cardList.length !== 0 && collection.set === null) {
+        setIsLoading(false);
+      }
+      if (cardsFromApiList.length !== 0 && collection.set !== null) {
+        setIsLoading(false);
+      }
     }
   }, [cardList, cardsFromApiList, collection]);
 
@@ -149,13 +148,13 @@ export const CollectionPage = () => {
       <div className="d-flex justify-content-between">
         <h3 className="m-0 align-self-center">
           {collectionNameToShow}
-          {pkmnSetInfo !== undefined && (
+          {collection?.set !== undefined && (
             <span style={{ fontSize: "16px", margin: "0 1rem" }}>
-              Set id: {pkmnSetInfo?.id.replace("pt", ".")}
+              Set id: {collection.set?.id.replace("pt", ".")}
             </span>
           )}
         </h3>
-        {pkmnSetInfo !== undefined && (
+        {collection?.set !== undefined && (
           <div style={{ alignSelf: "center" }}>
             {isDesktop ? (
               <img
@@ -166,7 +165,7 @@ export const CollectionPage = () => {
                 }}
               />
             ) : (
-              <p>{pkmnSetInfo?.name}</p>
+              <p>{collection.set?.name}</p>
             )}
           </div>
         )}
