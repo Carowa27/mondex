@@ -25,7 +25,6 @@ export const SmallPkmnCard = ({
 }: IProps) => {
   const { container, updateContainer } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  // const { isAuthenticated, user } = useAuth0();
   const [showCardAlternatives, setShowCardAlternatives] = useState<string>("");
   const [hoverPlusBtn, setHoverPlusBtn] = useState<boolean>(false);
   const [hoverMinusBtn, setHoverMinusBtn] = useState<boolean>(false);
