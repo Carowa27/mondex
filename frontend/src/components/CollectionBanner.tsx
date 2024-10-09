@@ -13,7 +13,6 @@ interface IProps {
 export const CollectionBanner = (props: IProps) => {
   const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  // const { user, isAuthenticated } = useAuth0();
   const [cards, setCards] = useState<ICard[] | undefined>();
   const language = container.language;
   const theme = container.theme;
@@ -77,11 +76,11 @@ export const CollectionBanner = (props: IProps) => {
                     className={
                       isDesktop
                         ? cards && cards.length > 2
-                          ? "d-flex flex-wrap justify-content-around align-items-end"
+                          ? "d-flex flex-wrap justify-content-start align-items-end"
                           : "d-flex flex-wrap justify-content-start align-items-end"
                         : "d-flex flex-wrap justify-content-around"
                     }
-                    style={{ listStyle: "none", padding: 0 }}
+                    style={{ listStyle: "none", padding: 0, gap: "1rem" }}
                   >
                     <>
                       {cards &&
@@ -91,7 +90,7 @@ export const CollectionBanner = (props: IProps) => {
                             isDesktop
                               ? window.location.pathname !== "/"
                                 ? 7
-                                : 3
+                                : 4
                               : 2
                           )
                           .map((card) => (
