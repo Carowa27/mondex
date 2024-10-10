@@ -10,7 +10,6 @@ import { BigPkmnCard } from "../components/BigPkmnCard";
 import { getMondexLs, updateMondexLs } from "../functions/LSFunctions";
 import { ContainerContext } from "../globals/containerContext";
 import { getToday } from "../functions/dateFunctions";
-import { SmallPkmnCard } from "../components/SmallPkmnCard";
 
 export const Home = () => {
   const { container, updateContainer } = useContext(ContainerContext);
@@ -172,24 +171,35 @@ export const Home = () => {
               <div
                 className={
                   isDesktop
-                    ? "d-flex flex-row w-100 flex-wrap"
+                    ? "d-flex flex-row w-100 flex-wrap justify-content-evenly"
                     : "d-flex flex-column w-25 align-items-center flex-fill ms-3"
                 }
               >
-                <h6
-                  className={
-                    isDesktop ? "align-self-start w-100" : "text-center"
-                  }
-                >
-                  {language?.lang_code.your_last_searched}
-                </h6>{" "}
-                <p
+                {!isDesktop && (
+                  <h6
+                    className={
+                      isDesktop ? "align-self-start w-50" : "text-center"
+                    }
+                  >
+                    {language?.lang_code.your_last_searched}
+                  </h6>
+                )}
+                <div
                   className={
                     isDesktop
                       ? "m-0 w-50"
                       : "w-100 d-flex flex-column justify-content-evenly m-0"
                   }
                 >
+                  {isDesktop && (
+                    <h6
+                      className={
+                        isDesktop ? "align-self-start w-100" : "text-center"
+                      }
+                    >
+                      {language?.lang_code.your_last_searched}
+                    </h6>
+                  )}
                   {isDesktop ? (
                     <>
                       <span>
@@ -307,10 +317,10 @@ export const Home = () => {
                       </span>
                     </>
                   )}
-                </p>
+                </div>
                 <div
                   className={isDesktop ? "" : "d-flex justify-content-center"}
-                  style={{ width: "12.5rem" }}
+                  style={{ width: "10rem" }}
                   onClick={() => {
                     setSeeBigCard(true);
                     setInfoPkmnCard(container?.lastOpenedCard);
@@ -493,9 +503,14 @@ export const Home = () => {
                     {nextValuableCard?.map((card) => (
                       // TODO add onclick open bigcard
                       <img
+                        key={card.id}
                         style={{ width: "4rem" }}
                         src={card.images.small}
                         alt={`${card.name} card`}
+                        onClick={() => {
+                          setSeeBigCard(true);
+                          setInfoPkmnCard(card);
+                        }}
                       />
                     ))}
                   </div>
