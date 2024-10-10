@@ -15,11 +15,16 @@ export const addCardToCollection = (
     (col) => col.collection_name === collectionName
   );
   const cardIndex = collection?.cards_in_collection.findIndex(
-    (cardToFind) => cardToFind.card.id === cardToAdd?.card.id
+    (cardToFind) =>
+      cardToFind.card.id === (cardToAdd ? cardToAdd?.card.id : cardFromApi?.id)
   );
-
+  const cardFound = collection?.cards_in_collection.find(
+    (cardToFind) =>
+      cardToFind.card.id === (cardToAdd ? cardToAdd?.card.id : cardFromApi?.id)
+  );
+  console.log("bug finder", cardFound);
   const updatedCollection =
-    cardToAdd === undefined
+    cardToAdd === undefined && cardIndex === -1
       ? {
           ...collections[collectionIndex],
           cards_in_collection: [
@@ -36,8 +41,8 @@ export const addCardToCollection = (
             ),
             {
               ...collections[collectionIndex].cards_in_collection[cardIndex!],
-              card: cardToAdd!.card,
-              amount: cardToAdd!.amount + 1,
+              card: cardFound!.card,
+              amount: cardFound!.amount + 1,
             },
             ...collections[collectionIndex].cards_in_collection.slice(
               cardIndex! + 1
