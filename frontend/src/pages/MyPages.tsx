@@ -8,8 +8,11 @@ import { CollectionBanner } from "../components/CollectionBanner";
 import { ContainerContext } from "../globals/containerContext";
 import {
   getAmountOfCardsOwned,
+  getMostValuableCardOwned,
+  getValueOfCard,
   getValueOfCardsOwned,
 } from "../functions/dataFunctions";
+import { ICard } from "../interfaces/LSInterface";
 
 export const MyPages = () => {
   const { container } = useContext(ContainerContext);
@@ -23,7 +26,7 @@ export const MyPages = () => {
   const theme = container.theme;
   const user = container.user;
   const collections = container.user?.collections;
-  getValueOfCardsOwned(collections!);
+  const mostValuableOwnedCard = getMostValuableCardOwned(collections!);
   return (
     <div style={{ height: "min-content", minHeight: "90vh" }}>
       <div className="d-flex justify-content-between align-items-start">
@@ -241,6 +244,75 @@ export const MyPages = () => {
                     <b>Total value of cards: </b>~
                     {getValueOfCardsOwned(collections!)}$
                   </p>
+
+                  {/* TODO
+                  add function to get most valuable card from collections */}
+                </div>
+                <div>
+                  <h5>Most valuable card in collection: </h5>
+                  <div style={{ marginLeft: "1rem" }}>
+                    {mostValuableOwnedCard !== undefined && (
+                      <div
+                        className={
+                          isDesktop
+                            ? "d-flex flex-row w-100 flex-wrap"
+                            : "d-flex flex-column w-25 align-items-center flex-fill ms-3"
+                        }
+                      >
+                        <div
+                          className={
+                            isDesktop ? "" : "d-flex justify-content-center"
+                          }
+                          style={{ width: "12.5rem" }}
+                        >
+                          <img
+                            className="rounded"
+                            style={{ width: isDesktop ? "100%" : "40%" }}
+                            src={mostValuableOwnedCard.card.images.small}
+                            alt={mostValuableOwnedCard.card.name}
+                          />
+                        </div>
+                        <p
+                          className={
+                            isDesktop
+                              ? "m-0 w-50 ps-3 pt-3"
+                              : "w-100 d-flex flex-column justify-content-evenly m-0"
+                          }
+                        >
+                          <span>
+                            <b>Card: </b>
+                            {mostValuableOwnedCard.card.name}
+                          </span>
+
+                          <br />
+                          <span>
+                            <b>Artist: </b>
+                            {mostValuableOwnedCard.card.artist}
+                          </span>
+                          <br />
+                          <span>
+                            <b>Set: </b>
+                            {mostValuableOwnedCard.card.set.name}
+                          </span>
+                          <br />
+                          <span>
+                            <b>Release date: </b>
+                            {mostValuableOwnedCard.card.set.releaseDate}
+                          </span>
+                          <br />
+                          <span>
+                            <b>Rarity: </b>
+                            {mostValuableOwnedCard.card.rarity}
+                          </span>
+                          <br />
+                          <span>
+                            <b>Value: </b>
+                            {getValueOfCard(mostValuableOwnedCard)}$
+                          </span>
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

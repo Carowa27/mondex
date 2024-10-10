@@ -23,10 +23,10 @@ export const getValueOfCardsOwned = (collections: ICollection[]) => {
 };
 
 export const getValueOfCard = (card: ICard) => {
-  const tcgMarket = card.card.tcgplayer;
-  if (!tcgMarket) return;
+  const tcgPlayer = card.card.tcgplayer;
+  if (!tcgPlayer) return;
 
-  const prices = tcgMarket.prices;
+  const prices = tcgPlayer.prices;
   if (!prices) return;
 
   let validPrice: number | undefined;
@@ -64,4 +64,47 @@ export const getValueOfCard = (card: ICard) => {
   }
 
   return Math.round(validPrice! * 100) / 100;
+};
+export const getMostValuableCardOwned = (collections: ICollection[]) => {
+  const allCards = collections
+    .flat()
+    .flatMap((collection) => collection.cards_in_collection);
+
+  let highestMidPrice = 0;
+  let highestMidCard: ICard | undefined;
+  const allowedTypes = [
+    "normal",
+    "unlimited",
+    "unlimitedHolofoil",
+    "holofoil",
+    "reverseHolofoil",
+    "1stEdition",
+    "1stEditionNormal",
+    "1stEditionHolofoil",
+  ];
+
+  allCards.forEach((card) => {
+    const tcgPlayer = card.card.tcgplayer;
+    const prices = tcgPlayer?.prices;
+    if (!prices) return;
+    const priceType =
+      Object.keys(prices).find((key) => allowedTypes.includes(key)) || "normal";
+
+    if (
+      !tcgPlayer ||
+      !tcgPlayer.prices ||
+      //@ts-ignore
+      tcgPlayer.prices[priceType].mid === undefined
+    ) {
+      return; // Skip cards without valid mid price
+    }
+    //@ts-ignore
+    const midPrice = tcgPlayer.prices[priceType].mid;
+
+    if (midPrice > highestMidPrice) {
+      highestMidPrice = midPrice;
+      highestMidCard = card;
+    }
+  });
+  return highestMidCard;
 };
