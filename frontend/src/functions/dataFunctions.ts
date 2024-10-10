@@ -108,3 +108,72 @@ export const getMostValuableCardOwned = (collections: ICollection[]) => {
   });
   return highestMidCard;
 };
+
+export const getValuesAndTypesOfCard = (
+  card: ICard,
+  market: "tcgplayer" | "cardmarket"
+) => {
+  const marketPlace = card.card[market];
+  if (!marketPlace) return;
+
+  const prices = marketPlace.prices;
+  if (!prices) return;
+
+  const allowedTypes = [
+    "normal",
+    "unlimited",
+    "unlimitedHolofoil",
+    "holofoil",
+    "reverseHolofoil",
+    "1stEdition",
+    "1stEditionNormal",
+    "1stEditionHolofoil",
+    "averageSellPrice",
+    "trendPrice",
+  ];
+
+  const priceTypes = Object.keys(prices);
+  const priceByType: { type: string; value: number }[] = [];
+
+  priceTypes.forEach((type) => {
+    if (allowedTypes.includes(type)) {
+      priceByType.push({ type: type, value: 0 });
+    }
+  });
+
+  priceByType.forEach((obj) => {
+    if (market === "tcgplayer") {
+      if (prices) {
+        //@ts-ignore
+        if (prices[obj.value]?.mid !== null) {
+          //@ts-ignore
+          obj.value = Math.round(prices[obj.type].mid * 100) / 100;
+          //@ts-ignore
+        } else if (prices[obj.type]?.market !== null) {
+          //@ts-ignore
+          obj.value = Math.round(prices[obj.type].market * 100) / 100;
+          //@ts-ignore
+        } else {
+          console.warn(`No valid price found for type: ${obj.type}`);
+          return;
+        }
+      }
+    }
+
+    if (market === "cardmarket") {
+      if (prices) {
+        //@ts-ignore
+        if (prices[obj.type] !== null) {
+          //@ts-ignore
+          obj.value = Math.round(prices[obj.type] * 100) / 100;
+          //@ts-ignore
+        } else {
+          console.warn(`No valid price found for type: ${obj.type}`);
+          return;
+        }
+      }
+    }
+  });
+
+  return priceByType;
+};
