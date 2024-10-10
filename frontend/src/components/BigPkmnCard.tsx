@@ -160,7 +160,6 @@ export const BigPkmnCard = ({
     width: 80vw;
     min-width: fit-content;
     min-height: fit-content;
-    padding: 0 2rem 2rem 2rem;
     z-index: 500;
     position: fixed;
     background-color: ${theme?.primaryColors.background.hex};
@@ -177,9 +176,9 @@ export const BigPkmnCard = ({
     width: 100%;
     display: flex;
     justify-content: end;
-    padding: 0.5rem 0;
     font-size: larger;
     font-weight: bolder;
+    padding: 2rem 2rem 0 0;
   `;
   const BigCardBody = styled.main`
     height: 100%;
@@ -200,7 +199,7 @@ export const BigPkmnCard = ({
     display: flex;
     flex-direction: column;
     @media (${variables.breakpoints.desktop}) {
-      height: 100%;
+      height: auto;
     }
   `;
   const BigCardInfoRow = styled.div`
@@ -219,7 +218,6 @@ export const BigPkmnCard = ({
     align-items: center;
   `;
   const BigCardValueContainer = styled.div`
-    border: solid 1px grey;
     margin-top: ${isDesktop ? "auto" : "1rem"};
     margin-bottom: 0.5rem;
     padding: 1rem 2rem;
