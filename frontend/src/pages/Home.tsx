@@ -28,7 +28,7 @@ export const Home = () => {
   const today = `${year}-${month}-${date}`;
   const mostValuableCard = container.mostValuableCard?.cards[0];
   const nextValuableCard = container.mostValuableCard?.cards.slice(1, 6);
-  console.log(mostValuableCard);
+
   const changeShowPkmnInfo = () => {
     setSeeBigCard(false);
   };

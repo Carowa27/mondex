@@ -47,7 +47,6 @@ export const SmallPkmnCard = ({
     card: ICard | undefined,
     cardFromApi: IPkmnCard | undefined
   ) => {
-    console.log("toSwap", card, cardFromApi);
     if (card !== undefined) {
       setCardToSwap(card);
     }

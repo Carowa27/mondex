@@ -49,7 +49,6 @@ export const SwapCollectionPopUp = ({
   const handleSubmitToSwap = async () => {
     const newCollectionName = selectedCollectionName;
     const oldCollectionName = collectionName;
-    console.log("swap", newCollectionName, oldCollectionName);
     if (cardToSwap && collections && newCollectionName && oldCollectionName) {
       const updatedCollections = swapCardToOtherCollection(
         cardToSwap,
