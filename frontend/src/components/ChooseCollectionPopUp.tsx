@@ -45,7 +45,12 @@ export const ChooseCollectionPopUp = ({
   };
 
   const handleSubmitToAddCard = async () => {
-    if (cardToAdd && container.user && selectedCollectionName) {
+    if (
+      cardToAdd &&
+      container.user &&
+      container.user.username !== "" &&
+      selectedCollectionName
+    ) {
       // await addCard({
       //   user,
       //   cardToAdd,

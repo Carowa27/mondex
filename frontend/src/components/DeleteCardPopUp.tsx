@@ -32,10 +32,10 @@ export const DeleteCardPopUp = ({
   const collections = user?.collections;
 
   const handleSubmitToDelete = async () => {
-    if (user && cardToDelete) {
+    if (user && user.username !== "" && cardToDelete) {
       delCard && delCard(cardToDelete);
     }
-    if (user && !cardToDelete && collection) {
+    if (user && user.username !== "" && !cardToDelete && collection) {
       const updatedCollections = deleteCollection(collection, collections!);
       updateContainer(
         {

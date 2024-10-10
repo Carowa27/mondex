@@ -254,7 +254,9 @@ export const BigPkmnCard = ({
               <BigCardValueContainer>
                 {valueHTML(cardInfo)}
               </BigCardValueContainer>
-              {container.user && changeToAddPopup ? (
+              {container.user &&
+              container.user.username !== "" &&
+              changeToAddPopup ? (
                 <span
                   style={
                     hoverAddBtn

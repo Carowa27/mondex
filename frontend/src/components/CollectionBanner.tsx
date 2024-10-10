@@ -28,7 +28,7 @@ export const CollectionBanner = (props: IProps) => {
   const collectionNameToShow = props.collectionName.replace(/_/g, " ");
   return (
     <>
-      {container.user && (
+      {container.user && container.user.username !== "" && (
         <>
           <div
             className={

@@ -450,13 +450,14 @@ export const Home = () => {
                   }}
                 >
                   <h4 id="main-card-account-header-user">
-                    {container.user
+                    {container.user && container.user.username !== ""
                       ? `${language?.lang_code.word_welcome}, ${container?.user?.username}!`
                       : `${language?.lang_code.word_welcome}!`}
                   </h4>
                 </Link>
 
-                {container?.user?.collections &&
+                {container.user?.username !== "" &&
+                container?.user?.collections &&
                 container.user.collections.length !== 0 ? (
                   <>
                     {container.user.collections
@@ -483,76 +484,60 @@ export const Home = () => {
                   </>
                 ) : (
                   <>
-                    {(!container.user || container.user.username === "") && (
-                      <div>
-                        To add cards and collections, please start by adding
-                        your name or username
-                        <form
-                          style={{
-                            margin: "1rem",
-                            display: "flex",
-                            flexDirection: "column",
-                          }}
-                          onSubmit={(e) => saveUserName(e)}
-                        >
-                          <label
-                            htmlFor="username"
+                    {!container.user ||
+                      (container.user.username === "" && (
+                        <div>
+                          To add cards and collections, please start by adding
+                          your name or username
+                          <form
                             style={{
+                              margin: "1rem",
                               display: "flex",
                               flexDirection: "column",
-                              gap: "0.5rem",
                             }}
+                            onSubmit={(e) => saveUserName(e)}
                           >
-                            Username:
-                            <input
-                              type="text"
-                              id="username"
-                              style={{ margin: "0" }}
-                              onChange={handleChange}
-                            />
-                          </label>
-                          <button
-                            type="submit"
-                            style={{
-                              width: "max-content",
-                              alignSelf: "end",
-                              marginTop: "0.5rem",
-                              padding: "0.2rem 0.5rem",
-                              borderRadius: "10px",
-                            }}
-                            disabled={username === ""}
-                          >
-                            Save username
-                          </button>
-                        </form>
-                      </div>
-                    )}
+                            <label
+                              htmlFor="username"
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "0.5rem",
+                              }}
+                            >
+                              Username:
+                              <input
+                                type="text"
+                                id="username"
+                                style={{ margin: "0" }}
+                                onChange={handleChange}
+                              />
+                            </label>
+                            <button
+                              type="submit"
+                              style={{
+                                width: "max-content",
+                                alignSelf: "end",
+                                marginTop: "0.5rem",
+                                padding: "0.2rem 0.5rem",
+                                borderRadius: "10px",
+                              }}
+                              disabled={username === ""}
+                            >
+                              Save username
+                            </button>
+                          </form>
+                        </div>
+                      ))}
                     {/* {language?.lang_code.collection_no_collections_created} */}
-                    {container.user?.collections.length === 0 && (
-                      <button
-                        style={{
-                          width: "max-content",
-                          alignSelf: "center",
-                          marginTop: "1rem",
-                          padding: "0.4rem 1.0rem",
-                          borderRadius: "10px",
-                        }}
-                      >
-                        <Link
-                          to={"/create-new-collection"}
-                          style={{ textDecoration: "none", color: "inherit" }}
-                        >
-                          Create your first collection
-                        </Link>
-                      </button>
-                    )}
                   </>
                 )}
                 {/* TODO add read more link */}
                 <i
                   style={
                     container.user === undefined ||
-                    container?.user.username === undefined
+                    container?.user.username === undefined ||
+                    container.user.username === ""
                       ? { marginTop: "auto" }
                       : {}
                   }

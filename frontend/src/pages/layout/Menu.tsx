@@ -67,7 +67,7 @@ export const Menu = () => {
               {language?.lang_code.about_about_project}
             </span>
           </Link>
-          {container.user && (
+          {container.user && container.user.username !== "" && (
             <>
               <span id="main-menu-mypages" className="ps-2">
                 <Link
