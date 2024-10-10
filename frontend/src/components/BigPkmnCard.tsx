@@ -251,9 +251,6 @@ export const BigPkmnCard = ({
                   </BigCardInfoRow>
                 )}
               </BigCardLegalities>
-              <BigCardValueContainer>
-                {valueHTML(cardInfo)}
-              </BigCardValueContainer>
               {container.user &&
               container.user.username !== "" &&
               changeToAddPopup ? (
@@ -266,8 +263,7 @@ export const BigPkmnCard = ({
                           height: "35px",
                           fontSize: "30px",
                           alignSelf: "end",
-                          marginRight: "0.5rem",
-                          marginTop: "0.5rem",
+                          margin: "0.5rem",
                         }
                       : {
                           backgroundColor: `rgba(${theme?.typeColors.grass.rgb},0.4)`,
@@ -275,8 +271,7 @@ export const BigPkmnCard = ({
                           height: "35px",
                           fontSize: "30px",
                           alignSelf: "end",
-                          marginRight: "0.5rem",
-                          marginTop: "0.5rem",
+                          margin: "0.5rem",
                         }
                   }
                   className="rounded-circle d-flex align-items-center justify-content-center"
@@ -290,6 +285,9 @@ export const BigPkmnCard = ({
                   <i className="bi bi-plus m-0 p-0"></i>
                 </span>
               ) : null}
+              <BigCardValueContainer>
+                {valueHTML(cardInfo)}
+              </BigCardValueContainer>
             </>
           )}
         </BigCardInfo>
