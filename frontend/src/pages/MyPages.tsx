@@ -6,6 +6,10 @@ import { variables } from "../globals/variables";
 import { Link } from "react-router-dom";
 import { CollectionBanner } from "../components/CollectionBanner";
 import { ContainerContext } from "../globals/containerContext";
+import {
+  getAmountOfCardsOwned,
+  getValueOfCardsOwned,
+} from "../functions/dataFunctions";
 
 export const MyPages = () => {
   const { container } = useContext(ContainerContext);
@@ -19,7 +23,7 @@ export const MyPages = () => {
   const theme = container.theme;
   const user = container.user;
   const collections = container.user?.collections;
-
+  getValueOfCardsOwned(collections!);
   return (
     <div style={{ height: "min-content", minHeight: "90vh" }}>
       <div className="d-flex justify-content-between align-items-start">
@@ -182,60 +186,65 @@ export const MyPages = () => {
           </>
         )}
         {showMyAccount && (
-          <>
+          <div style={{ display: "flex", justifyContent: "center" }}>
             <div
-              className="px-5 pb-4 pt-5"
               style={{
-                width: "fit-content",
+                width: isDesktop ? "70%" : "auto",
+                display: "flex",
+                justifyContent: "center",
               }}
             >
-              <div
-                className={isDesktop ? "d-flex flex-row" : "d-flex flex-column"}
-                style={{
-                  gap: isDesktop ? "2rem" : "",
-                }}
-              >
-                {/* {user?.picture && (
-                  <div
-                    className="d-flex mb-3 mx-auto"
-                    style={{
-                      aspectRatio: 1,
-                    }}
-                  >
-                    <img
-                      className="rounded-circle"
-                      style={{
-                        minWidth: isDesktop ? "10rem" : "",
-                      }}
-                      src={user?.picture}
-                      alt={`profile picture of ${user?.nickname}`}
-                    />
-                  </div>
-                )} */}
-                <div>
-                  {/* <h6 className="mt-3">
-                    {language?.lang_code.word_name}: {user?.given_name}{" "}
-                    {user?.family_name}
-                  </h6> */}
+              <div style={{ width: isDesktop ? "40%" : "auto" }}>
+                <h4>User</h4>
+                <h5>User information</h5>
+                <p style={{ marginLeft: "1rem" }}>
+                  <b>Username: </b>
+                  {container.user?.username}
+                </p>
+                <h5>Saved data information</h5>
+                <p>removing all data</p>
+                {/* TODO
+                add functionality to remove all data */}
+                <p>exporting data</p>
+                {/* TODO
+                add functionality to export all data */}
+              </div>
+              <div style={{ width: isDesktop ? "40%" : "auto" }}>
+                <h4>Compilation of all collections</h4>
+                <h5>Numbers</h5>
+                <div style={{ marginLeft: "1rem" }}>
                   <p>
-                    <span className="font-weight-bold">
-                      {language?.lang_code.word_username}:
-                    </span>{" "}
-                    {user?.username}
+                    <b>Nr of collections: </b>
+                    {collections?.length}
                   </p>
-                  {/* <p>
-                    <span className="font-weight-bold">
-                      {language?.lang_code.word_email}:
-                    </span>{" "}
-                    {user?.email}
-                  </p> 
-                  <LogoutBtn />*/}
+                  <p>
+                    <b>Total nr of cards: </b>
+                    {getAmountOfCardsOwned(collections!)}
+                  </p>
+                </div>
+                <h5>Values</h5>
+                <div style={{ marginLeft: "1rem" }}>
+                  <div>
+                    <b>Value of collections: </b>
+                    <ul style={{ paddingLeft: "1.5rem" }}>
+                      {collections?.map((coll) => {
+                        return (
+                          <li key={coll.id}>
+                            {coll.collection_name.replace(/_/g, " ")} ~
+                            {getValueOfCardsOwned([coll])}$
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                  <p>
+                    <b>Total value of cards: </b>~
+                    {getValueOfCardsOwned(collections!)}$
+                  </p>
                 </div>
               </div>
-              {/* TODO
-              Add text about removing all data, amount of collections, amount of cards saved, total market value on collection */}
             </div>
-          </>
+          </div>
         )}
       </main>
     </div>
