@@ -12,7 +12,6 @@ import {
   getValueOfCard,
   getValueOfCardsOwned,
 } from "../functions/dataFunctions";
-import { ICard } from "../interfaces/LSInterface";
 
 export const MyPages = () => {
   const { container } = useContext(ContainerContext);
