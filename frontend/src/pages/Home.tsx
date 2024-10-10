@@ -10,6 +10,7 @@ import { BigPkmnCard } from "../components/BigPkmnCard";
 import { getMondexLs, updateMondexLs } from "../functions/LSFunctions";
 import { ContainerContext } from "../globals/containerContext";
 import { getToday } from "../functions/dateFunctions";
+import { getValueOfCard } from "../functions/dataFunctions";
 
 export const Home = () => {
   const { container, updateContainer } = useContext(ContainerContext);
@@ -25,9 +26,9 @@ export const Home = () => {
   const month = new Date().getMonth() + 1;
   const year = new Date().getFullYear();
   const today = `${year}-${month}-${date}`;
-  const mostValuableCard = container.mostValuableCard?.card[0];
-  const nextValuableCard = container.mostValuableCard?.card.slice(1, 6);
-
+  const mostValuableCard = container.mostValuableCard?.cards[0];
+  const nextValuableCard = container.mostValuableCard?.cards.slice(1, 6);
+  console.log(mostValuableCard);
   const changeShowPkmnInfo = () => {
     setSeeBigCard(false);
   };
@@ -57,7 +58,7 @@ export const Home = () => {
   const getValuableCard = async () => {
     await getMostValuableCardFromApi().then((res) => {
       if (res) {
-        updateContainer({ card: res, savedOn: today }, "valuableCard");
+        updateContainer({ cards: res, savedOn: today }, "valuableCard");
       }
       setIsLoading(false);
     });
@@ -230,44 +231,11 @@ export const Home = () => {
                       <br />
                       <span>
                         <b>Value: </b>
-                        {container.lastOpenedCard.tcgplayer?.prices[
-                          "1stEdition"
-                        ]?.mid &&
-                          container.lastOpenedCard.tcgplayer?.prices[
-                            "1stEdition"
-                          ]?.mid}
-                        {container.lastOpenedCard.tcgplayer?.prices[
-                          "1stEditionHolofoil"
-                        ]?.mid &&
-                          container.lastOpenedCard.tcgplayer?.prices[
-                            "1stEditionHolofoil"
-                          ]?.mid}
-                        {container.lastOpenedCard.tcgplayer?.prices[
-                          "1stEditionNormal"
-                        ]?.mid &&
-                          container.lastOpenedCard.tcgplayer?.prices[
-                            "1stEditionNormal"
-                          ]?.mid}
-                        {container.lastOpenedCard.tcgplayer?.prices.holofoil
-                          ?.mid &&
-                          container.lastOpenedCard.tcgplayer?.prices.holofoil
-                            ?.mid}
-                        {container.lastOpenedCard.tcgplayer?.prices.normal
-                          ?.mid &&
-                          container.lastOpenedCard.tcgplayer?.prices.normal
-                            ?.mid}
-                        {container.lastOpenedCard.tcgplayer?.prices
-                          .reverseHolofoil &&
-                          container.lastOpenedCard.tcgplayer?.prices
-                            .reverseHolofoil.mid}
-                        {container.lastOpenedCard.tcgplayer?.prices.unlimited
-                          ?.mid &&
-                          container.lastOpenedCard.tcgplayer?.prices.unlimited
-                            ?.mid}
-                        {container.lastOpenedCard.tcgplayer?.prices
-                          .unlimitedHolofoil?.mid &&
-                          container.lastOpenedCard.tcgplayer?.prices
-                            .unlimitedHolofoil?.mid}
+                        {container.lastOpenedCard &&
+                          getValueOfCard({
+                            card: container.lastOpenedCard,
+                            amount: 0,
+                          })}
                         $
                       </span>
                     </>
@@ -275,44 +243,11 @@ export const Home = () => {
                     <>
                       <span>{container.lastOpenedCard.name}</span>
                       <span className={"align-self-end"}>
-                        {container.lastOpenedCard.tcgplayer?.prices[
-                          "1stEdition"
-                        ]?.mid &&
-                          container.lastOpenedCard.tcgplayer?.prices[
-                            "1stEdition"
-                          ]?.mid}
-                        {container.lastOpenedCard.tcgplayer?.prices[
-                          "1stEditionHolofoil"
-                        ]?.mid &&
-                          container.lastOpenedCard.tcgplayer?.prices[
-                            "1stEditionHolofoil"
-                          ]?.mid}
-                        {container.lastOpenedCard.tcgplayer?.prices[
-                          "1stEditionNormal"
-                        ]?.mid &&
-                          container.lastOpenedCard.tcgplayer?.prices[
-                            "1stEditionNormal"
-                          ]?.mid}
-                        {container.lastOpenedCard.tcgplayer?.prices.holofoil
-                          ?.mid &&
-                          container.lastOpenedCard.tcgplayer?.prices.holofoil
-                            ?.mid}
-                        {container.lastOpenedCard.tcgplayer?.prices.normal
-                          ?.mid &&
-                          container.lastOpenedCard.tcgplayer?.prices.normal
-                            ?.mid}
-                        {container.lastOpenedCard.tcgplayer?.prices
-                          .reverseHolofoil &&
-                          container.lastOpenedCard.tcgplayer?.prices
-                            .reverseHolofoil.mid}
-                        {container.lastOpenedCard.tcgplayer?.prices.unlimited
-                          ?.mid &&
-                          container.lastOpenedCard.tcgplayer?.prices.unlimited
-                            ?.mid}
-                        {container.lastOpenedCard.tcgplayer?.prices
-                          .unlimitedHolofoil?.mid &&
-                          container.lastOpenedCard.tcgplayer?.prices
-                            .unlimitedHolofoil?.mid}
+                        {container.lastOpenedCard &&
+                          getValueOfCard({
+                            card: container.lastOpenedCard,
+                            amount: 0,
+                          })}
                         $
                       </span>
                     </>
@@ -419,34 +354,11 @@ export const Home = () => {
                           height: "53%",
                         }}
                       >
-                        {mostValuableCard?.tcgplayer?.prices["1stEdition"]
-                          ?.mid &&
-                          mostValuableCard?.tcgplayer?.prices["1stEdition"]
-                            ?.mid}
-                        {mostValuableCard?.tcgplayer?.prices[
-                          "1stEditionHolofoil"
-                        ]?.mid &&
-                          mostValuableCard?.tcgplayer?.prices[
-                            "1stEditionHolofoil"
-                          ]?.mid}
-                        {mostValuableCard?.tcgplayer?.prices["1stEditionNormal"]
-                          ?.mid &&
-                          mostValuableCard?.tcgplayer?.prices[
-                            "1stEditionNormal"
-                          ]?.mid}
-                        {mostValuableCard?.tcgplayer?.prices.holofoil?.mid &&
-                          mostValuableCard?.tcgplayer?.prices.holofoil?.mid}
-                        {mostValuableCard?.tcgplayer?.prices.normal?.mid &&
-                          mostValuableCard?.tcgplayer?.prices.normal?.mid}
-                        {mostValuableCard?.tcgplayer?.prices.reverseHolofoil &&
-                          mostValuableCard?.tcgplayer?.prices.reverseHolofoil
-                            .mid}
-                        {mostValuableCard?.tcgplayer?.prices.unlimited?.mid &&
-                          mostValuableCard?.tcgplayer?.prices.unlimited?.mid}
-                        {mostValuableCard?.tcgplayer?.prices.unlimitedHolofoil
-                          ?.mid &&
-                          mostValuableCard?.tcgplayer?.prices.unlimitedHolofoil
-                            ?.mid}
+                        {mostValuableCard &&
+                          getValueOfCard({
+                            card: mostValuableCard,
+                            amount: 1,
+                          })}
                         $
                       </span>
                     </>
@@ -454,34 +366,11 @@ export const Home = () => {
                     <>
                       <span>{mostValuableCard?.name}</span>
                       <span className={"align-self-end"}>
-                        {mostValuableCard?.tcgplayer?.prices["1stEdition"]
-                          ?.mid &&
-                          mostValuableCard?.tcgplayer?.prices["1stEdition"]
-                            ?.mid}
-                        {mostValuableCard?.tcgplayer?.prices[
-                          "1stEditionHolofoil"
-                        ]?.mid &&
-                          mostValuableCard?.tcgplayer?.prices[
-                            "1stEditionHolofoil"
-                          ]?.mid}
-                        {mostValuableCard?.tcgplayer?.prices["1stEditionNormal"]
-                          ?.mid &&
-                          mostValuableCard?.tcgplayer?.prices[
-                            "1stEditionNormal"
-                          ]?.mid}
-                        {mostValuableCard?.tcgplayer?.prices.holofoil?.mid &&
-                          mostValuableCard?.tcgplayer?.prices.holofoil?.mid}
-                        {mostValuableCard?.tcgplayer?.prices.normal?.mid &&
-                          mostValuableCard?.tcgplayer?.prices.normal?.mid}
-                        {mostValuableCard?.tcgplayer?.prices.reverseHolofoil &&
-                          mostValuableCard?.tcgplayer?.prices.reverseHolofoil
-                            .mid}
-                        {mostValuableCard?.tcgplayer?.prices.unlimited?.mid &&
-                          mostValuableCard?.tcgplayer?.prices.unlimited?.mid}
-                        {mostValuableCard?.tcgplayer?.prices.unlimitedHolofoil
-                          ?.mid &&
-                          mostValuableCard?.tcgplayer?.prices.unlimitedHolofoil
-                            ?.mid}
+                        {mostValuableCard &&
+                          getValueOfCard({
+                            card: mostValuableCard,
+                            amount: 1,
+                          })}
                         $
                       </span>
                     </>

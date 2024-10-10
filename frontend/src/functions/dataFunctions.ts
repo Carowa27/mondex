@@ -46,13 +46,13 @@ export const getValueOfCard = (card: ICard) => {
     Object.keys(prices).find((key) => allowedTypes.includes(key)) || "normal";
   if (prices) {
     //@ts-ignore
-    if (prices[priceType]?.market !== undefined) {
-      //@ts-ignore
-      validPrice = prices[priceType].market;
-      //@ts-ignore
-    } else if (prices[priceType]?.mid !== undefined) {
+    if (prices[priceType]?.mid !== undefined) {
       //@ts-ignore
       validPrice = prices[priceType].mid;
+      //@ts-ignore
+    } else if (prices[priceType]?.market !== undefined) {
+      //@ts-ignore
+      validPrice = prices[priceType].market;
       //@ts-ignore
     } else if (prices[priceType]?.low !== undefined) {
       //@ts-ignore

@@ -25,7 +25,7 @@ export interface ICard {
   card: IPkmnCard;
 }
 export interface IValuableSavedCard {
-  card: IPkmnCard[];
+  cards: IPkmnCard[];
   savedOn: string;
 }
 export enum Theme {
