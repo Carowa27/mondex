@@ -43,3 +43,6 @@ body {
   color: white;
   transform: rotateY(180deg);
 }
+.clickable-event {
+  cursor: pointer;
+}

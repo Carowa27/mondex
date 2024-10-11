@@ -114,7 +114,7 @@ export const Menu = () => {
               >
                 <div
                   onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
-                  className="ps-2"
+                  className="ps-2 clickable-event"
                 >
                   <span id="main-menu-language?">
                     {" "}
@@ -134,7 +134,9 @@ export const Menu = () => {
                   <span
                     id="main-menu-language?-se"
                     className={
-                      language?.name === "Svenska" ? "fw-bold" : "fw-normal"
+                      language?.name === "Svenska"
+                        ? "fw-bold clickable-event"
+                        : "fw-normal clickable-event"
                     }
                     onClick={() => (
                       setIsLangMenuOpen(false),
@@ -146,7 +148,9 @@ export const Menu = () => {
                   <span
                     id="main-menu-language?-en"
                     className={
-                      language?.name === "English" ? "fw-bold" : "fw-normal"
+                      language?.name === "English"
+                        ? "fw-bold clickable-event"
+                        : "fw-normal  clickable-event"
                     }
                     onClick={() => (
                       setIsLangMenuOpen(false),
@@ -162,7 +166,7 @@ export const Menu = () => {
             <>
               <div
                 onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
-                className="ps-2"
+                className="ps-2 clickable-event"
               >
                 <span id="main-menu-language?">
                   {language?.lang_code.word_language}
@@ -171,7 +175,7 @@ export const Menu = () => {
               </div>
             </>
           )}
-          <div className="ps-3">
+          <div className="ps-3 clickable-event">
             {theme?.name === "light" ? (
               <i
                 onClick={() => updateContainer(colorModes.Dark, "theme")}
@@ -292,8 +296,8 @@ export const Menu = () => {
                   id="main-menu-language-se"
                   className={
                     language?.name === "Svenska"
-                      ? "fw-bold ps-2"
-                      : "fw-normal ps-2"
+                      ? "fw-bold ps-2 clickable-event"
+                      : "fw-normal ps-2 clickable-event"
                   }
                   onClick={() => (
                     setIsMobileMenuOpen(false),
@@ -305,7 +309,9 @@ export const Menu = () => {
                 <span
                   id="main-menu-language-en"
                   className={
-                    language?.name === "English" ? "fw-bold" : "fw-normal"
+                    language?.name === "English"
+                      ? "fw-bold clickable-event"
+                      : "fw-normal clickable-event"
                   }
                   onClick={() => (
                     setIsMobileMenuOpen(false),
