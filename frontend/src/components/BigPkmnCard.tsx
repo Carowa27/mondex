@@ -75,7 +75,6 @@ export const BigPkmnCard = ({
   const cardValuesCardmarket =
     cardInfo &&
     getValuesAndTypesOfCard({ card: cardInfo, amount: 0 }, "cardmarket");
-  console.log("info", cardValuesCardmarket, cardValuesTCG);
   const valueHTML = (cardInfo: IPkmnCard) => (
     <>
       <h5 style={{ margin: 0 }}>{language?.lang_code.word_market_value}</h5>
