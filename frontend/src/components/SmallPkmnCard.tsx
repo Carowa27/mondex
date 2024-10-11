@@ -89,6 +89,7 @@ export const SmallPkmnCard = ({
     }, 100);
   };
   const delCard = (card: ICard) => {
+    card.amount === 1 ? setFlipped(false) : null;
     const updatedCollections = removeCardFromCollection(
       card!,
       collectionName,
