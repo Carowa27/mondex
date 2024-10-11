@@ -29,6 +29,7 @@ export const CreateCollectionPage = () => {
   const [artistLength, setArtistLength] = useState<number>();
   const [notCorrectArtistName, setNotCorrectArtistName] =
     useState<boolean>(false);
+  const [nameExists, setNameExists] = useState<boolean>(false);
   const [createdCollection, setCreatedCollection] = useState<boolean>(false);
   const [savedCollectionName, setSavedCollectionName] = useState<string>("");
   const language = container.language;
@@ -65,28 +66,42 @@ export const CreateCollectionPage = () => {
     }
   }, [setInputValue, charInputValue]);
 
+  const checkIfNameExists = () => {
+    const foundCollName = container?.user?.collections.filter(
+      (coll) => coll.collection_name === collectionName.replace(" ", "_")
+    );
+    return foundCollName;
+  };
+
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    if (collectionName === "") {
+    const exist = checkIfNameExists();
+    if (exist === undefined || exist.length !== 0) {
       setCreatedCollection(false);
+      setNameExists(true);
     } else {
-      setNotCorrectSetId(false);
-      setNotCorrectCharName(false);
-      setNotCorrectArtistName(false);
-      setSetId("");
-      setCharName("");
-      setArtistName("");
-      setCreatedCollection(false);
-      handleCollectionCreation();
-    }
-    if (isSetCollection && pkmnSet === null) {
-      searchSet();
-    }
-    if (isCharCollection && charName === null) {
-      searchChar();
-    }
-    if (isArtistCollection && artistName === null) {
-      searchArtist();
+      if (collectionName === "") {
+        setCreatedCollection(false);
+      } else {
+        setNotCorrectSetId(false);
+        setNotCorrectCharName(false);
+        setNotCorrectArtistName(false);
+        setSetId("");
+        setCharName("");
+        setArtistName("");
+        setCreatedCollection(false);
+        handleCollectionCreation();
+        setNameExists(false);
+      }
+      if (isSetCollection && pkmnSet === null) {
+        searchSet();
+      }
+      if (isCharCollection && charName === null) {
+        searchChar();
+      }
+      if (isArtistCollection && artistName === null) {
+        searchArtist();
+      }
     }
   };
   const searchSet = async () => {
@@ -512,6 +527,7 @@ export const CreateCollectionPage = () => {
           </p>
         </Link>
       ) : null}
+      {nameExists && <p>Collection name already exists, try another one</p>}
     </div>
   );
 };
