@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { BigPkmnCard } from "./BigPkmnCard";
 import { SwapCollectionPopUp } from "./SwapCollectionPopUp";
@@ -41,6 +41,7 @@ export const SmallPkmnCard = ({
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
   const [cardToSwap, setCardToSwap] = useState<ICard>();
   const [cardToDelete, setCardToDelete] = useState<ICard>();
+  const [flipped, setFlipped] = useState(false);
   const theme = container.theme;
 
   const handleSwap = (
@@ -57,11 +58,16 @@ export const SmallPkmnCard = ({
     }
     setShowSwapCollection(true);
   };
-
+  useEffect(() => {
+    if (cardList.find((card) => card.card.id === cardFromApi?.id)) {
+      setFlipped(true);
+    }
+  }, [card]);
   const addCard = (
     card: ICard | undefined,
     cardFromApi: IPkmnCard | undefined
   ) => {
+    cardFromApi && !card ? setFlipped(true) : null;
     const updatedCollections = addCardToCollection(
       collectionName,
       container.user!.collections,
@@ -82,7 +88,6 @@ export const SmallPkmnCard = ({
       getData();
     }, 100);
   };
-
   const delCard = (card: ICard) => {
     const updatedCollections = removeCardFromCollection(
       card!,
@@ -227,7 +232,7 @@ export const SmallPkmnCard = ({
       ) : null}
 
       <div
-        className={isDesktop ? "" : "mb-2"}
+        className={isDesktop ? "mb-3" : "mb-2"}
         style={{
           aspectRatio: "3/4",
           width: isDesktop ? "12.5rem" : "10rem",
@@ -411,6 +416,7 @@ export const SmallPkmnCard = ({
                 width: isDesktop ? "40px" : "30px",
                 height: isDesktop ? "40px" : "30px",
                 border: "1px grey solid",
+                zIndex: "10",
               }}
               className="rounded-circle d-flex align-items-center justify-content-center"
             >
@@ -436,25 +442,39 @@ export const SmallPkmnCard = ({
             </span>
           ) : null}
         </div>
-        <img
-          className="rounded"
-          style={
-            cardFromApi
-              ? cardList.find((card) => card.card.id === cardFromApi.id)
-                ? { width: "100%", opacity: 1 }
-                : {
-                    width: "100%",
-                    opacity: 0.6,
-                    filter: "grayscale(100%)",
-                  }
-              : { width: "100%" }
-          }
-          src={
-            (card && card.card.images.small) ||
-            (cardFromApi && cardFromApi.images.small)
-          }
-          alt={card && card.card.name}
-        />
+        <div className={flipped ? "flip-box flip-box-flipped" : "flip-box"}>
+          <div className="flip-box-inner">
+            <div className="flip-box-front">
+              <img
+                className="rounded"
+                src={
+                  (card && card.card.images.small) ||
+                  (cardFromApi && cardFromApi.images.small)
+                }
+                alt={
+                  (card && card.card.name) || (cardFromApi && cardFromApi.name)
+                }
+                style={{
+                  width: "100%",
+                  filter: "grayscale(100%)",
+                }}
+              />
+            </div>
+            <div className="flip-box-back">
+              <img
+                className="rounded"
+                src={
+                  (card && card.card.images.small) ||
+                  (cardFromApi && cardFromApi.images.small)
+                }
+                alt={
+                  (card && card.card.name) || (cardFromApi && cardFromApi.name)
+                }
+                style={{ width: "100%" }}
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
