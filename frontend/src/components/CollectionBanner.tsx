@@ -75,12 +75,14 @@ export const CollectionBanner = (props: IProps) => {
               )}
               {coll?.character !== undefined && (
                 <div style={{ display: "flex", alignItems: "center" }}>
-                  <span style={{ fontSize: "small" }}>{coll.character}</span>
+                  <span style={{ fontSize: "small" }}>
+                    {characterNameToShow}
+                  </span>
                 </div>
               )}
               {coll?.artist !== undefined && (
                 <div style={{ display: "flex", alignItems: "center" }}>
-                  <span style={{ fontSize: "small" }}>{coll.artist}</span>
+                  <span style={{ fontSize: "small" }}>{artistNameToShow}</span>
                 </div>
               )}
             </h5>
