@@ -11,10 +11,7 @@ import { DeleteCardPopUp } from "../components/DeleteCardPopUp";
 import { ContainerContext } from "../globals/containerContext";
 import { ICard, ICollection } from "../interfaces/LSInterface";
 import { getMondexLs } from "../functions/LSFunctions";
-import {
-  sortArtistorCharCollRes,
-  sortPkmnCards,
-} from "../functions/cardFunctions";
+import { sortArtistorCharCollRes } from "../functions/cardFunctions";
 
 export const CollectionPage = () => {
   const { container } = useContext(ContainerContext);
