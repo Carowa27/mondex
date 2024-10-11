@@ -22,7 +22,6 @@ export const addCardToCollection = (
     (cardToFind) =>
       cardToFind.card.id === (cardToAdd ? cardToAdd?.card.id : cardFromApi?.id)
   );
-  console.log("bug finder", cardFound);
   const updatedCollection =
     cardToAdd === undefined && cardIndex === -1
       ? {
