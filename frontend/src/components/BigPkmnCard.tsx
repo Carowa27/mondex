@@ -26,13 +26,7 @@ export const BigPkmnCard = ({
   const { container, updateContainer } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const [cardInfo, setCardInfo] = useState<IPkmnCard>();
-  const [lsContainer, setLsContainer] = useState<ILSContainer>({
-    mostValuableCard: undefined,
-    theme: colorModes.Light,
-    user: { username: "", collections: [] },
-    lastOpenedCard: undefined,
-    language: lang.EN,
-  });
+  const [lsContainer, setLsContainer] = useState<ILSContainer>(container);
   const [hoverAddBtn, setHoverAddBtn] = useState<boolean>(false);
   const language = container.language;
   const theme = container.theme;
