@@ -188,6 +188,16 @@ export const CollectionPage = () => {
               Set id: {collection.set?.id.replace("pt", ".")}
             </span>
           )}
+          {collection?.character !== undefined && (
+            <span style={{ fontSize: "16px", margin: "0 1rem" }}>
+              Character: {collection.character}
+            </span>
+          )}
+          {collection?.artist !== undefined && (
+            <span style={{ fontSize: "16px", margin: "0 1rem" }}>
+              Artist: {collection.artist}
+            </span>
+          )}
         </h3>
         {collection?.set !== undefined && (
           <div style={{ alignSelf: "center" }}>

@@ -26,6 +26,8 @@ export const CollectionBanner = (props: IProps) => {
   }, []);
 
   const collectionNameToShow = props.collectionName.replace(/_/g, " ");
+  const characterNameToShow = coll?.character?.replace(/_/g, " ");
+  const artistNameToShow = coll?.artist?.replace(/_/g, " ");
   return (
     <>
       {container.user && container.user.username !== "" && (
@@ -69,6 +71,16 @@ export const CollectionBanner = (props: IProps) => {
                       marginRight: "1rem",
                     }}
                   />
+                </div>
+              )}
+              {coll?.character !== undefined && (
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <span style={{ fontSize: "small" }}>{coll.character}</span>
+                </div>
+              )}
+              {coll?.artist !== undefined && (
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <span style={{ fontSize: "small" }}>{coll.artist}</span>
                 </div>
               )}
             </h5>
