@@ -153,3 +153,39 @@ export const swapCardToOtherCollection = (
   ];
   return updatedStepTwoCollections;
 };
+
+export const sortPkmnCards = (cards: ICard[], coll: ICollection) => {
+  if (coll?.set === undefined) {
+    return cards.sort((a, b) => {
+      const releaseDateA = new Date(a.card.set.releaseDate);
+      const releaseDateB = new Date(b.card.set.releaseDate);
+
+      if (isNaN(releaseDateA.getTime()) || isNaN(releaseDateB.getTime())) {
+        throw new Error("Invalid release date");
+      }
+
+      if (releaseDateA < releaseDateB) return -1;
+      if (releaseDateA > releaseDateB) return 1;
+
+      const numberA = parseInt(a.card.number, 10);
+      const numberB = parseInt(b.card.number, 10);
+
+      if (isNaN(numberA) || isNaN(numberB)) {
+        throw new Error("Invalid card number");
+      }
+
+      return numberA - numberB;
+    });
+  } else {
+    return cards.sort((a, b) => {
+      const numberA = parseInt(a.card.number, 10);
+      const numberB = parseInt(b.card.number, 10);
+
+      if (isNaN(numberA) || isNaN(numberB)) {
+        throw new Error("Invalid card number");
+      }
+
+      return numberA - numberB;
+    });
+  }
+};
