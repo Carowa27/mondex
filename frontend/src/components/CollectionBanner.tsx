@@ -4,6 +4,7 @@ import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { ContainerContext } from "../globals/containerContext";
 import { ICard, ICollection } from "../interfaces/LSInterface";
+import { IPkmnCard } from "../interfaces/dataFromApi";
 
 interface IProps {
   type?: string;
@@ -24,7 +25,43 @@ export const CollectionBanner = (props: IProps) => {
       setCards(coll.cards_in_collection);
     }
   }, []);
+  const sortPkmnCards = (cards: ICard[]) => {
+    if (coll?.set === undefined) {
+      return cards.sort((a, b) => {
+        const releaseDateA = new Date(a.card.set.releaseDate);
+        const releaseDateB = new Date(b.card.set.releaseDate);
 
+        if (isNaN(releaseDateA.getTime()) || isNaN(releaseDateB.getTime())) {
+          throw new Error("Invalid release date");
+        }
+
+        if (releaseDateA < releaseDateB) return -1;
+        if (releaseDateA > releaseDateB) return 1;
+
+        const numberA = parseInt(a.card.number, 10);
+        const numberB = parseInt(b.card.number, 10);
+
+        if (isNaN(numberA) || isNaN(numberB)) {
+          throw new Error("Invalid card number");
+        }
+
+        return numberA - numberB;
+      });
+    } else {
+      return cards.sort((a, b) => {
+        const numberA = parseInt(a.card.number, 10);
+        const numberB = parseInt(b.card.number, 10);
+
+        if (isNaN(numberA) || isNaN(numberB)) {
+          throw new Error("Invalid card number");
+        }
+
+        return numberA - numberB;
+      });
+    }
+  };
+  const sortedCardsForBanner = sortPkmnCards(cards!);
+  console.log(sortedCardsForBanner);
   const collectionNameToShow = props.collectionName.replace(/_/g, " ");
   const characterNameToShow = coll?.character?.replace(/_/g, " ");
   const artistNameToShow = coll?.artist?.replace(/_/g, " ");
@@ -106,7 +143,7 @@ export const CollectionBanner = (props: IProps) => {
                 >
                   <>
                     {cards &&
-                      cards
+                      sortedCardsForBanner
                         .slice(
                           0,
                           isDesktop
