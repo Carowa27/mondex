@@ -94,15 +94,15 @@ export const CreateCollectionPage = () => {
         handleCollectionCreation();
         setNameExists(false);
       }
-      if (isSetCollection && pkmnSet === null) {
-        searchSet();
-      }
-      if (isCharCollection && charName === null) {
-        searchChar();
-      }
-      if (isArtistCollection && artistName === null) {
-        searchArtist();
-      }
+      // if (isSetCollection && pkmnSet === undefined) {
+      //   searchSet();
+      // }
+      // if (isCharCollection && charName === null) {
+      //   searchChar();
+      // }
+      // if (isArtistCollection && artistName === null) {
+      //   searchArtist();
+      // }
     }
   };
   const searchSet = async () => {
@@ -251,6 +251,15 @@ export const CreateCollectionPage = () => {
   useEffect(() => {
     updateMondexLs(container);
   }, [container]);
+  useEffect(() => {
+    setCharInputValue(""), setArtistInputValue("");
+  }, [isSetCollection]);
+  useEffect(() => {
+    setSetInputValue(""), setArtistInputValue("");
+  }, [isCharCollection]);
+  useEffect(() => {
+    setSetInputValue(""), setCharInputValue("");
+  }, [isArtistCollection]);
 
   return (
     <div style={{ minHeight: "90vh" }}>
@@ -303,8 +312,8 @@ export const CreateCollectionPage = () => {
                   </p>
                 </Link>
               ) : null}
-              <div>
-                <div className="input-group mb-3 d-flex align-items-center rounded">
+              <div className="d-flex" style={{ gap: "0.75rem" }}>
+                <div className="input-group border w-50 mb-3 d-flex align-items-center rounded">
                   <span className="input-group-text" id="is-set">
                     {language?.lang_code.collection_is_set_collection}:
                   </span>
@@ -339,9 +348,29 @@ export const CreateCollectionPage = () => {
                     </label>
                   </div>
                 </div>
+                {isSetCollection ? (
+                  <div className="input-group w-50 mb-3">
+                    <span className="input-group-text" id="set-name">
+                      {language?.lang_code.collection_set_id}:
+                    </span>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={setInputValue}
+                      onChange={handleSetIdChange}
+                      placeholder={language?.lang_code.collection_set_id}
+                      aria-label="Set Name"
+                      aria-describedby="set-name"
+                    />
+                    <InputButton
+                      btnText="Search set id"
+                      btnAction={(e) => (e.preventDefault(), searchSet())}
+                    ></InputButton>
+                  </div>
+                ) : null}
               </div>
-              <div>
-                <div className="input-group mb-3 d-flex align-items-center rounded">
+              <div className="d-flex" style={{ gap: "0.75rem" }}>
+                <div className="input-group border w-50 mb-3 d-flex align-items-center rounded">
                   <span className="input-group-text" id="is-char">
                     Is it a character collection:
                   </span>
@@ -376,9 +405,29 @@ export const CreateCollectionPage = () => {
                     </label>
                   </div>
                 </div>
+                {isCharCollection ? (
+                  <div className="input-group w-50 mb-3">
+                    <span className="input-group-text" id="char-name">
+                      Character name:
+                    </span>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={charInputValue}
+                      onChange={handleCharNameChange}
+                      placeholder="Character"
+                      aria-label="Character Name"
+                      aria-describedby="char-name"
+                    />
+                    <InputButton
+                      btnText="Search character"
+                      btnAction={(e) => (e.preventDefault(), searchChar())}
+                    ></InputButton>
+                  </div>
+                ) : null}
               </div>
-              <div>
-                <div className="input-group mb-3 d-flex align-items-center rounded">
+              <div className="d-flex" style={{ gap: "0.75rem" }}>
+                <div className="input-group border w-50 mb-3 d-flex align-items-center rounded">
                   <span className="input-group-text" id="is-artist">
                     Is it a artist collection:
                   </span>
@@ -412,79 +461,46 @@ export const CreateCollectionPage = () => {
                       {language?.lang_code.word_yes}
                     </label>
                   </div>
-                </div>
+                </div>{" "}
+                {isArtistCollection ? (
+                  <div className="input-group w-50 mb-3">
+                    <span className="input-group-text" id="artist-name">
+                      Artist name:
+                    </span>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={artistInputValue}
+                      onChange={handleArtistNameChange}
+                      placeholder="Artist"
+                      aria-label="Artist Name"
+                      aria-describedby="artist-name"
+                    />
+                    <InputButton
+                      btnText="Search artist"
+                      btnAction={(e: FormEvent) => (
+                        e.preventDefault(), searchArtist()
+                      )}
+                    ></InputButton>
+                  </div>
+                ) : null}
               </div>
-              {isSetCollection ? (
-                <div className="input-group mb-3">
-                  <span className="input-group-text" id="set-name">
-                    {language?.lang_code.collection_set_id}
-                  </span>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={setInputValue}
-                    onChange={handleSetIdChange}
-                    placeholder={language?.lang_code.collection_set_id}
-                    aria-label="Set Name"
-                    aria-describedby="set-name"
-                  />
-                  <InputButton
-                    btnText="Search set id"
-                    btnAction={(e) => (e.preventDefault(), searchSet())}
-                  ></InputButton>
-                </div>
-              ) : null}
-              {isCharCollection ? (
-                <div className="input-group mb-3">
-                  <span className="input-group-text" id="char-name">
-                    Character name
-                  </span>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={charInputValue}
-                    onChange={handleCharNameChange}
-                    placeholder="Character"
-                    aria-label="Character Name"
-                    aria-describedby="char-name"
-                  />
-                  <InputButton
-                    btnText="Search character"
-                    btnAction={(e) => (e.preventDefault(), searchChar())}
-                  ></InputButton>
-                </div>
-              ) : null}
-              {isArtistCollection ? (
-                <div className="input-group mb-3">
-                  <span className="input-group-text" id="artist-name">
-                    Artist name
-                  </span>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={artistInputValue}
-                    onChange={handleArtistNameChange}
-                    placeholder="Artist"
-                    aria-label="Artist Name"
-                    aria-describedby="artist-name"
-                  />
-                  <InputButton
-                    btnText="Search artist"
-                    btnAction={(e: FormEvent) => (
-                      e.preventDefault(), searchArtist()
-                    )}
-                  ></InputButton>
-                </div>
-              ) : null}
             </div>
           </div>
           <button
             className={
               isDesktop
-                ? "btn btn-secondary mt-5 mx-2 mb-3 h-25"
+                ? "btn btn-secondary mx-2 px-3 my-auto"
                 : "btn btn-secondary mt-2 mx-2 mb-3"
             }
+            style={isDesktop ? { height: "5rem", width: "5rem" } : {}}
             type="submit"
+            disabled={
+              (isSetCollection && !pkmnSet) ||
+              (isCharCollection && !charName) ||
+              (isArtistCollection && !artistName) ||
+              !collectionName
+            }
           >
             {language?.lang_code.word_create}
           </button>
@@ -495,23 +511,23 @@ export const CreateCollectionPage = () => {
       ) : null}
       {pkmnSet && isSetCollection ? (
         <div style={{ marginLeft: "4.5rem" }}>
-          {setId} is {pkmnSet.name}
+          {setInputValue} is {pkmnSet.name}
         </div>
       ) : null}
       {notCorrectCharName ? (
-        <>There are no cards with {charName} in the name</>
+        <>There are no cards with "{charName}" in the name</>
       ) : null}
       {charLength && isCharCollection ? (
         <div style={{ marginLeft: "4.5rem" }}>
-          There are {charLength} cards found with {charName} in the name
+          There are {charLength} cards found with "{charName}" in the name
         </div>
       ) : null}
       {notCorrectArtistName ? (
-        <>There are no cards with {artistName} as an artist</>
+        <>There are no cards with "{artistName}" as an artist</>
       ) : null}
       {artistLength && isArtistCollection ? (
         <div style={{ marginLeft: "4.5rem" }}>
-          There are {artistLength} cards found with {artistName} as the artist
+          There are {artistLength} cards found with "{artistName}" as the artist
         </div>
       ) : null}
       {createdCollection ? (
