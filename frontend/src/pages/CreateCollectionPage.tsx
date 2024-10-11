@@ -365,6 +365,7 @@ export const CreateCollectionPage = () => {
                     <InputButton
                       btnText="Search set id"
                       btnAction={(e) => (e.preventDefault(), searchSet())}
+                      disabled={isSetCollection && !pkmnSet}
                     ></InputButton>
                   </div>
                 ) : null}
@@ -422,6 +423,7 @@ export const CreateCollectionPage = () => {
                     <InputButton
                       btnText="Search character"
                       btnAction={(e) => (e.preventDefault(), searchChar())}
+                      disabled={isCharCollection && charName === ""}
                     ></InputButton>
                   </div>
                 ) : null}
@@ -461,7 +463,7 @@ export const CreateCollectionPage = () => {
                       {language?.lang_code.word_yes}
                     </label>
                   </div>
-                </div>{" "}
+                </div>
                 {isArtistCollection ? (
                   <div className="input-group w-50 mb-3">
                     <span className="input-group-text" id="artist-name">
@@ -481,6 +483,7 @@ export const CreateCollectionPage = () => {
                       btnAction={(e: FormEvent) => (
                         e.preventDefault(), searchArtist()
                       )}
+                      disabled={isArtistCollection && artistName === ""}
                     ></InputButton>
                   </div>
                 ) : null}
@@ -497,8 +500,8 @@ export const CreateCollectionPage = () => {
             type="submit"
             disabled={
               (isSetCollection && !pkmnSet) ||
-              (isCharCollection && !charName) ||
-              (isArtistCollection && !artistName) ||
+              (isCharCollection && charName === "") ||
+              (isArtistCollection && artistName === "") ||
               !collectionName
             }
           >
