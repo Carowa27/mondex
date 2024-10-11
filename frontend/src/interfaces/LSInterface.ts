@@ -17,6 +17,8 @@ export interface ICollection {
   id: string;
   collection_name: string;
   set?: IPkmnSet;
+  artist?: string;
+  character?: string;
   cards_in_collection: ICard[] | [];
   created_date: string;
 }

@@ -3,7 +3,10 @@ import { variables } from "../globals/variables";
 import { LoadingModule } from "../components/LoadingModule";
 import { useContext, useEffect, useState } from "react";
 import { IPkmnCard } from "../interfaces/dataFromApi";
-import { getPkmnFromApi } from "../services/pkmnTcgApiServices";
+import {
+  getCardsFromApi,
+  getPkmnFromApi,
+} from "../services/pkmnTcgApiServices";
 import { SmallPkmnCard } from "../components/SmallPkmnCard";
 import { Pagination } from "./layout/Pagination";
 import { BreadCrumbs } from "./layout/BreadCrumbs";
@@ -112,6 +115,36 @@ export const CollectionPage = () => {
         }
       );
     }
+    if (collection && collection.character !== undefined) {
+      await getPkmnFromApi(
+        `?q=name:"*${collection.character}*"&orderBy=number`,
+        page
+      ).then((res) => {
+        if (res) {
+          setCardsFromApiList(res.data as IPkmnCard[]);
+          setPageInfo({
+            page: res.page,
+            pageSize: res.pageSize,
+            totalCount: res.totalCount,
+          });
+        }
+      });
+    }
+    if (collection && collection.artist !== undefined) {
+      await getPkmnFromApi(
+        `?q=artist:"*${collection.artist}*"&orderBy=number`,
+        page
+      ).then((res) => {
+        if (res) {
+          setCardsFromApiList(res.data as IPkmnCard[]);
+          setPageInfo({
+            page: res.page,
+            pageSize: res.pageSize,
+            totalCount: res.totalCount,
+          });
+        }
+      });
+    }
   };
 
   const changeShowDeleteCardPopUp = () => {
@@ -185,13 +218,24 @@ export const CollectionPage = () => {
         {!isLoading ? (
           <>
             {(collection?.cards_in_collection.length === 0 &&
-              collection?.set?.id !== undefined) ||
+              collection &&
+              collection?.set !== undefined) ||
+              (collection && collection?.character !== undefined) ||
+              (collection && collection?.artist !== undefined) ||
               (collection?.cards_in_collection.length === 0 && (
                 <>{language?.lang_code.collection_with_no_cards_more_words}</>
               ))}
-            {(cardList?.length !== 0 || collection?.set !== undefined) && (
+            {(cardList?.length !== 0 ||
+              (collection && collection?.set !== undefined) ||
+              (collection && collection?.character !== undefined) ||
+              (collection && collection?.artist !== undefined)) && (
               <>
-                {collection && collection?.set === undefined ? (
+                {collection &&
+                collection?.set === undefined &&
+                collection &&
+                collection?.character === undefined &&
+                collection &&
+                collection?.artist === undefined ? (
                   <ul
                     className={
                       isDesktop
