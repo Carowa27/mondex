@@ -8,6 +8,7 @@ import { getToday } from "../functions/dateFunctions";
 import { ICollection } from "../interfaces/LSInterface";
 import { updateMondexLs } from "../functions/LSFunctions";
 import { IPkmnSet } from "../interfaces/dataFromApi";
+import { InputButton } from "../components/Buttons";
 
 export const CreateCollectionPage = () => {
   const { container, updateContainer } = useContext(ContainerContext);
@@ -273,7 +274,7 @@ export const CreateCollectionPage = () => {
                 }
               >
                 <span className="input-group-text" id="collection_name">
-                  {language?.lang_code.collection_name}*:
+                  {language?.lang_code.collection_name}:*
                 </span>
                 <input
                   type="text"
@@ -427,9 +428,10 @@ export const CreateCollectionPage = () => {
                     aria-label="Set Name"
                     aria-describedby="set-name"
                   />
-                  <button onClick={(e) => (e.preventDefault(), searchSet())}>
-                    Search set id
-                  </button>
+                  <InputButton
+                    btnText="Search set id"
+                    btnAction={(e) => (e.preventDefault(), searchSet())}
+                  ></InputButton>
                 </div>
               ) : null}
               {isCharCollection ? (
@@ -446,9 +448,10 @@ export const CreateCollectionPage = () => {
                     aria-label="Character Name"
                     aria-describedby="char-name"
                   />
-                  <button onClick={(e) => (e.preventDefault(), searchChar())}>
-                    Search character
-                  </button>
+                  <InputButton
+                    btnText="Search character"
+                    btnAction={(e) => (e.preventDefault(), searchChar())}
+                  ></InputButton>
                 </div>
               ) : null}
               {isArtistCollection ? (
@@ -465,22 +468,26 @@ export const CreateCollectionPage = () => {
                     aria-label="Artist Name"
                     aria-describedby="artist-name"
                   />
-                  <button onClick={(e) => (e.preventDefault(), searchArtist())}>
-                    Search artist
-                  </button>
+                  <InputButton
+                    btnText="Search artist"
+                    btnAction={(e: FormEvent) => (
+                      e.preventDefault(), searchArtist()
+                    )}
+                  ></InputButton>
                 </div>
               ) : null}
             </div>
           </div>
-          <input
+          <button
             className={
               isDesktop
                 ? "btn btn-secondary mt-5 mx-2 mb-3 h-25"
                 : "btn btn-secondary mt-2 mx-2 mb-3"
             }
             type="submit"
-            value={language?.lang_code.word_create}
-          />
+          >
+            {language?.lang_code.word_create}
+          </button>
         </div>
       </form>
       {notCorrectSetId ? (
