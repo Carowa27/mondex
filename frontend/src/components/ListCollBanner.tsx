@@ -16,7 +16,7 @@ interface IListProps {
 
 export const ListCollBanner = ({ collection }: IListProps) => {
   const { container } = useContext(ContainerContext);
-  const language = container.language;
+  // const language = container.language;
   const theme = container.theme;
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
 
