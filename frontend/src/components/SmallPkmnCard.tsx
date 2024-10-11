@@ -1,24 +1,22 @@
-import { useContext, useState } from "react";
-import { ThemeContext } from "../globals/theme";
+import { useContext, useEffect, useState } from "react";
 import { IPkmnCard } from "../interfaces/dataFromApi";
-import { ICardFromDB } from "../interfaces/dataFromDB";
-import { useAuth0 } from "@auth0/auth0-react";
-import {
-  addAmountOnCard,
-  createCard,
-  subAmountOnCard,
-} from "../services/cardServices";
 import { BigPkmnCard } from "./BigPkmnCard";
 import { SwapCollectionPopUp } from "./SwapCollectionPopUp";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { DeleteCardPopUp } from "./DeleteCardPopUp";
+import { ContainerContext } from "../globals/containerContext";
+import { ICard, ICollection } from "../interfaces/LSInterface";
+import {
+  addCardToCollection,
+  removeCardFromCollection,
+} from "../functions/cardFunctions";
 
 interface IProps {
-  card?: ICardFromDB;
+  card?: ICard;
   cardFromApi?: IPkmnCard;
   collectionName: string;
-  cardList: ICardFromDB[];
+  cardList: ICard[];
   getData: () => void;
 }
 
@@ -29,9 +27,8 @@ export const SmallPkmnCard = ({
   getData,
   cardList,
 }: IProps) => {
-  const { theme } = useContext(ThemeContext);
+  const { container, updateContainer } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  const { isAuthenticated, user } = useAuth0();
   const [showCardAlternatives, setShowCardAlternatives] = useState<string>("");
   const [hoverPlusBtn, setHoverPlusBtn] = useState<boolean>(false);
   const [hoverMinusBtn, setHoverMinusBtn] = useState<boolean>(false);
@@ -40,13 +37,15 @@ export const SmallPkmnCard = ({
   const [showSwapCollection, setShowSwapCollection] = useState<boolean>(false);
   const [showDeleteCard, setShowDeleteCard] = useState<boolean>(false);
   const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
-  const [infoCard, setInfoCard] = useState<ICardFromDB>();
+  const [infoCard, setInfoCard] = useState<ICard>();
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
-  const [cardToSwap, setCardToSwap] = useState<ICardFromDB>();
-  const [cardToDelete, setCardToDelete] = useState<ICardFromDB>();
+  const [cardToSwap, setCardToSwap] = useState<ICard>();
+  const [cardToDelete, setCardToDelete] = useState<ICard>();
+  const [flipped, setFlipped] = useState(false);
+  const theme = container.theme;
 
   const handleSwap = (
-    card: ICardFromDB | undefined,
+    card: ICard | undefined,
     cardFromApi: IPkmnCard | undefined
   ) => {
     if (card !== undefined) {
@@ -54,33 +53,83 @@ export const SmallPkmnCard = ({
     }
     if (cardFromApi !== undefined) {
       setCardToSwap(
-        cardList.find((cardFromDb) => cardFromDb.api_card_id === cardFromApi.id)
+        cardList.find((cardToFind) => cardToFind?.card?.id === cardFromApi.id)
       );
     }
     setShowSwapCollection(true);
   };
+  useEffect(() => {
+    if (cardList.find((card) => card.card.id === cardFromApi?.id)) {
+      setFlipped(true);
+    }
+  }, [card]);
+  const addCard = (
+    card: ICard | undefined,
+    cardFromApi: IPkmnCard | undefined
+  ) => {
+    cardFromApi && !card ? setFlipped(true) : null;
+    const updatedCollections = addCardToCollection(
+      collectionName,
+      container.user!.collections,
+      false,
+      card,
+      cardFromApi
+    );
 
-  const subAmount = (cardFromApi?: IPkmnCard, card?: ICardFromDB) => {
+    updateContainer(
+      {
+        username: container.user!.username,
+        collections: updatedCollections as ICollection[],
+      },
+      "user"
+    );
+
+    setTimeout(() => {
+      getData();
+    }, 100);
+  };
+  const delCard = (card: ICard) => {
+    card.amount === 1 ? setFlipped(false) : null;
+    const updatedCollections = removeCardFromCollection(
+      card!,
+      collectionName,
+      container.user!.collections,
+      false
+    );
+
+    updateContainer(
+      {
+        username: container.user!.username,
+        collections: updatedCollections as ICollection[],
+      },
+      "user"
+    );
+
+    setTimeout(() => {
+      getData();
+    }, 100);
+  };
+  const subAmount = (cardFromApi?: IPkmnCard, card?: ICard) => {
     if (cardFromApi !== undefined) {
-      const card = cardList.find((card) => card.api_card_id === cardFromApi.id);
-      if (card !== undefined && user) {
+      const card = cardList.find((card) => card.card.id === cardFromApi.id);
+      if (card !== undefined && container.user) {
         if (card.amount !== 0) {
           if (card.amount === 1) {
             setShowDeleteCard(true);
             setCardToDelete(card);
           } else {
-            subAmountOnCard({ user, card });
+            delCard(card);
           }
         }
       }
     } else {
-      if (card !== undefined && user) {
+      if (card !== undefined && container.user) {
         if (card.amount !== 0) {
           if (card.amount === 1) {
             setShowDeleteCard(true);
             setCardToDelete(card);
           } else {
-            subAmountOnCard({ user, card });
+            delCard(card);
           }
         }
       }
@@ -89,29 +138,10 @@ export const SmallPkmnCard = ({
       getData();
     }, 100);
   };
-
   const updateData = () => {
     setTimeout(() => {
       getData();
     }, 500);
-  };
-  const addAmount = (cardFromApi?: IPkmnCard, card?: ICardFromDB) => {
-    if (cardFromApi) {
-      const card = cardList.find((card) => card.api_card_id === cardFromApi.id);
-      if (user) {
-        if (card !== undefined) {
-          addAmountOnCard({ user, card });
-        } else {
-          createCard({ user, cardFromApi, collectionName });
-        }
-      }
-    }
-    if (card && user) {
-      addAmountOnCard({ user, card });
-    }
-    setTimeout(() => {
-      getData();
-    }, 100);
   };
   const changeShowPkmnInfo = () => {
     setSeeBigCard(false);
@@ -123,7 +153,7 @@ export const SmallPkmnCard = ({
     setShowDeleteCard(false);
   };
   const saveCardToGetInfoOn = (
-    card: ICardFromDB | undefined,
+    card: ICard | undefined,
     pkmnCard: IPkmnCard | undefined
   ) => {
     if (card !== undefined) {
@@ -133,13 +163,12 @@ export const SmallPkmnCard = ({
       setInfoPkmnCard(pkmnCard);
     }
   };
-
   return (
     <>
       {showDeleteCard ? (
         <div
           style={{
-            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.7)`,
+            backgroundColor: `rgba(${theme?.primaryColors.black.rgb}, 0.7)`,
             top: 0,
             left: 0,
             width: "100%",
@@ -155,13 +184,14 @@ export const SmallPkmnCard = ({
             cardToDelete={cardToDelete}
             collectionName={collectionName}
             updateData={updateData}
+            delCard={delCard}
           ></DeleteCardPopUp>
         </div>
       ) : null}
       {showSwapCollection ? (
         <div
           style={{
-            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.7)`,
+            backgroundColor: `rgba(${theme?.primaryColors.black.rgb}, 0.7)`,
             top: 0,
             left: 0,
             width: "100%",
@@ -183,7 +213,7 @@ export const SmallPkmnCard = ({
       {seeBigCard ? (
         <div
           style={{
-            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.7)`,
+            backgroundColor: `rgba(${theme?.primaryColors.black.rgb}, 0.7)`,
             top: 0,
             left: 0,
             width: "100%",
@@ -203,25 +233,25 @@ export const SmallPkmnCard = ({
       ) : null}
 
       <div
-        className={isDesktop ? "" : "mb-2"}
+        className={isDesktop ? "mb-3" : "mb-2"}
         style={{
           aspectRatio: "3/4",
           width: isDesktop ? "12.5rem" : "10rem",
         }}
         onMouseEnter={() =>
           setShowCardAlternatives(
-            card ? card.api_card_id : cardFromApi ? cardFromApi.id : ""
+            card ? card.card.id : cardFromApi ? cardFromApi.id : ""
           )
         }
         onMouseLeave={() => setShowCardAlternatives("")}
       >
-        {(showCardAlternatives && isAuthenticated) || !isDesktop ? (
+        {(showCardAlternatives && container.user) || !isDesktop ? (
           <div
             className="px-2 py-3"
             style={
               showCardAlternatives ===
                 (card !== undefined
-                  ? card.api_card_id
+                  ? card.card.id
                   : cardFromApi
                   ? cardFromApi.id
                   : "") || !isDesktop
@@ -229,7 +259,7 @@ export const SmallPkmnCard = ({
                     display: "flex",
                     zIndex: 300,
                     position: "absolute",
-                    color: `${theme.primaryColors.text.hex}`,
+                    color: `${theme?.primaryColors.text.hex}`,
                     aspectRatio: "3/4",
                     width: isDesktop ? "12.5rem" : "10rem",
                     fontSize: "20pt",
@@ -241,7 +271,7 @@ export const SmallPkmnCard = ({
             <div
               className="rounded-pill w-100 d-flex justify-content-around"
               style={{
-                backgroundColor: `${theme.primaryColors.buttonBackground.hex}`,
+                backgroundColor: `${theme?.primaryColors.buttonBackground.hex}`,
                 padding: "0.3rem",
               }}
             >
@@ -249,12 +279,12 @@ export const SmallPkmnCard = ({
                 style={
                   hoverPlusBtn
                     ? {
-                        backgroundColor: `rgba(${theme.typeColors.grass.rgb},0.6)`,
+                        backgroundColor: `rgba(${theme?.typeColors.grass.rgb},0.6)`,
                         width: "1.7rem",
                         height: "1.7rem",
                       }
                     : {
-                        backgroundColor: `rgba(${theme.typeColors.grass.rgb},0.4)`,
+                        backgroundColor: `rgba(${theme?.typeColors.grass.rgb},0.4)`,
                         width: "1.7rem",
                         height: "1.7rem",
                       }
@@ -262,7 +292,15 @@ export const SmallPkmnCard = ({
                 className="rounded-circle d-flex align-items-center justify-content-center"
                 onMouseEnter={() => setHoverPlusBtn(true)}
                 onMouseLeave={() => setHoverPlusBtn(false)}
-                onClick={() => addAmount(cardFromApi, card)}
+                // onClick={() =>
+                //   addCardToCollection({
+                //     cardFromApi,
+                //     card,
+                //     cardList,
+                //     collectionName,
+                //   })
+                // }
+                onClick={() => addCard(card, cardFromApi)}
               >
                 <i title="add amount" className="bi bi-plus m-0 p-0"></i>
               </span>
@@ -270,12 +308,12 @@ export const SmallPkmnCard = ({
                 style={
                   hoverMinusBtn
                     ? {
-                        backgroundColor: `rgba(${theme.typeColors.fire.rgb},0.6)`,
+                        backgroundColor: `rgba(${theme?.typeColors.fire.rgb},0.6)`,
                         width: "1.7rem",
                         height: "1.7rem",
                       }
                     : {
-                        backgroundColor: `rgba(${theme.typeColors.fire.rgb},0.4)`,
+                        backgroundColor: `rgba(${theme?.typeColors.fire.rgb},0.4)`,
                         width: "1.7rem",
                         height: "1.7rem",
                       }
@@ -283,7 +321,7 @@ export const SmallPkmnCard = ({
                 className={
                   (cardFromApi &&
                     cardList.find(
-                      (cardFromDb) => cardFromDb.api_card_id === cardFromApi.id
+                      (cardFromDb) => cardFromDb.card.id === cardFromApi.id
                     )) ||
                   card
                     ? "rounded-circle d-flex align-items-center justify-content-center"
@@ -299,12 +337,12 @@ export const SmallPkmnCard = ({
                 style={
                   hoverSwapBtn
                     ? {
-                        backgroundColor: `rgba(${theme.typeColors.fighting.rgb},0.6)`,
+                        backgroundColor: `rgba(${theme?.typeColors.fighting.rgb},0.6)`,
                         width: "1.7rem",
                         height: "1.7rem",
                       }
                     : {
-                        backgroundColor: `rgba(${theme.typeColors.fighting.rgb},0.4)`,
+                        backgroundColor: `rgba(${theme?.typeColors.fighting.rgb},0.4)`,
                         width: "1.7rem",
                         height: "1.7rem",
                       }
@@ -312,7 +350,7 @@ export const SmallPkmnCard = ({
                 className={
                   (cardFromApi &&
                     cardList.find(
-                      (cardFromDb) => cardFromDb.api_card_id === cardFromApi.id
+                      (cardFromDb) => cardFromDb.card.id === cardFromApi.id
                     )) ||
                   card
                     ? "rounded-circle d-flex align-items-center justify-content-center"
@@ -331,12 +369,12 @@ export const SmallPkmnCard = ({
                 style={
                   hoverInfoBtn
                     ? {
-                        backgroundColor: `rgba(${theme.typeColors.water.rgb},0.6)`,
+                        backgroundColor: `rgba(${theme?.typeColors.water.rgb},0.6)`,
                         width: "1.7rem",
                         height: "1.7rem",
                       }
                     : {
-                        backgroundColor: `rgba(${theme.typeColors.water.rgb},0.4)`,
+                        backgroundColor: `rgba(${theme?.typeColors.water.rgb},0.4)`,
                         width: "1.7rem",
                         height: "1.7rem",
                       }
@@ -360,7 +398,7 @@ export const SmallPkmnCard = ({
           style={{
             display: "flex",
             position: "absolute",
-            color: `${theme.primaryColors.text.hex}`,
+            color: `${theme?.primaryColors.text.hex}`,
             aspectRatio: "auto",
             width: isDesktop ? "13.2rem" : "10rem",
             height: isDesktop ? "18.2rem" : "14.5rem",
@@ -370,22 +408,22 @@ export const SmallPkmnCard = ({
           }}
         >
           {(cardFromApi &&
-            cardList.find(
-              (cardFromDb) => cardFromDb.api_card_id === cardFromApi.id
-            )?.amount) ||
+            cardList.find((cardFromDb) => cardFromDb.card.id === cardFromApi.id)
+              ?.amount) ||
           (card && card.amount) ? (
             <span
               style={{
-                backgroundColor: `${theme.primaryColors.white.hex}`,
+                backgroundColor: `${theme?.primaryColors.white.hex}`,
                 width: isDesktop ? "40px" : "30px",
                 height: isDesktop ? "40px" : "30px",
                 border: "1px grey solid",
+                zIndex: "10",
               }}
               className="rounded-circle d-flex align-items-center justify-content-center"
             >
               <i
                 className="m-0 p-0"
-                style={{ color: theme.primaryColors.black.hex }}
+                style={{ color: theme?.primaryColors.black.hex }}
               >
                 <span
                   style={{
@@ -397,7 +435,7 @@ export const SmallPkmnCard = ({
                 <span>
                   {cardFromApi &&
                     cardList.find(
-                      (cardFromDb) => cardFromDb.api_card_id === cardFromApi.id
+                      (cardFromDb) => cardFromDb.card.id === cardFromApi.id
                     )?.amount}
                   {card && card.amount}
                 </span>
@@ -405,27 +443,39 @@ export const SmallPkmnCard = ({
             </span>
           ) : null}
         </div>
-        <img
-          className="rounded"
-          style={
-            cardFromApi
-              ? cardList.find(
-                  (cardFromDb) => cardFromDb.api_card_id === cardFromApi.id
-                )
-                ? { width: "100%", opacity: 1 }
-                : {
-                    width: "100%",
-                    opacity: 0.6,
-                    filter: "grayscale(100%)",
-                  }
-              : { width: "100%" }
-          }
-          src={
-            (card && card.api_card_img_src_small) ||
-            (cardFromApi && cardFromApi.images.small)
-          }
-          alt={card && card.api_pkmn_name}
-        />
+        <div className={flipped ? "flip-box flip-box-flipped" : "flip-box"}>
+          <div className="flip-box-inner">
+            <div className="flip-box-front">
+              <img
+                className="rounded"
+                src={
+                  (card && card.card.images.small) ||
+                  (cardFromApi && cardFromApi.images.small)
+                }
+                alt={
+                  (card && card.card.name) || (cardFromApi && cardFromApi.name)
+                }
+                style={{
+                  width: "100%",
+                  filter: "grayscale(100%)",
+                }}
+              />
+            </div>
+            <div className="flip-box-back">
+              <img
+                className="rounded"
+                src={
+                  (card && card.card.images.small) ||
+                  (cardFromApi && cardFromApi.images.small)
+                }
+                alt={
+                  (card && card.card.name) || (cardFromApi && cardFromApi.name)
+                }
+                style={{ width: "100%" }}
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

@@ -1,18 +1,18 @@
 import { CSSProperties, useContext, useEffect, useState } from "react";
-import { LanguageContext } from "../globals/language/language";
-import { ThemeContext } from "../globals/theme";
 import { getPokemonFromApi } from "../services/pokeApiService";
 import { IPokeResponse } from "../interfaces/dataFromApi";
 import { Link } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
+import { ContainerContext } from "../globals/containerContext";
 
 export const ErrorPage = () => {
-  const { language } = useContext(LanguageContext);
-  const { theme } = useContext(ThemeContext);
+  const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const [pokemonList, setPokemonList] = useState<IPokeResponse[]>();
   const [numberList, setNumberList] = useState<string[]>();
+  const language = container.language;
+  const theme = container.theme;
 
   const getNumberArray = () => {
     const numbers: string[] = [];
@@ -102,28 +102,28 @@ export const ErrorPage = () => {
     <div
       style={{
         height: "100vh",
-        backgroundColor: theme.primaryColors.background.hex,
-        color: theme.primaryColors.text.hex,
+        backgroundColor: theme?.primaryColors.background.hex,
+        color: theme?.primaryColors.text.hex,
       }}
     >
       <div className=" d-flex justify-content-center flex-column h-75 ms-3">
-        <h1>{language.lang_code.error_oh_no}</h1>
+        <h1>{language?.lang_code.error_oh_no}</h1>
         <h5>
-          {language.lang_code.error_something_went_wrong},{" "}
-          {language.lang_code.error_pkmn_fled}?!
+          {language?.lang_code.error_something_went_wrong},{" "}
+          {language?.lang_code.error_pkmn_fled}?!
         </h5>
         <Link
           to="/"
           className="text-decoration-none ps-3 mt-4"
           style={{
-            color: theme.primaryColors.link.hex,
+            color: theme?.primaryColors.link.hex,
           }}
         >
           <button
             className="btn"
             style={{
-              border: `1px solid ${theme.primaryColors.text.hex}`,
-              color: theme.primaryColors.text.hex,
+              border: `1px solid ${theme?.primaryColors.text.hex}`,
+              color: theme?.primaryColors.text.hex,
             }}
           >
             Home
@@ -133,7 +133,7 @@ export const ErrorPage = () => {
       <div>
         {pokemonList &&
           pokemonList?.map((pkmn, i) => (
-            <div>
+            <div key={i}>
               <img
                 style={isDesktop ? inStyleDesktop(i) : inStyleMobile(i)}
                 key={i}

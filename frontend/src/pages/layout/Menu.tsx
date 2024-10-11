@@ -2,17 +2,19 @@ import { useMediaQuery } from "react-responsive";
 import { Link } from "react-router-dom";
 import { variables } from "../../globals/variables";
 import { useContext, useState } from "react";
-import { LanguageContext } from "../../globals/language/language";
-import { ThemeContext } from "../../globals/theme";
+import { lang } from "../../globals/language/language";
+import { colorModes } from "../../globals/theme";
 import { useAuth0 } from "@auth0/auth0-react";
+import { ContainerContext } from "../../globals/containerContext";
 
 export const Menu = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  const { language, changeLanguage } = useContext(LanguageContext);
-  const { theme, changeColorMode } = useContext(ThemeContext);
+  const { container, updateContainer } = useContext(ContainerContext);
   const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+  const language = container.language;
+  const theme = container.theme;
   return (
     <>
       {isDesktop ? (
@@ -22,14 +24,14 @@ export const Menu = () => {
             width: "400px",
             minWidth: "fit-content",
             gap: "0.5rem",
-            color: `${theme.primaryColors.link.hex}`,
+            color: `${theme?.primaryColors.link.hex}`,
           }}
         >
           <Link
             className="text-decoration-none"
             to="./search"
             style={{
-              color: theme.primaryColors.link.hex,
+              color: theme?.primaryColors.link.hex,
             }}
             onClick={() =>
               window.scrollTo({
@@ -42,17 +44,17 @@ export const Menu = () => {
               id="main-menu-searchpage"
               className="ps-2"
               style={{
-                borderLeft: `2px solid rgba(${theme.typeColors.water.rgb},0.8)`,
+                borderLeft: `2px solid rgba(${theme?.typeColors.water.rgb},0.8)`,
               }}
             >
-              {language.lang_code.word_search}
+              {language?.lang_code.word_search}
             </span>
           </Link>
           <Link
             className="text-decoration-none"
             to="./about"
             style={{
-              color: theme.primaryColors.link.hex,
+              color: theme?.primaryColors.link.hex,
             }}
             onClick={() =>
               window.scrollTo({
@@ -62,17 +64,17 @@ export const Menu = () => {
             }
           >
             <span id="main-menu-about" className="ps-2">
-              {language.lang_code.about_about_project}
+              {language?.lang_code.about_about_project}
             </span>
           </Link>
-          {isAuthenticated ? (
+          {container.user && container.user.username !== "" && (
             <>
               <span id="main-menu-mypages" className="ps-2">
                 <Link
                   className="text-decoration-none"
                   to="./userpage"
                   style={{
-                    color: theme.primaryColors.link.hex,
+                    color: theme?.primaryColors.link.hex,
                   }}
                   onClick={() =>
                     window.scrollTo({
@@ -81,15 +83,17 @@ export const Menu = () => {
                     })
                   }
                 >
-                  {language.lang_code.my_pages_my_pages}
+                  {language?.lang_code.my_pages_my_pages}
                 </Link>
               </span>
-              <span
+            </>
+          )}
+          {/*    <span
                 id="main-menu-logout"
                 className="ps-2"
                 onClick={() => logout()}
               >
-                {language.lang_code.account_logout}
+                {language?.lang_code.account_logout}
               </span>
             </>
           ) : (
@@ -98,23 +102,23 @@ export const Menu = () => {
               className="ps-2"
               onClick={() => loginWithRedirect()}
             >
-              {language.lang_code.account_login}
+              {language?.lang_code.account_login}
             </span>
-          )}
+         )} */}
           {isLangMenuOpen ? (
             <>
               <div
                 style={{
-                  backgroundColor: `${theme.primaryColors.background.hex}`,
+                  backgroundColor: `${theme?.primaryColors.background.hex}`,
                 }}
               >
                 <div
                   onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
-                  className="ps-2"
+                  className="ps-2 clickable-event"
                 >
-                  <span id="main-menu-language">
+                  <span id="main-menu-language?">
                     {" "}
-                    {language.lang_code.word_language}
+                    {language?.lang_code.word_language}
                   </span>
                   <i className="bi bi-chevron-compact-up ps-1"></i>
                 </div>
@@ -123,28 +127,34 @@ export const Menu = () => {
                   style={{
                     zIndex: "200",
                     position: "absolute",
-                    backgroundColor: `${theme.primaryColors.background.hex}`,
+                    backgroundColor: `${theme?.primaryColors.background.hex}`,
                     width: "4.35rem",
                   }}
                 >
                   <span
-                    id="main-menu-language-se"
+                    id="main-menu-language?-se"
                     className={
-                      language.name === "Svenska" ? "fw-bold" : "fw-normal"
+                      language?.name === "Svenska"
+                        ? "fw-bold clickable-event"
+                        : "fw-normal clickable-event"
                     }
                     onClick={() => (
-                      changeLanguage("SE"), setIsLangMenuOpen(false)
+                      setIsLangMenuOpen(false),
+                      updateContainer(lang.SE, "language")
                     )}
                   >
                     SE
                   </span>
                   <span
-                    id="main-menu-language-en"
+                    id="main-menu-language?-en"
                     className={
-                      language.name === "English" ? "fw-bold" : "fw-normal"
+                      language?.name === "English"
+                        ? "fw-bold clickable-event"
+                        : "fw-normal  clickable-event"
                     }
                     onClick={() => (
-                      changeLanguage("EN"), setIsLangMenuOpen(false)
+                      setIsLangMenuOpen(false),
+                      updateContainer(lang.EN, "language")
                     )}
                   >
                     EN
@@ -156,25 +166,25 @@ export const Menu = () => {
             <>
               <div
                 onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
-                className="ps-2"
+                className="ps-2 clickable-event"
               >
-                <span id="main-menu-language">
-                  {language.lang_code.word_language}
+                <span id="main-menu-language?">
+                  {language?.lang_code.word_language}
                 </span>
                 <i className="bi bi-chevron-compact-down ps-1"></i>
               </div>
             </>
           )}
-          <div className="ps-3">
-            {theme.name === "light" ? (
+          <div className="ps-3 clickable-event">
+            {theme?.name === "light" ? (
               <i
-                onClick={() => changeColorMode("dark")}
+                onClick={() => updateContainer(colorModes.Dark, "theme")}
                 className="bi bi-moon-fill"
                 style={{ color: "#554d42" }}
               ></i>
             ) : (
               <i
-                onClick={() => changeColorMode("light")}
+                onClick={() => updateContainer(colorModes.Light, "theme")}
                 className="bi bi-brightness-high-fill"
                 style={{ color: "#FFC233" }}
               ></i>
@@ -188,15 +198,15 @@ export const Menu = () => {
               id="main-menu-container"
               className="d-flex flex-column me-3 pe-2 mt-2 rounded-bottom"
               style={{
-                color: `${theme.primaryColors.link.hex}`,
+                color: `${theme?.primaryColors.link.hex}`,
                 position: "absolute",
                 right: 0,
                 cursor: "pointer",
                 zIndex: "200",
                 minWidth: "fit-content",
                 width: "120px",
-                backgroundColor: `${theme.primaryColors.background.hex}`,
-                borderLeft: `2px solid rgba(${theme.typeColors.water.rgb},0.8)`,
+                backgroundColor: `${theme?.primaryColors.background.hex}`,
+                borderLeft: `2px solid rgba(${theme?.typeColors.water.rgb},0.8)`,
               }}
             >
               <div onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
@@ -217,11 +227,11 @@ export const Menu = () => {
                     });
                 }}
                 style={{
-                  color: theme.primaryColors.link.hex,
+                  color: theme?.primaryColors.link.hex,
                 }}
               >
                 <span id="main-menu-searchpage" className="ps-2">
-                  {language.lang_code.word_search}
+                  {language?.lang_code.word_search}
                 </span>
               </Link>
               <Link
@@ -235,11 +245,11 @@ export const Menu = () => {
                     });
                 }}
                 style={{
-                  color: theme.primaryColors.link.hex,
+                  color: theme?.primaryColors.link.hex,
                 }}
               >
                 <span id="main-menu-about" className="ps-2">
-                  {language.lang_code.about_about_project}
+                  {language?.lang_code.about_about_project}
                 </span>
               </Link>
               {isAuthenticated ? (
@@ -255,11 +265,11 @@ export const Menu = () => {
                         });
                     }}
                     style={{
-                      color: theme.primaryColors.link.hex,
+                      color: theme?.primaryColors.link.hex,
                     }}
                   >
                     <span id="main-menu-mypages" className="ps-2">
-                      {language.lang_code.my_pages_my_pages}
+                      {language?.lang_code.my_pages_my_pages}
                     </span>
                   </Link>
                   <span
@@ -267,7 +277,7 @@ export const Menu = () => {
                     className="ps-2"
                     onClick={() => logout()}
                   >
-                    {language.lang_code.account_logout}
+                    {language?.lang_code.account_logout}
                   </span>
                 </>
               ) : (
@@ -278,19 +288,20 @@ export const Menu = () => {
                     loginWithRedirect(), setIsMobileMenuOpen(!isMobileMenuOpen)
                   )}
                 >
-                  {language.lang_code.account_login}
+                  {language?.lang_code.account_login}
                 </span>
               )}
               <div className="d-flex justify-content-around pt-1 pb-1">
                 <span
                   id="main-menu-language-se"
                   className={
-                    language.name === "Svenska"
-                      ? "fw-bold ps-2"
-                      : "fw-normal ps-2"
+                    language?.name === "Svenska"
+                      ? "fw-bold ps-2 clickable-event"
+                      : "fw-normal ps-2 clickable-event"
                   }
                   onClick={() => (
-                    changeLanguage("SE"), setIsMobileMenuOpen(false)
+                    setIsMobileMenuOpen(false),
+                    updateContainer(lang.SE, "language")
                   )}
                 >
                   SE
@@ -298,10 +309,13 @@ export const Menu = () => {
                 <span
                   id="main-menu-language-en"
                   className={
-                    language.name === "English" ? "fw-bold" : "fw-normal"
+                    language?.name === "English"
+                      ? "fw-bold clickable-event"
+                      : "fw-normal clickable-event"
                   }
                   onClick={() => (
-                    changeLanguage("EN"), setIsMobileMenuOpen(false)
+                    setIsMobileMenuOpen(false),
+                    updateContainer(lang.EN, "language")
                   )}
                 >
                   EN
@@ -312,13 +326,13 @@ export const Menu = () => {
             <div
               className="d-flex flex-column me-3 px-2 mt-2 "
               style={{
-                color: `${theme.primaryColors.link.hex}`,
+                color: `${theme?.primaryColors.link.hex}`,
                 position: "absolute",
                 right: 0,
                 cursor: "pointer",
                 zIndex: "200",
                 width: "120px",
-                borderLeft: `2px solid rgba(${theme.typeColors.water.rgb},0.8)`,
+                borderLeft: `2px solid rgba(${theme?.typeColors.water.rgb},0.8)`,
               }}
             >
               <div
@@ -333,23 +347,23 @@ export const Menu = () => {
             </div>
           )}
           <div
-            id="main-menu-theme-container"
+            id="main-menu-theme?-container"
             className="ps-3 pe-2 me-3 mt-2"
             style={{ zIndex: 300, position: "absolute", right: 0 }}
           >
-            {theme.name === "light" ? (
+            {theme?.name === "light" ? (
               <i
-                id="main-menu-theme-light"
-                onClick={() => changeColorMode("dark")}
+                id="main-menu-theme?-light"
+                onClick={() => updateContainer(colorModes.Dark, "theme")}
                 className="bi bi-moon-fill"
-                style={{ color: theme.primaryColors.sunmoon.hex }}
+                style={{ color: theme?.primaryColors.sunmoon.hex }}
               ></i>
             ) : (
               <i
-                id="main-menu-theme-light"
-                onClick={() => changeColorMode("light")}
+                id="main-menu-theme?-light"
+                onClick={() => updateContainer(colorModes.Light, "theme")}
                 className="bi bi-brightness-high-fill"
-                style={{ color: theme.primaryColors.sunmoon.hex }}
+                style={{ color: theme?.primaryColors.sunmoon.hex }}
               ></i>
             )}
           </div>

@@ -122,8 +122,8 @@ export const createCollection = async ({
   }
 };
 
-export const checkForMasterCollection = async (user: User) => {
-  const collection_name = "Master_Collection";
+export const checkForMainCollection = async (user: User) => {
+  const collection_name = "Main_Collection";
   const api_set_id = null;
   const getCollections = async () => {
     await getAllOwnedCollections({ user }).then((res) => {

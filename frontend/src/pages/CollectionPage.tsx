@@ -1,29 +1,25 @@
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
-import { useAuth0 } from "@auth0/auth0-react";
 import { LoadingModule } from "../components/LoadingModule";
 import { useContext, useEffect, useState } from "react";
-import { ThemeContext } from "../globals/theme";
-import { getAllCardsFromCollectionById } from "../services/cardServices";
-import { ICardFromDB, ICollectionFromDB } from "../interfaces/dataFromDB";
-import { getOwnedCollectionByCollectionName } from "../services/collectionServices";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { getPkmnFromApi } from "../services/pkmnTcgApiServices";
 import { SmallPkmnCard } from "../components/SmallPkmnCard";
 import { Pagination } from "./layout/Pagination";
 import { BreadCrumbs } from "./layout/BreadCrumbs";
 import { DeleteCardPopUp } from "../components/DeleteCardPopUp";
-import { LanguageContext } from "../globals/language/language";
+import { ContainerContext } from "../globals/containerContext";
+import { ICard, ICollection } from "../interfaces/LSInterface";
+import { getMondexLs } from "../functions/LSFunctions";
+import { sortArtistorCharCollRes } from "../functions/cardFunctions";
 
 export const CollectionPage = () => {
-  const { theme } = useContext(ThemeContext);
-  const { language } = useContext(LanguageContext);
+  const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  const { isAuthenticated, user } = useAuth0();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [cardList, setCardList] = useState<ICardFromDB[]>([]);
+  const [cardList, setCardList] = useState<ICard[]>([]);
   const [cardsFromApiList, setCardsFromApiList] = useState<IPkmnCard[]>([]);
-  const [collection, setCollection] = useState<ICollectionFromDB>();
+  const [collection, setCollection] = useState<ICollection>();
 
   const [pageInfo, setPageInfo] = useState<{
     page: number;
@@ -35,39 +31,27 @@ export const CollectionPage = () => {
   const [end, setEnd] = useState<number>(isDesktop ? 50 : 20);
   const [showDeleteCollection, setShowDeleteCollection] =
     useState<boolean>(false);
-
+  const language = container.language;
   const collectionName = window.location.href.split("/")[4];
   const collectionNameToShow = collectionName.replace(/_/g, " ");
+  const theme = container.theme;
 
   const getData = async () => {
-    if (isAuthenticated && user && collectionName) {
-      await getAllCardsFromCollectionById({ collectionName, user }).then(
-        (res) => {
-          if (res && res.length === 0) {
-            setIsLoading(false);
-          } else {
-            setCardList(res as ICardFromDB[]);
-          }
-        }
+    if (collectionName) {
+      const lsContainer = getMondexLs();
+      const collection = lsContainer.user!.collections.find(
+        (col: ICollection) => col.collection_name === collectionName
       );
-      await getOwnedCollectionByCollectionName({ collectionName, user }).then(
-        (res) => {
-          const result = res as ICollectionFromDB;
-
-          setCollection(result);
-        }
-      );
+      setCardList(collection?.cards_in_collection as ICard[]);
+      setCollection(collection);
     }
   };
-  useEffect(() => {
-    getData();
-  }, [isAuthenticated, user]);
 
   const updateSearch = (newPage: number) => {
     setPage(newPage);
     setCardsFromApiList([]);
     setIsLoading(true);
-    if (collection?.api_set_id !== undefined) {
+    if (collection?.set !== undefined) {
       if (isDesktop) {
         if (newPage === 1) {
           setStart(0);
@@ -87,25 +71,37 @@ export const CollectionPage = () => {
       }
     }
   };
+
   useEffect(() => {
-    getSetFromApi();
+    getData();
+    getPkmnToSet();
+  }, []);
+  useEffect(() => {
+    getPkmnToSet();
+  }, [collection]);
+
+  useEffect(() => {
+    getPkmnToSet();
   }, [page]);
 
   useEffect(() => {
     if (collection) {
-      if (cardList.length !== 0 && collection.api_set_id === null) {
+      if (cardList.length !== 0 && collection.set === undefined) {
         setIsLoading(false);
       }
-      if (cardsFromApiList.length !== 0 && collection.api_set_id !== null) {
+      if (cardsFromApiList.length !== 0 && collection.set !== undefined) {
+        setIsLoading(false);
+      }
+      if (collection.cards_in_collection.length === 0) {
         setIsLoading(false);
       }
     }
   }, [cardList, cardsFromApiList, collection]);
 
-  const getSetFromApi = async () => {
-    if (collection && collection?.api_set_id !== null) {
+  const getPkmnToSet = async () => {
+    if (collection && collection.set !== undefined) {
       await getPkmnFromApi(
-        `?q=!set.id:%22${collection.api_set_id}%22`,
+        `?q=!set.id:%22${collection.set.id}%22&orderBy=number`,
         page
       ).then((res) => {
         if (res) {
@@ -118,10 +114,39 @@ export const CollectionPage = () => {
         }
       });
     }
+    if (collection && collection.character !== undefined) {
+      await getPkmnFromApi(`?q=name:"*${collection.character}*"`, page).then(
+        (res) => {
+          if (res) {
+            setCardsFromApiList(
+              sortArtistorCharCollRes(res.data as IPkmnCard[])
+            );
+            setPageInfo({
+              page: res.page,
+              pageSize: res.pageSize,
+              totalCount: res.totalCount,
+            });
+          }
+        }
+      );
+    }
+    if (collection && collection.artist !== undefined) {
+      await getPkmnFromApi(`?q=artist:"*${collection.artist}*"`, page).then(
+        (res) => {
+          if (res) {
+            setCardsFromApiList(
+              sortArtistorCharCollRes(res.data as IPkmnCard[])
+            );
+            setPageInfo({
+              page: res.page,
+              pageSize: res.pageSize,
+              totalCount: res.totalCount,
+            });
+          }
+        }
+      );
+    }
   };
-  useEffect(() => {
-    getSetFromApi();
-  }, [collection]);
 
   const changeShowDeleteCardPopUp = () => {
     setShowDeleteCollection(false);
@@ -137,7 +162,7 @@ export const CollectionPage = () => {
       {showDeleteCollection ? (
         <div
           style={{
-            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.7)`,
+            backgroundColor: `rgba(${theme?.primaryColors.black.rgb}, 0.7)`,
             top: 0,
             left: 0,
             width: "100%",
@@ -157,10 +182,42 @@ export const CollectionPage = () => {
         </div>
       ) : null}
       <div className="d-flex justify-content-between">
-        <h2 className="m-0">{collectionNameToShow}</h2>
+        <h3 className="m-0 align-self-center">
+          {collectionNameToShow}
+          {collection?.set !== undefined && (
+            <span style={{ fontSize: "16px", margin: "0 1rem" }}>
+              Set id: {collection.set?.id.replace("pt", ".")}
+            </span>
+          )}
+          {collection?.character !== undefined && (
+            <span style={{ fontSize: "16px", margin: "0 1rem" }}>
+              Character: {collection.character}
+            </span>
+          )}
+          {collection?.artist !== undefined && (
+            <span style={{ fontSize: "16px", margin: "0 1rem" }}>
+              Artist: {collection.artist}
+            </span>
+          )}
+        </h3>
+        {collection?.set !== undefined && (
+          <div style={{ alignSelf: "center" }}>
+            {isDesktop ? (
+              <img
+                src={collection?.set?.images.logo}
+                alt={`${collection?.set?.name} logo`}
+                style={{
+                  maxHeight: "5rem",
+                }}
+              />
+            ) : (
+              <p>{collection.set?.name}</p>
+            )}
+          </div>
+        )}
         <div className="d-flex flex-column align-items-end">
           <BreadCrumbs pageParam="collection" collectionName={collectionName} />
-          {collection?.collection_name !== `Master_Collection` ? (
+          {collection?.collection_name !== `Main_Collection` ? (
             <h5
               className="bi bi-trash3 pe-4 m-0"
               onClick={() => setShowDeleteCollection(true)}
@@ -171,20 +228,36 @@ export const CollectionPage = () => {
       <div style={{ minHeight: "80vh" }} className="mt-2  d-flex flex-column">
         {!isLoading ? (
           <>
-            {cardList.length !== 0 || collection?.api_set_id !== null ? (
+            {(collection?.cards_in_collection.length === 0 &&
+              collection &&
+              collection?.set !== undefined) ||
+              (collection && collection?.character !== undefined) ||
+              (collection && collection?.artist !== undefined) ||
+              (collection?.cards_in_collection.length === 0 && (
+                <>{language?.lang_code.collection_with_no_cards_more_words}</>
+              ))}
+            {(cardList?.length !== 0 ||
+              (collection && collection?.set !== undefined) ||
+              (collection && collection?.character !== undefined) ||
+              (collection && collection?.artist !== undefined)) && (
               <>
-                {collection && collection?.api_set_id === null ? (
+                {collection &&
+                collection?.set === undefined &&
+                collection &&
+                collection?.character === undefined &&
+                collection &&
+                collection?.artist === undefined ? (
                   <ul
                     className={
                       isDesktop
-                        ? "d-flex flex-wrap justify-content-around p-0"
+                        ? "d-flex flex-wrap p-0"
                         : "d-flex flex-wrap justify-content-between p-0"
                     }
-                    style={{ listStyle: "none" }}
+                    style={{ listStyle: "none", gap: "1rem" }}
                   >
-                    {cardList.slice(start, end).map((card: ICardFromDB) => (
+                    {cardList.slice(start, end).map((card: ICard) => (
                       <li
-                        key={card.api_card_id}
+                        key={card.card.id}
                         className={
                           isDesktop
                             ? "pt-2 px-1"
@@ -193,7 +266,7 @@ export const CollectionPage = () => {
                       >
                         {isDesktop && (
                           <p className="fw-semibold ps-1 m-0">
-                            {card.api_pkmn_name}
+                            {card.card.name}
                           </p>
                         )}
                         <SmallPkmnCard
@@ -259,8 +332,6 @@ export const CollectionPage = () => {
                   </div>
                 )}
               </>
-            ) : (
-              <>{language.lang_code.collection_with_no_cards_more_words}</>
             )}
           </>
         ) : (

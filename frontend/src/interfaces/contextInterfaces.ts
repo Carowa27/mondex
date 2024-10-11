@@ -1,52 +1,31 @@
-import { ILanguageVariables } from "./ILanguage";
+import { IColorMode } from "./colorInterfaces";
+import { IPkmnCard } from "./dataFromApi";
+import { ILanguage } from "./ILanguage";
+import { ILSContainer, IUser, IValuableSavedCard } from "./LSInterface";
 
-//ThemeContext
-export interface IThemeContext {
-  theme: IColorMode;
-  changeColorMode: (wantedColorMode: string) => void;
-}
-export interface IColorType {
-  hex: string;
-  rgb?: string;
-}
-
-export interface IPrimaryColors {
-  white: IColorType;
-  black: IColorType;
-  sunmoon: IColorType;
-  text: IColorType;
-  link: IColorType;
-  breadcrumbText: IColorType;
-  background: IColorType;
-  buttonBackground: IColorType;
-}
-
-export interface ITypeColors {
-  grass: IColorType;
-  fire: IColorType;
-  water: IColorType;
-  lightning: IColorType;
-  psychic: IColorType;
-  fighting: IColorType;
-  darkness: IColorType;
-  metal: IColorType;
-  colorless: IColorType;
-  dragon: IColorType;
-  fairy: IColorType;
-}
-
-export interface IColorMode {
-  name: string;
-  primaryColors: IPrimaryColors;
-  typeColors: ITypeColors;
-}
-
-//LanguageContext
-export interface ILanguageContext {
-  language: ILanguage;
-  changeLanguage: (wantedLanguage: string) => void;
-}
-export interface ILanguage {
-  lang_code: ILanguageVariables;
-  name: string;
+//ContainerContext
+export interface IContainerContext {
+  container: {
+    theme: IColorMode | undefined;
+    user: IUser | undefined;
+    language: ILanguage | undefined;
+    mostValuableCard: IValuableSavedCard | undefined;
+    lastOpenedCard: IPkmnCard | undefined;
+  };
+  updateContainer: (
+    updatedData:
+      | IColorMode
+      | IUser
+      | ILanguage
+      | IValuableSavedCard
+      | IPkmnCard
+      | ILSContainer,
+    whatToUpdate:
+      | "theme"
+      | "user"
+      | "language"
+      | "valuableCard"
+      | "lastOpenedCard"
+      | "containerObject"
+  ) => void;
 }

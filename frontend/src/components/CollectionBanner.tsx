@@ -1,12 +1,10 @@
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
-import { useAuth0 } from "@auth0/auth0-react";
-import { getAllOwnedCards } from "../services/cardServices";
 import { useState, useEffect, useContext } from "react";
-import { ICardFromDB } from "../interfaces/dataFromDB";
 import { Link } from "react-router-dom";
-import { LanguageContext } from "../globals/language/language";
-import { ThemeContext } from "../globals/theme";
+import { ContainerContext } from "../globals/containerContext";
+import { ICard, ICollection } from "../interfaces/LSInterface";
+import { sortPkmnCards } from "../functions/cardFunctions";
 
 interface IProps {
   type?: string;
@@ -14,90 +12,114 @@ interface IProps {
 }
 
 export const CollectionBanner = (props: IProps) => {
-  const { language } = useContext(LanguageContext);
-  const { theme } = useContext(ThemeContext);
+  const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  const { user, isAuthenticated } = useAuth0();
-  const [cards, setCards] = useState<ICardFromDB[]>([]);
-
+  const [cards, setCards] = useState<ICard[] | undefined>();
+  const language = container.language;
+  const theme = container.theme;
+  const coll = container.user?.collections.find(
+    (col: ICollection) => col.collection_name === props.collectionName
+  );
   useEffect(() => {
-    if (isAuthenticated && user) {
-      const getData = async () => {
-        await getAllOwnedCards({ user }).then((res) => {
-          if (res) {
-            const cardsInCollection = res.filter(
-              (card: ICardFromDB) =>
-                card.collection_name === props.collectionName
-            );
-
-            setCards(cardsInCollection);
-          }
-        });
-      };
-      getData();
+    if (coll) {
+      setCards(coll.cards_in_collection);
     }
-  }, [isAuthenticated]);
+  }, []);
 
-  const collectionName = props.collectionName.replace(/_/g, " ");
+  const sortedCardsForBanner = cards && coll ? sortPkmnCards(cards, coll) : [];
+  const collectionNameToShow = props.collectionName.replace(/_/g, " ");
+  const characterNameToShow = coll?.character?.replace(/_/g, " ");
+  const artistNameToShow = coll?.artist?.replace(/_/g, " ");
   return (
     <>
-      {isAuthenticated && (
+      {container.user && container.user.username !== "" && (
         <>
           <div
             className={
               window.location.pathname === "/"
-                ? "mb-2 rounded p-1 w-100"
-                : "py-2 my-3 col-5 rounded w-100"
+                ? "mb-2 rounded p-1 w-100 px-3"
+                : "py-2 col-5 rounded px-3"
             }
-            style={{ border: `1px solid ${theme.primaryColors.text.hex}` }}
+            style={{
+              border: `1px solid ${theme?.primaryColors.text.hex}`,
+              width: "max-content",
+              minWidth: "20%",
+              display: "flex",
+              flexDirection: "column",
+              height: "max-content",
+              minHeight: "13.4rem",
+            }}
           >
-            <h6 className={isDesktop ? "ms-2 mt-1 mb-0" : "ms-2 mt-1 mb-2"}>
+            <h5
+              className={isDesktop ? "ms-2 mt-1 mb-0" : "ms-2 mt-1 mb-2"}
+              style={{ display: "flex", justifyContent: "space-between" }}
+            >
               <Link
                 to={`/collection/${props.collectionName}`}
                 className="text-decoration-none"
                 style={{
-                  color: theme.primaryColors.link.hex,
+                  color: theme?.primaryColors.link.hex,
                 }}
               >
-                {collectionName}
+                {collectionNameToShow}
               </Link>
-            </h6>
-
-            <div
-              className={
-                isDesktop ? "row d-flex justify-content-around px-3" : "px-3"
-              }
-            >
-              {cards.length !== 0 ? (
+              {coll?.set?.id !== undefined && (
                 <div>
-                  <ul
-                    className={
-                      isDesktop
-                        ? cards.length > 2
-                          ? "d-flex flex-wrap justify-content-around align-items-end"
-                          : "d-flex flex-wrap justify-content-start align-items-end"
-                        : "d-flex flex-wrap justify-content-around"
-                    }
-                    style={{ listStyle: "none", padding: 0 }}
-                  >
-                    <>
-                      {cards
+                  <img
+                    src={coll.set.images.symbol}
+                    alt={`${coll.set.name} logo`}
+                    style={{
+                      maxHeight: "1.5rem",
+                      marginRight: "1rem",
+                    }}
+                  />
+                </div>
+              )}
+              {coll?.character !== undefined && (
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <span style={{ fontSize: "small" }}>
+                    {characterNameToShow}
+                  </span>
+                </div>
+              )}
+              {coll?.artist !== undefined && (
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <span style={{ fontSize: "small" }}>{artistNameToShow}</span>
+                </div>
+              )}
+            </h5>
+
+            {cards && cards.length !== 0 ? (
+              <div>
+                <ul
+                  className={
+                    isDesktop
+                      ? cards && cards.length > 2
+                        ? "d-flex flex-wrap justify-content-start align-items-end"
+                        : "d-flex flex-wrap justify-content-start align-items-end"
+                      : "d-flex flex-wrap justify-content-around"
+                  }
+                  style={{ listStyle: "none", padding: 0, gap: "1rem" }}
+                >
+                  <>
+                    {cards &&
+                      sortedCardsForBanner
                         .slice(
                           0,
                           isDesktop
                             ? window.location.pathname !== "/"
                               ? 7
-                              : 3
+                              : 4
                             : 2
                         )
                         .map((card) => (
                           <li
-                            key={card.id}
+                            key={card.card.id}
                             className={
                               isDesktop
                                 ? cards.length > 2
                                   ? "pt-2"
-                                  : "pt-2 px-3"
+                                  : "pt-2"
                                 : "pt-1"
                             }
                             style={isDesktop ? { width: "min-content" } : {}}
@@ -112,41 +134,42 @@ export const CollectionBanner = (props: IProps) => {
                               <img
                                 className="rounded"
                                 style={{ height: "100%" }}
-                                src={card.api_card_img_src_small}
-                                alt={card.api_pkmn_name}
+                                src={card.card.images.small}
+                                alt={card.card.name}
                               />
                             </div>
                           </li>
                         ))}
-                    </>
-                  </ul>
-                  <div className="w-100 d-flex justify-content-end">
-                    <Link
-                      to={`/collection/${props.collectionName}`}
-                      style={{
-                        color: theme.primaryColors.link.hex,
-                      }}
-                    >
-                      <i>{language.lang_code.see_all_cards}</i>
-                    </Link>
-                  </div>
+                  </>
+                </ul>
+                <div className="w-100 d-flex justify-content-end">
+                  <Link
+                    to={`/collection/${props.collectionName}`}
+                    style={{
+                      color: theme?.primaryColors.link.hex,
+                    }}
+                  >
+                    <i>{language?.lang_code.see_all_cards}</i>
+                  </Link>
                 </div>
-              ) : (
-                <>
-                  <p>{language.lang_code.collection_with_no_cards} </p>
-                  <div className="w-100 d-flex justify-content-end">
-                    <Link
-                      to={`/collection/${props.collectionName}`}
-                      style={{
-                        color: theme.primaryColors.link.hex,
-                      }}
-                    >
-                      <i>{language.lang_code.see_collection}</i>
-                    </Link>
-                  </div>
-                </>
-              )}
-            </div>
+              </div>
+            ) : (
+              <>
+                <p className="align-self-center mt-auto">
+                  {language?.lang_code.collection_with_no_cards}{" "}
+                </p>
+                <div className="w-100 d-flex justify-content-end mt-auto">
+                  <Link
+                    to={`/collection/${props.collectionName}`}
+                    style={{
+                      color: theme?.primaryColors.link.hex,
+                    }}
+                  >
+                    <i>{language?.lang_code.see_collection}</i>
+                  </Link>
+                </div>
+              </>
+            )}
           </div>
         </>
       )}

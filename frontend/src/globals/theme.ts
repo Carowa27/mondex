@@ -1,6 +1,3 @@
-import { createContext } from "react";
-import { IThemeContext } from "../interfaces/contextInterfaces";
-
 export const colorModes = {
   Light: {
     name: "light",
@@ -55,11 +52,3 @@ export const colorModes = {
     },
   },
 };
-
-export const ThemeContext = createContext<IThemeContext>({
-  theme: colorModes.Light,
-  //@ts-expect-error type definition
-  changeColorMode: (wantedColorMode: string) => {
-    return;
-  },
-});

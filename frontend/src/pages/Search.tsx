@@ -1,23 +1,18 @@
 import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
-import { LanguageContext } from "../globals/language/language";
 import { getPkmnFromApi } from "../services/pkmnTcgApiServices";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { LoadingModule } from "../components/LoadingModule";
-import { useAuth0 } from "@auth0/auth0-react";
-import { ThemeContext } from "../globals/theme";
-import { addCard } from "../services/cardServices";
 import { BigPkmnCard } from "../components/BigPkmnCard";
 import { ChooseCollectionPopUp } from "../components/ChooseCollectionPopUp";
 import { Pagination } from "./layout/Pagination";
-import { getAllOwnedCollections } from "../services/collectionServices";
+import { ContainerContext } from "../globals/containerContext";
+import { ICard, ICollection } from "../interfaces/LSInterface";
 
 export const Search = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  const { language } = useContext(LanguageContext);
-  const { theme } = useContext(ThemeContext);
-  const { isAuthenticated, user } = useAuth0();
+  const { container, updateContainer } = useContext(ContainerContext);
   const [searchValue, setSearchValue] = useState<string>("");
   const [searchParam, setSearchParam] = useState<string>("pkmn");
   const [pkmnList, setPkmnList] = useState<IPkmnCard[]>([]);
@@ -37,26 +32,94 @@ export const Search = () => {
     totalCount: number;
   }>();
   const [page, setPage] = useState<number>(1);
+  const language = container.language;
+  const theme = container.theme;
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
     setPkmnList([]);
   };
   const handleAddCardToCollection = async (cardFromApi: IPkmnCard) => {
-    if (user) {
-      const collections = await getAllOwnedCollections({ user });
+    if (container.user) {
+      const collections = container.user.collections;
       if (collections.length > 1) {
         setShowChooseAddCardPopup(true);
       } else {
         if (cardFromApi) {
-          addCard({
-            user,
-            cardToAdd: cardFromApi,
-            collection_name: "Master_Collection",
-          });
+          addCard(cardFromApi, "Main_Collection");
           setSeeCreatedCard(true),
             setTimeout(() => setSeeCreatedCard(false), 1000);
         }
+      }
+    }
+  };
+  const addCard = (cardToAdd: IPkmnCard, collectionName: string) => {
+    const collectionIndex = container.user!.collections.findIndex(
+      (col) => col.collection_name === collectionName
+    );
+    const collection = container.user!.collections.find(
+      (col) => col.collection_name === collectionName
+    );
+    if (container.user) {
+      const cardFound = collection?.cards_in_collection.find(
+        (card) => card.card.id === cardToAdd.id
+      );
+      if (cardFound !== undefined) {
+        const cardIndex = container.user.collections[
+          collectionIndex
+        ].cards_in_collection.findIndex(
+          (c: ICard) => c.card.name === cardToAdd.name
+        );
+        const updatedCard = {
+          ...container.user.collections[collectionIndex].cards_in_collection[
+            cardIndex
+          ],
+          amount: cardFound!.amount + 1,
+        };
+        const updatedCollection = {
+          ...container.user.collections[collectionIndex],
+          cards_in_collection: [
+            ...container.user.collections[
+              collectionIndex
+            ].cards_in_collection.slice(0, cardIndex),
+            updatedCard,
+            ...container.user.collections[
+              collectionIndex
+            ].cards_in_collection.slice(cardIndex + 1),
+          ],
+        };
+        const updatedCollections = [
+          ...container.user.collections.slice(0, collectionIndex),
+          updatedCollection,
+          ...container.user.collections.slice(collectionIndex + 1),
+        ];
+        updateContainer(
+          {
+            username: container.user!.username,
+            collections: updatedCollections as ICollection[],
+          },
+          "user"
+        );
+      } else {
+        const updatedCollection = {
+          ...container.user.collections[collectionIndex],
+          cards_in_collection: [
+            ...container.user.collections[collectionIndex].cards_in_collection,
+            { card: cardToAdd, amount: 1 },
+          ],
+        };
+        const updatedCollections = [
+          ...container.user.collections.slice(0, collectionIndex),
+          updatedCollection,
+          ...container.user.collections.slice(collectionIndex + 1),
+        ];
+        updateContainer(
+          {
+            username: container.user!.username,
+            collections: updatedCollections as ICollection[],
+          },
+          "user"
+        );
       }
     }
   };
@@ -118,10 +181,18 @@ export const Search = () => {
     }
   }, [searchValue]);
 
+  useEffect(() => {
+    setPkmnList([]);
+    setPage(1);
+  }, [searchParam]);
+
   const changeShowPkmnInfo = () => {
     setSeeBigCard(false);
   };
-
+  const changeToAddPopup = () => {
+    setSeeBigCard(false);
+    setShowChooseAddCardPopup(true);
+  };
   const changeShowAddCardPopup = () => {
     setShowChooseAddCardPopup(false);
   };
@@ -136,13 +207,12 @@ export const Search = () => {
       searchWithPkmnApi(searchParam, searchValue);
     }
   }, [page]);
-
   return (
     <>
       {seeCreatedCard ? (
         <div
           style={{
-            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.3)`,
+            backgroundColor: `rgba(${theme?.primaryColors.black.rgb}, 0.3)`,
             top: 0,
             left: 0,
             width: "100%",
@@ -155,17 +225,17 @@ export const Search = () => {
           <div
             className="d-flex justify-content-center align-items-center py-2 px-3 my-3 mx-2 rounded"
             style={{
-              backgroundColor: `rgba(${theme.primaryColors.background.rgb})`,
+              backgroundColor: `rgba(${theme?.primaryColors.background.rgb})`,
             }}
           >
-            {language.lang_code.search_card_added}
+            {language?.lang_code.search_card_added}
           </div>
         </div>
       ) : null}
       {showChooseAddCardPopup ? (
         <div
           style={{
-            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.7)`,
+            backgroundColor: `rgba(${theme?.primaryColors.black.rgb}, 0.7)`,
             top: 0,
             left: 0,
             width: "100%",
@@ -178,13 +248,14 @@ export const Search = () => {
           <ChooseCollectionPopUp
             changeShowAddCardPopup={changeShowAddCardPopup}
             cardToAdd={infoPkmnCard!}
+            addCard={addCard}
           ></ChooseCollectionPopUp>
         </div>
       ) : null}
       {seeBigCard ? (
         <div
           style={{
-            backgroundColor: `rgba(${theme.primaryColors.black.rgb}, 0.7)`,
+            backgroundColor: `rgba(${theme?.primaryColors.black.rgb}, 0.7)`,
             top: 0,
             left: 0,
             width: "100%",
@@ -199,10 +270,11 @@ export const Search = () => {
             card={undefined}
             pkmnCard={infoPkmnCard}
             changeShowPkmnInfo={changeShowPkmnInfo}
+            changeToAddPopup={changeToAddPopup}
           />
         </div>
       ) : null}
-      <h2 id="search-header">{language.lang_code.word_search}</h2>
+      <h2 id="search-header">{language?.lang_code.word_search}</h2>
       <form id="search-form" onSubmit={handleSubmit}>
         <div
           id="search-form-container"
@@ -215,7 +287,7 @@ export const Search = () => {
           <div>
             <div className="d-flex justify-content-around">
               <label htmlFor="search_text" className="pt-2 m-0">
-                {language.lang_code.word_name}:{" "}
+                {language?.lang_code.search_word}:{" "}
                 <input
                   type="text"
                   id="search_text"
@@ -230,7 +302,7 @@ export const Search = () => {
               className="d-flex justify-content-between align-items-center mt-1"
             >
               <label htmlFor="search_pkmn" className="m-0 me-2">
-                Pokémon:{" "}
+                {language?.lang_code.word_name}:{" "}
                 <input
                   type="radio"
                   name="search_for"
@@ -267,7 +339,7 @@ export const Search = () => {
           <input
             className="btn btn-secondary m-2"
             type="submit"
-            value={language.lang_code.word_search}
+            value={language?.lang_code.word_search}
           />
         </div>
       </form>
@@ -276,8 +348,8 @@ export const Search = () => {
           <>
             {noHits ? (
               <>
-                <p> {language.lang_code.error_search_no_hits}</p>
-                <p>{language.lang_code.error_search_new_set}</p>
+                <p> {language?.lang_code.error_search_no_hits}</p>
+                <p>{language?.lang_code.error_search_new_set}</p>
               </>
             ) : (
               <>
@@ -332,7 +404,7 @@ export const Search = () => {
                                     ? {
                                         display: "flex",
                                         position: "absolute",
-                                        color: `${theme.primaryColors.text.hex}`,
+                                        color: `${theme?.primaryColors.text.hex}`,
                                         aspectRatio: "3/4",
                                         width: isDesktop ? "12.5rem" : "10rem",
                                         fontSize: "20pt",
@@ -345,21 +417,21 @@ export const Search = () => {
                                 <div
                                   className="rounded-pill w-100 d-flex justify-content-around"
                                   style={{
-                                    backgroundColor: `${theme.primaryColors.buttonBackground.hex}`,
+                                    backgroundColor: `${theme?.primaryColors.buttonBackground.hex}`,
                                     padding: "0.3rem",
                                   }}
                                 >
-                                  {isAuthenticated ? (
+                                  {container.user ? (
                                     <span
                                       style={
                                         hoverAddBtn
                                           ? {
-                                              backgroundColor: `rgba(${theme.typeColors.fire.rgb},0.6)`,
+                                              backgroundColor: `rgba(${theme?.typeColors.grass.rgb},0.6)`,
                                               width: "25px",
                                               height: "25px",
                                             }
                                           : {
-                                              backgroundColor: `rgba(${theme.typeColors.fire.rgb},0.4)`,
+                                              backgroundColor: `rgba(${theme?.typeColors.grass.rgb},0.4)`,
                                               width: "25px",
                                               height: "25px",
                                             }
@@ -380,12 +452,12 @@ export const Search = () => {
                                     style={
                                       hoverInfoBtn
                                         ? {
-                                            backgroundColor: `rgba(${theme.typeColors.water.rgb},0.6)`,
+                                            backgroundColor: `rgba(${theme?.typeColors.water.rgb},0.6)`,
                                             width: "1.7rem",
                                             height: "1.7rem",
                                           }
                                         : {
-                                            backgroundColor: `rgba(${theme.typeColors.water.rgb},0.4)`,
+                                            backgroundColor: `rgba(${theme?.typeColors.water.rgb},0.4)`,
                                             width: "1.7rem",
                                             height: "1.7rem",
                                           }
@@ -431,7 +503,7 @@ export const Search = () => {
                     ) : null}
                   </>
                 ) : (
-                  <>{language.lang_code.search_start}</>
+                  <>{language?.lang_code.search_start}</>
                 )}
               </>
             )}

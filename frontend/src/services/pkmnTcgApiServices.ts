@@ -60,13 +60,29 @@ export const getCardFromApi = async (searchString: string) => {
   }
 };
 
-export const getMostValuableCardFromApi = async (type: string) => {
+export const getMostValuableCardFromApi = async () => {
   try {
     const result = await get<IPkmnResponse>(
-      `https://api.pokemontcg.io/v2/cards/?orderBy=-tcgplayer.prices.${type}.market`
+      `https://api.pokemontcg.io/v2/cards/?orderBy=-tcgplayer.prices`
     )
       .then((res) => {
-        return res.data.data[0] as IPkmnCard;
+        return res.data.data.slice(0, 6) as IPkmnCard[];
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    return result;
+  } catch (error) {
+    console.error("An error has occurred: ", error);
+  }
+};
+export const getCardsFromApi = async (searchString: string) => {
+  try {
+    const result = await get<IPkmnResponse>(
+      `https://api.pokemontcg.io/v2/cards/${searchString}`
+    )
+      .then((res) => {
+        return res.data.data;
       })
       .catch((error) => {
         console.error(error);

@@ -1,28 +1,45 @@
 import { useContext, useEffect, useState } from "react";
 import { styled } from "styled-components";
-import { ThemeContext } from "../globals/theme";
+import { colorModes } from "../globals/theme";
 import { IPkmnCard } from "../interfaces/dataFromApi";
-import { ICardFromDB } from "../interfaces/dataFromDB";
 import { getCardFromApi } from "../services/pkmnTcgApiServices";
 import { variables } from "../globals/variables";
 import { useMediaQuery } from "react-responsive";
-import { LanguageContext } from "../globals/language/language";
+import { lang } from "../globals/language/language";
+import { ICard, ILSContainer } from "../interfaces/LSInterface";
+import { getMondexLs, updateMondexLs } from "../functions/LSFunctions";
+import { ContainerContext } from "../globals/containerContext";
+import { getValuesAndTypesOfCard } from "../functions/dataFunctions";
 
 interface IProps {
-  card: ICardFromDB | undefined;
+  card: ICard | undefined;
   pkmnCard: IPkmnCard | undefined;
   changeShowPkmnInfo: () => void;
+  changeToAddPopup?: () => void;
 }
-export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
-  const { theme } = useContext(ThemeContext);
-  const { language } = useContext(LanguageContext);
+export const BigPkmnCard = ({
+  card,
+  pkmnCard,
+  changeShowPkmnInfo,
+  changeToAddPopup,
+}: IProps) => {
+  const { container, updateContainer } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const [cardInfo, setCardInfo] = useState<IPkmnCard>();
-
+  const [lsContainer, setLsContainer] = useState<ILSContainer>(container);
+  const [hoverAddBtn, setHoverAddBtn] = useState<boolean>(false);
+  const language = container.language;
+  const theme = container.theme;
+  useEffect(() => {
+    if (pkmnCard && window.location.href.includes(`/search`)) {
+      let value = getMondexLs();
+      setLsContainer(value);
+    }
+  }, []);
   useEffect(() => {
     if (card) {
       const getData = async () => {
-        await getCardFromApi(card.api_card_id).then((res) => {
+        await getCardFromApi(card.card.id).then((res) => {
           setCardInfo(res as IPkmnCard);
         });
       };
@@ -35,86 +52,54 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
   }, [card, pkmnCard]);
 
   useEffect(() => {
-    const date = new Date().getDate();
-    const month = new Date().getMonth() + 1;
-    const year = new Date().getFullYear();
-    const today = `${year}-${month}-${date}`;
-
     if (pkmnCard && window.location.href.includes(`/search`)) {
-      localStorage.setItem(
-        "lastOpenedCard",
-        JSON.stringify({ card: pkmnCard, searched: today })
-      );
+      setLsContainer((prevState) => ({
+        ...prevState,
+        lastOpenedCard: pkmnCard,
+      }));
+      updateContainer(pkmnCard, "lastOpenedCard");
     }
   }, [pkmnCard]);
-
+  useEffect(() => {
+    updateMondexLs(lsContainer);
+  }, [lsContainer]);
+  const cardValuesTCG =
+    cardInfo &&
+    getValuesAndTypesOfCard({ card: cardInfo, amount: 0 }, "tcgplayer");
+  const cardValuesCardmarket =
+    cardInfo &&
+    getValuesAndTypesOfCard({ card: cardInfo, amount: 0 }, "cardmarket");
   const valueHTML = (cardInfo: IPkmnCard) => (
     <>
-      <h5>{language.lang_code.word_market_value}</h5>
-      <h6>TCG Player</h6>
-      {cardInfo.tcgplayer?.prices["1stEdition"]?.market ? (
-        <BigCardInfoRow>
-          <span>1st Edition: </span>
-          <span>{cardInfo.tcgplayer?.prices["1stEdition"].market}$</span>
-        </BigCardInfoRow>
-      ) : null}
-      {cardInfo.tcgplayer?.prices["1stEditionHolofoil"]?.market ? (
-        <BigCardInfoRow>
-          <span>1st Edition Holofoil: </span>
-          <span>
-            {cardInfo.tcgplayer?.prices["1stEditionHolofoil"].market}$
-          </span>
-        </BigCardInfoRow>
-      ) : null}
-      {cardInfo.tcgplayer?.prices["1stEditionNormal"]?.market ? (
-        <BigCardInfoRow>
-          <span>1st Edition Normal: </span>
-          <span>{cardInfo.tcgplayer?.prices["1stEditionNormal"].market}$</span>
-        </BigCardInfoRow>
-      ) : null}
-      {cardInfo.tcgplayer?.prices.holofoil?.market ? (
-        <BigCardInfoRow>
-          <span>Holofoil: </span>
-          <span>{cardInfo.tcgplayer?.prices.holofoil.market}$</span>
-        </BigCardInfoRow>
-      ) : null}
-      {cardInfo.tcgplayer?.prices.normal?.market ? (
-        <BigCardInfoRow>
-          <span>Normal: </span>
-          <span>{cardInfo.tcgplayer?.prices.normal.market}$</span>
-        </BigCardInfoRow>
-      ) : null}
-      {cardInfo.tcgplayer?.prices.reverseHolofoil?.market ? (
-        <BigCardInfoRow>
-          <span>Reverse Holofoil: </span>
-          <span>{cardInfo.tcgplayer?.prices.reverseHolofoil.market}$</span>
-        </BigCardInfoRow>
-      ) : null}
-      {cardInfo.tcgplayer?.prices.unlimited?.market ? (
-        <BigCardInfoRow>
-          <span>Unlimited: </span>
-          <span>{cardInfo.tcgplayer?.prices.unlimited.market}$</span>
-        </BigCardInfoRow>
-      ) : null}
-      {cardInfo.tcgplayer?.prices.unlimitedHolofoil?.market ? (
-        <BigCardInfoRow>
-          <span>Unlimited Holofoil: </span>
-          <span>{cardInfo.tcgplayer?.prices.unlimitedHolofoil.market}$</span>
-        </BigCardInfoRow>
-      ) : null}
-      <h6 className="pt-3">CardMarket</h6>
-      {cardInfo.cardmarket.prices.averageSellPrice ? (
-        <BigCardInfoRow>
-          <span>Normal: </span>
-          <span>{cardInfo.cardmarket.prices.averageSellPrice}$</span>
-        </BigCardInfoRow>
-      ) : null}
-      {cardInfo.cardmarket.prices.reverseHoloSell ? (
-        <BigCardInfoRow>
-          <span>Reverse Holofoil: </span>
-          <span>{cardInfo.cardmarket.prices.reverseHoloSell}$</span>
-        </BigCardInfoRow>
-      ) : null}
+      <h5 style={{ margin: 0 }}>{language?.lang_code.word_market_value}</h5>
+      <h6 style={{ margin: 0 }}>TCG Player</h6>
+      {cardInfo.tcgplayer && cardInfo.tcgplayer.prices ? (
+        <>
+          {cardValuesTCG &&
+            cardValuesTCG.map((val) => (
+              <BigCardInfoRow key={`${val.type}-${val.value}`}>
+                <span>{val.type} </span>
+                <span>{val.value}$</span>
+              </BigCardInfoRow>
+            ))}
+        </>
+      ) : (
+        <p>No prices found</p>
+      )}
+      <h6 className="pt-3 m-0">CardMarket</h6>
+      {cardInfo.cardmarket && cardInfo.cardmarket.prices ? (
+        <>
+          {cardValuesCardmarket &&
+            cardValuesCardmarket.map((val) => (
+              <BigCardInfoRow key={`${val.type}-${val.value}`}>
+                <span>{val.type} </span>
+                <span>{val.value}$</span>
+              </BigCardInfoRow>
+            ))}
+        </>
+      ) : (
+        <p>No prices found</p>
+      )}
     </>
   );
 
@@ -123,10 +108,9 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
     width: 80vw;
     min-width: fit-content;
     min-height: fit-content;
-    padding: 0 2rem 2rem 2rem;
     z-index: 500;
     position: fixed;
-    background-color: ${theme.primaryColors.background.hex};
+    background-color: ${theme?.primaryColors.background.hex};
     border-radius: 0.5rem;
     margin: 0 2rem;
 
@@ -140,9 +124,9 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
     width: 100%;
     display: flex;
     justify-content: end;
-    padding: 0.5rem 0;
     font-size: larger;
     font-weight: bolder;
+    padding: 2rem 2rem 0 0;
   `;
   const BigCardBody = styled.main`
     height: 100%;
@@ -163,7 +147,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
     display: flex;
     flex-direction: column;
     @media (${variables.breakpoints.desktop}) {
-      height: 100%;
+      height: auto;
     }
   `;
   const BigCardInfoRow = styled.div`
@@ -180,9 +164,9 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 0.5rem;
   `;
   const BigCardValueContainer = styled.div`
-    border: solid 1px grey;
     margin-top: ${isDesktop ? "auto" : "1rem"};
     margin-bottom: 0.5rem;
     padding: 1rem 2rem;
@@ -193,6 +177,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
     font-size: x-small;
     display: flex;
     justify-content: end;
+    align-self: end;
   `;
   const BigCardLegalities = styled.div``;
   return (
@@ -208,9 +193,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
           {cardInfo && (
             <>
               <BigCardInfoHeader>
-                <h4>{cardInfo.name}</h4>{" "}
-              </BigCardInfoHeader>
-              <BigCardInfoRow>
+                <h4 style={{ margin: 0 }}>{cardInfo.name}</h4>
                 {cardInfo.nationalPokedexNumbers ? (
                   <NationalDex>
                     NationalDex:{" "}
@@ -221,7 +204,8 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
                     )}
                   </NationalDex>
                 ) : null}
-              </BigCardInfoRow>
+              </BigCardInfoHeader>
+              <BigCardInfoRow></BigCardInfoRow>
               <BigCardInfoRow>
                 <span>Artist: </span>
                 <span>{cardInfo.artist}</span>
@@ -232,7 +216,7 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
                 <span>Nr: {cardInfo.number}</span>
               </BigCardInfoRow>
               <BigCardInfoRow>
-                <span>{language.lang_code.word_release_date}: </span>
+                <span>{language?.lang_code.word_release_date}: </span>
                 <span>{cardInfo.set.releaseDate}</span>
               </BigCardInfoRow>
               <BigCardInfoRow>
@@ -260,6 +244,40 @@ export const BigPkmnCard = ({ card, pkmnCard, changeShowPkmnInfo }: IProps) => {
                   </BigCardInfoRow>
                 )}
               </BigCardLegalities>
+              {container.user &&
+              container.user.username !== "" &&
+              changeToAddPopup ? (
+                <span
+                  style={
+                    hoverAddBtn
+                      ? {
+                          backgroundColor: `rgba(${theme?.typeColors.grass.rgb},0.6)`,
+                          width: "35px",
+                          height: "35px",
+                          fontSize: "30px",
+                          alignSelf: "end",
+                          margin: "0.5rem",
+                        }
+                      : {
+                          backgroundColor: `rgba(${theme?.typeColors.grass.rgb},0.4)`,
+                          width: "35px",
+                          height: "35px",
+                          fontSize: "30px",
+                          alignSelf: "end",
+                          margin: "0.5rem",
+                        }
+                  }
+                  className="rounded-circle d-flex align-items-center justify-content-center"
+                  onMouseEnter={() => setHoverAddBtn(true)}
+                  onMouseLeave={() => setHoverAddBtn(false)}
+                  title="add card"
+                  onClick={() => {
+                    changeToAddPopup();
+                  }}
+                >
+                  <i className="bi bi-plus m-0 p-0"></i>
+                </span>
+              ) : null}
               <BigCardValueContainer>
                 {valueHTML(cardInfo)}
               </BigCardValueContainer>

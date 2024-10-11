@@ -1,18 +1,18 @@
 import { useContext } from "react";
-import { LanguageContext } from "../globals/language/language";
-import { ThemeContext } from "../globals/theme";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { BreadCrumbs } from "./layout/BreadCrumbs";
+import { ContainerContext } from "../globals/containerContext";
 
 export const AboutProject = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  const { language } = useContext(LanguageContext);
-  const { theme } = useContext(ThemeContext);
+  const { container } = useContext(ContainerContext);
+  const language = container.language;
+  const theme = container.theme;
   return (
     <>
       <div className="d-flex justify-content-between align-items-start">
-        <h2>{language.lang_code.about_about_project}</h2>
+        <h2>{language?.lang_code.about_about_project}</h2>
         <BreadCrumbs pageParam="about" />
       </div>
       <div
@@ -33,21 +33,21 @@ export const AboutProject = () => {
             isDesktop
               ? {
                   width: "32%",
-                  border: `2px solid rgba(${theme.typeColors.metal.rgb},0.5)`,
-                  backgroundColor: `rgba(${theme.typeColors.metal.rgb},0.1)`,
+                  border: `2px solid rgba(${theme?.typeColors.metal.rgb},0.5)`,
+                  backgroundColor: `rgba(${theme?.typeColors.metal.rgb},0.1)`,
                   minHeight: "80vh",
                   height: "auto",
                 }
               : {
-                  border: `2px solid  rgba(${theme.typeColors.metal.rgb},0.5)`,
-                  backgroundColor: `rgba(${theme.typeColors.metal.rgb},0.1)`,
+                  border: `2px solid  rgba(${theme?.typeColors.metal.rgb},0.5)`,
+                  backgroundColor: `rgba(${theme?.typeColors.metal.rgb},0.1)`,
                 }
           }
         >
           <h5 id="about-card-examprj-header">
-            {language.lang_code.about_exam}
+            {language?.lang_code.about_exam}
           </h5>
-          <p>{language.lang_code.about_description_exam}</p>
+          <p>{language?.lang_code.about_description_exam}</p>
         </div>
         <div
           className={
@@ -59,21 +59,21 @@ export const AboutProject = () => {
             isDesktop
               ? {
                   width: "32%",
-                  border: `2px solid rgba(${theme.typeColors.metal.rgb},0.5)`,
-                  backgroundColor: `rgba(${theme.typeColors.metal.rgb},0.1)`,
+                  border: `2px solid rgba(${theme?.typeColors.metal.rgb},0.5)`,
+                  backgroundColor: `rgba(${theme?.typeColors.metal.rgb},0.1)`,
                   minHeight: "80vh",
                   height: "auto",
                 }
               : {
-                  border: `2px solid  rgba(${theme.typeColors.metal.rgb},0.5)`,
-                  backgroundColor: `rgba(${theme.typeColors.metal.rgb},0.1)`,
+                  border: `2px solid  rgba(${theme?.typeColors.metal.rgb},0.5)`,
+                  backgroundColor: `rgba(${theme?.typeColors.metal.rgb},0.1)`,
                 }
           }
         >
           <h5 id="about-card-purpose-header">
-            {language.lang_code.word_purpose}
+            {language?.lang_code.word_purpose}
           </h5>
-          <p>{language.lang_code.about_description_purpose}</p>
+          <p>{language?.lang_code.about_description_purpose}</p>
         </div>
         <div
           className={
@@ -85,19 +85,19 @@ export const AboutProject = () => {
             isDesktop
               ? {
                   width: "32%",
-                  border: `2px solid rgba(${theme.typeColors.metal.rgb},0.5)`,
-                  backgroundColor: `rgba(${theme.typeColors.metal.rgb},0.1)`,
+                  border: `2px solid rgba(${theme?.typeColors.metal.rgb},0.5)`,
+                  backgroundColor: `rgba(${theme?.typeColors.metal.rgb},0.1)`,
                   minHeight: "80vh",
                   height: "auto",
                 }
               : {
-                  border: `2px solid  rgba(${theme.typeColors.metal.rgb},0.5)`,
-                  backgroundColor: `rgba(${theme.typeColors.metal.rgb},0.1)`,
+                  border: `2px solid  rgba(${theme?.typeColors.metal.rgb},0.5)`,
+                  backgroundColor: `rgba(${theme?.typeColors.metal.rgb},0.1)`,
                 }
           }
         >
-          <h5 id="about-card-goal-header">{language.lang_code.word_goal}</h5>
-          <p className="m-0">{language.lang_code.about_description_goal}</p>
+          <h5 id="about-card-goal-header">{language?.lang_code.word_goal}</h5>
+          <p className="m-0">{language?.lang_code.about_description_goal}</p>
         </div>
       </div>
     </>

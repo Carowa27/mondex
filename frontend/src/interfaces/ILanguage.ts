@@ -44,6 +44,7 @@ export interface ILanguageVariables {
   card_collection_to_remove_card_from: string;
   card_add_to_collection: string;
   collection_collection: string;
+  collection_no_collections_created: string;
   collection_all_collections: string;
   collection_create_new_collection: string;
   collection_created: string;
@@ -69,6 +70,7 @@ export interface ILanguageVariables {
   search_new_sets_might_be_unavailable: string;
   search_you_can_search_for: string;
   search_start: string;
+  search_word: string;
   last_updated_at: string;
   last_opened: string;
   most_valuable: string;
@@ -83,3 +85,8 @@ export interface ILanguageVariables {
 }
 export const SE: ILanguageVariables = swedish;
 export const EN: ILanguageVariables = english;
+
+export interface ILanguage {
+  lang_code: ILanguageVariables;
+  name: string;
+}

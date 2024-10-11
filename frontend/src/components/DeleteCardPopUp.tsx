@@ -1,22 +1,18 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
-import { ThemeContext } from "../globals/theme";
-import { ICardFromDB, ICollectionFromDB } from "../interfaces/dataFromDB";
-import { useAuth0 } from "@auth0/auth0-react";
-import {
-  deleteOwnedCardById,
-  getAllOwnedCards,
-} from "../services/cardServices";
-import { deleteCollectionById } from "../services/collectionServices";
-import { LanguageContext } from "../globals/language/language";
+import { ContainerContext } from "../globals/containerContext";
+import { ICard, ICollection } from "../interfaces/LSInterface";
+import { deleteCollection } from "../functions/collectionFunctions";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
   changeShowDeleteCardPopUp: () => void;
-  cardToDelete?: ICardFromDB | undefined;
-  collection?: ICollectionFromDB | undefined;
+  cardToDelete?: ICard | undefined;
+  collection?: ICollection | undefined;
   collectionName: string;
   updateData: () => void;
+  delCard?: (card: ICard) => void;
 }
 
 export const DeleteCardPopUp = ({
@@ -25,43 +21,30 @@ export const DeleteCardPopUp = ({
   collection,
   collectionName,
   updateData,
+  delCard,
 }: IProps) => {
-  const { theme } = useContext(ThemeContext);
-  const { language } = useContext(LanguageContext);
+  const { container, updateContainer } = useContext(ContainerContext);
+  const navigate = useNavigate();
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  const { user } = useAuth0();
-  const [cardList, setCardList] = useState<ICardFromDB[]>();
+  const language = container.language;
+  const theme = container.theme;
+  const user = container.user;
+  const collections = user?.collections;
 
   const handleSubmitToDelete = async () => {
-    if (user && cardToDelete) {
-      const card = cardToDelete;
-      await deleteOwnedCardById({ user, card }).then((res) => {
-        console.info(
-          "deleted: ",
-          cardToDelete.api_pkmn_name,
-          cardToDelete.api_card_id
-        );
-      });
+    if (user && user.username !== "" && cardToDelete) {
+      delCard && delCard(cardToDelete);
     }
-
-    if (cardList && collection) {
-      const findCardsConnectedToSet: ICardFromDB[] = cardList.filter((card) => {
-        return card.collection_id === collection.id;
-      });
-      let card: ICardFromDB;
-      for (let i = 0; i < findCardsConnectedToSet.length; i++) {
-        card = findCardsConnectedToSet[i];
-        if (user) {
-          await deleteOwnedCardById({ user, card });
-        }
-      }
-    }
-
-    if (user && collection) {
-      await deleteCollectionById({ user, collection }).then((res) => {
-        console.info("deleted: ", collection.collection_name);
-        window.location.href = "/all-collections";
-      });
+    if (user && user.username !== "" && !cardToDelete && collection) {
+      const updatedCollections = deleteCollection(collection, collections!);
+      updateContainer(
+        {
+          username: container.user!.username,
+          collections: updatedCollections as ICollection[],
+        },
+        "user"
+      );
+      navigate("/userpage", { replace: true });
     }
 
     setTimeout(() => {
@@ -70,25 +53,12 @@ export const DeleteCardPopUp = ({
     }, 100);
   };
 
-  useEffect(() => {
-    const getData = async () => {
-      if (user) {
-        await getAllOwnedCards({ user }).then((res: ICardFromDB[] | void) => {
-          if (res) {
-            setCardList(res);
-          }
-        });
-      }
-    };
-    getData();
-  }, []);
-
   return (
     <div
       className={
         isDesktop ? "w-25 px-4 py-3 rounded" : "w-75 px-4 py-3 rounded"
       }
-      style={{ backgroundColor: theme.primaryColors.background.hex }}
+      style={{ backgroundColor: theme?.primaryColors.background.hex }}
     >
       <header className="d-flex justify-content-end mt-2">
         <i className="bi bi-x-lg" onClick={changeShowDeleteCardPopUp}></i>
@@ -97,49 +67,49 @@ export const DeleteCardPopUp = ({
         {cardToDelete ? (
           <>
             <div className="mb-4">
-              <h6>{language.lang_code.card_card_to_delete}: </h6>
+              <h6>{language?.lang_code.card_card_to_delete}: </h6>
               <span>
-                {cardToDelete?.api_pkmn_name}, {cardToDelete.api_card_id}
+                {cardToDelete.card.name}, {cardToDelete.card.id}
               </span>
             </div>
             <div className="mb-4">
               <h6>
-                {language.lang_code.card_collection_to_remove_card_from}:{" "}
+                {language?.lang_code.card_collection_to_remove_card_from}:{" "}
               </h6>
               <span>{collectionName.replace(/_/g, " ")}</span>
             </div>
           </>
         ) : (
           <div className="mb-4">
-            <h6>{language.lang_code.collection_to_delete}: </h6>
+            <h6>{language?.lang_code.collection_to_delete}: </h6>
             <span>
               {collection?.collection_name.replace(/_/g, " ")}
-              {collection?.api_set_id ? `, ${collection.api_set_id}` : null}
+              {collection?.set?.id ? `, ${collection.set?.id}` : null}
             </span>
           </div>
         )}
 
-        <i>{language.lang_code.warning_delete}</i>
+        <i>{language?.lang_code.warning_delete}</i>
         <div className="d-flex justify-content-around mt-3">
           <button
             className="btn"
             onClick={changeShowDeleteCardPopUp}
             style={{
-              border: `1px solid ${theme.primaryColors.text.hex}`,
-              color: theme.primaryColors.text.hex,
+              border: `1px solid ${theme?.primaryColors.text.hex}`,
+              color: theme?.primaryColors.text.hex,
             }}
           >
-            {language.lang_code.word_cancel}
+            {language?.lang_code.word_cancel}
           </button>
           <button
             className="btn text-danger fw-bolder"
             onClick={handleSubmitToDelete}
             style={{
-              border: `1px solid ${theme.primaryColors.text.hex}`,
-              color: theme.primaryColors.text.hex,
+              border: `1px solid ${theme?.primaryColors.text.hex}`,
+              color: theme?.primaryColors.text.hex,
             }}
           >
-            {language.lang_code.word_delete}
+            {language?.lang_code.word_delete}
           </button>
         </div>
       </div>

@@ -1,39 +1,37 @@
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
-import { ThemeContext } from "../globals/theme";
 import { styled } from "styled-components";
-import { ICollectionFromDB } from "../interfaces/dataFromDB";
-import { getAllOwnedCollections } from "../services/collectionServices";
-import { useAuth0 } from "@auth0/auth0-react";
 import { IPkmnCard } from "../interfaces/dataFromApi";
-import { addCard } from "../services/cardServices";
-import { LanguageContext } from "../globals/language/language";
+import { ContainerContext } from "../globals/containerContext";
+import { ICollection } from "../interfaces/LSInterface";
 
 interface IProps {
   changeShowAddCardPopup: () => void;
   cardToAdd: IPkmnCard;
+  addCard: (cardToAdd: IPkmnCard, collectionName: string) => void;
 }
 
 export const ChooseCollectionPopUp = ({
   changeShowAddCardPopup,
   cardToAdd,
+  addCard,
 }: IProps) => {
-  const { theme } = useContext(ThemeContext);
-  const { language } = useContext(LanguageContext);
+  const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  const { user, isAuthenticated } = useAuth0();
+  const language = container.language;
 
   const [listOfOwnedCollections, setListOfOwnedCollections] =
-    useState<ICollectionFromDB[]>();
+    useState<ICollection[]>();
   const [selectedCollectionName, setSelectedCollectionName] =
     useState<string>();
+  const theme = container.theme;
 
   const getCollections = async () => {
-    if (isAuthenticated && user) {
-      await getAllOwnedCollections({ user }).then((res) =>
-        setListOfOwnedCollections(res)
-      );
+    if (container.user) {
+      if (container.user.collections) {
+        setListOfOwnedCollections(container.user.collections);
+      }
     }
   };
 
@@ -47,12 +45,18 @@ export const ChooseCollectionPopUp = ({
   };
 
   const handleSubmitToAddCard = async () => {
-    if (cardToAdd && user && selectedCollectionName) {
-      await addCard({
-        user,
-        cardToAdd,
-        collection_name: selectedCollectionName,
-      });
+    if (
+      cardToAdd &&
+      container.user &&
+      container.user.username !== "" &&
+      selectedCollectionName
+    ) {
+      // await addCard({
+      //   user,
+      //   cardToAdd,
+      //   collection_name: selectedCollectionName,
+      // });
+      addCard(cardToAdd, selectedCollectionName);
     }
 
     setTimeout(() => {
@@ -69,7 +73,7 @@ export const ChooseCollectionPopUp = ({
     position: fixed;
     top: 20vh;
     left: 10vw;
-    background-color: ${theme.primaryColors.background.hex};
+    background-color: ${theme?.primaryColors.background.hex};
     border-radius: 0.5rem;
 
     @media (${variables.breakpoints.desktop}) {
@@ -108,12 +112,12 @@ export const ChooseCollectionPopUp = ({
       {cardToAdd && (
         <SwapMain>
           <p>
-            <h6>{language.lang_code.card_card_to_add}: </h6>
+            <h6>{language?.lang_code.card_card_to_add}: </h6>
             <span>
               {cardToAdd?.name}, {cardToAdd.id}
             </span>
           </p>
-          <h6>{language.lang_code.card_add_to_collection}:</h6>
+          <h6>{language?.lang_code.card_add_to_collection}:</h6>
           <SwapFormContainer>
             <SwapForm id="swap-form">
               {listOfOwnedCollections &&
@@ -127,16 +131,16 @@ export const ChooseCollectionPopUp = ({
                       onChange={handleChangeOnRadioBtn}
                       checked={selectedCollectionName === coll.collection_name}
                       disabled={
-                        coll.api_set_id !== null &&
-                        cardToAdd.set.id !== coll.api_set_id
+                        coll.set?.id !== undefined &&
+                        cardToAdd.set.id !== coll.set.id
                       }
                     />
                     <span
                       style={
-                        coll.api_set_id !== null &&
-                        cardToAdd.set.id !== coll.api_set_id
+                        coll.set !== undefined &&
+                        cardToAdd.set.id !== coll.set?.id
                           ? {
-                              color: theme.primaryColors.breadcrumbText.hex,
+                              color: theme?.primaryColors.breadcrumbText.hex,
                             }
                           : {}
                       }
@@ -158,21 +162,22 @@ export const ChooseCollectionPopUp = ({
                 className="btn"
                 onClick={changeShowAddCardPopup}
                 style={{
-                  border: `1px solid ${theme.primaryColors.text.hex}`,
-                  color: theme.primaryColors.text.hex,
+                  border: `1px solid ${theme?.primaryColors.text.hex}`,
+                  color: theme?.primaryColors.text.hex,
                 }}
               >
-                {language.lang_code.word_cancel}
+                {language?.lang_code.word_cancel}
               </button>
               <button
                 className="btn"
                 onClick={handleSubmitToAddCard}
                 style={{
-                  border: `1px solid ${theme.primaryColors.text.hex}`,
-                  color: theme.primaryColors.text.hex,
+                  border: `1px solid ${theme?.primaryColors.text.hex}`,
+                  color: theme?.primaryColors.text.hex,
                 }}
+                disabled={selectedCollectionName === undefined}
               >
-                {language.lang_code.word_add}
+                {language?.lang_code.word_add}
               </button>
             </div>
           </SwapFormContainer>

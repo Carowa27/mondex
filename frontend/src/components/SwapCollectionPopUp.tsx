@@ -1,16 +1,12 @@
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { variables } from "../globals/variables";
-import { ThemeContext } from "../globals/theme";
 import { styled } from "styled-components";
-import { ICardFromDB, ICollectionFromDB } from "../interfaces/dataFromDB";
-import { getAllOwnedCollections } from "../services/collectionServices";
-import { useAuth0 } from "@auth0/auth0-react";
-import { swapCardToOtherCollection } from "../services/cardServices";
-import { LanguageContext } from "../globals/language/language";
-
+import { ContainerContext } from "../globals/containerContext";
+import { ICard, ICollection } from "../interfaces/LSInterface";
+import { swapCardToOtherCollection } from "../functions/cardFunctions";
 interface IProps {
   changeShowSwapPopUp: () => void;
-  cardToSwap: ICardFromDB | undefined;
+  cardToSwap: ICard | undefined;
   collectionName: string;
   updateData: () => void;
 }
@@ -21,25 +17,27 @@ export const SwapCollectionPopUp = ({
   collectionName,
   updateData,
 }: IProps) => {
-  const { theme } = useContext(ThemeContext);
-  const { language } = useContext(LanguageContext);
-  const { user } = useAuth0();
+  const { container, updateContainer } = useContext(ContainerContext);
+  const language = container.language;
+  const theme = container.theme;
+  const user = container.user;
+  const collections = user?.collections;
 
-  const [listOfOwnedCollections, setListOfOwnedCollections] =
-    useState<ICollectionFromDB[]>();
+  // const [listOfOwnedCollections, setListOfOwnedCollections] =
+  //   useState<ICollection[]>();
   const [selectedCollectionName, setSelectedCollectionName] =
     useState<string>();
 
-  const getCollections = async () => {
-    if (user) {
-      await getAllOwnedCollections({ user }).then((res) =>
-        setListOfOwnedCollections(res)
-      );
-    }
-  };
+  // const getCollections = async () => {
+  //   if (user) {
+  //     await getAllOwnedCollections({ user }).then((res) =>
+  //       setListOfOwnedCollections(res)
+  //     );
+  //   }
+  // };
 
   useEffect(() => {
-    getCollections();
+    // getCollections();
     updateData();
   }, []);
 
@@ -51,13 +49,20 @@ export const SwapCollectionPopUp = ({
   const handleSubmitToSwap = async () => {
     const newCollectionName = selectedCollectionName;
     const oldCollectionName = collectionName;
-    if (cardToSwap && user && newCollectionName) {
-      await swapCardToOtherCollection({
-        user,
+    if (cardToSwap && collections && newCollectionName && oldCollectionName) {
+      const updatedCollections = swapCardToOtherCollection(
         cardToSwap,
         newCollectionName,
         oldCollectionName,
-      });
+        collections
+      );
+      updateContainer(
+        {
+          username: container.user!.username,
+          collections: updatedCollections as ICollection[],
+        },
+        "user"
+      );
     }
     setTimeout(() => {
       updateData();
@@ -74,7 +79,7 @@ export const SwapCollectionPopUp = ({
     position: fixed;
     top: 20vh;
     left: 10vw;
-    background-color: ${theme.primaryColors.background.hex};
+    background-color: ${theme?.primaryColors.background.hex};
     border-radius: 0.5rem;
 
     @media (${variables.breakpoints.desktop}) {
@@ -117,20 +122,20 @@ export const SwapCollectionPopUp = ({
       {cardToSwap && (
         <SwapMain>
           <p>
-            <h6>{language.lang_code.card_card_to_swap}: </h6>
+            <h6>{language?.lang_code.card_card_to_swap}: </h6>
             <span>
-              {cardToSwap?.api_pkmn_name}, {cardToSwap.api_card_id}
+              {cardToSwap?.card.name}, {cardToSwap.card.id}
             </span>
           </p>
           <p>
-            <h6>{language.lang_code.card_collection_to_remove_card_from}: </h6>
+            <h6>{language?.lang_code.card_collection_to_remove_card_from}: </h6>
             <span>{collectionName.replace(/_/g, " ")}</span>
           </p>
-          <h6>{language.lang_code.collection_to_change_to}:</h6>
+          <h6>{language?.lang_code.collection_to_change_to}:</h6>
           <SwapFormContainer>
             <SwapForm id="swap-form">
-              {listOfOwnedCollections &&
-                listOfOwnedCollections.map((coll) => (
+              {collections &&
+                collections.map((coll) => (
                   <SwapLabel htmlFor={`${coll.id}`} key={coll.id}>
                     <input
                       type="radio"
@@ -141,17 +146,17 @@ export const SwapCollectionPopUp = ({
                       checked={selectedCollectionName === coll.collection_name}
                       disabled={
                         coll.collection_name === collectionName ||
-                        (coll.api_set_id !== null &&
-                          cardToSwap.api_set_id !== coll.api_set_id)
+                        (coll.set?.id !== undefined &&
+                          cardToSwap.card.set.id !== coll.set?.id)
                       }
                     />
                     <span
                       style={
                         coll.collection_name === collectionName ||
-                        (coll.api_set_id !== null &&
-                          cardToSwap.api_set_id !== coll.api_set_id)
+                        (coll.set?.id !== undefined &&
+                          cardToSwap.card.set.id !== coll.set?.id)
                           ? {
-                              color: theme.primaryColors.breadcrumbText.hex,
+                              color: theme?.primaryColors.breadcrumbText.hex,
                             }
                           : {}
                       }
@@ -166,21 +171,21 @@ export const SwapCollectionPopUp = ({
                 className="btn"
                 onClick={changeShowSwapPopUp}
                 style={{
-                  border: `1px solid ${theme.primaryColors.text.hex}`,
-                  color: theme.primaryColors.text.hex,
+                  border: `1px solid ${theme?.primaryColors.text.hex}`,
+                  color: theme?.primaryColors.text.hex,
                 }}
               >
-                {language.lang_code.word_cancel}
+                {language?.lang_code.word_cancel}
               </button>
               <button
                 className="btn"
                 onClick={handleSubmitToSwap}
                 style={{
-                  border: `1px solid ${theme.primaryColors.text.hex}`,
-                  color: theme.primaryColors.text.hex,
+                  border: `1px solid ${theme?.primaryColors.text.hex}`,
+                  color: theme?.primaryColors.text.hex,
                 }}
               >
-                {language.lang_code.word_change}
+                {language?.lang_code.word_change}
               </button>
             </div>
           </SwapFormContainer>
