@@ -6,6 +6,7 @@ import { variables } from "../globals/variables";
 import { Link } from "react-router-dom";
 import {
   getAmountOfCardsOwned,
+  getUniqueAmountOfCardsOwned,
   getValueOfCardsOwned,
 } from "../functions/dataFunctions";
 
@@ -77,7 +78,7 @@ export const ListCollBanner = ({ collection }: IListProps) => {
           <p style={{ margin: 0 }}>
             {collection.set ? (
               <>
-                Cards in collection: {getAmountOfCardsOwned([collection])}/
+                Unique cards: {getUniqueAmountOfCardsOwned([collection])}/
                 {collection.set.total}
               </>
             ) : (
