@@ -461,6 +461,7 @@ export const SmallPkmnCard = ({
                 style={{
                   width: "100%",
                   filter: "grayscale(100%)",
+                  opacity: "0.6",
                 }}
               />
             </div>
@@ -474,7 +475,7 @@ export const SmallPkmnCard = ({
                 alt={
                   (card && card.card.name) || (cardFromApi && cardFromApi.name)
                 }
-                style={{ width: "100%" }}
+                style={{ width: "100%", opacity: "1" }}
               />
             </div>
           </div>
