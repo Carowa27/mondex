@@ -189,3 +189,25 @@ export const sortPkmnCards = (cards: ICard[], coll: ICollection) => {
     });
   }
 };
+export const sortArtistorCharCollRes = (cards: IPkmnCard[]) => {
+  return cards.sort((a, b) => {
+    const releaseDateA = new Date(a.set.releaseDate);
+    const releaseDateB = new Date(b.set.releaseDate);
+
+    if (isNaN(releaseDateA.getTime()) || isNaN(releaseDateB.getTime())) {
+      throw new Error("Invalid release date");
+    }
+
+    if (releaseDateA < releaseDateB) return -1;
+    if (releaseDateA > releaseDateB) return 1;
+
+    const numberA = parseInt(a.number.replace("SV", ""), 10);
+    const numberB = parseInt(b.number.replace("SV", ""), 10);
+
+    if (isNaN(numberA) || isNaN(numberB)) {
+      throw new Error("Invalid card number");
+    }
+
+    return numberA - numberB;
+  });
+};

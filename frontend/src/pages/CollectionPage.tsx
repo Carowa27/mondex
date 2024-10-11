@@ -11,6 +11,10 @@ import { DeleteCardPopUp } from "../components/DeleteCardPopUp";
 import { ContainerContext } from "../globals/containerContext";
 import { ICard, ICollection } from "../interfaces/LSInterface";
 import { getMondexLs } from "../functions/LSFunctions";
+import {
+  sortArtistorCharCollRes,
+  sortPkmnCards,
+} from "../functions/cardFunctions";
 
 export const CollectionPage = () => {
   const { container } = useContext(ContainerContext);
@@ -99,10 +103,27 @@ export const CollectionPage = () => {
 
   const getPkmnToSet = async () => {
     if (collection && collection.set !== undefined) {
-      await getPkmnFromApi(`?q=!set.id:%22${collection.set.id}%22`, page).then(
+      await getPkmnFromApi(
+        `?q=!set.id:%22${collection.set.id}%22&orderBy=number`,
+        page
+      ).then((res) => {
+        if (res) {
+          setCardsFromApiList(res.data as IPkmnCard[]);
+          setPageInfo({
+            page: res.page,
+            pageSize: res.pageSize,
+            totalCount: res.totalCount,
+          });
+        }
+      });
+    }
+    if (collection && collection.character !== undefined) {
+      await getPkmnFromApi(`?q=name:"*${collection.character}*"`, page).then(
         (res) => {
           if (res) {
-            setCardsFromApiList(res.data as IPkmnCard[]);
+            setCardsFromApiList(
+              sortArtistorCharCollRes(res.data as IPkmnCard[])
+            );
             setPageInfo({
               page: res.page,
               pageSize: res.pageSize,
@@ -112,35 +133,21 @@ export const CollectionPage = () => {
         }
       );
     }
-    if (collection && collection.character !== undefined) {
-      await getPkmnFromApi(
-        `?q=name:"*${collection.character}*"&orderBy=number`,
-        page
-      ).then((res) => {
-        if (res) {
-          setCardsFromApiList(res.data as IPkmnCard[]);
-          setPageInfo({
-            page: res.page,
-            pageSize: res.pageSize,
-            totalCount: res.totalCount,
-          });
-        }
-      });
-    }
     if (collection && collection.artist !== undefined) {
-      await getPkmnFromApi(
-        `?q=artist:"*${collection.artist}*"&orderBy=number`,
-        page
-      ).then((res) => {
-        if (res) {
-          setCardsFromApiList(res.data as IPkmnCard[]);
-          setPageInfo({
-            page: res.page,
-            pageSize: res.pageSize,
-            totalCount: res.totalCount,
-          });
+      await getPkmnFromApi(`?q=artist:"*${collection.artist}*"`, page).then(
+        (res) => {
+          if (res) {
+            setCardsFromApiList(
+              sortArtistorCharCollRes(res.data as IPkmnCard[])
+            );
+            setPageInfo({
+              page: res.page,
+              pageSize: res.pageSize,
+              totalCount: res.totalCount,
+            });
+          }
         }
-      });
+      );
     }
   };
 
