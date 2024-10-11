@@ -62,6 +62,9 @@ export const SmallPkmnCard = ({
     if (cardList.find((card) => card.card.id === cardFromApi?.id)) {
       setFlipped(true);
     }
+    if (card) {
+      setFlipped(true);
+    }
   }, [card]);
   const addCard = (
     card: ICard | undefined,

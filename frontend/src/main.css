@@ -9,7 +9,6 @@ body {
 .flip-box {
   background-color: transparent;
   width: 100%;
-  border: 1px solid #f1f1f1;
   perspective: 1000px;
 }
 
@@ -17,6 +16,7 @@ body {
   position: relative;
   width: 100%;
   text-align: center;
+  border-radius: 10px;
   transition: transform 0.8s;
   transform-style: preserve-3d;
 }
@@ -34,13 +34,11 @@ body {
 }
 
 .flip-box-front {
-  background-color: #bbb;
-  color: black;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .flip-box-back {
-  background-color: #555;
-  color: white;
+  background-color: rgba(0, 0, 0, 0);
   transform: rotateY(180deg);
 }
 .clickable-event {
