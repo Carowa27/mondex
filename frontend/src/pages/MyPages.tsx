@@ -172,7 +172,7 @@ export const MyPages = () => {
                             }
                       }
                     >
-                      {collections.slice(0, isDesktop ? 8 : 3).map((coll) => (
+                      {collections.slice(0, isDesktop ? 12 : 3).map((coll) => (
                         <CollectionBanner
                           key={coll.id}
                           collectionName={coll.collection_name}
