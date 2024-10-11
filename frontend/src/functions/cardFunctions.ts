@@ -201,8 +201,8 @@ export const sortArtistorCharCollRes = (cards: IPkmnCard[]) => {
     if (releaseDateA < releaseDateB) return -1;
     if (releaseDateA > releaseDateB) return 1;
 
-    const numberA = parseInt(a.number.replace("SV", ""), 10);
-    const numberB = parseInt(b.number.replace("SV", ""), 10);
+    const numberA = parseInt(a.number.replace(/[^0-9{}]/g, ""), 10);
+    const numberB = parseInt(b.number.replace(/[^0-9{}]/g, ""), 10);
 
     if (isNaN(numberA) || isNaN(numberB)) {
       throw new Error("Invalid card number");
