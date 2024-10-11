@@ -513,6 +513,7 @@ export const Home = () => {
                             />
                           </label>
                           <button
+                            className="btn btn-secondary"
                             type="submit"
                             style={{
                               width: "max-content",
