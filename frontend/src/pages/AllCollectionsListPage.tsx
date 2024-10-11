@@ -7,6 +7,7 @@ import { Pagination } from "./layout/Pagination";
 import { BreadCrumbs } from "./layout/BreadCrumbs";
 import { ContainerContext } from "../globals/containerContext";
 import { ICollection } from "../interfaces/LSInterface";
+import { ListCollBanner } from "../components/ListCollBanner";
 
 export const AllCollectionsListPage = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
@@ -75,36 +76,22 @@ export const AllCollectionsListPage = () => {
                 </div>
               </div>
               <div
-                className="w-100 d-flex justify-content-center"
-                style={{ height: "80vh" }}
+                // className="w-100 d-flex justify-content-center"
+                style={{
+                  height: "80vh",
+                }}
               >
                 {collections && collections.length !== 0 ? (
                   <div
+                    style={{ gap: "1.5rem" }}
                     className={
                       isDesktop
-                        ? "w-100 rounded d-flex mx-3 mt-2 pt-3 flex-wrap justify-content-between"
+                        ? "w-100 rounded d-flex mx-3 mt-2 pt-3 flex-wrap justify-content-center"
                         : "w-100 rounded d-flex mx-3 mt-2 py-4 flex-column"
                     }
                   >
                     {collections.slice(start, end).map((coll: ICollection) => (
-                      <div
-                        className={isDesktop ? "mx-4 w-25" : "mx-4 w-100 mb-4"}
-                        key={coll.id}
-                      >
-                        <Link
-                          to={`/collection/${coll.collection_name}`}
-                          style={{
-                            color: theme?.primaryColors.link.hex,
-                          }}
-                        >
-                          <p className="fw-bold m-0">
-                            {coll.collection_name.replace(/_/g, " ")}
-                            {coll.set?.id ? (
-                              <i className="fw-normal">, {coll.set.id}</i>
-                            ) : null}
-                          </p>
-                        </Link>
-                      </div>
+                      <ListCollBanner collection={coll} key={coll.id} />
                     ))}
                   </div>
                 ) : (
