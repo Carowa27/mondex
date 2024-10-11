@@ -1,18 +1,13 @@
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
-import {
-  getCardFromApi,
-  getCardsFromApi,
-  getPkmnFromApi,
-  getSetFromApi,
-} from "../services/pkmnTcgApiServices";
+import { getCardsFromApi, getSetFromApi } from "../services/pkmnTcgApiServices";
 import { Link } from "react-router-dom";
 import { ContainerContext } from "../globals/containerContext";
 import { getToday } from "../functions/dateFunctions";
 import { ICollection } from "../interfaces/LSInterface";
 import { updateMondexLs } from "../functions/LSFunctions";
-import { IPkmnCard, IPkmnSet } from "../interfaces/dataFromApi";
+import { IPkmnSet } from "../interfaces/dataFromApi";
 
 export const CreateCollectionPage = () => {
   const { container, updateContainer } = useContext(ContainerContext);

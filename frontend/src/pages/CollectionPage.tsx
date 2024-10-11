@@ -3,10 +3,7 @@ import { variables } from "../globals/variables";
 import { LoadingModule } from "../components/LoadingModule";
 import { useContext, useEffect, useState } from "react";
 import { IPkmnCard } from "../interfaces/dataFromApi";
-import {
-  getCardsFromApi,
-  getPkmnFromApi,
-} from "../services/pkmnTcgApiServices";
+import { getPkmnFromApi } from "../services/pkmnTcgApiServices";
 import { SmallPkmnCard } from "../components/SmallPkmnCard";
 import { Pagination } from "./layout/Pagination";
 import { BreadCrumbs } from "./layout/BreadCrumbs";
