@@ -41,10 +41,10 @@ export const StandardButton = ({
     <>
       <button
         style={{
-          border: "none",
+          border: "black solid 1px",
           borderRadius: "10px",
-          color: fontColor ? fontColor : "inherit",
-          backgroundColor: bgColor ? bgColor : "#adb5bd",
+          color: fontColor ? fontColor : "black",
+          backgroundColor: bgColor ? bgColor : "#D4D0D1",
         }}
         className={"btn"}
         onClick={(e) => btnAction(e)}
