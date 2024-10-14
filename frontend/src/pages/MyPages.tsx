@@ -364,9 +364,6 @@ export const MyPages = () => {
                     btnAction={() => setShowExportDataModal(true)}
                     disabled={false}
                   />
-                  <p>exporting data</p>
-                  {/* TODO
-                add functionality to export all data */}
                 </div>
                 <div style={{ width: isDesktop ? "40%" : "auto" }}>
                   <h4>Compilation of all collections</h4>
