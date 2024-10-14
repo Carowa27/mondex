@@ -35,9 +35,6 @@ export const CreateCollectionPage = () => {
   const [savedCollectionName, setSavedCollectionName] = useState<string>("");
   const language = container.language;
   const theme = container.theme;
-  // CREATE today const
-  // CREATE create collection function
-  // CREATE id = collection_name+today
 
   useEffect(() => {
     if (setInputValue.includes(".") || setInputValue.includes(",")) {
@@ -47,25 +44,17 @@ export const CreateCollectionPage = () => {
     }
   }, [setInputValue]);
   useEffect(() => {
-    if (charInputValue.includes(".") || charInputValue.includes(",")) {
-      setCharName(charInputValue.replace(/[.,]/g, "pt"));
-    } else {
-      setCharName(charInputValue);
-    }
+    setCharName(charInputValue);
   }, [charInputValue]);
   useEffect(() => {
-    if (artistInputValue.includes(".") || artistInputValue.includes(",")) {
-      setArtistName(artistInputValue.replace(/[.,]/g, "pt"));
-    } else {
-      setArtistName(artistInputValue);
-    }
+    setArtistName(artistInputValue);
   }, [artistInputValue]);
 
-  useEffect(() => {
-    if (setInputValue === "") {
-      setCreatedCollection(false);
-    }
-  }, [setInputValue, charInputValue]);
+  // useEffect(() => {
+  //   if (setInputValue === "") {
+  //     setCreatedCollection(false);
+  //   }
+  // }, [setInputValue, charInputValue]);
 
   const checkIfNameExists = () => {
     const foundCollName = container?.user?.collections.filter(
@@ -84,27 +73,12 @@ export const CreateCollectionPage = () => {
       if (collectionName === "") {
         setCreatedCollection(false);
       } else {
-        setNotCorrectSetId(false);
-        setNotCorrectCharName(false);
-        setNotCorrectArtistName(false);
-        setSetId("");
-        setCharName("");
-        setArtistName("");
-        setCreatedCollection(false);
         handleCollectionCreation();
         setNameExists(false);
       }
-      // if (isSetCollection && pkmnSet === undefined) {
-      //   searchSet();
-      // }
-      // if (isCharCollection && charName === null) {
-      //   searchChar();
-      // }
-      // if (isArtistCollection && artistName === null) {
-      //   searchArtist();
-      // }
     }
   };
+
   const searchSet = async () => {
     await getSetFromApi(setId).then((res) => {
       if (res === undefined) {
@@ -132,6 +106,25 @@ export const CreateCollectionPage = () => {
       }
     });
   };
+  const clearAfterCreation = () => {
+    setCollectionName("");
+    setIsSetCollection(false);
+    setSetId("");
+    setSetInputValue("");
+    setPkmnSet(null);
+    setNotCorrectSetId(false);
+    setIsCharCollection(false);
+    setCharName("");
+    setCharInputValue("");
+    setCharLength(undefined);
+    setNotCorrectCharName(false);
+    setIsArtistCollection(false);
+    setArtistName("");
+    setArtistInputValue("");
+    setArtistLength(undefined);
+    setNotCorrectArtistName(false);
+    setNameExists(false);
+  };
   const handleCollectionCreation = () => {
     if (isSetCollection) {
       const newCollection = {
@@ -155,6 +148,7 @@ export const CreateCollectionPage = () => {
       );
       setCreatedCollection(true);
       setSavedCollectionName(collectionName);
+      clearAfterCreation();
     } else {
       if (isCharCollection) {
         const newCollection = {
@@ -178,6 +172,7 @@ export const CreateCollectionPage = () => {
         );
         setCreatedCollection(true);
         setSavedCollectionName(collectionName);
+        clearAfterCreation();
       } else {
         if (isArtistCollection) {
           const newCollection = {
@@ -201,6 +196,7 @@ export const CreateCollectionPage = () => {
           );
           setCreatedCollection(true);
           setSavedCollectionName(collectionName);
+          clearAfterCreation();
         } else {
           const newCollection = {
             id: collectionName.replace(/ /g, "_") + "-" + getToday(),
@@ -365,7 +361,7 @@ export const CreateCollectionPage = () => {
                     <InputButton
                       btnText="Search set id"
                       btnAction={(e) => (e.preventDefault(), searchSet())}
-                      disabled={isSetCollection && !pkmnSet}
+                      disabled={isSetCollection && setId === ""}
                     ></InputButton>
                   </div>
                 ) : null}
