@@ -354,16 +354,31 @@ export const MyPages = () => {
                     {container.user?.username}
                   </p>
                   <h5>Saved data information</h5>
-                  <StandardButton
-                    btnText={"Remove all saved data"}
-                    btnAction={() => setShowRemoveDataModal(true)}
-                    disabled={false}
-                  />{" "}
-                  <StandardButton
-                    btnText={"Export your saved data"}
-                    btnAction={() => setShowExportDataModal(true)}
-                    disabled={false}
-                  />
+                  <div
+                    style={{
+                      width: "max-content",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "1rem",
+                    }}
+                  >
+                    <div style={{ marginLeft: "1rem" }}>
+                      <h6>Export data</h6>
+                      <StandardButton
+                        btnText={"Export your saved data"}
+                        btnAction={() => setShowExportDataModal(true)}
+                        disabled={false}
+                      />
+                    </div>
+                    <div style={{ marginLeft: "1rem" }}>
+                      <h6>Delete data</h6>
+                      <StandardButton
+                        btnText={"Remove all saved data"}
+                        btnAction={() => setShowRemoveDataModal(true)}
+                        disabled={false}
+                      />
+                    </div>
+                  </div>
                 </div>
                 <div style={{ width: isDesktop ? "40%" : "auto" }}>
                   <h4>Compilation of all collections</h4>
