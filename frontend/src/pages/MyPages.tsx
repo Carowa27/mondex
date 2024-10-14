@@ -72,26 +72,16 @@ export const MyPages = () => {
                 It will be gone forever and you wont be able to retrieve it.
               </i>
               <div className="d-flex justify-content-around mt-3">
-                <button
-                  className="btn"
-                  onClick={() => setShowRemoveDataModal(false)}
-                  style={{
-                    border: `1px solid ${theme?.primaryColors.text.hex}`,
-                    color: theme?.primaryColors.text.hex,
-                  }}
-                >
-                  {language?.lang_code.word_cancel}
-                </button>
-                <button
-                  className="btn text-danger fw-bolder"
-                  onClick={() => removeAllData()}
-                  style={{
-                    border: `1px solid ${theme?.primaryColors.text.hex}`,
-                    color: theme?.primaryColors.text.hex,
-                  }}
-                >
-                  {language?.lang_code.word_delete}
-                </button>
+                <StandardButton
+                  btnAction={() => setShowRemoveDataModal(false)}
+                  disabled={false}
+                  btnText={`${language?.lang_code.word_cancel}`}
+                />
+                <StandardButton
+                  btnAction={() => removeAllData()}
+                  disabled={false}
+                  btnText={`${language?.lang_code.word_delete}`}
+                />
               </div>
             </div>
           </div>
