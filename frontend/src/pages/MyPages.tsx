@@ -314,7 +314,7 @@ export const MyPages = () => {
                                 display: "flex",
                                 flexDirection: "row",
                                 flexWrap: "wrap",
-                                justifyContent: "space-between",
+                                justifyContent: "center",
                                 gap: "2rem",
                                 width: "85.5%",
                               }
