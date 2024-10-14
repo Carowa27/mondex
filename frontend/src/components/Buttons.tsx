@@ -1,4 +1,5 @@
-import { FormEvent } from "react";
+import { FormEvent, useContext } from "react";
+import { ContainerContext } from "../globals/containerContext";
 
 interface IInputButtonProps {
   btnText: string;
@@ -37,6 +38,8 @@ export const StandardButton = ({
   bgColor,
   fontColor,
 }: IStandardButtonProps) => {
+  const { container, updateContainer } = useContext(ContainerContext);
+  const theme = container.theme;
   return (
     <>
       <button
@@ -44,7 +47,9 @@ export const StandardButton = ({
           border: "#a0a0a0 solid 1px",
           borderRadius: "10px",
           color: fontColor ? fontColor : "black",
-          backgroundColor: bgColor ? bgColor : "#d8d8d8",
+          backgroundColor: bgColor
+            ? bgColor
+            : theme?.primaryColors.buttonBackground.hex,
           fontWeight: fontColor ? "bolder" : "normal",
         }}
         className={"btn"}
