@@ -15,7 +15,6 @@ import { StandardButton } from "../components/Buttons";
 
 export const Home = () => {
   const { container, updateContainer } = useContext(ContainerContext);
-  // CHANGE: all LS should be wrapped up in ONE LS object
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
@@ -33,9 +32,6 @@ export const Home = () => {
   const changeShowPkmnInfo = () => {
     setSeeBigCard(false);
   };
-  // CHANGE: should check if saved data in LS
-  // IF YES: show data that is fetched from LS
-  // IF NO: show text "no cards saved"
 
   const getLSData = () => {
     let userData = getMondexLs();
