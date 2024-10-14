@@ -391,7 +391,6 @@ export const Home = () => {
                     }}
                   >
                     {nextValuableCard?.map((card) => (
-                      // TODO add onclick open bigcard
                       <img
                         key={card.id}
                         style={{ width: "4rem" }}
@@ -456,7 +455,6 @@ export const Home = () => {
                       : `${language?.lang_code.word_welcome}!`}
                   </h4>
                 </Link>
-
                 {container.user?.username !== "" &&
                 container?.user?.collections &&
                 container.user.collections.length !== 0 ? (
