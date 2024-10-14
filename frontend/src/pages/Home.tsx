@@ -11,6 +11,7 @@ import { getMondexLs, updateMondexLs } from "../functions/LSFunctions";
 import { ContainerContext } from "../globals/containerContext";
 import { getToday } from "../functions/dateFunctions";
 import { getValueOfCard } from "../functions/dataFunctions";
+import { StandardButton } from "../components/Buttons";
 
 export const Home = () => {
   const { container, updateContainer } = useContext(ContainerContext);
@@ -512,20 +513,19 @@ export const Home = () => {
                               onChange={handleChange}
                             />
                           </label>
-                          <button
-                            className="btn btn-secondary"
-                            type="submit"
+                          <div
                             style={{
                               width: "max-content",
                               alignSelf: "end",
                               marginTop: "0.5rem",
-                              padding: "0.2rem 0.5rem",
-                              borderRadius: "10px",
                             }}
-                            disabled={username === ""}
                           >
-                            Save username
-                          </button>
+                            <StandardButton
+                              btnAction={(e) => saveUserName(e)}
+                              disabled={username === ""}
+                              btnText="Save username"
+                            />
+                          </div>
                         </form>
                       </div>
                     )}
