@@ -8,7 +8,7 @@ import { getToday } from "../functions/dateFunctions";
 import { ICollection } from "../interfaces/LSInterface";
 import { updateMondexLs } from "../functions/LSFunctions";
 import { IPkmnSet } from "../interfaces/dataFromApi";
-import { InputButton } from "../components/Buttons";
+import { InputButton, StandardButton } from "../components/Buttons";
 
 export const CreateCollectionPage = () => {
   const { container, updateContainer } = useContext(ContainerContext);
@@ -490,23 +490,21 @@ export const CreateCollectionPage = () => {
               </div>
             </div>
           </div>
-          <button
-            className={
-              isDesktop
-                ? "btn btn-secondary mx-2 px-3 my-auto"
-                : "btn btn-secondary mt-2 mx-2 mb-3"
-            }
+          <div
             style={isDesktop ? { height: "5rem", width: "5rem" } : {}}
-            type="submit"
-            disabled={
-              (isSetCollection && !pkmnSet) ||
-              (isCharCollection && charName === "") ||
-              (isArtistCollection && artistName === "") ||
-              !collectionName
-            }
+            className={isDesktop ? "mx-2 mt-1" : "mt-2 mx-2 mb-3"}
           >
-            {language?.lang_code.word_create}
-          </button>
+            <StandardButton
+              btnAction={handleSubmit}
+              disabled={
+                (isSetCollection && !pkmnSet) ||
+                (isCharCollection && charName === "") ||
+                (isArtistCollection && artistName === "") ||
+                !collectionName
+              }
+              btnText={`${language?.lang_code.word_create}`}
+            />
+          </div>
         </div>
       </form>
       {notCorrectSetId ? (
