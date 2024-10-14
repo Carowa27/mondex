@@ -275,8 +275,6 @@ export const MyPages = () => {
                     btnAction={() => setShowRemoveDataModal(true)}
                     disabled={false}
                   />
-                  {/* TODO
-                add functionality to remove all data */}
                   <p>exporting data</p>
                   {/* TODO
                 add functionality to export all data */}
