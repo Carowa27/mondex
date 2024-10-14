@@ -282,10 +282,10 @@ export const CollectionPage = () => {
                   <ul
                     className={
                       isDesktop
-                        ? "d-flex flex-wrap justify-content-around p-0"
+                        ? "d-flex flex-wrap justify-content-center p-0"
                         : "d-flex flex-wrap justify-content-between p-0"
                     }
-                    style={{ listStyle: "none" }}
+                    style={{ listStyle: "none", gap: "1rem" }}
                   >
                     {cardsFromApiList.map((cardFromApi: IPkmnCard) => (
                       <li
