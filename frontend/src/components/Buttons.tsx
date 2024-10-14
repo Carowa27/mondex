@@ -44,7 +44,7 @@ export const StandardButton = ({
           border: "black solid 1px",
           borderRadius: "10px",
           color: fontColor ? fontColor : "black",
-          backgroundColor: bgColor ? bgColor : "#D4D0D1",
+          backgroundColor: bgColor ? bgColor : "#d8d8d8",
         }}
         className={"btn"}
         onClick={(e) => btnAction(e)}
