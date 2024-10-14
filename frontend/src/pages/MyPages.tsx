@@ -23,6 +23,11 @@ export const MyPages = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showRemoveDataModal, setShowRemoveDataModal] =
     useState<boolean>(false);
+  const [showExportDataModal, setShowExportDataModal] =
+    useState<boolean>(false);
+  const [exportAll, setExportAll] = useState<boolean>(false);
+  const [exportCollections, setExportCollections] = useState<boolean>(false);
+
   const navigate = useNavigate();
 
   const language = container.language;
@@ -33,6 +38,14 @@ export const MyPages = () => {
   const removeAllData = () => {
     localStorage.removeItem("mondex"), clearContainer();
     navigate("/", { replace: true });
+  };
+  const exportData = () => {
+    if (exportAll === true) {
+      console.log("export all");
+    } else {
+      console.log("export collections only");
+    }
+    setShowExportDataModal(false);
   };
   return (
     <>
@@ -81,6 +94,77 @@ export const MyPages = () => {
                   btnAction={() => removeAllData()}
                   disabled={false}
                   btnText={`${language?.lang_code.word_delete}`}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
+      {showExportDataModal ? (
+        <div
+          style={{
+            backgroundColor: `rgba(${theme?.primaryColors.black.rgb}, 0.7)`,
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100vh",
+            position: "fixed",
+            zIndex: 400,
+          }}
+          className="d-flex justify-content-center align-items-center"
+        >
+          <div
+            className={
+              isDesktop ? "w-25 px-4 py-3 rounded" : "w-75 px-4 py-3 rounded"
+            }
+            style={{ backgroundColor: theme?.primaryColors.background.hex }}
+          >
+            <header className="d-flex justify-content-end mt-2">
+              <i
+                className="bi bi-x-lg"
+                onClick={() => setShowExportDataModal(false)}
+              ></i>
+            </header>
+            <div>
+              <div className="mb-4">
+                <h6>What do you want to export? </h6>
+              </div>
+              <form action="exportData">
+                <label htmlFor="export-data-all">
+                  <input
+                    type="radio"
+                    name="export-data"
+                    id="export-data-all"
+                    checked={exportAll === true}
+                    onChange={() => (
+                      setExportCollections(false), setExportAll(true)
+                    )}
+                  />{" "}
+                  Export all saved data
+                </label>
+                <label htmlFor="export-data-collections">
+                  <input
+                    type="radio"
+                    name="export-data"
+                    id="export-data-collections"
+                    checked={exportCollections === true}
+                    onChange={() => (
+                      setExportCollections(true), setExportAll(false)
+                    )}
+                  />{" "}
+                  Export saved collections
+                </label>
+              </form>
+              <div className="d-flex justify-content-around mt-3">
+                <StandardButton
+                  btnAction={() => setShowExportDataModal(false)}
+                  disabled={false}
+                  btnText={`${language?.lang_code.word_cancel}`}
+                />
+                <StandardButton
+                  btnAction={() => exportData()}
+                  disabled={false}
+                  btnText={`Export data`}
                 />
               </div>
             </div>
@@ -273,6 +357,11 @@ export const MyPages = () => {
                   <StandardButton
                     btnText={"Remove all saved data"}
                     btnAction={() => setShowRemoveDataModal(true)}
+                    disabled={false}
+                  />{" "}
+                  <StandardButton
+                    btnText={"Export your saved data"}
+                    btnAction={() => setShowExportDataModal(true)}
                     disabled={false}
                   />
                   <p>exporting data</p>
