@@ -1,10 +1,11 @@
 import { CSSProperties, useContext, useEffect, useState } from "react";
 import { getPokemonFromApi } from "../services/pokeApiService";
 import { IPokeResponse } from "../interfaces/dataFromApi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { ContainerContext } from "../globals/containerContext";
+import { StandardButton } from "../components/Buttons";
 
 export const ErrorPage = () => {
   const { container } = useContext(ContainerContext);
@@ -13,6 +14,7 @@ export const ErrorPage = () => {
   const [numberList, setNumberList] = useState<string[]>();
   const language = container.language;
   const theme = container.theme;
+  const navigate = useNavigate();
 
   const getNumberArray = () => {
     const numbers: string[] = [];
@@ -112,23 +114,19 @@ export const ErrorPage = () => {
           {language?.lang_code.error_something_went_wrong},{" "}
           {language?.lang_code.error_pkmn_fled}?!
         </h5>
-        <Link
+        {/* <Link
           to="/"
           className="text-decoration-none ps-3 mt-4"
           style={{
             color: theme?.primaryColors.link.hex,
           }}
-        >
-          <button
-            className="btn"
-            style={{
-              border: `1px solid ${theme?.primaryColors.text.hex}`,
-              color: theme?.primaryColors.text.hex,
-            }}
-          >
-            Home
-          </button>
-        </Link>
+        > */}
+        <StandardButton
+          btnAction={() => navigate("/", { replace: true })}
+          disabled={false}
+          btnText="Home"
+        />
+        {/* </Link> */}
       </div>
       <div>
         {pokemonList &&
