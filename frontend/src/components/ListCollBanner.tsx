@@ -82,7 +82,7 @@ export const ListCollBanner = ({ collection }: IListProps) => {
                 {collection.set.total}
               </>
             ) : (
-              <>Cards in collection: {getAmountOfCardsOwned([collection])}</>
+              <>Cards in collection: {collection.cards_in_collection.length}</>
             )}
           </p>
         </div>
