@@ -5,6 +5,7 @@ import { styled } from "styled-components";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { ContainerContext } from "../globals/containerContext";
 import { ICollection } from "../interfaces/LSInterface";
+import { StandardButton } from "./Buttons";
 
 interface IProps {
   changeShowAddCardPopup: () => void;
@@ -145,7 +146,6 @@ export const ChooseCollectionPopUp = ({
                           : {}
                       }
                     >
-                      {" "}
                       {coll.collection_name.replace(/_/g, " ")}
                     </span>
                   </SwapLabel>
@@ -158,27 +158,16 @@ export const ChooseCollectionPopUp = ({
                   : "d-flex justify-content-around mt-3"
               }
             >
-              <button
-                className="btn"
-                onClick={changeShowAddCardPopup}
-                style={{
-                  border: `1px solid ${theme?.primaryColors.text.hex}`,
-                  color: theme?.primaryColors.text.hex,
-                }}
-              >
-                {language?.lang_code.word_cancel}
-              </button>
-              <button
-                className="btn"
-                onClick={handleSubmitToAddCard}
-                style={{
-                  border: `1px solid ${theme?.primaryColors.text.hex}`,
-                  color: theme?.primaryColors.text.hex,
-                }}
+              <StandardButton
+                btnAction={changeShowAddCardPopup}
+                disabled={false}
+                btnText={`${language?.lang_code.word_cancel}`}
+              />
+              <StandardButton
+                btnAction={handleSubmitToAddCard}
                 disabled={selectedCollectionName === undefined}
-              >
-                {language?.lang_code.word_add}
-              </button>
+                btnText={`${language?.lang_code.word_add}`}
+              />
             </div>
           </SwapFormContainer>
         </SwapMain>
