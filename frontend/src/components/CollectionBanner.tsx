@@ -110,7 +110,7 @@ export const CollectionBanner = (props: IProps) => {
                             ? window.location.pathname !== "/"
                               ? 7
                               : 4
-                            : 2
+                            : 3
                         )
                         .map((card) => (
                           <li
