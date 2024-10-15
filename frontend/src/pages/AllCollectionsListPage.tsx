@@ -14,7 +14,7 @@ export const AllCollectionsListPage = () => {
   const { container } = useContext(ContainerContext);
   const [page, setPage] = useState<number>(1);
   const [start, setStart] = useState<number>(0);
-  const [end, setEnd] = useState<number>(isDesktop ? 21 : 13);
+  const [end, setEnd] = useState<number>(isDesktop ? 21 : 7);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const language = container.language;
   const theme = container.theme;
@@ -33,10 +33,10 @@ export const AllCollectionsListPage = () => {
     } else {
       if (newPage === 1) {
         setStart(0);
-        setEnd(13);
+        setEnd(7);
       } else {
-        setStart(13 * newPage - 13);
-        setEnd(13 * newPage);
+        setStart(7 * newPage - 7);
+        setEnd(7 * newPage);
       }
     }
   };
@@ -87,7 +87,7 @@ export const AllCollectionsListPage = () => {
                     className={
                       isDesktop
                         ? "w-100 rounded d-flex mx-3 mt-2 pt-3 flex-wrap justify-content-center"
-                        : "w-100 rounded d-flex mx-3 mt-2 pb-4 flex-column"
+                        : "w-100 rounded d-flex mx-3 mt-2 flex-column"
                     }
                   >
                     {collections.slice(start, end).map((coll: ICollection) => (
@@ -100,7 +100,7 @@ export const AllCollectionsListPage = () => {
               </div>
               {collections && (
                 <Pagination
-                  pageSize={isDesktop ? 21 : 13}
+                  pageSize={isDesktop ? 21 : 7}
                   totalCount={collections.length}
                   page={page}
                   updateSearch={updateSearch}
