@@ -87,7 +87,7 @@ export const AllCollectionsListPage = () => {
                     className={
                       isDesktop
                         ? "w-100 rounded d-flex mx-3 mt-2 pt-3 flex-wrap justify-content-center"
-                        : "w-100 rounded d-flex mx-3 mt-2 py-4 flex-column"
+                        : "w-100 rounded d-flex mx-3 mt-2 pb-4 flex-column"
                     }
                   >
                     {collections.slice(start, end).map((coll: ICollection) => (
