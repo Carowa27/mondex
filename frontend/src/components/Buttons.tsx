@@ -38,7 +38,7 @@ export const StandardButton = ({
   bgColor,
   fontColor,
 }: IStandardButtonProps) => {
-  const { container, updateContainer } = useContext(ContainerContext);
+  const { container } = useContext(ContainerContext);
   const theme = container.theme;
   return (
     <>
