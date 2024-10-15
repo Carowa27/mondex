@@ -4,7 +4,6 @@ import { variables } from "../../globals/variables";
 import { useContext, useState } from "react";
 import { lang } from "../../globals/language/language";
 import { colorModes } from "../../globals/theme";
-import { useAuth0 } from "@auth0/auth0-react";
 import { ContainerContext } from "../../globals/containerContext";
 
 export const Menu = () => {
@@ -12,7 +11,6 @@ export const Menu = () => {
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { container, updateContainer } = useContext(ContainerContext);
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const language = container.language;
   const theme = container.theme;
   return (
