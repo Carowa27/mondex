@@ -148,14 +148,22 @@ export const SwapCollectionPopUp = ({
                       disabled={
                         coll.collection_name === collectionName ||
                         (coll.set?.id !== undefined &&
-                          cardToSwap.card.set.id !== coll.set?.id)
+                          cardToSwap.card.set.id !== coll.set.id) ||
+                        (coll.artist !== undefined &&
+                          cardToSwap.card.artist !== coll.artist) ||
+                        (coll.character !== undefined &&
+                          !cardToSwap.card.name.includes(coll.character))
                       }
                     />
                     <span
                       style={
                         coll.collection_name === collectionName ||
                         (coll.set?.id !== undefined &&
-                          cardToSwap.card.set.id !== coll.set?.id)
+                          cardToSwap.card.set.id !== coll.set.id) ||
+                        (coll.artist !== undefined &&
+                          cardToSwap.card.artist !== coll.artist) ||
+                        (coll.character !== undefined &&
+                          !cardToSwap.card.name.includes(coll.character))
                           ? {
                               color: theme?.primaryColors.breadcrumbText.hex,
                             }
