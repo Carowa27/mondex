@@ -1,4 +1,11 @@
-import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { getPkmnFromApi } from "../services/pkmnTcgApiServices";
@@ -32,8 +39,10 @@ export const Search = () => {
     totalCount: number;
   }>();
   const [page, setPage] = useState<number>(1);
+  const [cardWidth, setCardWidth] = useState<number>(0);
   const language = container.language;
   const theme = container.theme;
+  const itemRef = useRef<HTMLImageElement>(null);
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
@@ -123,6 +132,11 @@ export const Search = () => {
       }
     }
   };
+  useEffect(() => {
+    if (itemRef) {
+      setCardWidth(itemRef.current?.clientWidth || 180);
+    }
+  }, []);
   const searchWithPkmnApi = async (
     searchParam: string,
     searchValue: string
@@ -361,7 +375,11 @@ export const Search = () => {
                           ? "d-flex flex-wrap justify-content-around p-0"
                           : "d-flex flex-wrap justify-content-between p-0"
                       }
-                      style={{ listStyle: "none" }}
+                      style={
+                        isDesktop
+                          ? { listStyle: "none" }
+                          : { listStyle: "none", gap: "0.5rem" }
+                      }
                     >
                       {pkmnList.map((cardFromApi: IPkmnCard) => (
                         <li
@@ -369,8 +387,9 @@ export const Search = () => {
                           className={
                             isDesktop
                               ? "pt-2 px-1"
-                              : "pt-2 w-50 d-flex justify-content-center"
+                              : "pt-2 d-flex justify-content-center"
                           }
+                          style={isDesktop ? {} : { width: "48%" }}
                           onMouseEnter={() =>
                             setShowCardAlternatives(cardFromApi.id)
                           }
@@ -393,7 +412,9 @@ export const Search = () => {
                           <div
                             style={{
                               aspectRatio: "3/4",
-                              width: isDesktop ? "12.5rem" : "12rem",
+                              width: isDesktop ? "12.5rem" : cardWidth + "px",
+                              display: "flex",
+                              justifyContent: "center",
                             }}
                           >
                             {showCardAlternatives || !isDesktop ? (
@@ -404,9 +425,11 @@ export const Search = () => {
                                     ? {
                                         display: "flex",
                                         position: "absolute",
+                                        gap: "1rem",
                                         color: `${theme?.primaryColors.text.hex}`,
                                         aspectRatio: "3/4",
-                                        width: "12rem",
+                                        width: cardWidth - 15 + "px",
+                                        // minWidth: "30%",
                                         fontSize: "20pt",
                                         alignItems: "end",
                                       }
@@ -414,11 +437,10 @@ export const Search = () => {
                                 }
                               >
                                 <div
-                                  className="rounded-pill w-100 d-flex justify-content-around"
+                                  className="rounded-pill w-100 d-flex justify-content-around mx-auto"
                                   style={{
                                     backgroundColor: `${theme?.primaryColors.buttonBackground.hex}`,
                                     padding: "0.3rem",
-                                    margin: "0 0.5rem",
                                   }}
                                 >
                                   {container.user ? (
@@ -482,6 +504,7 @@ export const Search = () => {
                               </div>
                             ) : null}
                             <img
+                              ref={itemRef}
                               style={{ width: "100%" }}
                               className="rounded"
                               src={cardFromApi.images.small}
