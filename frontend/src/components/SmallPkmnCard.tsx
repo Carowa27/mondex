@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { BigPkmnCard } from "./BigPkmnCard";
 import { SwapCollectionPopUp } from "./SwapCollectionPopUp";
@@ -41,7 +41,6 @@ export const SmallPkmnCard = ({
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
   const [cardToSwap, setCardToSwap] = useState<ICard>();
   const [cardToDelete, setCardToDelete] = useState<ICard>();
-  const [flipped, setFlipped] = useState(false);
   const theme = container.theme;
 
   const handleSwap = (
@@ -58,19 +57,10 @@ export const SmallPkmnCard = ({
     }
     setShowSwapCollection(true);
   };
-  useEffect(() => {
-    if (cardList.find((card) => card.card.id === cardFromApi?.id)) {
-      setFlipped(true);
-    }
-    if (card) {
-      setFlipped(true);
-    }
-  }, [card]);
   const addCard = (
     card: ICard | undefined,
     cardFromApi: IPkmnCard | undefined
   ) => {
-    cardFromApi && !card ? setFlipped(true) : null;
     const updatedCollections = addCardToCollection(
       collectionName,
       container.user!.collections,
@@ -92,7 +82,6 @@ export const SmallPkmnCard = ({
     }, 100);
   };
   const delCard = (card: ICard) => {
-    card.amount === 1 ? setFlipped(false) : null;
     const updatedCollections = removeCardFromCollection(
       card!,
       collectionName,
@@ -446,7 +435,16 @@ export const SmallPkmnCard = ({
             </span>
           ) : null}
         </div>
-        <div className={flipped ? "flip-box flip-box-flipped" : "flip-box"}>
+        <div
+          className={
+            (card && card.amount) ||
+            cardList.find(
+              (cardToFind) => cardToFind?.card?.id === cardFromApi?.id
+            )
+              ? "flip-box flip-box-flipped"
+              : "flip-box"
+          }
+        >
           <div className="flip-box-inner">
             <div className="flip-box-front">
               <img
