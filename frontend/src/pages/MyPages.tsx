@@ -1,4 +1,4 @@
-import { FormEvent, useContext, useState } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
 import { BreadCrumbs } from "./layout/BreadCrumbs";
 import { LoadingModule } from "../components/LoadingModule";
 import { useMediaQuery } from "react-responsive";
@@ -13,6 +13,7 @@ import {
   getValueOfCardsOwned,
 } from "../functions/dataFunctions";
 import { StandardButton } from "../components/Buttons";
+import { Pagination } from "./layout/Pagination";
 
 export const MyPages = () => {
   const { container, clearContainer } = useContext(ContainerContext);
@@ -27,7 +28,10 @@ export const MyPages = () => {
     useState<boolean>(false);
   const [exportAll, setExportAll] = useState<boolean>(false);
   const [exportCollections, setExportCollections] = useState<boolean>(false);
-
+  const [amountOfBanners, setAmountOfBanners] = useState<number>(3);
+  const [page, setPage] = useState<number>(1);
+  const [startBanner, setStartBanner] = useState<number>(0);
+  const [endBanner, setEndBanner] = useState<number>(3);
   const navigate = useNavigate();
 
   const language = container.language;
@@ -39,6 +43,16 @@ export const MyPages = () => {
     localStorage.removeItem("mondex"), clearContainer();
     navigate("/", { replace: true });
   };
+  const updatePage = (page: number) => {
+    setPage(page);
+    if (page === 1) {
+      setStartBanner(0);
+      setEndBanner(amountOfBanners);
+    } else {
+      setStartBanner(amountOfBanners * page - amountOfBanners);
+      setEndBanner(amountOfBanners * page);
+    }
+  };
   const exportData = () => {
     if (exportAll === true) {
       console.log("export all");
@@ -47,6 +61,10 @@ export const MyPages = () => {
     }
     setShowExportDataModal(false);
   };
+  useEffect(() => {
+    isDesktop ? setAmountOfBanners(12) : setAmountOfBanners(3);
+    isDesktop ? setEndBanner(12) : setEndBanner(3);
+  }, []);
   return (
     <>
       {showRemoveDataModal ? (
@@ -171,7 +189,14 @@ export const MyPages = () => {
           </div>
         </div>
       ) : null}
-      <div style={{ height: "min-content", minHeight: "90vh" }}>
+      <div
+        style={{
+          height: "min-content",
+          minHeight: "90vh",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         <div className="d-flex justify-content-between align-items-start">
           <h1>
             {language?.lang_code.my_pages_my_pages} - {user?.username}
@@ -321,7 +346,7 @@ export const MyPages = () => {
                         }
                       >
                         {collections
-                          .slice(0, isDesktop ? 12 : 3)
+                          .slice(startBanner, endBanner)
                           .map((coll) => (
                             <CollectionBanner
                               key={coll.id}
@@ -484,6 +509,16 @@ export const MyPages = () => {
             </div>
           )}
         </main>
+        {collections && collections?.length > amountOfBanners ? (
+          <div className="d-flex justify-content-center mt-auto pt-2">
+            <Pagination
+              page={page}
+              pageSize={amountOfBanners}
+              totalCount={collections?.length ? collections?.length : 0}
+              updateSearch={updatePage}
+            />
+          </div>
+        ) : null}
       </div>
     </>
   );
