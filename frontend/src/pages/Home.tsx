@@ -16,6 +16,7 @@ import { StandardButton } from "../components/Buttons";
 export const Home = () => {
   const { container, updateContainer } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
+  const isTablet = useMediaQuery({ query: variables.breakpoints.tablet });
   const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -279,14 +280,16 @@ export const Home = () => {
             {container.mostValuableCard ? (
               <div
                 className={
-                  isDesktop
+                  isTablet || isDesktop
                     ? "d-flex flex-row w-100 flex-wrap"
-                    : "d-flex flex-column w-25 align-items-center flex-fill ms-3"
+                    : "d-flex flex-column w-100 align-items-center flex-fill"
                 }
               >
                 <h5
                   className={
-                    isDesktop ? "align-self-start mt-3 w-100" : "text-center"
+                    isTablet || isDesktop
+                      ? "align-self-start mt-3 w-100"
+                      : "text-center"
                   }
                 >
                   {language?.lang_code.todays_valuable_card}
@@ -294,7 +297,9 @@ export const Home = () => {
 
                 <div
                   className={isDesktop ? "" : "d-flex justify-content-center"}
-                  style={{ width: "12.5rem" }}
+                  style={{
+                    width: isTablet || isDesktop ? "12.5rem" : "80%",
+                  }}
                   onClick={() => {
                     setSeeBigCard(true);
                     setInfoPkmnCard(mostValuableCard);
@@ -302,20 +307,25 @@ export const Home = () => {
                 >
                   <img
                     className="rounded"
-                    style={{ width: isDesktop ? "100%" : "40%" }}
+                    style={{
+                      width: isTablet || isDesktop ? "100%" : "100%",
+                    }}
                     src={mostValuableCard?.images.small}
                     alt={mostValuableCard?.name}
                   />
                 </div>
-                <p
+                <div
                   className={
-                    isDesktop
-                      ? "m-0 w-50 ps-3 pt-3"
+                    isTablet || isDesktop
+                      ? "m-0 ps-3 pt-3"
                       : "w-100 d-flex flex-column justify-content-evenly m-0"
                   }
+                  style={{
+                    width: isDesktop ? "50%" : isTablet ? "30%" : "auto",
+                  }}
                 >
-                  {isDesktop ? (
-                    <>
+                  {isTablet || isDesktop ? (
+                    <p>
                       <span>
                         <b>Card: </b>
                         {mostValuableCard?.name}
@@ -346,7 +356,7 @@ export const Home = () => {
                         style={{
                           fontSize: "48px",
                           display: "flex",
-                          justifyContent: "center",
+                          justifyContent: isDesktop ? "center" : "start",
                           alignItems: "center",
                           height: "53%",
                         }}
@@ -358,10 +368,16 @@ export const Home = () => {
                           })}
                         $
                       </span>
-                    </>
+                    </p>
                   ) : (
-                    <>
+                    <p
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-evenly",
+                      }}
+                    >
                       <span>{mostValuableCard?.name}</span>
+                      <span>{mostValuableCard?.set.name}</span>
                       <span className={"align-self-end"}>
                         {mostValuableCard &&
                           getValueOfCard({
@@ -370,10 +386,41 @@ export const Home = () => {
                           })}
                         $
                       </span>
-                    </>
+                    </p>
                   )}
-                </p>
-                <span style={{ fontSize: "x-small" }}>
+                </div>
+                {isTablet && (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      justifyContent: "space-evenly",
+                      gap: "1rem",
+                      width: "40%",
+                      marginTop: "0.5rem",
+                      marginLeft: "auto",
+                    }}
+                  >
+                    {nextValuableCard?.map((card) => (
+                      <img
+                        key={card.id}
+                        style={{
+                          width: "6rem",
+                          aspectRatio: "3/4",
+                          // height: "auto",
+                          // alignSelf: "end",
+                        }}
+                        src={card.images.small}
+                        alt={`${card.name} card`}
+                        onClick={() => {
+                          setSeeBigCard(true);
+                          setInfoPkmnCard(card);
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
+                <span style={{ fontSize: "x-small", width: "100%" }}>
                   {language?.lang_code.last_updated_at}:{" "}
                   {mostValuableCard?.tcgplayer?.updatedAt}
                 </span>
