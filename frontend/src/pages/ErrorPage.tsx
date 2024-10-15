@@ -121,11 +121,13 @@ export const ErrorPage = () => {
             color: theme?.primaryColors.link.hex,
           }}
         > */}
-        <StandardButton
-          btnAction={() => navigate("/", { replace: true })}
-          disabled={false}
-          btnText="Home"
-        />
+        <div style={{ width: "min-content" }}>
+          <StandardButton
+            btnAction={() => navigate("/", { replace: true })}
+            disabled={false}
+            btnText="Home"
+          />
+        </div>
         {/* </Link> */}
       </div>
       <div>
