@@ -14,6 +14,7 @@ interface IProps {
 export const CollectionBanner = (props: IProps) => {
   const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
+  const isTablet = useMediaQuery({ query: variables.breakpoints.tablet });
   const [cards, setCards] = useState<ICard[] | undefined>();
   const language = container.language;
   const theme = container.theme;
@@ -106,10 +107,12 @@ export const CollectionBanner = (props: IProps) => {
                       sortedCardsForBanner
                         .slice(
                           0,
-                          isDesktop
-                            ? window.location.pathname !== "/"
-                              ? 7
-                              : 4
+                          window.location.pathname !== "/"
+                            ? 7
+                            : isDesktop
+                            ? 4
+                            : isTablet
+                            ? 7
                             : 3
                         )
                         .map((card) => (
