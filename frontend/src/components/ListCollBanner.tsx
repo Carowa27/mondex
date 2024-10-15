@@ -5,7 +5,6 @@ import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { Link } from "react-router-dom";
 import {
-  getAmountOfCardsOwned,
   getUniqueAmountOfCardsOwned,
   getValueOfCardsOwned,
 } from "../functions/dataFunctions";
@@ -35,8 +34,9 @@ export const ListCollBanner = ({ collection }: IListProps) => {
         style={{
           color: theme?.primaryColors.link.hex,
           border: `1px solid ${theme?.primaryColors.text.hex}`,
-          width: "max-content",
+          width: isDesktop ? "max-content" : "90%",
           minWidth: "20%",
+
           display: "flex",
           flexDirection: "column",
           height: "max-content",
