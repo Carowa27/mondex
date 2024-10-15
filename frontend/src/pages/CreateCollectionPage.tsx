@@ -9,6 +9,7 @@ import { ICollection } from "../interfaces/LSInterface";
 import { updateMondexLs } from "../functions/LSFunctions";
 import { IPkmnSet } from "../interfaces/dataFromApi";
 import { InputButton, StandardButton } from "../components/Buttons";
+import { LoadingModule } from "../components/LoadingModule";
 
 export const CreateCollectionPage = () => {
   const { container, updateContainer } = useContext(ContainerContext);
@@ -33,6 +34,7 @@ export const CreateCollectionPage = () => {
   const [nameExists, setNameExists] = useState<boolean>(false);
   const [createdCollection, setCreatedCollection] = useState<boolean>(false);
   const [savedCollectionName, setSavedCollectionName] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const language = container.language;
   const theme = container.theme;
 
@@ -85,6 +87,7 @@ export const CreateCollectionPage = () => {
         setNotCorrectSetId(true);
       } else {
         setPkmnSet(res);
+        setIsLoading(false);
       }
     });
   };
@@ -94,6 +97,7 @@ export const CreateCollectionPage = () => {
         setNotCorrectCharName(true);
       } else {
         setCharLength(res.length);
+        setIsLoading(false);
       }
     });
   };
@@ -103,6 +107,7 @@ export const CreateCollectionPage = () => {
         setNotCorrectArtistName(true);
       } else {
         setArtistLength(res.length);
+        setIsLoading(false);
       }
     });
   };
@@ -360,7 +365,9 @@ export const CreateCollectionPage = () => {
                     />
                     <InputButton
                       btnText="Search set id"
-                      btnAction={(e) => (e.preventDefault(), searchSet())}
+                      btnAction={(e) => (
+                        e.preventDefault(), searchSet(), setIsLoading(true)
+                      )}
                       disabled={isSetCollection && setId === ""}
                     ></InputButton>
                   </div>
@@ -418,7 +425,9 @@ export const CreateCollectionPage = () => {
                     />
                     <InputButton
                       btnText="Search character"
-                      btnAction={(e) => (e.preventDefault(), searchChar())}
+                      btnAction={(e) => (
+                        e.preventDefault(), searchChar(), setIsLoading(true)
+                      )}
                       disabled={isCharCollection && charName === ""}
                     ></InputButton>
                   </div>
@@ -477,7 +486,7 @@ export const CreateCollectionPage = () => {
                     <InputButton
                       btnText="Search artist"
                       btnAction={(e: FormEvent) => (
-                        e.preventDefault(), searchArtist()
+                        e.preventDefault(), searchArtist(), setIsLoading(true)
                       )}
                       disabled={isArtistCollection && artistName === ""}
                     ></InputButton>
@@ -502,7 +511,8 @@ export const CreateCollectionPage = () => {
             />
           </div>
         </div>
-      </form>
+      </form>{" "}
+      {isLoading ? <LoadingModule /> : null}
       {notCorrectSetId ? (
         <>{language?.lang_code.collection_not_correct_set_id}</>
       ) : null}
