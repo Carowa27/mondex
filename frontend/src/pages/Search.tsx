@@ -387,7 +387,7 @@ export const Search = () => {
                           key={cardFromApi.id}
                           className={
                             isDesktop
-                              ? "pt-2 px-1"
+                              ? "pt-2 px-1 d-flex flex-column align-items-center"
                               : "pt-2 d-flex justify-content-center"
                           }
                           style={isDesktop || isTablet ? {} : { width: "48%" }}
@@ -397,7 +397,7 @@ export const Search = () => {
                           onMouseLeave={() => setShowCardAlternatives("")}
                         >
                           {isDesktop ? (
-                            <p className="fw-semibold ps-1 m-0">
+                            <p className="fw-semibold ps-1 m-0 align-self-start">
                               {searchParam === "pkmn" ? (
                                 <> {cardFromApi.set.name}</>
                               ) : null}
