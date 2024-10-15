@@ -252,45 +252,47 @@ export const Menu = () => {
                   {language?.lang_code.about_about_project}
                 </span>
               </Link>
-              {isAuthenticated ? (
-                <>
-                  <Link
-                    className="text-decoration-none"
-                    to="./userpage"
-                    onClick={() => {
-                      setIsMobileMenuOpen(!isMobileMenuOpen),
-                        window.scrollTo({
-                          top: 0,
-                          behavior: "smooth",
-                        });
-                    }}
-                    style={{
-                      color: theme?.primaryColors.link.hex,
-                    }}
-                  >
-                    <span id="main-menu-mypages" className="ps-2">
-                      {language?.lang_code.my_pages_my_pages}
-                    </span>
-                  </Link>
-                  <span
+              {
+                container.user ? (
+                  <>
+                    <Link
+                      className="text-decoration-none"
+                      to="./userpage"
+                      onClick={() => {
+                        setIsMobileMenuOpen(!isMobileMenuOpen),
+                          window.scrollTo({
+                            top: 0,
+                            behavior: "smooth",
+                          });
+                      }}
+                      style={{
+                        color: theme?.primaryColors.link.hex,
+                      }}
+                    >
+                      <span id="main-menu-mypages" className="ps-2">
+                        {language?.lang_code.my_pages_my_pages}
+                      </span>
+                    </Link>
+                    {/* <span
                     id="main-menu-logout"
                     className="ps-2"
                     onClick={() => logout()}
                   >
                     {language?.lang_code.account_logout}
-                  </span>
-                </>
-              ) : (
-                <span
-                  id="main-menu-login"
-                  className="ps-2"
-                  onClick={() => (
-                    loginWithRedirect(), setIsMobileMenuOpen(!isMobileMenuOpen)
-                  )}
-                >
-                  {language?.lang_code.account_login}
-                </span>
-              )}
+                  </span> */}
+                  </>
+                ) : null
+                // (
+                //   <span
+                //     id="main-menu-login"
+                //     className="ps-2"
+                //     onClick={() => (
+                //       loginWithRedirect(), setIsMobileMenuOpen(!isMobileMenuOpen)
+                //     )}
+                //   >
+                //     {language?.lang_code.account_login}
+                //   </span>)
+              }
               <div className="d-flex justify-content-around pt-1 pb-1">
                 <span
                   id="main-menu-language-se"
