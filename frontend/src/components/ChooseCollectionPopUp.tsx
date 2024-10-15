@@ -139,7 +139,7 @@ export const ChooseCollectionPopUp = ({
                         (coll.character !== undefined &&
                           !cardToAdd.name.includes(coll.character))
                       }
-                    />
+                    />{" "}
                     <span
                       style={
                         (coll.set?.id !== undefined &&

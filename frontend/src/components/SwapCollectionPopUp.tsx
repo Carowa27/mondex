@@ -154,7 +154,7 @@ export const SwapCollectionPopUp = ({
                         (coll.character !== undefined &&
                           !cardToSwap.card.name.includes(coll.character))
                       }
-                    />
+                    />{" "}
                     <span
                       style={
                         coll.collection_name === collectionName ||
