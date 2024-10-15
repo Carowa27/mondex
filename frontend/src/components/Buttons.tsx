@@ -46,7 +46,7 @@ export const StandardButton = ({
         style={{
           border: "#a0a0a0 solid 1px",
           borderRadius: "10px",
-          color: fontColor ? fontColor : "black",
+          color: fontColor ? fontColor : "inherit",
           backgroundColor: bgColor
             ? bgColor
             : theme?.primaryColors.buttonBackground.hex,
