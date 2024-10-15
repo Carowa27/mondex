@@ -281,12 +281,12 @@ export const CollectionPage = () => {
                   </ul>
                 ) : (
                   <ul
-                    className={
+                    className={"d-flex flex-wrap justify-content-evenly p-0"}
+                    style={
                       isDesktop
-                        ? "d-flex flex-wrap justify-content-center p-0"
-                        : "d-flex flex-wrap justify-content-between p-0"
+                        ? { listStyle: "none", gap: "1rem" }
+                        : { listStyle: "none", gap: "1rem" }
                     }
-                    style={{ listStyle: "none", gap: "1rem" }}
                   >
                     {cardsFromApiList.map((cardFromApi: IPkmnCard) => (
                       <li

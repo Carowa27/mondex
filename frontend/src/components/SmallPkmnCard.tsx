@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { BigPkmnCard } from "./BigPkmnCard";
 import { SwapCollectionPopUp } from "./SwapCollectionPopUp";
@@ -41,7 +41,9 @@ export const SmallPkmnCard = ({
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
   const [cardToSwap, setCardToSwap] = useState<ICard>();
   const [cardToDelete, setCardToDelete] = useState<ICard>();
+  const [cardWidth, setCardWidth] = useState<number>(0);
   const theme = container.theme;
+  const itemRef = useRef<HTMLImageElement>(null);
 
   const handleSwap = (
     card: ICard | undefined,
@@ -155,6 +157,13 @@ export const SmallPkmnCard = ({
       setInfoPkmnCard(pkmnCard);
     }
   };
+
+  useEffect(() => {
+    if (itemRef) {
+      setCardWidth(itemRef.current?.clientWidth || 180);
+    }
+  }, []);
+
   return (
     <>
       {showDeleteCard ? (
@@ -228,7 +237,9 @@ export const SmallPkmnCard = ({
         className={isDesktop ? "mb-3" : "mb-2"}
         style={{
           aspectRatio: "3/4",
-          width: isDesktop ? "12.5rem" : "10rem",
+          width: isDesktop ? "12.5rem" : cardWidth + "px",
+          display: "flex",
+          justifyContent: "center",
         }}
         onMouseEnter={() =>
           setShowCardAlternatives(
@@ -239,7 +250,6 @@ export const SmallPkmnCard = ({
       >
         {(showCardAlternatives && container.user) || !isDesktop ? (
           <div
-            className="px-2 py-3"
             style={
               showCardAlternatives ===
                 (card !== undefined
@@ -253,7 +263,7 @@ export const SmallPkmnCard = ({
                     position: "absolute",
                     color: `${theme?.primaryColors.text.hex}`,
                     aspectRatio: "3/4",
-                    width: isDesktop ? "12.5rem" : "10rem",
+                    width: cardWidth - 15 + "px",
                     fontSize: "20pt",
                     alignItems: "end",
                   }
@@ -391,9 +401,9 @@ export const SmallPkmnCard = ({
             display: "flex",
             position: "absolute",
             color: `${theme?.primaryColors.text.hex}`,
-            aspectRatio: "auto",
-            width: isDesktop ? "13.2rem" : "10rem",
-            height: isDesktop ? "18.2rem" : "14.5rem",
+            aspectRatio: isDesktop ? "auto" : "3/4",
+            width: isDesktop ? "13.2rem" : cardWidth + 15 + "px",
+            height: isDesktop ? "18.2rem" : "",
             fontSize: "16px",
             alignItems: "end",
             justifyContent: "end",
@@ -465,6 +475,7 @@ export const SmallPkmnCard = ({
             </div>
             <div className="flip-box-back">
               <img
+                ref={itemRef}
                 className="rounded"
                 src={
                   (card && card.card.images.small) ||
