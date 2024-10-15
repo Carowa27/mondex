@@ -435,7 +435,14 @@ export const MyPages = () => {
                     </div>
                   </div>
                 </div>
-                <div style={{ width: isDesktop ? "40%" : "auto" }}>
+                {!isDesktop && <hr />}
+                <div
+                  style={
+                    isDesktop
+                      ? { width: "40%" }
+                      : { width: "auto", marginTop: "0.5rem" }
+                  }
+                >
                   <h4>Compilation of all collections</h4>
                   <h5>Numbers</h5>
                   <div style={{ marginLeft: "1rem" }}>
