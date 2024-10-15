@@ -10,12 +10,13 @@ export const Menu = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
+  const isTablet = useMediaQuery({ query: variables.breakpoints.tablet });
   const { container, updateContainer } = useContext(ContainerContext);
   const language = container.language;
   const theme = container.theme;
   return (
     <>
-      {isDesktop ? (
+      {isDesktop || isTablet ? (
         <div
           className="d-flex justify-content-around py-2"
           style={{
