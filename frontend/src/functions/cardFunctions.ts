@@ -23,12 +23,15 @@ export const addCardToCollection = (
       cardToFind.card.id === (cardToAdd ? cardToAdd?.card.id : cardFromApi?.id)
   );
   const updatedCollection =
-    cardToAdd === undefined && cardIndex === -1
+    cardToAdd === undefined || cardIndex === -1
       ? {
           ...collections[collectionIndex],
           cards_in_collection: [
             ...collections[collectionIndex].cards_in_collection,
-            { card: cardFromApi, amount: 1 },
+            {
+              card: cardFromApi ? cardFromApi : cardToAdd && cardToAdd.card,
+              amount: 1,
+            },
           ],
         }
       : {
