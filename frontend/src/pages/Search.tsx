@@ -19,6 +19,7 @@ import { ICard, ICollection } from "../interfaces/LSInterface";
 
 export const Search = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
+  const isTablet = useMediaQuery({ query: variables.breakpoints.tablet });
   const { container, updateContainer } = useContext(ContainerContext);
   const [searchValue, setSearchValue] = useState<string>("");
   const [searchParam, setSearchParam] = useState<string>("pkmn");
@@ -293,7 +294,7 @@ export const Search = () => {
         <div
           id="search-form-container"
           className={
-            isDesktop
+            isDesktop || isTablet
               ? "d-flex justify-content-start"
               : "d-flex justify-content-around"
           }
@@ -371,7 +372,7 @@ export const Search = () => {
                   <>
                     <ul
                       className={
-                        isDesktop
+                        isDesktop || isTablet
                           ? "d-flex flex-wrap justify-content-around p-0"
                           : "d-flex flex-wrap justify-content-between p-0"
                       }
@@ -389,7 +390,7 @@ export const Search = () => {
                               ? "pt-2 px-1"
                               : "pt-2 d-flex justify-content-center"
                           }
-                          style={isDesktop ? {} : { width: "48%" }}
+                          style={isDesktop || isTablet ? {} : { width: "48%" }}
                           onMouseEnter={() =>
                             setShowCardAlternatives(cardFromApi.id)
                           }
