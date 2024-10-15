@@ -204,7 +204,7 @@ export const MyPages = () => {
           <BreadCrumbs pageParam="userpage" />
         </div>
         <header className="d-flex justify-content-between align-items-center">
-          <div>
+          <div style={{ width: "100%", display: "flex", gap: "0.5rem" }}>
             <span
               style={
                 showCollections
@@ -218,7 +218,11 @@ export const MyPages = () => {
                       border: `1px solid rgba(${theme?.typeColors.metal.rgb},0.3)`,
                     }
               }
-              className={"btn px-3 mb-2 py-1 me-1"}
+              className={
+                isDesktop
+                  ? "btn px-3 mb-2 py-1 me-1"
+                  : "btn px-3 mb-2 py-1 w-50"
+              }
               onClick={() => (
                 setShowCollections(true), setShowMyAccount(false)
               )}
@@ -240,7 +244,11 @@ export const MyPages = () => {
                       border: `1px solid rgba(${theme?.typeColors.metal.rgb},0.3)`,
                     }
               }
-              className="btn px-3 mb-2 pt-1 me-1"
+              className={
+                isDesktop
+                  ? "btn px-3 mb-2 pt-1 me-1"
+                  : "btn px-3 mb-2 py-1 w-50"
+              }
               onClick={() => (
                 setShowCollections(false), setShowMyAccount(true)
               )}
@@ -285,7 +293,7 @@ export const MyPages = () => {
                   className={
                     isDesktop
                       ? "d-flex justify-content-end"
-                      : "d-flex justify-content-between mt-3"
+                      : "d-flex justify-content-between mb-3"
                   }
                 >
                   <Link
@@ -326,7 +334,16 @@ export const MyPages = () => {
                     {collections && collections.length !== 0 ? (
                       <div
                         style={
-                          collections.length % 2 === 0
+                          !isDesktop
+                            ? {
+                                display: "flex",
+                                flexDirection: "row",
+                                flexWrap: "wrap",
+                                justifyContent: "space-evenly",
+                                gap: "2rem",
+                                width: "100%",
+                              }
+                            : collections.length % 2 === 0
                             ? {
                                 display: "flex",
                                 flexDirection: "row",
