@@ -18,6 +18,7 @@ import { Pagination } from "./layout/Pagination";
 export const MyPages = () => {
   const { container, clearContainer } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
+  const isTablet = useMediaQuery({ query: variables.breakpoints.tablet });
 
   const [showCollections, setShowCollections] = useState<boolean>(true);
   const [showMyAccount, setShowMyAccount] = useState<boolean>(false);
@@ -383,7 +384,7 @@ export const MyPages = () => {
             <div
               style={{
                 display: "flex",
-                justifyContent: isDesktop ? "center" : "start",
+                justifyContent: isDesktop || isTablet ? "center" : "start",
               }}
             >
               <div
@@ -394,6 +395,12 @@ export const MyPages = () => {
                         display: "flex",
                         justifyContent: "center",
                       }
+                    : isTablet
+                    ? {
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                      }
                     : {
                         display: "flex",
                         flexDirection: "column",
@@ -401,7 +408,11 @@ export const MyPages = () => {
                       }
                 }
               >
-                <div style={{ width: isDesktop ? "40%" : "auto" }}>
+                <div
+                  style={{
+                    width: isDesktop ? "40%" : isTablet ? "40%" : "auto",
+                  }}
+                >
                   <h4>User</h4>
                   <h5>User information</h5>
                   <p style={{ marginLeft: "1rem" }}>
@@ -435,11 +446,13 @@ export const MyPages = () => {
                     </div>
                   </div>
                 </div>
-                {!isDesktop && <hr />}
+                {!isDesktop && !isTablet && <hr />}
                 <div
                   style={
                     isDesktop
                       ? { width: "40%" }
+                      : isTablet
+                      ? { width: "55%" }
                       : { width: "auto", marginTop: "0.5rem" }
                   }
                 >
@@ -477,67 +490,75 @@ export const MyPages = () => {
                   </div>
                   <div>
                     <h5>Most valuable card in collection: </h5>
-                    <div style={{ marginLeft: isDesktop ? "1rem" : "0" }}>
+                    <div
+                      style={{
+                        marginLeft: isDesktop || isTablet ? "1rem" : "0",
+                      }}
+                    >
                       {mostValuableOwnedCard !== undefined && (
                         <div
                           className={
-                            isDesktop
+                            isDesktop || isTablet
                               ? "d-flex flex-row w-100 flex-wrap"
                               : "d-flex flex-row w-100 align-items-center flex-fill"
                           }
                         >
                           <div
                             className={
-                              isDesktop ? "" : "d-flex justify-content-center"
+                              isDesktop || isTablet
+                                ? ""
+                                : "d-flex justify-content-center"
                             }
                             style={{ width: "12.5rem" }}
                           >
                             <img
                               className="rounded"
-                              style={{ width: isDesktop ? "100%" : "100%" }}
+                              style={{
+                                width: isDesktop || isTablet ? "100%" : "100%",
+                              }}
                               src={mostValuableOwnedCard.card.images.small}
                               alt={mostValuableOwnedCard.card.name}
                             />
                           </div>
-                          <p
+                          <div
                             className={
-                              isDesktop
+                              isDesktop || isTablet
                                 ? "m-0 w-50 ps-3 pt-3"
                                 : "w-auto d-flex flex-column justify-content-evenly m-0 ms-3"
                             }
-                            style={{ gap: isDesktop ? "1rem" : 0 }}
+                            style={{ gap: isDesktop || isTablet ? "1rem" : 0 }}
                           >
-                            <span>
+                            <p>
                               <b>Card: </b>
-                              {!isDesktop && <br />}
+                              {!isDesktop && !isTablet && <br />}
                               {mostValuableOwnedCard.card.name}
-                            </span>
-                            <span>
+                            </p>
+                            <p>
                               <b>Artist: </b>
-                              {!isDesktop && <br />}
+                              {!isDesktop && !isTablet && <br />}
                               {mostValuableOwnedCard.card.artist}
-                            </span>
-                            <span>
+                            </p>
+                            <p>
                               <b>Set: </b>
-                              {!isDesktop && <br />}
+                              {!isDesktop && !isTablet && <br />}
                               {mostValuableOwnedCard.card.set.name}
-                            </span>
-                            <span>
+                            </p>
+                            <p>
                               <b>Release date: </b>
-                              {!isDesktop && <br />}
+                              {!isDesktop && !isTablet && <br />}
                               {mostValuableOwnedCard.card.set.releaseDate}
-                            </span>
-                            <span>
+                            </p>
+                            <p>
                               <b>Rarity: </b>
-                              {!isDesktop && <br />}
+                              {!isDesktop && !isTablet && <br />}
                               {mostValuableOwnedCard.card.rarity}
-                            </span>
-                            <span>
+                            </p>
+                            <p>
                               <b>Value: </b>
-                              {!isDesktop && <br />}
+                              {!isDesktop && !isTablet && <br />}
                               {getValueOfCard(mostValuableOwnedCard)}$
-                            </span>
-                          </p>
+                            </p>
+                          </div>
                         </div>
                       )}
                     </div>
