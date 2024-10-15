@@ -393,7 +393,7 @@ export const Search = () => {
                           <div
                             style={{
                               aspectRatio: "3/4",
-                              width: isDesktop ? "12.5rem" : "10rem",
+                              width: isDesktop ? "12.5rem" : "12rem",
                             }}
                           >
                             {showCardAlternatives || !isDesktop ? (
@@ -406,10 +406,9 @@ export const Search = () => {
                                         position: "absolute",
                                         color: `${theme?.primaryColors.text.hex}`,
                                         aspectRatio: "3/4",
-                                        width: isDesktop ? "12.5rem" : "10rem",
+                                        width: "12rem",
                                         fontSize: "20pt",
                                         alignItems: "end",
-                                        padding: "0.5rem",
                                       }
                                     : { display: "none" }
                                 }
@@ -419,6 +418,7 @@ export const Search = () => {
                                   style={{
                                     backgroundColor: `${theme?.primaryColors.buttonBackground.hex}`,
                                     padding: "0.3rem",
+                                    margin: "0 0.5rem",
                                   }}
                                 >
                                   {container.user ? (
