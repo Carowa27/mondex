@@ -380,13 +380,26 @@ export const MyPages = () => {
             </>
           )}
           {showMyAccount && (
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: isDesktop ? "center" : "start",
+              }}
+            >
               <div
-                style={{
-                  width: isDesktop ? "70%" : "auto",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
+                style={
+                  isDesktop
+                    ? {
+                        width: "70%",
+                        display: "flex",
+                        justifyContent: "center",
+                      }
+                    : {
+                        display: "flex",
+                        flexDirection: "column",
+                        width: "100%",
+                      }
+                }
               >
                 <div style={{ width: isDesktop ? "40%" : "auto" }}>
                   <h4>User</h4>
@@ -457,13 +470,13 @@ export const MyPages = () => {
                   </div>
                   <div>
                     <h5>Most valuable card in collection: </h5>
-                    <div style={{ marginLeft: "1rem" }}>
+                    <div style={{ marginLeft: isDesktop ? "1rem" : "0" }}>
                       {mostValuableOwnedCard !== undefined && (
                         <div
                           className={
                             isDesktop
                               ? "d-flex flex-row w-100 flex-wrap"
-                              : "d-flex flex-column w-25 align-items-center flex-fill ms-3"
+                              : "d-flex flex-row w-100 align-items-center flex-fill"
                           }
                         >
                           <div
@@ -474,7 +487,7 @@ export const MyPages = () => {
                           >
                             <img
                               className="rounded"
-                              style={{ width: isDesktop ? "100%" : "40%" }}
+                              style={{ width: isDesktop ? "100%" : "100%" }}
                               src={mostValuableOwnedCard.card.images.small}
                               alt={mostValuableOwnedCard.card.name}
                             />
@@ -483,37 +496,38 @@ export const MyPages = () => {
                             className={
                               isDesktop
                                 ? "m-0 w-50 ps-3 pt-3"
-                                : "w-100 d-flex flex-column justify-content-evenly m-0"
+                                : "w-auto d-flex flex-column justify-content-evenly m-0 ms-3"
                             }
+                            style={{ gap: isDesktop ? "1rem" : 0 }}
                           >
                             <span>
                               <b>Card: </b>
+                              {!isDesktop && <br />}
                               {mostValuableOwnedCard.card.name}
                             </span>
-
-                            <br />
                             <span>
                               <b>Artist: </b>
+                              {!isDesktop && <br />}
                               {mostValuableOwnedCard.card.artist}
                             </span>
-                            <br />
                             <span>
                               <b>Set: </b>
+                              {!isDesktop && <br />}
                               {mostValuableOwnedCard.card.set.name}
                             </span>
-                            <br />
                             <span>
                               <b>Release date: </b>
+                              {!isDesktop && <br />}
                               {mostValuableOwnedCard.card.set.releaseDate}
                             </span>
-                            <br />
                             <span>
                               <b>Rarity: </b>
+                              {!isDesktop && <br />}
                               {mostValuableOwnedCard.card.rarity}
                             </span>
-                            <br />
                             <span>
                               <b>Value: </b>
+                              {!isDesktop && <br />}
                               {getValueOfCard(mostValuableOwnedCard)}$
                             </span>
                           </p>
@@ -526,7 +540,9 @@ export const MyPages = () => {
             </div>
           )}
         </main>
-        {collections && collections?.length > amountOfBanners ? (
+        {showCollections &&
+        collections &&
+        collections?.length > amountOfBanners ? (
           <div className="d-flex justify-content-center mt-auto pt-2">
             <Pagination
               page={page}
