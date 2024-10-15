@@ -469,7 +469,7 @@ export const SmallPkmnCard = ({
                 style={{
                   width: "100%",
                   filter: "grayscale(100%)",
-                  opacity: "0.6",
+                  opacity: theme?.name === "dark" ? "0.8" : "1",
                 }}
               />
             </div>
