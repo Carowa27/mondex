@@ -86,17 +86,15 @@ export const CollectionPage = () => {
 
   useEffect(() => {
     if (collection) {
-      if (cardList.length !== 0 && collection.set === undefined) {
-        setIsLoading(false);
-      }
-      if (cardsFromApiList.length !== 0 && collection.set !== undefined) {
-        setIsLoading(false);
-      }
-      if (collection.cards_in_collection.length === 0) {
+      if (
+        collection.set === undefined &&
+        collection.artist === undefined &&
+        collection.character === undefined
+      ) {
         setIsLoading(false);
       }
     }
-  }, [cardList, cardsFromApiList, collection]);
+  }, [collection]);
 
   const getPkmnToSet = async () => {
     if (collection && collection.set !== undefined) {
@@ -105,6 +103,7 @@ export const CollectionPage = () => {
         page
       ).then((res) => {
         if (res) {
+          setIsLoading(false);
           setCardsFromApiList(res.data as IPkmnCard[]);
           setPageInfo({
             page: res.page,
@@ -118,6 +117,7 @@ export const CollectionPage = () => {
       await getPkmnFromApi(`?q=name:"*${collection.character}*"`, page).then(
         (res) => {
           if (res) {
+            setIsLoading(false);
             setCardsFromApiList(
               sortArtistorCharCollRes(res.data as IPkmnCard[])
             );
@@ -134,6 +134,7 @@ export const CollectionPage = () => {
       await getPkmnFromApi(`?q=artist:"*${collection.artist}*"`, page).then(
         (res) => {
           if (res) {
+            setIsLoading(false);
             setCardsFromApiList(
               sortArtistorCharCollRes(res.data as IPkmnCard[])
             );
