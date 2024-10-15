@@ -132,14 +132,22 @@ export const ChooseCollectionPopUp = ({
                       onChange={handleChangeOnRadioBtn}
                       checked={selectedCollectionName === coll.collection_name}
                       disabled={
-                        coll.set?.id !== undefined &&
-                        cardToAdd.set.id !== coll.set.id
+                        (coll.set?.id !== undefined &&
+                          cardToAdd.set.id !== coll.set.id) ||
+                        (coll.artist !== undefined &&
+                          cardToAdd.artist !== coll.artist) ||
+                        (coll.character !== undefined &&
+                          !cardToAdd.name.includes(coll.character))
                       }
                     />
                     <span
                       style={
-                        coll.set !== undefined &&
-                        cardToAdd.set.id !== coll.set?.id
+                        (coll.set?.id !== undefined &&
+                          cardToAdd.set.id !== coll.set.id) ||
+                        (coll.artist !== undefined &&
+                          cardToAdd.artist !== coll.artist) ||
+                        (coll.character !== undefined &&
+                          !cardToAdd.name.includes(coll.character))
                           ? {
                               color: theme?.primaryColors.breadcrumbText.hex,
                             }
