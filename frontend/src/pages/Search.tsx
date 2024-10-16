@@ -415,8 +415,7 @@ export const Search = () => {
                             cardFromApi={cardFromApi}
                             addCard={() => (
                               setShowChooseAddCardPopup(true),
-                              setInfoPkmnCard(cardFromApi),
-                              console.log("card", cardFromApi)
+                              setInfoPkmnCard(cardFromApi)
                             )}
                           />
                         </li>

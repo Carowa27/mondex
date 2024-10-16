@@ -112,6 +112,7 @@ export const BigPkmnCard = ({
     background-color: ${theme?.primaryColors.background.hex};
     border-radius: 0.5rem;
     margin: 0 2rem;
+    padding: 0 1rem;
 
     @media (${variables.breakpoints.desktop}) {
       height: fit-content;
@@ -135,6 +136,9 @@ export const BigPkmnCard = ({
     justify-content: space-evenly;
     padding-bottom: ${isTablet ? "2rem" : "1em"};
 
+    @media (${variables.breakpoints.tablet}) {
+      padding: 0 0.5rem 2rem 0.5rem;
+    }
     @media (${variables.breakpoints.desktop}) {
       height: 90%;
     }
@@ -174,6 +178,7 @@ export const BigPkmnCard = ({
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.5rem;
+    flex-wrap: wrap;
   `;
   const BigCardValueContainer = styled.div`
     margin-top: ${isDesktop ? "auto" : "1rem"};
@@ -187,7 +192,9 @@ export const BigPkmnCard = ({
     display: flex;
     justify-content: end;
     align-self: end;
+    gap: 3px;
     margin-bottom: 0.2rem;
+    margin-left: 0.5rem;
   `;
   const BigCardLegalities = styled.div`
     width: max-content;
@@ -211,7 +218,13 @@ export const BigPkmnCard = ({
                     NationalDex:{" "}
                     {cardInfo.nationalPokedexNumbers.map(
                       (nr: number, index: number) => (
-                        <span key={index}>{nr}</span>
+                        <span key={index}>
+                          {nr}
+                          {cardInfo.nationalPokedexNumbers.length !== 0 &&
+                            index !==
+                              cardInfo.nationalPokedexNumbers.length - 1 &&
+                            ","}
+                        </span>
                       )
                     )}
                   </NationalDex>
