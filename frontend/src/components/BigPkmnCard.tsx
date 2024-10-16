@@ -142,6 +142,7 @@ export const BigPkmnCard = ({
   const BigCardImg = styled.img`
     height: 30rem;
     aspect-ratio: 3/4;
+    border-radius: 20px;
     @media (${variables.breakpoints.mobile}) {
       height: 10rem;
       width: 100%;
@@ -198,7 +199,7 @@ export const BigPkmnCard = ({
       </BigCardHeader>
       <BigCardBody>
         {cardInfo && (isDesktop || isTablet) && (
-          <BigCardImg className="rounded" src={cardInfo.images.large} />
+          <BigCardImg src={cardInfo.images.large} />
         )}
         <BigCardInfo>
           {cardInfo && (

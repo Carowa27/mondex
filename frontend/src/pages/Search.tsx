@@ -16,6 +16,8 @@ import { ChooseCollectionPopUp } from "../components/ChooseCollectionPopUp";
 import { Pagination } from "./layout/Pagination";
 import { ContainerContext } from "../globals/containerContext";
 import { ICard, ICollection } from "../interfaces/LSInterface";
+import { SmallPkmnCard } from "../components/SmallPkmnCard";
+import { SmallPkmnCardSearch } from "../components/SmallPkmnCardSearch";
 
 export const Search = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
@@ -409,109 +411,14 @@ export const Search = () => {
                               ) : null}
                             </p>
                           ) : null}
-
-                          <div
-                            style={{
-                              aspectRatio: "3/4",
-                              width: isDesktop ? "12.5rem" : cardWidth + "px",
-                              display: "flex",
-                              justifyContent: "center",
-                            }}
-                          >
-                            {showCardAlternatives || !isDesktop ? (
-                              <div
-                                style={
-                                  showCardAlternatives === cardFromApi.id ||
-                                  !isDesktop
-                                    ? {
-                                        display: "flex",
-                                        position: "absolute",
-                                        gap: "1rem",
-                                        color: `${theme?.primaryColors.text.hex}`,
-                                        aspectRatio: "3/4",
-                                        width: cardWidth - 15 + "px",
-                                        // minWidth: "30%",
-                                        fontSize: "20pt",
-                                        alignItems: "end",
-                                      }
-                                    : { display: "none" }
-                                }
-                              >
-                                <div
-                                  className="rounded-pill w-100 d-flex justify-content-around mx-auto"
-                                  style={{
-                                    backgroundColor: `${theme?.primaryColors.buttonBackground.hex}`,
-                                    padding: "0.3rem",
-                                  }}
-                                >
-                                  {container.user ? (
-                                    <span
-                                      style={
-                                        hoverAddBtn
-                                          ? {
-                                              backgroundColor: `rgba(${theme?.typeColors.grass.rgb},0.6)`,
-                                              width: "25px",
-                                              height: "25px",
-                                            }
-                                          : {
-                                              backgroundColor: `rgba(${theme?.typeColors.grass.rgb},0.4)`,
-                                              width: "25px",
-                                              height: "25px",
-                                            }
-                                      }
-                                      className="rounded-circle d-flex align-items-center justify-content-center"
-                                      onMouseEnter={() => setHoverAddBtn(true)}
-                                      onMouseLeave={() => setHoverAddBtn(false)}
-                                      title="add card"
-                                      onClick={() => {
-                                        handleAddCardToCollection(cardFromApi),
-                                          setInfoPkmnCard(cardFromApi);
-                                      }}
-                                    >
-                                      <i className="bi bi-plus m-0 p-0"></i>
-                                    </span>
-                                  ) : null}
-                                  <span
-                                    style={
-                                      hoverInfoBtn
-                                        ? {
-                                            backgroundColor: `rgba(${theme?.typeColors.water.rgb},0.6)`,
-                                            width: "1.7rem",
-                                            height: "1.7rem",
-                                          }
-                                        : {
-                                            backgroundColor: `rgba(${theme?.typeColors.water.rgb},0.4)`,
-                                            width: "1.7rem",
-                                            height: "1.7rem",
-                                          }
-                                    }
-                                    className="rounded-circle d-flex align-items-center justify-content-center"
-                                    title="more info"
-                                    onMouseEnter={() => setHoverInfoBtn(true)}
-                                    onMouseLeave={() => setHoverInfoBtn(false)}
-                                    onClick={() => {
-                                      setSeeBigCard(true);
-                                      setInfoPkmnCard(cardFromApi);
-                                    }}
-                                  >
-                                    <span
-                                      title="more info"
-                                      className="fs-5 fw-medium"
-                                    >
-                                      i
-                                    </span>
-                                  </span>
-                                </div>
-                              </div>
-                            ) : null}
-                            <img
-                              ref={itemRef}
-                              style={{ width: "100%" }}
-                              className="rounded"
-                              src={cardFromApi.images.small}
-                              alt={cardFromApi.name}
-                            />
-                          </div>
+                          <SmallPkmnCardSearch
+                            cardFromApi={cardFromApi}
+                            addCard={() => (
+                              setShowChooseAddCardPopup(true),
+                              setInfoPkmnCard(cardFromApi),
+                              console.log("card", cardFromApi)
+                            )}
+                          />
                         </li>
                       ))}
                     </ul>
