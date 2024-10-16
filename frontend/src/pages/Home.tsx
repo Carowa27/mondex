@@ -501,9 +501,15 @@ export const Home = () => {
                 {container.user?.username !== "" &&
                 container?.user?.collections &&
                 container.user.collections.length !== 0 ? (
-                  <>
+                  <div
+                    style={
+                      isTablet
+                        ? { display: "flex", flexWrap: "wrap", gap: "1rem" }
+                        : {}
+                    }
+                  >
                     {container.user.collections
-                      .slice(0, isDesktop ? 3 : 2)
+                      .slice(0, isDesktop ? 3 : isTablet ? 4 : 2)
                       .map((coll) => (
                         <CollectionBanner
                           key={coll.id}
@@ -523,7 +529,7 @@ export const Home = () => {
                     >
                       <i> {language?.lang_code.my_pages_see_all_collections}</i>
                     </Link>
-                  </>
+                  </div>
                 ) : (
                   <>
                     {(!container.user || container.user.username === "") && (

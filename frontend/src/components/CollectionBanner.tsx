@@ -37,13 +37,15 @@ export const CollectionBanner = (props: IProps) => {
         <>
           <div
             className={
-              window.location.pathname === "/"
+              isTablet && window.location.pathname === "/"
+                ? "mb-2 rounded p-1 px-3"
+                : window.location.pathname === "/"
                 ? "mb-2 rounded p-1 w-100 px-3"
                 : "py-2 col-5 rounded px-3"
             }
             style={{
               border: `1px solid ${theme?.primaryColors.text.hex}`,
-              width: isDesktop ? "max-content" : "100%",
+              width: isDesktop ? "max-content" : isTablet ? "49%" : "100%",
               minWidth: "20%",
               display: "flex",
               flexDirection: "column",
@@ -111,8 +113,6 @@ export const CollectionBanner = (props: IProps) => {
                             ? 7
                             : isDesktop
                             ? 4
-                            : isTablet
-                            ? 7
                             : 3
                         )
                         .map((card) => (
