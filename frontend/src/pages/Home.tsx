@@ -170,27 +170,36 @@ export const Home = () => {
               <div
                 className={
                   isDesktop
-                    ? "d-flex flex-row w-100 flex-wrap justify-content-evenly"
-                    : "d-flex flex-column w-25 align-items-center flex-fill ms-3"
+                    ? "d-flex flex-row w-100 flex-wrap"
+                    : isTablet
+                    ? "d-flex flex-row w-50 justify-content-center flex-wrap"
+                    : "d-flex flex-column w-50 align-items-center flex-fill"
                 }
               >
-                {!isDesktop && (
+                {isTablet && (
+                  <h5 className={" d-flex justify-content-center mt-3 w-100"}>
+                    {language?.lang_code.your_last_searched}
+                  </h5>
+                )}
+                {!isDesktop && !isTablet && (
                   <h6
                     className={
-                      isDesktop ? "align-self-start w-50" : "text-center"
+                      isTablet || isDesktop
+                        ? "align-self-start mt-3 w-100"
+                        : "text-center"
                     }
                   >
-                    {language?.lang_code.your_last_searched}
+                    Last opened card
                   </h6>
                 )}
-                <div
-                  className={
-                    isDesktop
-                      ? "m-0 w-50"
-                      : "w-100 d-flex flex-column justify-content-evenly m-0"
-                  }
-                >
-                  {isDesktop && (
+                {isDesktop && (
+                  <div
+                    className={
+                      isDesktop
+                        ? "m-0 w-50"
+                        : "w-100 d-flex flex-column justify-content-evenly m-0"
+                    }
+                  >
                     <h6
                       className={
                         isDesktop ? "align-self-start w-100" : "text-center"
@@ -198,8 +207,6 @@ export const Home = () => {
                     >
                       {language?.lang_code.your_last_searched}
                     </h6>
-                  )}
-                  {isDesktop ? (
                     <>
                       <span>
                         <b>Card: </b>
@@ -237,23 +244,13 @@ export const Home = () => {
                         $
                       </span>
                     </>
-                  ) : (
-                    <>
-                      <span>{container.lastOpenedCard.name}</span>
-                      <span className={"align-self-end"}>
-                        {container.lastOpenedCard &&
-                          getValueOfCard({
-                            card: container.lastOpenedCard,
-                            amount: 0,
-                          })}
-                        $
-                      </span>
-                    </>
-                  )}
-                </div>
+                  </div>
+                )}
                 <div
                   className={isDesktop ? "" : "d-flex justify-content-center"}
-                  style={{ width: "10rem" }}
+                  style={{
+                    width: isDesktop ? "10rem" : isTablet ? "12.5rem" : "80%",
+                  }}
                   onClick={() => {
                     setSeeBigCard(true);
                     setInfoPkmnCard(container?.lastOpenedCard);
@@ -261,39 +258,66 @@ export const Home = () => {
                 >
                   <img
                     className="rounded"
-                    style={{ width: isDesktop ? "100%" : "40%" }}
+                    style={{ width: "100%" }}
                     src={container.lastOpenedCard.images.small}
                     alt={container.lastOpenedCard.name}
                   />
                 </div>
-                {/* <p
-                  className={
-                    isDesktop
-                      ? "m-0"
-                      : "w-100 d-flex justify-content-evenly m-0"
-                  }
-                >
-                  <span>{container.lastOpenedCard.name}</span>
-                </p> */}
+                {!isDesktop && (
+                  <>
+                    <p
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-evenly",
+                        width: "100%",
+                      }}
+                    >
+                      <span>{container.lastOpenedCard?.name}</span>
+                      <span className={"align-self-end"}>
+                        {container.lastOpenedCard &&
+                          getValueOfCard({
+                            card: container.lastOpenedCard,
+                            amount: 1,
+                          })}
+                        $
+                      </span>
+                    </p>
+                  </>
+                )}
               </div>
             ) : null}
             {container.mostValuableCard ? (
               <div
                 className={
-                  isTablet || isDesktop
+                  isDesktop
                     ? "d-flex flex-row w-100 flex-wrap"
-                    : "d-flex flex-column w-100 align-items-center flex-fill"
+                    : isTablet
+                    ? "d-flex flex-row w-50 flex-wrap"
+                    : "d-flex flex-column w-50 align-items-center flex-fill"
                 }
               >
-                <h5
-                  className={
-                    isTablet || isDesktop
-                      ? "align-self-start mt-3 w-100"
-                      : "text-center"
-                  }
-                >
-                  {language?.lang_code.todays_valuable_card}
-                </h5>
+                {(isTablet || isDesktop) && (
+                  <h5
+                    className={
+                      isTablet || isDesktop
+                        ? "align-self-start mt-3 w-100"
+                        : "text-center"
+                    }
+                  >
+                    {language?.lang_code.todays_valuable_card}
+                  </h5>
+                )}
+                {!isDesktop && !isTablet && (
+                  <h6
+                    className={
+                      isTablet || isDesktop
+                        ? "align-self-start mt-3 w-100"
+                        : "text-center"
+                    }
+                  >
+                    {language?.lang_code.todays_valuable_card}
+                  </h6>
+                )}
 
                 <div
                   className={isDesktop ? "" : "d-flex justify-content-center"}
@@ -321,7 +345,7 @@ export const Home = () => {
                       : "w-100 d-flex flex-column justify-content-evenly m-0"
                   }
                   style={{
-                    width: isDesktop ? "50%" : isTablet ? "30%" : "auto",
+                    width: isDesktop ? "50%" : isTablet ? "auto" : "auto",
                   }}
                 >
                   {isTablet || isDesktop ? (
@@ -377,7 +401,9 @@ export const Home = () => {
                       }}
                     >
                       <span>{mostValuableCard?.name}</span>
-                      <span>{mostValuableCard?.set.name}</span>
+                      {!container.lastOpenedCard && (
+                        <span>{mostValuableCard?.set.name}</span>
+                      )}
                       <span className={"align-self-end"}>
                         {mostValuableCard &&
                           getValueOfCard({
@@ -389,7 +415,7 @@ export const Home = () => {
                     </p>
                   )}
                 </div>
-                {isTablet && (
+                {isTablet && !container.lastOpenedCard && (
                   <div
                     style={{
                       display: "flex",
