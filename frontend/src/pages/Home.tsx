@@ -270,6 +270,7 @@ export const Home = () => {
                         display: "flex",
                         justifyContent: "space-evenly",
                         width: "100%",
+                        margin: isTablet ? "0 1rem 0 1rem" : "",
                       }}
                     >
                       <span>{container.lastOpenedCard?.name}</span>
