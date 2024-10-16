@@ -22,6 +22,7 @@ export const AboutProject = () => {
             ? "d-flex flex-row justify-content-around my-1 "
             : "column my-1"
         }
+        style={{ minHeight: "87vh" }}
       >
         <div
           className={
@@ -41,13 +42,14 @@ export const AboutProject = () => {
               : {
                   border: `2px solid  rgba(${theme?.typeColors.metal.rgb},0.5)`,
                   backgroundColor: `rgba(${theme?.typeColors.metal.rgb},0.1)`,
+                  minHeight: "28vh",
                 }
           }
         >
           <h5 id="about-card-examprj-header">
             {language?.lang_code.about_exam}
           </h5>
-          <p>{language?.lang_code.about_description_exam}</p>
+          <p className="m-0">{language?.lang_code.about_description_exam}</p>
         </div>
         <div
           className={
@@ -67,13 +69,14 @@ export const AboutProject = () => {
               : {
                   border: `2px solid  rgba(${theme?.typeColors.metal.rgb},0.5)`,
                   backgroundColor: `rgba(${theme?.typeColors.metal.rgb},0.1)`,
+                  minHeight: "28vh",
                 }
           }
         >
           <h5 id="about-card-purpose-header">
             {language?.lang_code.word_purpose}
           </h5>
-          <p>{language?.lang_code.about_description_purpose}</p>
+          <p className="m-0">{language?.lang_code.about_description_purpose}</p>
         </div>
         <div
           className={
@@ -93,6 +96,7 @@ export const AboutProject = () => {
               : {
                   border: `2px solid  rgba(${theme?.typeColors.metal.rgb},0.5)`,
                   backgroundColor: `rgba(${theme?.typeColors.metal.rgb},0.1)`,
+                  minHeight: "28vh",
                 }
           }
         >
