@@ -2,13 +2,11 @@ import { useMediaQuery } from "react-responsive";
 import { variables } from "../../globals/variables";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
 import { ContainerContext } from "../../globals/containerContext";
 
 export const Footer = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const { container } = useContext(ContainerContext);
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const language = container.language;
   const theme = container.theme;
 
@@ -80,7 +78,7 @@ export const Footer = () => {
                 {language?.lang_code.about_about_project}
               </span>
             </Link>
-            {isAuthenticated ? (
+            {container.user && container.user.username !== "" && (
               <>
                 <span id="footer-menu-mypages" className="ps-2">
                   <Link
@@ -99,22 +97,7 @@ export const Footer = () => {
                     {language?.lang_code.my_pages_my_pages}
                   </Link>
                 </span>
-                <span
-                  id="footer-menu-logout"
-                  className="ps-2"
-                  onClick={() => logout()}
-                >
-                  {language?.lang_code.account_logout}
-                </span>
               </>
-            ) : (
-              <span
-                id="footer-menu-login"
-                className="ps-2"
-                onClick={() => loginWithRedirect()}
-              >
-                {language?.lang_code.account_login}
-              </span>
             )}
           </div>
         </div>
