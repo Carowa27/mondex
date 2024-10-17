@@ -11,10 +11,16 @@ const get = async <T>(url: string) => {
   return await axios.get<T>(url);
 };
 
-export const getPkmnFromApi = async (searchString: string, page: number) => {
+export const getPkmnFromApi = async (
+  searchString: string,
+  page: number,
+  pageSize?: number
+) => {
   try {
     const result = await get<IPkmnResponse>(
-      `https://api.pokemontcg.io/v2/cards/${searchString}&orderBy=number&pageSize=50&page=${page}`
+      `https://api.pokemontcg.io/v2/cards/${searchString}&orderBy=number&pageSize=${
+        pageSize ? pageSize : 50
+      }&page=${page}`
     )
       .then((res) => {
         return res.data as IPkmnResponse;

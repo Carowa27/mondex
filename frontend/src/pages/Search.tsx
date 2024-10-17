@@ -130,7 +130,8 @@ export const Search = () => {
     }
 
     if (pkmnList.length === 0) {
-      await getPkmnFromApi(searchString, page).then((res) => {
+      const pageSize = !isDesktop && !isTablet ? 10 : 50;
+      await getPkmnFromApi(searchString, page, pageSize).then((res) => {
         if (!res || res.data.length === 0) {
           setNoHits(true);
           setIsLoading(false);
