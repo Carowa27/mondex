@@ -16,7 +16,6 @@ import { ChooseCollectionPopUp } from "../components/ChooseCollectionPopUp";
 import { Pagination } from "./layout/Pagination";
 import { ContainerContext } from "../globals/containerContext";
 import { ICard, ICollection } from "../interfaces/LSInterface";
-import { SmallPkmnCard } from "../components/SmallPkmnCard";
 import { SmallPkmnCardSearch } from "../components/SmallPkmnCardSearch";
 
 export const Search = () => {
@@ -29,8 +28,6 @@ export const Search = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [noHits, setNoHits] = useState<boolean>(false);
   const [showCardAlternatives, setShowCardAlternatives] = useState<string>("");
-  const [hoverAddBtn, setHoverAddBtn] = useState<boolean>(false);
-  const [hoverInfoBtn, setHoverInfoBtn] = useState<boolean>(false);
   const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
   const [seeCreatedCard, setSeeCreatedCard] = useState<boolean>(false);
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
