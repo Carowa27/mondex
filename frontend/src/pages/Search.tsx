@@ -1,11 +1,4 @@
-import {
-  ChangeEvent,
-  FormEvent,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { getPkmnFromApi } from "../services/pkmnTcgApiServices";
