@@ -546,8 +546,8 @@ export const Home = () => {
                     <Link
                       className={
                         isDesktop
-                          ? "mt-auto align-self-end mb-2 me-2"
-                          : "align-self-end mb-2 me-2"
+                          ? "mt-auto align-self-end mb-2 me-2 w-100"
+                          : "align-self-end mb-2 me-2 w-100"
                       }
                       to="/all-collections"
                       style={{
