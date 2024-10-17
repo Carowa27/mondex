@@ -372,6 +372,7 @@ export const MyPages = () => {
               style={{
                 display: "flex",
                 justifyContent: isDesktop || isTablet ? "center" : "start",
+                margin: !isTablet && !isDesktop ? "0 1rem" : "",
               }}
             >
               <div
