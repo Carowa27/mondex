@@ -531,7 +531,12 @@ export const Home = () => {
                   <div
                     style={
                       isTablet
-                        ? { display: "flex", flexWrap: "wrap", gap: "1rem" }
+                        ? {
+                            display: "flex",
+                            flexWrap: "wrap",
+                            gap: "1rem",
+                            justifyContent: "space-evenly",
+                          }
                         : {}
                     }
                   >

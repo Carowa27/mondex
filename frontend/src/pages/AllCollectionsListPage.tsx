@@ -11,6 +11,7 @@ import { ListCollBanner } from "../components/ListCollBanner";
 
 export const AllCollectionsListPage = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
+  const isTablet = useMediaQuery({ query: variables.breakpoints.tablet });
   const { container } = useContext(ContainerContext);
   const [page, setPage] = useState<number>(1);
   const [start, setStart] = useState<number>(0);
@@ -79,6 +80,7 @@ export const AllCollectionsListPage = () => {
                 // className="w-100 d-flex justify-content-center"
                 style={{
                   height: "80vh",
+                  margin: isTablet || !isDesktop ? "0 2rem" : "",
                 }}
               >
                 {collections && collections.length !== 0 ? (
@@ -87,7 +89,9 @@ export const AllCollectionsListPage = () => {
                     className={
                       isDesktop
                         ? "w-100 rounded d-flex mx-3 mt-2 pt-3 flex-wrap justify-content-center"
-                        : "w-100 rounded d-flex mx-3 mt-2 flex-column"
+                        : isTablet
+                        ? "w-100 rounded d-flex flex-row flex-wrap justify-content-between"
+                        : "w-100 rounded d-flex flex-column"
                     }
                   >
                     {collections.slice(start, end).map((coll: ICollection) => (

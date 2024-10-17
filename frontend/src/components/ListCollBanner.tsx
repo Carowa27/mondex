@@ -18,6 +18,7 @@ export const ListCollBanner = ({ collection }: IListProps) => {
   // const language = container.language;
   const theme = container.theme;
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
+  const isTablet = useMediaQuery({ query: variables.breakpoints.tablet });
 
   const collectionNameToShow = collection.collection_name.replace(/_/g, " ");
   const characterNameToShow = collection.character?.replace(/_/g, " ");
@@ -34,7 +35,7 @@ export const ListCollBanner = ({ collection }: IListProps) => {
         style={{
           color: theme?.primaryColors.link.hex,
           border: `1px solid ${theme?.primaryColors.text.hex}`,
-          width: isDesktop ? "max-content" : "90%",
+          width: isDesktop ? "max-content" : isTablet ? "45.5%" : "100%",
           minWidth: "20%",
 
           display: "flex",

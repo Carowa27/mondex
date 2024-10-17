@@ -63,8 +63,12 @@ export const MyPages = () => {
     setShowExportDataModal(false);
   };
   useEffect(() => {
-    isDesktop ? setAmountOfBanners(12) : setAmountOfBanners(3);
-    isDesktop ? setEndBanner(12) : setEndBanner(3);
+    isDesktop
+      ? setAmountOfBanners(12)
+      : isTablet
+      ? setAmountOfBanners(6)
+      : setAmountOfBanners(3);
+    isDesktop ? setEndBanner(12) : isTablet ? setEndBanner(6) : setEndBanner(3);
   }, []);
   return (
     <>
@@ -260,7 +264,7 @@ export const MyPages = () => {
             </span>
           </div>
           {isDesktop && showCollections ? (
-            <div className={"mt-3 d-flex"}>
+            <div className={"mt-3 d-flex w-25"}>
               <Link
                 to="/create-new-collection"
                 className="text-decoration-none me-5"
@@ -339,7 +343,9 @@ export const MyPages = () => {
                           padding: isTablet ? "0 2rem" : "",
                           flexDirection: "row",
                           flexWrap: "wrap",
-                          justifyContent: "space-between",
+                          justifyContent: isDesktop
+                            ? "space-between"
+                            : "space-evenly",
                           gap: "2rem",
                           width: isDesktop ? "85.5%" : "100%",
                         }}
