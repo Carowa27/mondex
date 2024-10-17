@@ -27,9 +27,7 @@ export const Search = () => {
   const [pkmnList, setPkmnList] = useState<IPkmnCard[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [noHits, setNoHits] = useState<boolean>(false);
-  const [showCardAlternatives, setShowCardAlternatives] = useState<string>("");
   const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
-  const [seeCreatedCard, setSeeCreatedCard] = useState<boolean>(false);
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
   const [showChooseAddCardPopup, setShowChooseAddCardPopup] =
     useState<boolean>(false);
@@ -39,28 +37,12 @@ export const Search = () => {
     totalCount: number;
   }>();
   const [page, setPage] = useState<number>(1);
-  const [cardWidth, setCardWidth] = useState<number>(0);
   const language = container.language;
   const theme = container.theme;
-  const itemRef = useRef<HTMLImageElement>(null);
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value);
     setPkmnList([]);
-  };
-  const handleAddCardToCollection = async (cardFromApi: IPkmnCard) => {
-    if (container.user) {
-      const collections = container.user.collections;
-      if (collections.length > 1) {
-        setShowChooseAddCardPopup(true);
-      } else {
-        if (cardFromApi) {
-          addCard(cardFromApi, "Main_Collection");
-          setSeeCreatedCard(true),
-            setTimeout(() => setSeeCreatedCard(false), 1000);
-        }
-      }
-    }
   };
   const addCard = (cardToAdd: IPkmnCard, collectionName: string) => {
     const collectionIndex = container.user!.collections.findIndex(
@@ -132,11 +114,7 @@ export const Search = () => {
       }
     }
   };
-  useEffect(() => {
-    if (itemRef) {
-      setCardWidth(itemRef.current?.clientWidth || 180);
-    }
-  }, []);
+
   const searchWithPkmnApi = async (
     searchParam: string,
     searchValue: string
@@ -223,29 +201,6 @@ export const Search = () => {
   }, [page]);
   return (
     <>
-      {seeCreatedCard ? (
-        <div
-          style={{
-            backgroundColor: `rgba(${theme?.primaryColors.black.rgb}, 0.3)`,
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100vh",
-            position: "fixed",
-            zIndex: 400,
-          }}
-          className="d-flex justify-content-end align-items-end"
-        >
-          <div
-            className="d-flex justify-content-center align-items-center py-2 px-3 my-3 mx-2 rounded"
-            style={{
-              backgroundColor: `rgba(${theme?.primaryColors.background.rgb})`,
-            }}
-          >
-            {language?.lang_code.search_card_added}
-          </div>
-        </div>
-      ) : null}
       {showChooseAddCardPopup ? (
         <div
           style={{
@@ -390,10 +345,6 @@ export const Search = () => {
                               : "pt-2 d-flex justify-content-center"
                           }
                           style={isDesktop || isTablet ? {} : { width: "48%" }}
-                          onMouseEnter={() =>
-                            setShowCardAlternatives(cardFromApi.id)
-                          }
-                          onMouseLeave={() => setShowCardAlternatives("")}
                         >
                           {isDesktop ? (
                             <p className="fw-semibold ps-1 m-0 align-self-start">
