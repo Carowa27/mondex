@@ -96,11 +96,7 @@ export const CollectionBanner = (props: IProps) => {
               <div>
                 <ul
                   className={
-                    isDesktop
-                      ? cards && cards.length > 2
-                        ? "d-flex flex-wrap justify-content-start align-items-end"
-                        : "d-flex flex-wrap justify-content-start align-items-end"
-                      : "d-flex flex-wrap justify-content-around"
+                    "d-flex flex-wrap justify-content-start align-items-end"
                   }
                   style={{ listStyle: "none", padding: 0, gap: "1rem" }}
                 >
