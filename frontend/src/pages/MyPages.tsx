@@ -334,34 +334,15 @@ export const MyPages = () => {
                   <>
                     {collections && collections.length !== 0 ? (
                       <div
-                        style={
-                          !isDesktop
-                            ? {
-                                display: "flex",
-                                flexDirection: "row",
-                                flexWrap: "wrap",
-                                justifyContent: "space-evenly",
-                                gap: "2rem",
-                                width: "100%",
-                              }
-                            : collections.length % 2 === 0
-                            ? {
-                                display: "flex",
-                                flexDirection: "row",
-                                flexWrap: "wrap",
-                                justifyContent: "space-evenly",
-                                gap: "2rem",
-                                width: "85.5%",
-                              }
-                            : {
-                                display: "flex",
-                                flexDirection: "row",
-                                flexWrap: "wrap",
-                                justifyContent: "center",
-                                gap: "2rem",
-                                width: "85.5%",
-                              }
-                        }
+                        style={{
+                          display: "flex",
+                          padding: isTablet ? "0 2rem" : "",
+                          flexDirection: "row",
+                          flexWrap: "wrap",
+                          justifyContent: "space-between",
+                          gap: "2rem",
+                          width: isDesktop ? "85.5%" : "100%",
+                        }}
                       >
                         {collections
                           .slice(startBanner, endBanner)

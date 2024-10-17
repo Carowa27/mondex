@@ -45,7 +45,7 @@ export const CollectionBanner = (props: IProps) => {
             }
             style={{
               border: `1px solid ${theme?.primaryColors.text.hex}`,
-              width: isDesktop ? "max-content" : isTablet ? "49%" : "100%",
+              width: isDesktop ? "max-content" : isTablet ? "" : "100%",
               minWidth: "20%",
               display: "flex",
               flexDirection: "column",
@@ -105,7 +105,7 @@ export const CollectionBanner = (props: IProps) => {
                       sortedCardsForBanner
                         .slice(
                           0,
-                          window.location.pathname !== "/"
+                          window.location.pathname !== "/" && isDesktop
                             ? 7
                             : isDesktop
                             ? 4
