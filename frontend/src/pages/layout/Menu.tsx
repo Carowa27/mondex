@@ -195,7 +195,7 @@ export const Menu = () => {
           {isMobileMenuOpen ? (
             <div
               id="main-menu-container"
-              className="d-flex flex-column me-3 pe-2 mt-2 rounded-bottom"
+              className="d-flex flex-column me-3 pe-2 mt-2 rounded-bottom bg-warning"
               style={{
                 color: `${theme?.primaryColors.link.hex}`,
                 position: "absolute",
@@ -203,7 +203,7 @@ export const Menu = () => {
                 cursor: "pointer",
                 zIndex: "200",
                 minWidth: "fit-content",
-                width: "120px",
+                width: "30%",
                 backgroundColor: `${theme?.primaryColors.background.hex}`,
                 borderLeft: `2px solid rgba(${theme?.typeColors.water.rgb},0.8)`,
               }}
@@ -325,14 +325,14 @@ export const Menu = () => {
             </div>
           ) : (
             <div
-              className="d-flex flex-column me-3 px-2 mt-2 "
+              className="d-flex flex-column me-3 px-2 mt-2"
               style={{
                 color: `${theme?.primaryColors.link.hex}`,
                 position: "absolute",
                 right: 0,
                 cursor: "pointer",
                 zIndex: "200",
-                width: "120px",
+                width: "30%", //"120px",
                 borderLeft: `2px solid rgba(${theme?.typeColors.water.rgb},0.8)`,
               }}
             >
