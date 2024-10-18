@@ -35,6 +35,7 @@ export const CreateCollectionPage = () => {
   const [nameExists, setNameExists] = useState<boolean>(false);
   const [createdCollection, setCreatedCollection] = useState<boolean>(false);
   const [savedCollectionName, setSavedCollectionName] = useState<string>("");
+  const [pageSize, setPageSize] = useState<number>(50);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const language = container.language;
   const theme = container.theme;
@@ -53,6 +54,9 @@ export const CreateCollectionPage = () => {
     setArtistName(artistInputValue);
   }, [artistInputValue]);
 
+  useEffect(() => {
+    setPageSize(isDesktop ? 48 : isTablet ? 16 : 8);
+  }, []);
   // useEffect(() => {
   //   if (setInputValue === "") {
   //     setCreatedCollection(false);
@@ -87,13 +91,14 @@ export const CreateCollectionPage = () => {
       if (res === undefined) {
         setNotCorrectSetId(true);
       } else {
+        console.log(res.id);
         setPkmnSet(res);
         setIsLoading(false);
       }
     });
   };
   const searchChar = async () => {
-    await getCardsFromApi(`?q=name:"*${charName}*"`).then((res) => {
+    await getCardsFromApi(`?q=name:"*${charName}*"`, pageSize).then((res) => {
       if (res === undefined) {
         setNotCorrectCharName(true);
       } else {
@@ -103,14 +108,16 @@ export const CreateCollectionPage = () => {
     });
   };
   const searchArtist = async () => {
-    await getCardsFromApi(`?q=artist:"*${artistName}*"`).then((res) => {
-      if (res === undefined) {
-        setNotCorrectArtistName(true);
-      } else {
-        setArtistLength(res.length);
-        setIsLoading(false);
+    await getCardsFromApi(`?q=artist:"*${artistName}*"`, pageSize).then(
+      (res) => {
+        if (res === undefined) {
+          setNotCorrectArtistName(true);
+        } else {
+          setArtistLength(res.length);
+          setIsLoading(false);
+        }
       }
-    });
+    );
   };
   const clearAfterCreation = () => {
     setCollectionName("");
