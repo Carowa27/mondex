@@ -91,7 +91,6 @@ export const CreateCollectionPage = () => {
       if (res === undefined) {
         setNotCorrectSetId(true);
       } else {
-        console.log(res.id);
         setPkmnSet(res);
         setIsLoading(false);
       }
