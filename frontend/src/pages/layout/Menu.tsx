@@ -195,7 +195,7 @@ export const Menu = () => {
           {isMobileMenuOpen ? (
             <div
               id="main-menu-container"
-              className="d-flex flex-column me-3 pe-2 mt-2 rounded-bottom bg-warning"
+              className="d-flex flex-column me-3 pe-2 mt-2 rounded-bottom"
               style={{
                 color: `${theme?.primaryColors.link.hex}`,
                 position: "absolute",
