@@ -14,6 +14,7 @@ import { LoadingModule } from "../components/LoadingModule";
 export const CreateCollectionPage = () => {
   const { container, updateContainer } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
+  const isTablet = useMediaQuery({ query: variables.breakpoints.tablet });
   const [collectionName, setCollectionName] = useState<string>("");
   const [isSetCollection, setIsSetCollection] = useState<boolean>(false);
   const [setId, setSetId] = useState<string>("");
@@ -316,21 +317,14 @@ export const CreateCollectionPage = () => {
                 />
               </div>
               {!createdCollection && collectionName === "" ? (
-                <Link
-                  className="text-decoration-none mb-3 mx-auto"
-                  to={
-                    savedCollectionName.includes(" ")
-                      ? `/collection/${savedCollectionName.replace(/ /g, "_")}`
-                      : `/collection/${savedCollectionName}`
+                <p
+                  className={
+                    isDesktop || isTablet ? "mb-3 mx-auto" : "mb-3 mx-3"
                   }
-                  style={{
-                    color: theme?.primaryColors.link.hex,
-                  }}
+                  style={{ margin: 0 }}
                 >
-                  <p style={{ margin: 0 }}>
-                    You need to add a collection name to create a collection
-                  </p>
-                </Link>
+                  You need to add a collection name to create a collection
+                </p>
               ) : null}
               <div className="d-flex" style={{ gap: "0.75rem" }}>
                 <div className="input-group border w-50 mb-3 d-flex align-items-center rounded">
