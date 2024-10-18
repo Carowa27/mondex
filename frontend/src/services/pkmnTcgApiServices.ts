@@ -14,13 +14,11 @@ const get = async <T>(url: string) => {
 export const getPkmnFromApi = async (
   searchString: string,
   page: number,
-  pageSize?: number
+  pageSize: number
 ) => {
   try {
     const result = await get<IPkmnResponse>(
-      `https://api.pokemontcg.io/v2/cards/${searchString}&orderBy=number&pageSize=${
-        pageSize ? pageSize : 50
-      }&page=${page}`
+      `https://api.pokemontcg.io/v2/cards/${searchString}&orderBy=number&pageSize=${pageSize}&page=${page}`
     )
       .then((res) => {
         return res.data as IPkmnResponse;
@@ -33,10 +31,10 @@ export const getPkmnFromApi = async (
     console.error("An error has occurred: ", error);
   }
 };
-export const getSetFromApi = async (searchString: string) => {
+export const getSetFromApi = async (searchString: string, pageSize: number) => {
   try {
     const result = await get<ISetResponse>(
-      `https://api.pokemontcg.io/v2/sets/${searchString}`
+      `https://api.pokemontcg.io/v2/sets/${searchString}&pageSize=${pageSize}`
     )
       .then((res) => {
         return res.data.data as IPkmnSet;
@@ -49,10 +47,13 @@ export const getSetFromApi = async (searchString: string) => {
     console.error("An error has occurred: ", error);
   }
 };
-export const getCardFromApi = async (searchString: string) => {
+export const getCardFromApi = async (
+  searchString: string,
+  pageSize: number
+) => {
   try {
     const result = await get<ICardResponse>(
-      `https://api.pokemontcg.io/v2/cards/${searchString}`
+      `https://api.pokemontcg.io/v2/cards/${searchString}&pageSize=${pageSize}`
     )
       .then((res) => {
         return res.data.data as IPkmnCard;
@@ -82,10 +83,13 @@ export const getMostValuableCardFromApi = async () => {
     console.error("An error has occurred: ", error);
   }
 };
-export const getCardsFromApi = async (searchString: string) => {
+export const getCardsFromApi = async (
+  searchString: string,
+  pageSize: number
+) => {
   try {
     const result = await get<IPkmnResponse>(
-      `https://api.pokemontcg.io/v2/cards/${searchString}`
+      `https://api.pokemontcg.io/v2/cards/${searchString}&pageSize=${pageSize}`
     )
       .then((res) => {
         return res.data.data;

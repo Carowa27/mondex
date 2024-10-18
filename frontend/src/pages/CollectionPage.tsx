@@ -16,6 +16,7 @@ import { sortArtistorCharCollRes } from "../functions/cardFunctions";
 export const CollectionPage = () => {
   const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
+  const isTablet = useMediaQuery({ query: variables.breakpoints.tablet });
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [cardList, setCardList] = useState<ICard[]>([]);
   const [cardsFromApiList, setCardsFromApiList] = useState<IPkmnCard[]>([]);
@@ -27,14 +28,19 @@ export const CollectionPage = () => {
     totalCount: number;
   }>();
   const [page, setPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(50);
   const [start, setStart] = useState<number>(0);
-  const [end, setEnd] = useState<number>(isDesktop ? 50 : 20);
+  const [end, setEnd] = useState<number>(isDesktop ? 50 : isTablet ? 20 : 10);
   const [showDeleteCollection, setShowDeleteCollection] =
     useState<boolean>(false);
   const language = container.language;
   const collectionName = window.location.href.split("/")[4];
   const collectionNameToShow = collectionName.replace(/_/g, " ");
   const theme = container.theme;
+
+  useEffect(() => {
+    setPageSize(isDesktop ? 48 : isTablet ? 16 : 8);
+  }, []);
 
   const getData = async () => {
     if (collectionName) {
@@ -52,22 +58,12 @@ export const CollectionPage = () => {
     setCardsFromApiList([]);
     setIsLoading(true);
     if (collection?.set !== undefined) {
-      if (isDesktop) {
-        if (newPage === 1) {
-          setStart(0);
-          setEnd(50);
-        } else {
-          setStart(50 * newPage - 50);
-          setEnd(50 * newPage);
-        }
+      if (newPage === 1) {
+        setStart(0);
+        setEnd(pageSize);
       } else {
-        if (newPage === 1) {
-          setStart(0);
-          setEnd(20);
-        } else {
-          setStart(20 * newPage - 20);
-          setEnd(20 * newPage);
-        }
+        setStart(pageSize * newPage - pageSize);
+        setEnd(pageSize * newPage);
       }
     }
   };
@@ -100,7 +96,8 @@ export const CollectionPage = () => {
     if (collection && collection.set !== undefined) {
       await getPkmnFromApi(
         `?q=!set.id:%22${collection.set.id}%22&orderBy=number`,
-        page
+        page,
+        pageSize
       ).then((res) => {
         if (res) {
           setIsLoading(false);
@@ -114,38 +111,38 @@ export const CollectionPage = () => {
       });
     }
     if (collection && collection.character !== undefined) {
-      await getPkmnFromApi(`?q=name:"*${collection.character}*"`, page).then(
-        (res) => {
-          if (res) {
-            setIsLoading(false);
-            setCardsFromApiList(
-              sortArtistorCharCollRes(res.data as IPkmnCard[])
-            );
-            setPageInfo({
-              page: res.page,
-              pageSize: res.pageSize,
-              totalCount: res.totalCount,
-            });
-          }
+      await getPkmnFromApi(
+        `?q=name:"*${collection.character}*"`,
+        page,
+        pageSize
+      ).then((res) => {
+        if (res) {
+          setIsLoading(false);
+          setCardsFromApiList(sortArtistorCharCollRes(res.data as IPkmnCard[]));
+          setPageInfo({
+            page: res.page,
+            pageSize: res.pageSize,
+            totalCount: res.totalCount,
+          });
         }
-      );
+      });
     }
     if (collection && collection.artist !== undefined) {
-      await getPkmnFromApi(`?q=artist:"*${collection.artist}*"`, page).then(
-        (res) => {
-          if (res) {
-            setIsLoading(false);
-            setCardsFromApiList(
-              sortArtistorCharCollRes(res.data as IPkmnCard[])
-            );
-            setPageInfo({
-              page: res.page,
-              pageSize: res.pageSize,
-              totalCount: res.totalCount,
-            });
-          }
+      await getPkmnFromApi(
+        `?q=artist:"*${collection.artist}*"`,
+        page,
+        pageSize
+      ).then((res) => {
+        if (res) {
+          setIsLoading(false);
+          setCardsFromApiList(sortArtistorCharCollRes(res.data as IPkmnCard[]));
+          setPageInfo({
+            page: res.page,
+            pageSize: res.pageSize,
+            totalCount: res.totalCount,
+          });
         }
-      );
+      });
     }
   };
 
@@ -202,18 +199,23 @@ export const CollectionPage = () => {
           )}
         </h3>
         {collection?.set !== undefined && (
-          <div style={{ alignSelf: "center" }}>
-            {isDesktop ? (
-              <img
-                src={collection?.set?.images.logo}
-                alt={`${collection?.set?.name} logo`}
-                style={{
-                  maxHeight: "5rem",
-                }}
-              />
-            ) : (
-              <p>{collection.set?.name}</p>
-            )}
+          <div
+            style={{
+              alignSelf: "center",
+              zIndex: 40,
+              position: "absolute",
+              left: "50vw",
+              top: "4rem",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <img
+              src={collection?.set?.images.logo}
+              alt={`${collection?.set?.name} logo`}
+              style={{
+                maxHeight: isDesktop ? "5rem" : isTablet ? "3rem" : "2rem",
+              }}
+            />
           </div>
         )}
         <div className="d-flex flex-column align-items-end">
@@ -326,7 +328,7 @@ export const CollectionPage = () => {
                   <div className="d-flex justify-content-center mt-auto">
                     <Pagination
                       page={page}
-                      pageSize={isDesktop ? 50 : 20}
+                      pageSize={pageSize}
                       totalCount={cardList.length}
                       updateSearch={updateSearch}
                     />
