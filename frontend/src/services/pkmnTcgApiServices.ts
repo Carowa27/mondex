@@ -31,10 +31,10 @@ export const getPkmnFromApi = async (
     console.error("An error has occurred: ", error);
   }
 };
-export const getSetFromApi = async (searchString: string, pageSize: number) => {
+export const getSetFromApi = async (searchString: string) => {
   try {
     const result = await get<ISetResponse>(
-      `https://api.pokemontcg.io/v2/sets/${searchString}&pageSize=${pageSize}`
+      `https://api.pokemontcg.io/v2/sets/${searchString}`
     )
       .then((res) => {
         return res.data.data as IPkmnSet;
