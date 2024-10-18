@@ -266,21 +266,23 @@ export const CreateCollectionPage = () => {
     <div style={{ minHeight: "90vh" }}>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <h2>{language?.lang_code.collection_create_new_collection}</h2>
-        {isDesktop ? (
-          <div className={"mt-3 d-flex"}>
-            <Link
-              className="fst-italic me-4"
-              to="/all-collections"
-              style={{
-                color: theme?.primaryColors.link.hex,
-              }}
-            >
-              <h6 className={"m-0"}>
-                {language?.lang_code.my_pages_see_all_collections}
-              </h6>
-            </Link>
-          </div>
-        ) : null}
+        {/* {isDesktop ? ( */}
+        <div
+          className={isDesktop ? "mt-3 d-flex" : "d-flex align-items-center"}
+        >
+          <Link
+            className={isDesktop ? "fst-italic me-4" : "fst-italic text-center"}
+            to="/all-collections"
+            style={{
+              color: theme?.primaryColors.link.hex,
+            }}
+          >
+            <h6 className={"m-0"}>
+              {language?.lang_code.my_pages_see_all_collections}
+            </h6>
+          </Link>
+        </div>
+        {/* ) : null} */}
       </div>
       <form id="search-form" onSubmit={handleSubmit}>
         <div
