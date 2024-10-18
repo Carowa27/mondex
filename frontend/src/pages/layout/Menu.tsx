@@ -195,7 +195,7 @@ export const Menu = () => {
           {isMobileMenuOpen ? (
             <div
               id="main-menu-container"
-              className="d-flex flex-column me-3 pe-2 mt-2 rounded-bottom"
+              className="d-flex flex-column pe-4 mt-2 rounded-bottom"
               style={{
                 color: `${theme?.primaryColors.link.hex}`,
                 position: "absolute",
@@ -204,8 +204,10 @@ export const Menu = () => {
                 zIndex: "200",
                 minWidth: "fit-content",
                 width: "30%",
+                gap: "0.3rem",
                 backgroundColor: `${theme?.primaryColors.background.hex}`,
                 borderLeft: `2px solid rgba(${theme?.typeColors.water.rgb},0.8)`,
+                borderBottom: `1px solid rgba(${theme?.typeColors.water.rgb},0.8)`,
               }}
             >
               <div onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
@@ -325,13 +327,14 @@ export const Menu = () => {
             </div>
           ) : (
             <div
-              className="d-flex flex-column me-3 px-2 mt-2"
+              className="d-flex flex-column pe-4 ps-2 mt-2"
               style={{
                 color: `${theme?.primaryColors.link.hex}`,
                 position: "absolute",
                 right: 0,
                 cursor: "pointer",
                 zIndex: "200",
+                minWidth: "fit-content",
                 width: "30%", //"120px",
                 borderLeft: `2px solid rgba(${theme?.typeColors.water.rgb},0.8)`,
               }}
