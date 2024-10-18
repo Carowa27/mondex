@@ -33,6 +33,8 @@ export const MyPages = () => {
   const [page, setPage] = useState<number>(1);
   const [startBanner, setStartBanner] = useState<number>(0);
   const [endBanner, setEndBanner] = useState<number>(3);
+  const [isShowUserInfo, setIsShowUserInfo] = useState<boolean>(false);
+  const [isShowValues, setIsShowValues] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const language = container.language;
@@ -401,82 +403,122 @@ export const MyPages = () => {
                     width: isDesktop ? "40%" : isTablet ? "40%" : "auto",
                   }}
                 >
-                  <h4>User</h4>
-                  <h5>User information</h5>
-                  <p style={{ marginLeft: "1rem" }}>
-                    <b>Username: </b>
-                    {container.user?.username}
-                  </p>
-                  <h5>Saved data information</h5>
-                  <div
-                    style={{
-                      width: "max-content",
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "1rem",
-                    }}
-                  >
-                    <div style={{ marginLeft: "1rem" }}>
-                      <h6>Export data</h6>
-                      <StandardButton
-                        btnText={"Export your saved data"}
-                        btnAction={() => setShowExportDataModal(true)}
-                        disabled={false}
-                      />
-                    </div>
-                    <div style={{ marginLeft: "1rem" }}>
-                      <h6>Delete data</h6>
-                      <StandardButton
-                        btnText={"Remove all saved data"}
-                        btnAction={() => setShowRemoveDataModal(true)}
-                        disabled={false}
-                      />
-                    </div>
-                  </div>
+                  <h4 onClick={() => setIsShowUserInfo(!isShowUserInfo)}>
+                    User{" "}
+                    {!isDesktop && !isTablet && (
+                      <>
+                        {isShowUserInfo ? (
+                          <i className="bi bi-chevron-compact-up ps-1"></i>
+                        ) : (
+                          <i className="bi bi-chevron-compact-down ps-1"></i>
+                        )}
+                      </>
+                    )}
+                  </h4>
+                  {(isShowUserInfo || isDesktop || isTablet) && (
+                    <>
+                      <h5>User information</h5>
+                      <p style={{ marginLeft: "1rem" }}>
+                        <b>Username: </b>
+                        {container.user?.username}
+                      </p>
+                      <h5>Saved data information</h5>
+                      <div
+                        style={{
+                          width: "max-content",
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "1rem",
+                        }}
+                      >
+                        <div style={{ marginLeft: "1rem" }}>
+                          <h6>Export data</h6>
+                          <StandardButton
+                            btnText={"Export your saved data"}
+                            btnAction={() => setShowExportDataModal(true)}
+                            disabled={false}
+                          />
+                        </div>
+                        <div style={{ marginLeft: "1rem" }}>
+                          <h6>Delete data</h6>
+                          <StandardButton
+                            btnText={"Remove all saved data"}
+                            btnAction={() => setShowRemoveDataModal(true)}
+                            disabled={false}
+                          />
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
-                {!isDesktop && !isTablet && <hr />}
+                {!isDesktop && !isTablet && (
+                  <hr className={!isShowUserInfo ? "mt-2 mb-3" : "mt-4 mb-3"} />
+                )}
                 <div
                   style={
                     isDesktop
-                      ? { width: "40%" }
+                      ? {
+                          width: "40%",
+                          display: "flex",
+                          flexDirection: "column",
+                          flexWrap: "wrap",
+                          height: "60%",
+                        }
                       : isTablet
                       ? { width: "55%" }
                       : { width: "auto", marginTop: "0.5rem" }
                   }
                 >
                   <h4>Compilation of all collections</h4>
-                  <h5>Numbers</h5>
-                  <div style={{ marginLeft: "1rem" }}>
-                    <p>
-                      <b>Nr of collections: </b>
-                      {collections?.length}
-                    </p>
-                    <p>
-                      <b>Total nr of cards: </b>
-                      {getAmountOfCardsOwned(collections!)}
-                    </p>
-                  </div>
-                  <h5>Values</h5>
-                  <div style={{ marginLeft: "1rem" }}>
-                    <div>
-                      <b>Value of collections: </b>
-                      <ul style={{ paddingLeft: "1.5rem" }}>
-                        {collections?.map((coll) => {
-                          return (
-                            <li key={coll.id}>
-                              {coll.collection_name.replace(/_/g, " ")} ~
-                              {getValueOfCardsOwned([coll])}$
-                            </li>
-                          );
-                        })}
-                      </ul>
+                  <div>
+                    <h5>Numbers</h5>
+                    <div style={{ marginLeft: "1rem" }}>
+                      <p>
+                        <b>Nr of collections: </b>
+                        {collections?.length}
+                      </p>
+                      <p>
+                        <b>Total nr of cards: </b>
+                        {getAmountOfCardsOwned(collections!)}
+                      </p>
                     </div>
-                    <p>
-                      <b>Total value of cards: </b>~
-                      {getValueOfCardsOwned(collections!)}$
-                    </p>
                   </div>
                   <div>
+                    <h5 onClick={() => setIsShowValues(!isShowValues)}>
+                      Values
+                      {!isDesktop && !isTablet && (
+                        <>
+                          {isShowValues ? (
+                            <i className="bi bi-chevron-compact-up ps-1"></i>
+                          ) : (
+                            <i className="bi bi-chevron-compact-down ps-1"></i>
+                          )}
+                        </>
+                      )}
+                    </h5>
+                    {(isShowValues || isDesktop || isTablet) && (
+                      <div style={{ marginLeft: "1rem" }}>
+                        <div>
+                          <b>Value of collections: </b>
+                          <ul style={{ paddingLeft: "1.5rem" }}>
+                            {collections?.map((coll) => {
+                              return (
+                                <li key={coll.id}>
+                                  {coll.collection_name.replace(/_/g, " ")} ~
+                                  {getValueOfCardsOwned([coll])}$
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </div>
+                        <p>
+                          <b>Total value of cards: </b>~
+                          {getValueOfCardsOwned(collections!)}$
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                  <div style={isDesktop ? { marginTop: "2.5rem" } : {}}>
                     <h5>Most valuable card in collection: </h5>
                     <div
                       style={{
@@ -488,17 +530,10 @@ export const MyPages = () => {
                           className={
                             isDesktop || isTablet
                               ? "d-flex flex-row w-100 flex-wrap"
-                              : "d-flex flex-row w-100 align-items-center flex-fill"
+                              : "d-flex flex-row w-100 align-items-center flex-fill mt-3"
                           }
                         >
-                          <div
-                            className={
-                              isDesktop || isTablet
-                                ? ""
-                                : "d-flex justify-content-center"
-                            }
-                            style={{ width: "12.5rem" }}
-                          >
+                          <div style={{ width: "12.5rem" }}>
                             <img
                               className="rounded"
                               style={{
@@ -514,36 +549,37 @@ export const MyPages = () => {
                                 ? "m-0 w-50 ps-3 pt-3"
                                 : "w-auto d-flex flex-column justify-content-evenly m-0 ms-3"
                             }
-                            style={{ gap: isDesktop || isTablet ? "1rem" : 0 }}
+                            style={{
+                              gap: isDesktop || isTablet ? "1rem" : "0.3rem",
+                            }}
                           >
-                            <p>
+                            <p className={!isDesktop && !isTablet ? "m-0" : ""}>
                               <b>Card: </b>
                               {!isDesktop && !isTablet && <br />}
                               {mostValuableOwnedCard.card.name}
                             </p>
-                            <p>
+                            <p className={!isDesktop && !isTablet ? "m-0" : ""}>
                               <b>Artist: </b>
                               {!isDesktop && !isTablet && <br />}
                               {mostValuableOwnedCard.card.artist}
                             </p>
-                            <p>
+                            <p className={!isDesktop && !isTablet ? "m-0" : ""}>
                               <b>Set: </b>
                               {!isDesktop && !isTablet && <br />}
                               {mostValuableOwnedCard.card.set.name}
                             </p>
-                            <p>
+                            <p className={!isDesktop && !isTablet ? "m-0" : ""}>
                               <b>Release date: </b>
                               {!isDesktop && !isTablet && <br />}
                               {mostValuableOwnedCard.card.set.releaseDate}
                             </p>
-                            <p>
+                            <p className={!isDesktop && !isTablet ? "m-0" : ""}>
                               <b>Rarity: </b>
                               {!isDesktop && !isTablet && <br />}
                               {mostValuableOwnedCard.card.rarity}
                             </p>
-                            <p>
-                              <b>Value: </b>
-                              {!isDesktop && !isTablet && <br />}
+                            <p className={!isDesktop && !isTablet ? "m-0" : ""}>
+                              <b>Value: </b>{" "}
                               {getValueOfCard(mostValuableOwnedCard)}$
                             </p>
                           </div>
