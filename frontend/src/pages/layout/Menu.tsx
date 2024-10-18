@@ -5,9 +5,12 @@ import { useContext, useState } from "react";
 import { lang } from "../../globals/language/language";
 import { colorModes } from "../../globals/theme";
 import { ContainerContext } from "../../globals/containerContext";
+import { IMobileMenuParams } from "./Layout";
 
-export const Menu = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+export const Menu = ({
+  isMobileMenuOpened,
+  changeIsMobileMenuOpen,
+}: IMobileMenuParams) => {
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const isTablet = useMediaQuery({ query: variables.breakpoints.tablet });
@@ -192,7 +195,7 @@ export const Menu = () => {
         </div>
       ) : (
         <>
-          {isMobileMenuOpen ? (
+          {isMobileMenuOpened ? (
             <div
               id="main-menu-container"
               className="d-flex flex-column pe-4 mt-2 rounded-bottom"
@@ -210,7 +213,7 @@ export const Menu = () => {
                 borderBottom: `1px solid rgba(${theme?.typeColors.water.rgb},0.8)`,
               }}
             >
-              <div onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+              <div onClick={() => changeIsMobileMenuOpen(!isMobileMenuOpened)}>
                 <span id="main-menu" className="ps-2">
                   Menu
                 </span>
@@ -221,7 +224,7 @@ export const Menu = () => {
                 className="text-decoration-none"
                 to="./search"
                 onClick={() => {
-                  setIsMobileMenuOpen(!isMobileMenuOpen),
+                  changeIsMobileMenuOpen(false),
                     window.scrollTo({
                       top: 0,
                       behavior: "smooth",
@@ -239,7 +242,7 @@ export const Menu = () => {
                 className="text-decoration-none"
                 to="./about"
                 onClick={() => {
-                  setIsMobileMenuOpen(!isMobileMenuOpen),
+                  changeIsMobileMenuOpen(false),
                     window.scrollTo({
                       top: 0,
                       behavior: "smooth",
@@ -260,7 +263,7 @@ export const Menu = () => {
                       className="text-decoration-none"
                       to="./userpage"
                       onClick={() => {
-                        setIsMobileMenuOpen(!isMobileMenuOpen),
+                        changeIsMobileMenuOpen(false),
                           window.scrollTo({
                             top: 0,
                             behavior: "smooth",
@@ -303,7 +306,7 @@ export const Menu = () => {
                       : "fw-normal ps-2 clickable-event"
                   }
                   onClick={() => (
-                    setIsMobileMenuOpen(false),
+                    changeIsMobileMenuOpen(false),
                     updateContainer(lang.SE, "language")
                   )}
                 >
@@ -317,7 +320,7 @@ export const Menu = () => {
                       : "fw-normal clickable-event"
                   }
                   onClick={() => (
-                    setIsMobileMenuOpen(false),
+                    changeIsMobileMenuOpen(false),
                     updateContainer(lang.EN, "language")
                   )}
                 >
@@ -340,7 +343,7 @@ export const Menu = () => {
               }}
             >
               <div
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                onClick={() => changeIsMobileMenuOpen(!isMobileMenuOpened)}
                 style={{
                   width: "110px",
                 }}
