@@ -208,7 +208,7 @@ export const MyPages = () => {
           </h1>
           <BreadCrumbs pageParam="userpage" />
         </div>
-        <header className="d-flex justify-content-between align-items-center">
+        <header className="d-flex justify-content-between align-items-center my-2">
           <div style={{ width: "100%", display: "flex", gap: "0.5rem" }}>
             <span
               style={
