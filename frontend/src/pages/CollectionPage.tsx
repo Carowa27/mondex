@@ -238,7 +238,10 @@ export const CollectionPage = () => {
               zIndex: 40,
               position: "absolute",
               left: "50vw",
-              top: "4rem",
+              top:
+                collectionName.length > 9 && !isDesktop && !isTablet
+                  ? "5rem"
+                  : "4rem",
               transform: "translate(-50%, -50%)",
             }}
           >
