@@ -204,7 +204,7 @@ export const Menu = ({
                 position: "absolute",
                 right: 0,
                 cursor: "pointer",
-                zIndex: "200",
+                zIndex: "500",
                 minWidth: "fit-content",
                 width: "30%",
                 gap: "0.3rem",
