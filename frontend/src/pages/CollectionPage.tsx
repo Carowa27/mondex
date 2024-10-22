@@ -186,7 +186,10 @@ export const CollectionPage = () => {
           }
         >
           <span className="d-flex flex-wrap pe-2">
-            {collectionNameToShow.length > 9 && !isDesktop && !isTablet ? (
+            {collectionNameToShow.length > 9 &&
+            !isDesktop &&
+            !isTablet &&
+            collection?.set ? (
               <>
                 {collectionNameToShow.slice(0, 9)} -
                 <br />
