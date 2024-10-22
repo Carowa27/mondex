@@ -1,147 +1,106 @@
 import { CSSProperties, useContext, useEffect, useState } from "react";
 import { getPokemonFromApi } from "../services/pokeApiService";
-import { IPokeResponse } from "../interfaces/dataFromApi";
+import { IPkmnCard, IPokeResponse } from "../interfaces/dataFromApi";
 import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { ContainerContext } from "../globals/containerContext";
 import { StandardButton } from "../components/Buttons";
+import { errorPageData } from "../services/errorPageData";
 
 export const ErrorPage = () => {
   const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
-  const [pokemonList, setPokemonList] = useState<IPokeResponse[]>();
-  const [numberList, setNumberList] = useState<string[]>();
+  const isTablet = useMediaQuery({ query: variables.breakpoints.tablet });
   const language = container.language;
   const theme = container.theme;
   const navigate = useNavigate();
+  const [errorCards, setErrorCards] = useState<IPkmnCard[]>(errorPageData);
 
-  const getNumberArray = () => {
-    const numbers: string[] = [];
-
-    for (let i = 0; i < 6; i++) {
-      if (numbers.length < 5) {
-        const getNumber = Math.floor(Math.random() * 151) + 1;
-        numbers.push(getNumber.toString());
-      } else {
-        setNumberList(numbers);
-        // getPokemonArray();
-      }
-    }
-  };
-  const getPokemonArray = async () => {
-    if (numberList) {
-      const pokemonArray: IPokeResponse[] = [];
-      for (let i = 0; i < numberList.length; i++) {
-        if (!pokemonList || pokemonList.length < 5) {
-          const pokemon = await getPokemonFromApi(numberList[i]);
-          if (pokemon !== undefined) {
-            pokemonArray.push(pokemon);
-          }
-        }
-      }
-
-      if (pokemonArray && pokemonArray.length === 5) {
-        setPokemonList([...pokemonArray]);
-      }
-    }
-  };
-
-  useEffect(() => {
-    getNumberArray();
-  }, []);
-  useEffect(() => {
-    getPokemonArray();
-  }, [numberList]);
-  const inStyleDesktop = (i: number): CSSProperties => {
-    if (i === 0)
-      return { height: "30%", position: "absolute", top: 25, left: 100 };
-    if (i === 1)
-      return {
-        height: "30%",
-        position: "absolute",
-        top: 200,
-        right: 75,
-      };
-    if (i === 2)
-      return { height: "30%", position: "absolute", top: 50, left: 520 };
-    if (i === 3)
-      return { height: "30%", position: "absolute", bottom: 150, right: 400 };
-    if (i === 4)
-      return { height: "30%", position: "absolute", bottom: 40, left: 30 };
-    else {
-      return { height: "30%" };
-    }
-  };
-  const inStyleMobile = (i: number): CSSProperties => {
-    if (i === 0)
-      return { height: "30%", position: "absolute", top: 45, right: 0 };
-    if (i === 1)
-      return {
-        height: "20%",
-        position: "absolute",
-        top: 45,
-        left: 0,
-        transform: "scaleX(-1)",
-      };
-    if (i === 2)
-      return { height: "20%", position: "absolute", bottom: 0, right: 0 };
-    if (i === 3)
-      return {
-        height: "30%",
-        position: "absolute",
-        bottom: 30,
-        left: 0,
-        transform: "scaleX(-1)",
-      };
-    if (i === 4)
-      return { height: "30%", position: "absolute", right: 10, top: "45%" };
-    else {
-      return { height: "30%" };
-    }
-  };
   return (
     <div
       style={{
         height: "100vh",
+        width: "100vw",
+
         backgroundColor: theme?.primaryColors.background.hex,
-        color: theme?.primaryColors.text.hex,
       }}
     >
-      <div className=" d-flex justify-content-center flex-column h-75 ms-3">
-        <h1>{language?.lang_code.error_oh_no}</h1>
-        <h5>
-          {language?.lang_code.error_something_went_wrong},{" "}
-          {language?.lang_code.error_pkmn_fled}?!
-        </h5>
-        {/* <Link
-          to="/"
-          className="text-decoration-none ps-3 mt-4"
-          style={{
-            color: theme?.primaryColors.link.hex,
-          }}
-        > */}
-        <div style={{ width: "min-content" }}>
-          <StandardButton
-            btnAction={() => navigate("/", { replace: true })}
-            disabled={false}
-            btnText="Home"
-          />
+      <div
+        style={{
+          height: "100vh",
+          position: "relative",
+          zIndex: 200,
+          color: theme?.primaryColors.text.hex,
+        }}
+      >
+        <div className=" d-flex justify-content-center align-items-center flex-column h-75 m-0">
+          <h1>{language?.lang_code.error_oh_no}</h1>
+          <h5>
+            {language?.lang_code.error_something_went_wrong}
+            {/* ,{" "} */}
+            {/* {language?.lang_code.error_pkmn_fled}?! */}
+          </h5>
+          {/* <Link
+      to="/"
+      className="text-decoration-none ps-3 mt-4"
+      style={{
+        color: theme?.primaryColors.link.hex,
+      }}
+    > */}
+          <div style={{ width: "min-content" }}>
+            <StandardButton
+              btnAction={() => navigate("/", { replace: true })}
+              disabled={false}
+              btnText="Home"
+            />
+          </div>
+          {/* </Link> */}
         </div>
-        {/* </Link> */}
       </div>
-      <div>
-        {pokemonList &&
-          pokemonList?.map((pkmn, i) => (
-            <div key={i}>
+      <div
+        style={{
+          width: "100vw",
+          height: "100vh",
+          maxWidth: "100vw",
+          maxHeight: "100vh",
+          position: "absolute",
+          top: 0,
+          left: 0,
+          display: "flex",
+          flexWrap: "wrap",
+          zIndex: 0,
+          overflow: "hidden",
+        }}
+      >
+        {errorCards &&
+          errorCards?.map((pkmn, i) => (
+            <div
+              key={pkmn.name + i}
+              style={{ width: isDesktop ? "5%" : isTablet ? "10%" : "20%" }}
+            >
               <img
-                style={isDesktop ? inStyleDesktop(i) : inStyleMobile(i)}
-                key={i}
-                src={pkmn.sprites.other["official-artwork"].front_default}
-                alt={pkmn.forms[0].name}
+                className="rounded"
+                src={pkmn.images.small}
+                alt={pkmn.name}
+                style={{
+                  width: "100%",
+                  opacity: 0.3,
+                }}
               />
             </div>
           ))}
+        {/* {pokemonList &&
+      pokemonList?.map((pkmn, i) => (
+        <div key={i}>
+          <img
+            style={isDesktop ? inStyleDesktop(i) : inStyleMobile(i)}
+            key={i}
+            src={pkmn.sprites.other["official-artwork"].front_default}
+            alt={pkmn.forms[0].name}
+          />
+        </div>
+      ))} */}
       </div>{" "}
     </div>
   );
