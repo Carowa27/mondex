@@ -210,12 +210,20 @@ export const CollectionPage = () => {
           )}
           {collection?.character !== undefined && (
             <span style={{ fontSize: "16px", margin: "0 1rem" }}>
-              Character: {collection.character}
+              {isDesktop ? (
+                <> Character: {collection.character}</>
+              ) : (
+                <> {collection.character}</>
+              )}
             </span>
           )}
           {collection?.artist !== undefined && (
             <span style={{ fontSize: "16px", margin: "0 1rem" }}>
-              Artist: {collection.artist}
+              {isDesktop ? (
+                <> Artist: {collection.artist}</>
+              ) : (
+                <> {collection.artist}</>
+              )}
             </span>
           )}
         </h3>
