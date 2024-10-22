@@ -165,7 +165,7 @@ export const SmallPkmnCard = ({
         itemRef.current?.clientWidth
           ? itemRef.current?.clientWidth
           : window.innerWidth && !isDesktop && !isTablet
-          ? window.innerWidth / 2 - 30
+          ? window.innerWidth / 3 + 30
           : 180
       );
     }
