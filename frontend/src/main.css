@@ -44,3 +44,6 @@ body {
 .clickable-event {
   cursor: pointer;
 }
+a {
+  text-underline-offset: 0.2rem;
+}
