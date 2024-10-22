@@ -29,6 +29,7 @@ export const SmallPkmnCard = ({
 }: IProps) => {
   const { container, updateContainer } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
+  const isTablet = useMediaQuery({ query: variables.breakpoints.tablet });
   const [showCardAlternatives, setShowCardAlternatives] = useState<string>("");
   const [hoverPlusBtn, setHoverPlusBtn] = useState<boolean>(false);
   const [hoverMinusBtn, setHoverMinusBtn] = useState<boolean>(false);
@@ -160,7 +161,13 @@ export const SmallPkmnCard = ({
 
   useEffect(() => {
     if (itemRef) {
-      setCardWidth(itemRef.current?.clientWidth || 180);
+      setCardWidth(
+        itemRef.current?.clientWidth
+          ? itemRef.current?.clientWidth
+          : window.innerWidth && !isDesktop && !isTablet
+          ? window.innerWidth / 2 - 30
+          : 180
+      );
     }
   }, []);
 
