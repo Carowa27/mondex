@@ -180,11 +180,32 @@ export const CollectionPage = () => {
         </div>
       ) : null}
       <div className="d-flex justify-content-between">
-        <h3 className="m-0 align-self-center">
-          {collectionNameToShow}
+        <h3
+          className={
+            "m-0 d-flex align-items-center flex-fill justify-content-between"
+          }
+        >
+          <span className="d-flex flex-wrap pe-2">
+            {collectionNameToShow.length > 9
+              ? collectionNameToShow.slice(0, 9) +
+                "-" +
+                collectionNameToShow.slice(10, collectionNameToShow.length)
+              : collectionNameToShow}
+          </span>
           {collection?.set !== undefined && (
-            <span style={{ fontSize: "16px", margin: "0 1rem" }}>
-              Set id: {collection.set?.id.replace("pt", ".")}
+            <span
+              style={{
+                fontSize: "16px",
+                margin:
+                  isDesktop || isTablet ? "0 2rem 0.5rem 0 " : "0 1rem 0 0",
+                alignSelf: isDesktop ? "end" : "",
+              }}
+            >
+              {isDesktop ? (
+                <> Set id: {collection.set?.id.replace("pt", ".")}</>
+              ) : (
+                <>{collection.set?.id.replace("pt", ".")}</>
+              )}
             </span>
           )}
           {collection?.character !== undefined && (
