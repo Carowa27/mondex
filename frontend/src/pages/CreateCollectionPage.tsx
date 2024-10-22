@@ -318,6 +318,7 @@ export const CreateCollectionPage = () => {
                   onChange={handleCollectionNameChange}
                   className="form-control"
                   placeholder={language?.lang_code.collection_name}
+                  maxLength={20}
                   aria-label="Collection Name"
                   aria-describedby="collection_name"
                 />
