@@ -54,8 +54,7 @@ export const ListCollBanner = ({ collection }: IListProps) => {
                 alt={`${collection.set.name} logo`}
                 style={{
                   maxHeight: "1.5rem",
-                  marginRight: "1rem",
-                  marginLeft: "1rem",
+                  marginRight: "0.5rem",
                 }}
               />
             </div>
