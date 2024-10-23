@@ -47,17 +47,13 @@ export const AboutProject = () => {
           }
         >
           <h5 id="about-card-examprj-header">
-            {language?.name === "English" ? (
-              <>History and goals</>
-            ) : (
-              <>Historia och mål</>
-            )}
+            {language?.name === "English" ? <>History</> : <>Historia</>}
           </h5>
           <p className="m-0">
             {language?.name === "English" ? (
               <>
                 Originally, this is my graduation project from 2023 when I
-                studied to be a Frontend developer.
+                studied to become a Frontend developer.
                 <br /> <br /> Our task was to create an optional project that
                 reflects our knowledge from the education. I chose to create
                 Mondex, an application where the user can search for pokemon
@@ -67,10 +63,7 @@ export const AboutProject = () => {
                 your favorite Pokémon. <br /> <br /> Right now, all data saved
                 in your browser is collected, but you can delete the saved data
                 at any time via your pages. You can also export your data to a
-                csv file. <br /> <br /> In the future, I hope to further develop
-                this app so that it has a proper login, with data saved in the
-                database and opens up opportunities to see other users and even
-                be able to match with cards you want to exchange.
+                csv file.
               </>
             ) : (
               <>
@@ -88,11 +81,6 @@ export const AboutProject = () => {
                 Just nu samlas all data som sparas i din browser, men du kan
                 närsomhelst ta bort den sparade datan via dina sidor. Du kan
                 även exportera din data till en csv fil.
-                <br />
-                <br />I framtiden hoppas jag att vidareutveckla denna app så att
-                den har en ordentlig inloggning, med data sparad i databas och
-                öppna upp för möjligheter att kunna se andra användare och
-                tillochmed kunna matcha med kort man vill byta.
               </>
             )}
           </p>
@@ -122,7 +110,47 @@ export const AboutProject = () => {
           <h5 id="about-card-purpose-header">
             {language?.lang_code.word_purpose}
           </h5>
-          <p className="m-0">{language?.lang_code.about_description_purpose}</p>
+          <p className="m-0">
+            {language?.name === "English" ? (
+              <>
+                As a Pokemon card collector, it's hard to keep track of all the
+                cards in your collection. First, you have different ways to
+                collect, a large collection, collection of the different sets
+                that are released or maybe of favorite pokemon or designer.
+                <br />
+                <br />
+                If you buy an ETB(Elite Trainer Box) you get a booklet that
+                contains all the cards in that set, but it still doesn't really
+                give you a good overview of the collection as a whole. And if
+                you want to collect the whole set, it becomes more difficult
+                when you can't be sure which cards you have or not.
+                <br />
+                <br />
+                This app would make collection easier and more time efficient.
+                The user could check in the app which cards are in the different
+                collections and which are missing.
+              </>
+            ) : (
+              <>
+                Som samlare av Pokémon-kort är det svårt att hålla koll på alla
+                kort som finns i samlingen. Du har för det första olika sätt att
+                samla på, en stor samling, samling av de olika uppsättningar som
+                släpps eller kanske av favorit pokemon eller designer.
+                <br />
+                <br />
+                Om du köper en ETB(Elite Trainer Box) får du ett häfte som
+                innehåller alla kort i den uppsättningen, men den ger dig
+                fortfarande inte riktigt en bra överblick över samlingen som
+                helhet. Och om du vill samla hela setet blir det svårare när du
+                inte kan vara säker på vilka kort du har eller inte.
+                <br />
+                <br />
+                Denna app skulle göra insamlingen enklare och mer tidseffektiv.
+                Användaren skulle kunna kolla i appen vilka kort som finns i de
+                olika kollektionerna och vilka som saknas.
+              </>
+            )}
+          </p>
         </div>
         <div
           className={
@@ -147,7 +175,28 @@ export const AboutProject = () => {
           }
         >
           <h5 id="about-card-goal-header">{language?.lang_code.word_goal}</h5>
-          <p className="m-0">{language?.lang_code.about_description_goal}</p>
+          <p className="m-0">
+            {language?.name === "English" ? (
+              <>
+                In the future, I hope to further develop this app and add proper
+                login functionality with better data storage capabilities.{" "}
+                <br />
+                <br /> The idea is also to open opportunities for users to
+                interact with others by seeing other users' traded/searched
+                collections and thereby facilitate card exchanges.
+              </>
+            ) : (
+              <>
+                I framtiden hoppas jag kunna vidareutveckla den här appen och
+                lägga till ordentlig inloggningsfunktion med bättre
+                datalagringsmöjligheter.
+                <br />
+                <br /> Tanken är också att öppna möjligheter för användare att
+                interagera med andra genom att se andra användares bytes/sökes
+                kollektioner och därigenom underlätta kortbyten.
+              </>
+            )}
+          </p>
         </div>
       </div>
     </>
