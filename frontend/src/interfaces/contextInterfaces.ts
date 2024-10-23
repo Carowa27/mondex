@@ -28,4 +28,5 @@ export interface IContainerContext {
       | "lastOpenedCard"
       | "containerObject"
   ) => void;
+  clearContainer: () => void;
 }

@@ -5,6 +5,8 @@ import { ContainerContext } from "../globals/containerContext";
 import { ICard, ICollection } from "../interfaces/LSInterface";
 import { deleteCollection } from "../functions/collectionFunctions";
 import { useNavigate } from "react-router-dom";
+import { StandardButton } from "./Buttons";
+import { colorModes } from "../globals/theme";
 
 interface IProps {
   changeShowDeleteCardPopUp: () => void;
@@ -91,26 +93,17 @@ export const DeleteCardPopUp = ({
 
         <i>{language?.lang_code.warning_delete}</i>
         <div className="d-flex justify-content-around mt-3">
-          <button
-            className="btn"
-            onClick={changeShowDeleteCardPopUp}
-            style={{
-              border: `1px solid ${theme?.primaryColors.text.hex}`,
-              color: theme?.primaryColors.text.hex,
-            }}
-          >
-            {language?.lang_code.word_cancel}
-          </button>
-          <button
-            className="btn text-danger fw-bolder"
-            onClick={handleSubmitToDelete}
-            style={{
-              border: `1px solid ${theme?.primaryColors.text.hex}`,
-              color: theme?.primaryColors.text.hex,
-            }}
-          >
-            {language?.lang_code.word_delete}
-          </button>
+          <StandardButton
+            btnAction={changeShowDeleteCardPopUp}
+            disabled={false}
+            btnText={`${language?.lang_code.word_cancel}`}
+          />
+          <StandardButton
+            btnAction={handleSubmitToDelete}
+            disabled={false}
+            btnText={`${language?.lang_code.word_delete}`}
+            fontColor={`${theme?.typeColors.fire.hex}`}
+          />
         </div>
       </div>
     </div>

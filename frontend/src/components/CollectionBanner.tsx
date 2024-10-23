@@ -14,6 +14,7 @@ interface IProps {
 export const CollectionBanner = (props: IProps) => {
   const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
+  const isTablet = useMediaQuery({ query: variables.breakpoints.tablet });
   const [cards, setCards] = useState<ICard[] | undefined>();
   const language = container.language;
   const theme = container.theme;
@@ -36,13 +37,15 @@ export const CollectionBanner = (props: IProps) => {
         <>
           <div
             className={
-              window.location.pathname === "/"
+              isTablet && window.location.pathname === "/"
+                ? "mb-2 rounded p-1 px-3"
+                : window.location.pathname === "/"
                 ? "mb-2 rounded p-1 w-100 px-3"
                 : "py-2 col-5 rounded px-3"
             }
             style={{
               border: `1px solid ${theme?.primaryColors.text.hex}`,
-              width: "max-content",
+              width: isDesktop ? "max-content" : isTablet ? "41%" : "100%",
               minWidth: "20%",
               display: "flex",
               flexDirection: "column",
@@ -71,6 +74,7 @@ export const CollectionBanner = (props: IProps) => {
                     style={{
                       maxHeight: "1.5rem",
                       marginRight: "1rem",
+                      marginLeft: "1rem",
                     }}
                   />
                 </div>
@@ -93,11 +97,7 @@ export const CollectionBanner = (props: IProps) => {
               <div>
                 <ul
                   className={
-                    isDesktop
-                      ? cards && cards.length > 2
-                        ? "d-flex flex-wrap justify-content-start align-items-end"
-                        : "d-flex flex-wrap justify-content-start align-items-end"
-                      : "d-flex flex-wrap justify-content-around"
+                    "d-flex flex-wrap justify-content-start align-items-end"
                   }
                   style={{ listStyle: "none", padding: 0, gap: "1rem" }}
                 >
@@ -106,11 +106,11 @@ export const CollectionBanner = (props: IProps) => {
                       sortedCardsForBanner
                         .slice(
                           0,
-                          isDesktop
-                            ? window.location.pathname !== "/"
-                              ? 7
-                              : 4
-                            : 2
+                          window.location.pathname !== "/" && isDesktop
+                            ? 7
+                            : isDesktop
+                            ? 4
+                            : 3
                         )
                         .map((card) => (
                           <li
@@ -126,9 +126,11 @@ export const CollectionBanner = (props: IProps) => {
                           >
                             <div
                               style={
-                                isDesktop
-                                  ? { aspectRatio: "3/4", height: "7.5rem" }
-                                  : { height: "8rem" }
+                                isDesktop || isTablet
+                                  ? { height: "8rem" }
+                                  : window.location.pathname === "/"
+                                  ? { height: "7.5rem" }
+                                  : { height: "8.5rem" }
                               }
                             >
                               <img

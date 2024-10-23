@@ -4,20 +4,22 @@ import { variables } from "../../globals/variables";
 import { useContext, useState } from "react";
 import { lang } from "../../globals/language/language";
 import { colorModes } from "../../globals/theme";
-import { useAuth0 } from "@auth0/auth0-react";
 import { ContainerContext } from "../../globals/containerContext";
+import { IMobileMenuParams } from "./Layout";
 
-export const Menu = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+export const Menu = ({
+  isMobileMenuOpened,
+  changeIsMobileMenuOpen,
+}: IMobileMenuParams) => {
   const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
+  const isTablet = useMediaQuery({ query: variables.breakpoints.tablet });
   const { container, updateContainer } = useContext(ContainerContext);
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
   const language = container.language;
   const theme = container.theme;
   return (
     <>
-      {isDesktop ? (
+      {isDesktop || isTablet ? (
         <div
           className="d-flex justify-content-around py-2"
           style={{
@@ -120,7 +122,7 @@ export const Menu = () => {
                     {" "}
                     {language?.lang_code.word_language}
                   </span>
-                  <i className="bi bi-chevron-compact-up ps-1"></i>
+                  <i className="bi bi-chevron-up ps-1"></i>
                 </div>
                 <div
                   className="d-flex flex-wrap justify-content-around p-2 rounded-bottom border-top-0 border-right-0"
@@ -171,7 +173,7 @@ export const Menu = () => {
                 <span id="main-menu-language?">
                   {language?.lang_code.word_language}
                 </span>
-                <i className="bi bi-chevron-compact-down ps-1"></i>
+                <i className="bi bi-chevron-down ps-1"></i>
               </div>
             </>
           )}
@@ -193,34 +195,36 @@ export const Menu = () => {
         </div>
       ) : (
         <>
-          {isMobileMenuOpen ? (
+          {isMobileMenuOpened ? (
             <div
               id="main-menu-container"
-              className="d-flex flex-column me-3 pe-2 mt-2 rounded-bottom"
+              className="d-flex flex-column pe-4 mt-2 rounded-bottom"
               style={{
                 color: `${theme?.primaryColors.link.hex}`,
                 position: "absolute",
                 right: 0,
                 cursor: "pointer",
-                zIndex: "200",
+                zIndex: "500",
                 minWidth: "fit-content",
-                width: "120px",
+                width: "40%",
+                gap: "0.3rem",
                 backgroundColor: `${theme?.primaryColors.background.hex}`,
                 borderLeft: `2px solid rgba(${theme?.typeColors.water.rgb},0.8)`,
+                borderBottom: `1px solid rgba(${theme?.typeColors.water.rgb},0.8)`,
               }}
             >
-              <div onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+              <div onClick={() => changeIsMobileMenuOpen(!isMobileMenuOpened)}>
                 <span id="main-menu" className="ps-2">
                   Menu
                 </span>
-                <i className="bi bi-chevron-compact-up ps-2"></i>
+                <i className="bi bi-chevron-up ps-2"></i>
               </div>
 
               <Link
                 className="text-decoration-none"
                 to="./search"
                 onClick={() => {
-                  setIsMobileMenuOpen(!isMobileMenuOpen),
+                  changeIsMobileMenuOpen(false),
                     window.scrollTo({
                       top: 0,
                       behavior: "smooth",
@@ -238,7 +242,7 @@ export const Menu = () => {
                 className="text-decoration-none"
                 to="./about"
                 onClick={() => {
-                  setIsMobileMenuOpen(!isMobileMenuOpen),
+                  changeIsMobileMenuOpen(false),
                     window.scrollTo({
                       top: 0,
                       behavior: "smooth",
@@ -252,45 +256,47 @@ export const Menu = () => {
                   {language?.lang_code.about_about_project}
                 </span>
               </Link>
-              {isAuthenticated ? (
-                <>
-                  <Link
-                    className="text-decoration-none"
-                    to="./userpage"
-                    onClick={() => {
-                      setIsMobileMenuOpen(!isMobileMenuOpen),
-                        window.scrollTo({
-                          top: 0,
-                          behavior: "smooth",
-                        });
-                    }}
-                    style={{
-                      color: theme?.primaryColors.link.hex,
-                    }}
-                  >
-                    <span id="main-menu-mypages" className="ps-2">
-                      {language?.lang_code.my_pages_my_pages}
-                    </span>
-                  </Link>
-                  <span
+              {
+                container.user ? (
+                  <>
+                    <Link
+                      className="text-decoration-none"
+                      to="./userpage"
+                      onClick={() => {
+                        changeIsMobileMenuOpen(false),
+                          window.scrollTo({
+                            top: 0,
+                            behavior: "smooth",
+                          });
+                      }}
+                      style={{
+                        color: theme?.primaryColors.link.hex,
+                      }}
+                    >
+                      <span id="main-menu-mypages" className="ps-2">
+                        {language?.lang_code.my_pages_my_pages}
+                      </span>
+                    </Link>
+                    {/* <span
                     id="main-menu-logout"
                     className="ps-2"
                     onClick={() => logout()}
                   >
                     {language?.lang_code.account_logout}
-                  </span>
-                </>
-              ) : (
-                <span
-                  id="main-menu-login"
-                  className="ps-2"
-                  onClick={() => (
-                    loginWithRedirect(), setIsMobileMenuOpen(!isMobileMenuOpen)
-                  )}
-                >
-                  {language?.lang_code.account_login}
-                </span>
-              )}
+                  </span> */}
+                  </>
+                ) : null
+                // (
+                //   <span
+                //     id="main-menu-login"
+                //     className="ps-2"
+                //     onClick={() => (
+                //       loginWithRedirect(), setIsMobileMenuOpen(!isMobileMenuOpen)
+                //     )}
+                //   >
+                //     {language?.lang_code.account_login}
+                //   </span>)
+              }
               <div className="d-flex justify-content-around pt-1 pb-1">
                 <span
                   id="main-menu-language-se"
@@ -300,7 +306,7 @@ export const Menu = () => {
                       : "fw-normal ps-2 clickable-event"
                   }
                   onClick={() => (
-                    setIsMobileMenuOpen(false),
+                    changeIsMobileMenuOpen(false),
                     updateContainer(lang.SE, "language")
                   )}
                 >
@@ -314,7 +320,7 @@ export const Menu = () => {
                       : "fw-normal clickable-event"
                   }
                   onClick={() => (
-                    setIsMobileMenuOpen(false),
+                    changeIsMobileMenuOpen(false),
                     updateContainer(lang.EN, "language")
                   )}
                 >
@@ -324,32 +330,33 @@ export const Menu = () => {
             </div>
           ) : (
             <div
-              className="d-flex flex-column me-3 px-2 mt-2 "
+              className="d-flex flex-column pe-4 ps-2 mt-2"
               style={{
                 color: `${theme?.primaryColors.link.hex}`,
                 position: "absolute",
                 right: 0,
                 cursor: "pointer",
-                zIndex: "200",
-                width: "120px",
+                zIndex: "500",
+                minWidth: "fit-content",
+                width: "40%", //"120px",
                 borderLeft: `2px solid rgba(${theme?.typeColors.water.rgb},0.8)`,
               }}
             >
               <div
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                onClick={() => changeIsMobileMenuOpen(!isMobileMenuOpened)}
                 style={{
                   width: "110px",
                 }}
               >
                 <span id="main-menu">Menu</span>
-                <i className="bi bi-chevron-compact-down ps-2"></i>
+                <i className="bi bi-chevron-down ps-2"></i>
               </div>
             </div>
           )}
           <div
             id="main-menu-theme?-container"
             className="ps-3 pe-2 me-3 mt-2"
-            style={{ zIndex: 300, position: "absolute", right: 0 }}
+            style={{ zIndex: 600, position: "absolute", right: 0 }}
           >
             {theme?.name === "light" ? (
               <i

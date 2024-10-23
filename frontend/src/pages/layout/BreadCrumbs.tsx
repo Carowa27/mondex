@@ -16,7 +16,7 @@ export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
   const theme = container.theme;
   return (
     <>
-      {isDesktop && (
+      {isDesktop ? (
         <div className="d-flex align-items-start pb-2 pe-4 fw-light fs-6 fst-italic d-flex align-items-end">
           {pageParam === "about" ? (
             <p className="m-0">
@@ -151,6 +151,26 @@ export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
             </p>
           ) : null}
         </div>
+      ) : (
+        <>
+          {pageParam === "collection" ? (
+            <p
+              className="m-0"
+              style={{
+                color: theme?.primaryColors.breadcrumbText.hex,
+              }}
+            >
+              <Link
+                to="/all-collections"
+                style={{
+                  color: theme?.primaryColors.breadcrumbText.hex,
+                }}
+              >
+                <span>{language?.lang_code.collection_all_collections}</span>
+              </Link>
+            </p>
+          ) : null}
+        </>
       )}
     </>
   );

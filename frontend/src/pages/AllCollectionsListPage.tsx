@@ -7,13 +7,15 @@ import { Pagination } from "./layout/Pagination";
 import { BreadCrumbs } from "./layout/BreadCrumbs";
 import { ContainerContext } from "../globals/containerContext";
 import { ICollection } from "../interfaces/LSInterface";
+import { ListCollBanner } from "../components/ListCollBanner";
 
 export const AllCollectionsListPage = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
+  const isTablet = useMediaQuery({ query: variables.breakpoints.tablet });
   const { container } = useContext(ContainerContext);
   const [page, setPage] = useState<number>(1);
   const [start, setStart] = useState<number>(0);
-  const [end, setEnd] = useState<number>(isDesktop ? 21 : 13);
+  const [end, setEnd] = useState<number>(isDesktop ? 24 : isTablet ? 14 : 7);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const language = container.language;
   const theme = container.theme;
@@ -24,18 +26,28 @@ export const AllCollectionsListPage = () => {
     if (isDesktop) {
       if (newPage === 1) {
         setStart(0);
-        setEnd(21);
+        setEnd(24);
       } else {
-        setStart(21 * newPage - 21);
-        setEnd(21 * newPage);
+        setStart(24 * newPage - 24);
+        setEnd(24 * newPage);
       }
     } else {
-      if (newPage === 1) {
-        setStart(0);
-        setEnd(13);
+      if (isTablet) {
+        if (newPage === 1) {
+          setStart(0);
+          setEnd(14);
+        } else {
+          setStart(14 * newPage - 14);
+          setEnd(14 * newPage);
+        }
       } else {
-        setStart(13 * newPage - 13);
-        setEnd(13 * newPage);
+        if (newPage === 1) {
+          setStart(0);
+          setEnd(7);
+        } else {
+          setStart(7 * newPage - 7);
+          setEnd(7 * newPage);
+        }
       }
     }
   };
@@ -75,36 +87,25 @@ export const AllCollectionsListPage = () => {
                 </div>
               </div>
               <div
-                className="w-100 d-flex justify-content-center"
-                style={{ height: "80vh" }}
+                // className="w-100 d-flex justify-content-center"
+                style={{
+                  height: "80vh",
+                  margin: isTablet || !isDesktop ? "0 2rem" : "",
+                }}
               >
                 {collections && collections.length !== 0 ? (
                   <div
+                    style={{ gap: "1.5rem" }}
                     className={
                       isDesktop
-                        ? "w-100 rounded d-flex mx-3 mt-2 pt-3 flex-wrap justify-content-between"
-                        : "w-100 rounded d-flex mx-3 mt-2 py-4 flex-column"
+                        ? "w-100 rounded d-flex mx-3 mt-2 pt-3 flex-wrap justify-content-center"
+                        : isTablet
+                        ? "w-100 rounded d-flex flex-row flex-wrap justify-content-between mt-3"
+                        : "w-100 rounded d-flex flex-column mt-3"
                     }
                   >
                     {collections.slice(start, end).map((coll: ICollection) => (
-                      <div
-                        className={isDesktop ? "mx-4 w-25" : "mx-4 w-100 mb-4"}
-                        key={coll.id}
-                      >
-                        <Link
-                          to={`/collection/${coll.collection_name}`}
-                          style={{
-                            color: theme?.primaryColors.link.hex,
-                          }}
-                        >
-                          <p className="fw-bold m-0">
-                            {coll.collection_name.replace(/_/g, " ")}
-                            {coll.set?.id ? (
-                              <i className="fw-normal">, {coll.set.id}</i>
-                            ) : null}
-                          </p>
-                        </Link>
-                      </div>
+                      <ListCollBanner collection={coll} key={coll.id} />
                     ))}
                   </div>
                 ) : (
@@ -113,7 +114,7 @@ export const AllCollectionsListPage = () => {
               </div>
               {collections && (
                 <Pagination
-                  pageSize={isDesktop ? 21 : 13}
+                  pageSize={isDesktop ? 21 : 7}
                   totalCount={collections.length}
                   page={page}
                   updateSearch={updateSearch}

@@ -23,12 +23,16 @@ export const addCardToCollection = (
       cardToFind.card.id === (cardToAdd ? cardToAdd?.card.id : cardFromApi?.id)
   );
   const updatedCollection =
-    cardToAdd === undefined && cardIndex === -1
+    (cardToAdd === undefined && cardIndex === -1) ||
+    (cardFromApi === undefined && cardIndex === -1)
       ? {
           ...collections[collectionIndex],
           cards_in_collection: [
             ...collections[collectionIndex].cards_in_collection,
-            { card: cardFromApi, amount: 1 },
+            {
+              card: cardFromApi ? cardFromApi : cardToAdd && cardToAdd.card,
+              amount: 1,
+            },
           ],
         }
       : {
@@ -167,8 +171,8 @@ export const sortPkmnCards = (cards: ICard[], coll: ICollection) => {
       if (releaseDateA < releaseDateB) return -1;
       if (releaseDateA > releaseDateB) return 1;
 
-      const numberA = parseInt(a.card.number, 10);
-      const numberB = parseInt(b.card.number, 10);
+      const numberA = parseInt(a.card.number.replace(/[^0-9{}]/g, ""), 10);
+      const numberB = parseInt(b.card.number.replace(/[^0-9{}]/g, ""), 10);
 
       if (isNaN(numberA) || isNaN(numberB)) {
         throw new Error("Invalid card number");
@@ -178,8 +182,8 @@ export const sortPkmnCards = (cards: ICard[], coll: ICollection) => {
     });
   } else {
     return cards.sort((a, b) => {
-      const numberA = parseInt(a.card.number, 10);
-      const numberB = parseInt(b.card.number, 10);
+      const numberA = parseInt(a.card.number.replace(/[^0-9{}]/g, ""), 10);
+      const numberB = parseInt(b.card.number.replace(/[^0-9{}]/g, ""), 10);
 
       if (isNaN(numberA) || isNaN(numberB)) {
         throw new Error("Invalid card number");

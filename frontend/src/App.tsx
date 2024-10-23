@@ -31,6 +31,9 @@ function App() {
     updateContainer: (updatedData: ILSContainer) => {
       return;
     },
+    clearContainer: () => {
+      return;
+    },
   });
   container.updateContainer = (
     updatedData:
@@ -87,6 +90,11 @@ function App() {
         ...prevState,
         ...(updatedData as ILSContainer),
       }));
+  };
+  container.clearContainer = () => {
+    setContainer({
+      container: { language: lang.EN, theme: colorModes.Light },
+    } as IContainerContext);
   };
   updateMondexLs(container.container);
   return (

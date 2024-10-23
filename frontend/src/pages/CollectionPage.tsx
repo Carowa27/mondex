@@ -12,10 +12,12 @@ import { ContainerContext } from "../globals/containerContext";
 import { ICard, ICollection } from "../interfaces/LSInterface";
 import { getMondexLs } from "../functions/LSFunctions";
 import { sortArtistorCharCollRes } from "../functions/cardFunctions";
+import { Link } from "react-router-dom";
 
 export const CollectionPage = () => {
   const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
+  const isTablet = useMediaQuery({ query: variables.breakpoints.tablet });
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [cardList, setCardList] = useState<ICard[]>([]);
   const [cardsFromApiList, setCardsFromApiList] = useState<IPkmnCard[]>([]);
@@ -27,14 +29,19 @@ export const CollectionPage = () => {
     totalCount: number;
   }>();
   const [page, setPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(50);
   const [start, setStart] = useState<number>(0);
-  const [end, setEnd] = useState<number>(isDesktop ? 50 : 20);
+  const [end, setEnd] = useState<number>(isDesktop ? 50 : isTablet ? 20 : 10);
   const [showDeleteCollection, setShowDeleteCollection] =
     useState<boolean>(false);
   const language = container.language;
   const collectionName = window.location.href.split("/")[4];
   const collectionNameToShow = collectionName.replace(/_/g, " ");
   const theme = container.theme;
+
+  useEffect(() => {
+    setPageSize(isDesktop ? 48 : isTablet ? 16 : 8);
+  }, []);
 
   const getData = async () => {
     if (collectionName) {
@@ -52,22 +59,12 @@ export const CollectionPage = () => {
     setCardsFromApiList([]);
     setIsLoading(true);
     if (collection?.set !== undefined) {
-      if (isDesktop) {
-        if (newPage === 1) {
-          setStart(0);
-          setEnd(50);
-        } else {
-          setStart(50 * newPage - 50);
-          setEnd(50 * newPage);
-        }
+      if (newPage === 1) {
+        setStart(0);
+        setEnd(pageSize);
       } else {
-        if (newPage === 1) {
-          setStart(0);
-          setEnd(20);
-        } else {
-          setStart(20 * newPage - 20);
-          setEnd(20 * newPage);
-        }
+        setStart(pageSize * newPage - pageSize);
+        setEnd(pageSize * newPage);
       }
     }
   };
@@ -86,25 +83,25 @@ export const CollectionPage = () => {
 
   useEffect(() => {
     if (collection) {
-      if (cardList.length !== 0 && collection.set === undefined) {
-        setIsLoading(false);
-      }
-      if (cardsFromApiList.length !== 0 && collection.set !== undefined) {
-        setIsLoading(false);
-      }
-      if (collection.cards_in_collection.length === 0) {
+      if (
+        collection.set === undefined &&
+        collection.artist === undefined &&
+        collection.character === undefined
+      ) {
         setIsLoading(false);
       }
     }
-  }, [cardList, cardsFromApiList, collection]);
+  }, [collection]);
 
   const getPkmnToSet = async () => {
     if (collection && collection.set !== undefined) {
       await getPkmnFromApi(
         `?q=!set.id:%22${collection.set.id}%22&orderBy=number`,
-        page
+        page,
+        pageSize
       ).then((res) => {
         if (res) {
+          setIsLoading(false);
           setCardsFromApiList(res.data as IPkmnCard[]);
           setPageInfo({
             page: res.page,
@@ -115,36 +112,38 @@ export const CollectionPage = () => {
       });
     }
     if (collection && collection.character !== undefined) {
-      await getPkmnFromApi(`?q=name:"*${collection.character}*"`, page).then(
-        (res) => {
-          if (res) {
-            setCardsFromApiList(
-              sortArtistorCharCollRes(res.data as IPkmnCard[])
-            );
-            setPageInfo({
-              page: res.page,
-              pageSize: res.pageSize,
-              totalCount: res.totalCount,
-            });
-          }
+      await getPkmnFromApi(
+        `?q=name:"*${collection.character}*"`,
+        page,
+        pageSize
+      ).then((res) => {
+        if (res) {
+          setIsLoading(false);
+          setCardsFromApiList(sortArtistorCharCollRes(res.data as IPkmnCard[]));
+          setPageInfo({
+            page: res.page,
+            pageSize: res.pageSize,
+            totalCount: res.totalCount,
+          });
         }
-      );
+      });
     }
     if (collection && collection.artist !== undefined) {
-      await getPkmnFromApi(`?q=artist:"*${collection.artist}*"`, page).then(
-        (res) => {
-          if (res) {
-            setCardsFromApiList(
-              sortArtistorCharCollRes(res.data as IPkmnCard[])
-            );
-            setPageInfo({
-              page: res.page,
-              pageSize: res.pageSize,
-              totalCount: res.totalCount,
-            });
-          }
+      await getPkmnFromApi(
+        `?q=artist:"*${collection.artist}*"`,
+        page,
+        pageSize
+      ).then((res) => {
+        if (res) {
+          setIsLoading(false);
+          setCardsFromApiList(sortArtistorCharCollRes(res.data as IPkmnCard[]));
+          setPageInfo({
+            page: res.page,
+            pageSize: res.pageSize,
+            totalCount: res.totalCount,
+          });
         }
-      );
+      });
     }
   };
 
@@ -182,44 +181,128 @@ export const CollectionPage = () => {
         </div>
       ) : null}
       <div className="d-flex justify-content-between">
-        <h3 className="m-0 align-self-center">
-          {collectionNameToShow}
+        <h3
+          className={"m-0 d-flex align-items-center flex-fill"}
+          style={
+            !isDesktop && !isTablet
+              ? { display: "flex", justifyContent: "space-between" }
+              : {}
+          }
+        >
+          <span className="d-flex flex-wrap pe-2">
+            {collectionNameToShow.length > 9 &&
+            !isDesktop &&
+            !isTablet &&
+            collection?.set ? (
+              <>
+                <Link
+                  to="/userpage"
+                  className="text-decoration-none"
+                  style={{ color: "inherit" }}
+                >
+                  <i className="bi bi-chevron-left me-2"></i>
+                </Link>
+                {collectionNameToShow.slice(0, 9)} -
+                <br />
+                {collectionNameToShow.slice(10, collectionNameToShow.length)}
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/userpage"
+                  className="text-decoration-none"
+                  style={{ color: "inherit" }}
+                >
+                  <i className="bi bi-chevron-left me-2"></i>
+                </Link>{" "}
+                {collectionNameToShow}
+              </>
+            )}
+          </span>
+          {collection?.set !== undefined && !isDesktop && !isTablet && (
+            <div style={{}}>
+              <img
+                src={collection?.set?.images.symbol}
+                alt={`${collection?.set?.name} logo`}
+                style={{
+                  maxHeight: isDesktop ? "5rem" : isTablet ? "3rem" : "2rem",
+                }}
+              />
+            </div>
+          )}
           {collection?.set !== undefined && (
-            <span style={{ fontSize: "16px", margin: "0 1rem" }}>
-              Set id: {collection.set?.id.replace("pt", ".")}
+            <span
+              style={{
+                fontSize: "16px",
+                margin:
+                  isDesktop || isTablet ? "0 2rem 0.5rem 0 " : "0 1.5rem 0 0",
+                alignSelf: isDesktop ? "end" : "",
+              }}
+            >
+              {isDesktop ? (
+                <> Set id: {collection.set?.id.replace("pt", ".")}</>
+              ) : isTablet ? (
+                <>{collection.set?.id.replace("pt", ".")}</>
+              ) : (
+                <>{collection.set?.id.replace("pt", ".")}</>
+              )}
             </span>
           )}
           {collection?.character !== undefined && (
-            <span style={{ fontSize: "16px", margin: "0 1rem" }}>
-              Character: {collection.character}
+            <span style={{ fontSize: "16px", margin: "0.5rem 1rem 0 1rem" }}>
+              {isDesktop || isTablet ? (
+                <> Character: {collection.character}</>
+              ) : (
+                <> {collection.character}</>
+              )}
             </span>
           )}
           {collection?.artist !== undefined && (
-            <span style={{ fontSize: "16px", margin: "0 1rem" }}>
-              Artist: {collection.artist}
+            <span style={{ fontSize: "16px", margin: "0.5rem 1rem 0 1rem" }}>
+              {isDesktop || isTablet ? (
+                <> Artist: {collection.artist}</>
+              ) : (
+                <> {collection.artist}</>
+              )}
             </span>
           )}
         </h3>
         {collection?.set !== undefined && (
-          <div style={{ alignSelf: "center" }}>
-            {isDesktop ? (
-              <img
-                src={collection?.set?.images.logo}
-                alt={`${collection?.set?.name} logo`}
+          <>
+            {isTablet || isDesktop ? (
+              <div
                 style={{
-                  maxHeight: "5rem",
+                  alignSelf: "center",
+                  zIndex: 40,
+                  position: "absolute",
+                  left: "50vw",
+                  top:
+                    collectionName.length > 9 && !isDesktop && !isTablet
+                      ? "5rem"
+                      : "4rem",
+                  transform: "translate(-50%, -50%)",
                 }}
-              />
-            ) : (
-              <p>{collection.set?.name}</p>
-            )}
-          </div>
+              >
+                <img
+                  src={collection?.set?.images.logo}
+                  alt={`${collection?.set?.name} logo`}
+                  style={{
+                    maxHeight: isDesktop ? "5rem" : isTablet ? "3rem" : "2rem",
+                  }}
+                />
+              </div>
+            ) : null}
+          </>
         )}
         <div className="d-flex flex-column align-items-end">
           <BreadCrumbs pageParam="collection" collectionName={collectionName} />
           {collection?.collection_name !== `Main_Collection` ? (
             <h5
-              className="bi bi-trash3 pe-4 m-0"
+              className={
+                isDesktop
+                  ? "bi bi-trash3 pe-4 m-0"
+                  : "bi bi-trash3 pe-4 m-0 pt-2"
+              }
               onClick={() => setShowDeleteCollection(true)}
             ></h5>
           ) : null}
@@ -251,7 +334,7 @@ export const CollectionPage = () => {
                     className={
                       isDesktop
                         ? "d-flex flex-wrap p-0"
-                        : "d-flex flex-wrap justify-content-between p-0"
+                        : "d-flex flex-wrap justify-content-evenly p-0"
                     }
                     style={{ listStyle: "none", gap: "1rem" }}
                   >
@@ -280,12 +363,12 @@ export const CollectionPage = () => {
                   </ul>
                 ) : (
                   <ul
-                    className={
+                    className={"d-flex flex-wrap justify-content-evenly p-0"}
+                    style={
                       isDesktop
-                        ? "d-flex flex-wrap justify-content-around p-0"
-                        : "d-flex flex-wrap justify-content-between p-0"
+                        ? { listStyle: "none", gap: "1rem" }
+                        : { listStyle: "none", gap: "1rem" }
                     }
-                    style={{ listStyle: "none" }}
                   >
                     {cardsFromApiList.map((cardFromApi: IPkmnCard) => (
                       <li
@@ -325,7 +408,7 @@ export const CollectionPage = () => {
                   <div className="d-flex justify-content-center mt-auto">
                     <Pagination
                       page={page}
-                      pageSize={isDesktop ? 50 : 20}
+                      pageSize={pageSize}
                       totalCount={cardList.length}
                       updateSearch={updateSearch}
                     />

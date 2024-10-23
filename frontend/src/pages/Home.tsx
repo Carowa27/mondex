@@ -11,11 +11,12 @@ import { getMondexLs, updateMondexLs } from "../functions/LSFunctions";
 import { ContainerContext } from "../globals/containerContext";
 import { getToday } from "../functions/dateFunctions";
 import { getValueOfCard } from "../functions/dataFunctions";
+import { StandardButton } from "../components/Buttons";
 
 export const Home = () => {
   const { container, updateContainer } = useContext(ContainerContext);
-  // CHANGE: all LS should be wrapped up in ONE LS object
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
+  const isTablet = useMediaQuery({ query: variables.breakpoints.tablet });
   const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -32,9 +33,6 @@ export const Home = () => {
   const changeShowPkmnInfo = () => {
     setSeeBigCard(false);
   };
-  // CHANGE: should check if saved data in LS
-  // IF YES: show data that is fetched from LS
-  // IF NO: show text "no cards saved"
 
   const getLSData = () => {
     let userData = getMondexLs();
@@ -172,27 +170,37 @@ export const Home = () => {
               <div
                 className={
                   isDesktop
-                    ? "d-flex flex-row w-100 flex-wrap justify-content-evenly"
-                    : "d-flex flex-column w-25 align-items-center flex-fill ms-3"
+                    ? "d-flex flex-row w-100 flex-wrap"
+                    : isTablet
+                    ? "d-flex flex-column w-25 h-100 justify-content-center align-items-center"
+                    : "d-flex flex-column w-50 align-items-center flex-fill"
                 }
               >
-                {!isDesktop && (
-                  <h6
-                    className={
-                      isDesktop ? "align-self-start w-50" : "text-center"
-                    }
-                  >
+                {isTablet && (
+                  <h5 className={" d-flex justify-content-center mt-3 w-100"}>
                     {language?.lang_code.your_last_searched}
+                  </h5>
+                )}
+                {!isDesktop && !isTablet && (
+                  <h6 className={"text-center"}>
+                    {language?.name === "English" ? (
+                      "Last searched card"
+                    ) : (
+                      <>
+                        Ditt senast sökta
+                        <br /> kort
+                      </>
+                    )}
                   </h6>
                 )}
-                <div
-                  className={
-                    isDesktop
-                      ? "m-0 w-50"
-                      : "w-100 d-flex flex-column justify-content-evenly m-0"
-                  }
-                >
-                  {isDesktop && (
+                {isDesktop && (
+                  <div
+                    className={
+                      isDesktop
+                        ? "m-0 w-50"
+                        : "w-100 d-flex flex-column justify-content-evenly m-0"
+                    }
+                  >
                     <h6
                       className={
                         isDesktop ? "align-self-start w-100" : "text-center"
@@ -200,8 +208,6 @@ export const Home = () => {
                     >
                       {language?.lang_code.your_last_searched}
                     </h6>
-                  )}
-                  {isDesktop ? (
                     <>
                       <span>
                         <b>Card: </b>
@@ -239,23 +245,13 @@ export const Home = () => {
                         $
                       </span>
                     </>
-                  ) : (
-                    <>
-                      <span>{container.lastOpenedCard.name}</span>
-                      <span className={"align-self-end"}>
-                        {container.lastOpenedCard &&
-                          getValueOfCard({
-                            card: container.lastOpenedCard,
-                            amount: 0,
-                          })}
-                        $
-                      </span>
-                    </>
-                  )}
-                </div>
+                  </div>
+                )}
                 <div
                   className={isDesktop ? "" : "d-flex justify-content-center"}
-                  style={{ width: "10rem" }}
+                  style={{
+                    width: isDesktop ? "10rem" : isTablet ? "12.5rem" : "80%",
+                  }}
                   onClick={() => {
                     setSeeBigCard(true);
                     setInfoPkmnCard(container?.lastOpenedCard);
@@ -263,20 +259,33 @@ export const Home = () => {
                 >
                   <img
                     className="rounded"
-                    style={{ width: isDesktop ? "100%" : "40%" }}
+                    style={{ width: "100%" }}
                     src={container.lastOpenedCard.images.small}
                     alt={container.lastOpenedCard.name}
                   />
                 </div>
-                {/* <p
-                  className={
-                    isDesktop
-                      ? "m-0"
-                      : "w-100 d-flex justify-content-evenly m-0"
-                  }
-                >
-                  <span>{container.lastOpenedCard.name}</span>
-                </p> */}
+                {!isDesktop && (
+                  <>
+                    <p
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-evenly",
+                        width: "100%",
+                        margin: isTablet ? "0 1rem 0 1rem" : "",
+                      }}
+                    >
+                      <span>{container.lastOpenedCard?.name}</span>
+                      <span className={"align-self-end"}>
+                        {container.lastOpenedCard &&
+                          getValueOfCard({
+                            card: container.lastOpenedCard,
+                            amount: 1,
+                          })}
+                        $
+                      </span>
+                    </p>
+                  </>
+                )}
               </div>
             ) : null}
             {container.mostValuableCard ? (
@@ -284,20 +293,45 @@ export const Home = () => {
                 className={
                   isDesktop
                     ? "d-flex flex-row w-100 flex-wrap"
-                    : "d-flex flex-column w-25 align-items-center flex-fill ms-3"
+                    : isTablet && !container.lastOpenedCard
+                    ? "d-flex flex-row w-100 flex-wrap"
+                    : isTablet && container.lastOpenedCard
+                    ? "d-flex flex-row w-75 flex-wrap ps-5"
+                    : "d-flex flex-column w-50 align-items-center flex-fill"
                 }
               >
-                <h5
-                  className={
-                    isDesktop ? "align-self-start mt-3 w-100" : "text-center"
-                  }
-                >
-                  {language?.lang_code.todays_valuable_card}
-                </h5>
+                {(isTablet || isDesktop) && (
+                  <h5
+                    className={
+                      isTablet || isDesktop
+                        ? "align-self-start mt-3 w-100"
+                        : "text-center"
+                    }
+                  >
+                    {language?.name === "English"
+                      ? "Most Valuable Card"
+                      : "Mest värdefulla kortet"}
+                  </h5>
+                )}
+                {!isDesktop && !isTablet && (
+                  <h6
+                    className={
+                      isTablet || isDesktop
+                        ? "align-self-start mt-3 w-100"
+                        : "text-center"
+                    }
+                  >
+                    {language?.name === "English"
+                      ? "Most Valuable Card"
+                      : "Mest värdefulla kortet"}
+                  </h6>
+                )}
 
                 <div
                   className={isDesktop ? "" : "d-flex justify-content-center"}
-                  style={{ width: "12.5rem" }}
+                  style={{
+                    width: isTablet || isDesktop ? "12.5rem" : "80%",
+                  }}
                   onClick={() => {
                     setSeeBigCard(true);
                     setInfoPkmnCard(mostValuableCard);
@@ -305,20 +339,25 @@ export const Home = () => {
                 >
                   <img
                     className="rounded"
-                    style={{ width: isDesktop ? "100%" : "40%" }}
+                    style={{
+                      width: isTablet || isDesktop ? "100%" : "100%",
+                    }}
                     src={mostValuableCard?.images.small}
                     alt={mostValuableCard?.name}
                   />
                 </div>
-                <p
+                <div
                   className={
-                    isDesktop
-                      ? "m-0 w-50 ps-3 pt-3"
+                    isTablet || isDesktop
+                      ? "m-0 ps-3 pt-3"
                       : "w-100 d-flex flex-column justify-content-evenly m-0"
                   }
+                  style={{
+                    width: isDesktop ? "50%" : isTablet ? "auto" : "auto",
+                  }}
                 >
-                  {isDesktop ? (
-                    <>
+                  {isTablet || isDesktop ? (
+                    <p>
                       <span>
                         <b>Card: </b>
                         {mostValuableCard?.name}
@@ -336,7 +375,7 @@ export const Home = () => {
                       </span>
                       <br />
                       <span>
-                        <b>Release date: </b>
+                        <b>{language?.lang_code.word_release_date}: </b>
                         {mostValuableCard?.set.releaseDate}
                       </span>
                       <br />
@@ -349,7 +388,7 @@ export const Home = () => {
                         style={{
                           fontSize: "48px",
                           display: "flex",
-                          justifyContent: "center",
+                          justifyContent: isDesktop ? "center" : "start",
                           alignItems: "center",
                           height: "53%",
                         }}
@@ -361,10 +400,18 @@ export const Home = () => {
                           })}
                         $
                       </span>
-                    </>
+                    </p>
                   ) : (
-                    <>
+                    <p
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-evenly",
+                      }}
+                    >
                       <span>{mostValuableCard?.name}</span>
+                      {!container.lastOpenedCard && (
+                        <span>{mostValuableCard?.set.name}</span>
+                      )}
                       <span className={"align-self-end"}>
                         {mostValuableCard &&
                           getValueOfCard({
@@ -373,10 +420,41 @@ export const Home = () => {
                           })}
                         $
                       </span>
-                    </>
+                    </p>
                   )}
-                </p>
-                <span style={{ fontSize: "x-small" }}>
+                </div>
+                {isTablet && !container.lastOpenedCard && (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      justifyContent: "space-evenly",
+                      gap: "1rem",
+                      width: "40%",
+                      marginTop: "0.5rem",
+                      marginLeft: "auto",
+                    }}
+                  >
+                    {nextValuableCard?.map((card) => (
+                      <img
+                        key={card.id}
+                        style={{
+                          width: "6rem",
+                          aspectRatio: "3/4",
+                          // height: "auto",
+                          // alignSelf: "end",
+                        }}
+                        src={card.images.small}
+                        alt={`${card.name} card`}
+                        onClick={() => {
+                          setSeeBigCard(true);
+                          setInfoPkmnCard(card);
+                        }}
+                      />
+                    ))}
+                  </div>
+                )}
+                <span style={{ fontSize: "x-small", width: "100%" }}>
                   {language?.lang_code.last_updated_at}:{" "}
                   {mostValuableCard?.tcgplayer?.updatedAt}
                 </span>
@@ -390,7 +468,6 @@ export const Home = () => {
                     }}
                   >
                     {nextValuableCard?.map((card) => (
-                      // TODO add onclick open bigcard
                       <img
                         key={card.id}
                         style={{ width: "4rem" }}
@@ -455,13 +532,23 @@ export const Home = () => {
                       : `${language?.lang_code.word_welcome}!`}
                   </h4>
                 </Link>
-
                 {container.user?.username !== "" &&
                 container?.user?.collections &&
                 container.user.collections.length !== 0 ? (
-                  <>
+                  <div
+                    style={
+                      isTablet
+                        ? {
+                            display: "flex",
+                            flexWrap: "wrap",
+                            gap: "1rem",
+                            justifyContent: "space-evenly",
+                          }
+                        : {}
+                    }
+                  >
                     {container.user.collections
-                      .slice(0, isDesktop ? 3 : 2)
+                      .slice(0, isDesktop ? 3 : isTablet ? 4 : 2)
                       .map((coll) => (
                         <CollectionBanner
                           key={coll.id}
@@ -471,8 +558,8 @@ export const Home = () => {
                     <Link
                       className={
                         isDesktop
-                          ? "mt-auto align-self-end mb-2 me-2"
-                          : "align-self-end mb-2 me-2"
+                          ? "mt-auto align-self-end mb-2 me-2 w-100"
+                          : "align-self-end mb-2 me-2 w-100"
                       }
                       to="/all-collections"
                       style={{
@@ -481,13 +568,22 @@ export const Home = () => {
                     >
                       <i> {language?.lang_code.my_pages_see_all_collections}</i>
                     </Link>
-                  </>
+                  </div>
                 ) : (
                   <>
                     {(!container.user || container.user.username === "") && (
                       <div>
-                        To add cards and collections, please start by adding
-                        your name or username
+                        {language?.name === "English" ? (
+                          <>
+                            To add cards and collections, please start by adding
+                            your name or username
+                          </>
+                        ) : (
+                          <>
+                            För att lägga till kort och samlingar, börja med att
+                            lägga till ditt namn eller användarnamn
+                          </>
+                        )}
                         <form
                           style={{
                             margin: "1rem",
@@ -504,7 +600,11 @@ export const Home = () => {
                               gap: "0.5rem",
                             }}
                           >
-                            Username:
+                            {language?.name === "English" ? (
+                              <>Username:</>
+                            ) : (
+                              <>Användarnamn:</>
+                            )}
                             <input
                               type="text"
                               id="username"
@@ -512,20 +612,19 @@ export const Home = () => {
                               onChange={handleChange}
                             />
                           </label>
-                          <button
-                            className="btn btn-secondary"
-                            type="submit"
+                          <div
                             style={{
                               width: "max-content",
                               alignSelf: "end",
                               marginTop: "0.5rem",
-                              padding: "0.2rem 0.5rem",
-                              borderRadius: "10px",
                             }}
-                            disabled={username === ""}
                           >
-                            Save username
-                          </button>
+                            <StandardButton
+                              btnAction={(e) => saveUserName(e)}
+                              disabled={username === ""}
+                              btnText="Save username"
+                            />
+                          </div>
                         </form>
                       </div>
                     )}
@@ -539,11 +638,40 @@ export const Home = () => {
                     container?.user.username === undefined ||
                     container.user.username === ""
                       ? { marginTop: "auto" }
-                      : {}
+                      : { marginTop: "auto" }
                   }
                 >
-                  Everything saved on this page is saved in your browser, if you
-                  want to delete all data, read more here
+                  {language?.name === "English" ? (
+                    <>
+                      Everything saved on this page is saved in your browser,
+                      {isDesktop && <br />}
+                      if you want to delete all data,{" "}
+                      <Link
+                        to={"./about"}
+                        className="text-decoration-none"
+                        style={{
+                          color: theme?.primaryColors.link.hex,
+                        }}
+                      >
+                        read more here
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      Allt som sparas på denna sida sparas i din webbläsare ,{" "}
+                      {isDesktop && <br />}
+                      om du vill radera all data
+                      <Link
+                        to={"./about"}
+                        className="text-decoration-none"
+                        style={{
+                          color: theme?.primaryColors.link.hex,
+                        }}
+                      >
+                        läs mer här
+                      </Link>
+                    </>
+                  )}
                 </i>
               </div>
             </>

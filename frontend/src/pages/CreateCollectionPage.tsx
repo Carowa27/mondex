@@ -8,11 +8,13 @@ import { getToday } from "../functions/dateFunctions";
 import { ICollection } from "../interfaces/LSInterface";
 import { updateMondexLs } from "../functions/LSFunctions";
 import { IPkmnSet } from "../interfaces/dataFromApi";
-import { InputButton } from "../components/Buttons";
+import { InputButton, StandardButton } from "../components/Buttons";
+import { LoadingModule } from "../components/LoadingModule";
 
 export const CreateCollectionPage = () => {
   const { container, updateContainer } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
+  const isTablet = useMediaQuery({ query: variables.breakpoints.tablet });
   const [collectionName, setCollectionName] = useState<string>("");
   const [isSetCollection, setIsSetCollection] = useState<boolean>(false);
   const [setId, setSetId] = useState<string>("");
@@ -33,11 +35,10 @@ export const CreateCollectionPage = () => {
   const [nameExists, setNameExists] = useState<boolean>(false);
   const [createdCollection, setCreatedCollection] = useState<boolean>(false);
   const [savedCollectionName, setSavedCollectionName] = useState<string>("");
+  const [pageSize, setPageSize] = useState<number>(50);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const language = container.language;
   const theme = container.theme;
-  // CREATE today const
-  // CREATE create collection function
-  // CREATE id = collection_name+today
 
   useEffect(() => {
     if (setInputValue.includes(".") || setInputValue.includes(",")) {
@@ -47,25 +48,20 @@ export const CreateCollectionPage = () => {
     }
   }, [setInputValue]);
   useEffect(() => {
-    if (charInputValue.includes(".") || charInputValue.includes(",")) {
-      setCharName(charInputValue.replace(/[.,]/g, "pt"));
-    } else {
-      setCharName(charInputValue);
-    }
+    setCharName(charInputValue);
   }, [charInputValue]);
   useEffect(() => {
-    if (artistInputValue.includes(".") || artistInputValue.includes(",")) {
-      setArtistName(artistInputValue.replace(/[.,]/g, "pt"));
-    } else {
-      setArtistName(artistInputValue);
-    }
+    setArtistName(artistInputValue);
   }, [artistInputValue]);
 
   useEffect(() => {
-    if (setInputValue === "") {
-      setCreatedCollection(false);
-    }
-  }, [setInputValue, charInputValue]);
+    setPageSize(isDesktop ? 48 : isTablet ? 16 : 8);
+  }, []);
+  // useEffect(() => {
+  //   if (setInputValue === "") {
+  //     setCreatedCollection(false);
+  //   }
+  // }, [setInputValue, charInputValue]);
 
   const checkIfNameExists = () => {
     const foundCollName = container?.user?.collections.filter(
@@ -84,53 +80,62 @@ export const CreateCollectionPage = () => {
       if (collectionName === "") {
         setCreatedCollection(false);
       } else {
-        setNotCorrectSetId(false);
-        setNotCorrectCharName(false);
-        setNotCorrectArtistName(false);
-        setSetId("");
-        setCharName("");
-        setArtistName("");
-        setCreatedCollection(false);
         handleCollectionCreation();
         setNameExists(false);
       }
-      if (isSetCollection && pkmnSet === null) {
-        searchSet();
-      }
-      if (isCharCollection && charName === null) {
-        searchChar();
-      }
-      if (isArtistCollection && artistName === null) {
-        searchArtist();
-      }
     }
   };
+
   const searchSet = async () => {
     await getSetFromApi(setId).then((res) => {
       if (res === undefined) {
         setNotCorrectSetId(true);
       } else {
         setPkmnSet(res);
+        setIsLoading(false);
       }
     });
   };
   const searchChar = async () => {
-    await getCardsFromApi(`?q=name:"*${charName}*"`).then((res) => {
+    await getCardsFromApi(`?q=name:"*${charName}*"`, pageSize).then((res) => {
       if (res === undefined) {
         setNotCorrectCharName(true);
       } else {
         setCharLength(res.length);
+        setIsLoading(false);
       }
     });
   };
   const searchArtist = async () => {
-    await getCardsFromApi(`?q=artist:"*${artistName}*"`).then((res) => {
-      if (res === undefined) {
-        setNotCorrectArtistName(true);
-      } else {
-        setArtistLength(res.length);
+    await getCardsFromApi(`?q=artist:"*${artistName}*"`, pageSize).then(
+      (res) => {
+        if (res === undefined) {
+          setNotCorrectArtistName(true);
+        } else {
+          setArtistLength(res.length);
+          setIsLoading(false);
+        }
       }
-    });
+    );
+  };
+  const clearAfterCreation = () => {
+    setCollectionName("");
+    setIsSetCollection(false);
+    setSetId("");
+    setSetInputValue("");
+    setPkmnSet(null);
+    setNotCorrectSetId(false);
+    setIsCharCollection(false);
+    setCharName("");
+    setCharInputValue("");
+    setCharLength(undefined);
+    setNotCorrectCharName(false);
+    setIsArtistCollection(false);
+    setArtistName("");
+    setArtistInputValue("");
+    setArtistLength(undefined);
+    setNotCorrectArtistName(false);
+    setNameExists(false);
   };
   const handleCollectionCreation = () => {
     if (isSetCollection) {
@@ -155,6 +160,7 @@ export const CreateCollectionPage = () => {
       );
       setCreatedCollection(true);
       setSavedCollectionName(collectionName);
+      clearAfterCreation();
     } else {
       if (isCharCollection) {
         const newCollection = {
@@ -178,6 +184,7 @@ export const CreateCollectionPage = () => {
         );
         setCreatedCollection(true);
         setSavedCollectionName(collectionName);
+        clearAfterCreation();
       } else {
         if (isArtistCollection) {
           const newCollection = {
@@ -201,6 +208,7 @@ export const CreateCollectionPage = () => {
           );
           setCreatedCollection(true);
           setSavedCollectionName(collectionName);
+          clearAfterCreation();
         } else {
           const newCollection = {
             id: collectionName.replace(/ /g, "_") + "-" + getToday(),
@@ -251,10 +259,38 @@ export const CreateCollectionPage = () => {
   useEffect(() => {
     updateMondexLs(container);
   }, [container]);
+  useEffect(() => {
+    setCharInputValue(""), setArtistInputValue("");
+  }, [isSetCollection]);
+  useEffect(() => {
+    setSetInputValue(""), setArtistInputValue("");
+  }, [isCharCollection]);
+  useEffect(() => {
+    setSetInputValue(""), setCharInputValue("");
+  }, [isArtistCollection]);
 
   return (
     <div style={{ minHeight: "90vh" }}>
-      <h2>{language?.lang_code.collection_create_new_collection}</h2>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <h2>{language?.lang_code.collection_create_new_collection}</h2>
+        {/* {isDesktop ? ( */}
+        <div
+          className={isDesktop ? "mt-3 d-flex" : "d-flex align-items-center"}
+        >
+          <Link
+            className={isDesktop ? "fst-italic me-4" : "fst-italic text-center"}
+            to="/all-collections"
+            style={{
+              color: theme?.primaryColors.link.hex,
+            }}
+          >
+            <h6 className={"m-0"}>
+              {language?.lang_code.my_pages_see_all_collections}
+            </h6>
+          </Link>
+        </div>
+        {/* ) : null} */}
+      </div>
       <form id="search-form" onSubmit={handleSubmit}>
         <div
           id="search-form-container"
@@ -282,29 +318,23 @@ export const CreateCollectionPage = () => {
                   onChange={handleCollectionNameChange}
                   className="form-control"
                   placeholder={language?.lang_code.collection_name}
+                  maxLength={20}
                   aria-label="Collection Name"
                   aria-describedby="collection_name"
                 />
               </div>
               {!createdCollection && collectionName === "" ? (
-                <Link
-                  className="text-decoration-none mb-3 mx-auto"
-                  to={
-                    savedCollectionName.includes(" ")
-                      ? `/collection/${savedCollectionName.replace(/ /g, "_")}`
-                      : `/collection/${savedCollectionName}`
+                <p
+                  className={
+                    isDesktop || isTablet ? "mb-3 mx-auto" : "mb-3 mx-3"
                   }
-                  style={{
-                    color: theme?.primaryColors.link.hex,
-                  }}
+                  style={{ margin: 0 }}
                 >
-                  <p style={{ margin: 0 }}>
-                    You need to add a collection name to create a collection
-                  </p>
-                </Link>
+                  You need to add a collection name to create a collection
+                </p>
               ) : null}
-              <div>
-                <div className="input-group mb-3 d-flex align-items-center rounded">
+              <div className="d-flex" style={{ gap: "0.75rem" }}>
+                <div className="input-group border w-50 mb-3 d-flex align-items-center rounded">
                   <span className="input-group-text" id="is-set">
                     {language?.lang_code.collection_is_set_collection}:
                   </span>
@@ -339,9 +369,32 @@ export const CreateCollectionPage = () => {
                     </label>
                   </div>
                 </div>
+                {isSetCollection ? (
+                  <div className="input-group w-50 mb-3">
+                    <span className="input-group-text" id="set-name">
+                      {language?.lang_code.collection_set_id}:
+                    </span>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={setInputValue}
+                      onChange={handleSetIdChange}
+                      placeholder={language?.lang_code.collection_set_id}
+                      aria-label="Set Name"
+                      aria-describedby="set-name"
+                    />
+                    <InputButton
+                      btnText="Search set id"
+                      btnAction={(e) => (
+                        e.preventDefault(), searchSet(), setIsLoading(true)
+                      )}
+                      disabled={isSetCollection && setId === ""}
+                    ></InputButton>
+                  </div>
+                ) : null}
               </div>
-              <div>
-                <div className="input-group mb-3 d-flex align-items-center rounded">
+              <div className="d-flex" style={{ gap: "0.75rem" }}>
+                <div className="input-group border w-50 mb-3 d-flex align-items-center rounded">
                   <span className="input-group-text" id="is-char">
                     Is it a character collection:
                   </span>
@@ -376,9 +429,32 @@ export const CreateCollectionPage = () => {
                     </label>
                   </div>
                 </div>
+                {isCharCollection ? (
+                  <div className="input-group w-50 mb-3">
+                    <span className="input-group-text" id="char-name">
+                      Character name:
+                    </span>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={charInputValue}
+                      onChange={handleCharNameChange}
+                      placeholder="Character"
+                      aria-label="Character Name"
+                      aria-describedby="char-name"
+                    />
+                    <InputButton
+                      btnText="Search character"
+                      btnAction={(e) => (
+                        e.preventDefault(), searchChar(), setIsLoading(true)
+                      )}
+                      disabled={isCharCollection && charName === ""}
+                    ></InputButton>
+                  </div>
+                ) : null}
               </div>
-              <div>
-                <div className="input-group mb-3 d-flex align-items-center rounded">
+              <div className="d-flex" style={{ gap: "0.75rem" }}>
+                <div className="input-group border w-50 mb-3 d-flex align-items-center rounded">
                   <span className="input-group-text" id="is-artist">
                     Is it a artist collection:
                   </span>
@@ -413,105 +489,72 @@ export const CreateCollectionPage = () => {
                     </label>
                   </div>
                 </div>
+                {isArtistCollection ? (
+                  <div className="input-group w-50 mb-3">
+                    <span className="input-group-text" id="artist-name">
+                      Artist name:
+                    </span>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={artistInputValue}
+                      onChange={handleArtistNameChange}
+                      placeholder="Artist"
+                      aria-label="Artist Name"
+                      aria-describedby="artist-name"
+                    />
+                    <InputButton
+                      btnText="Search artist"
+                      btnAction={(e: FormEvent) => (
+                        e.preventDefault(), searchArtist(), setIsLoading(true)
+                      )}
+                      disabled={isArtistCollection && artistName === ""}
+                    ></InputButton>
+                  </div>
+                ) : null}
               </div>
-              {isSetCollection ? (
-                <div className="input-group mb-3">
-                  <span className="input-group-text" id="set-name">
-                    {language?.lang_code.collection_set_id}
-                  </span>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={setInputValue}
-                    onChange={handleSetIdChange}
-                    placeholder={language?.lang_code.collection_set_id}
-                    aria-label="Set Name"
-                    aria-describedby="set-name"
-                  />
-                  <InputButton
-                    btnText="Search set id"
-                    btnAction={(e) => (e.preventDefault(), searchSet())}
-                  ></InputButton>
-                </div>
-              ) : null}
-              {isCharCollection ? (
-                <div className="input-group mb-3">
-                  <span className="input-group-text" id="char-name">
-                    Character name
-                  </span>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={charInputValue}
-                    onChange={handleCharNameChange}
-                    placeholder="Character"
-                    aria-label="Character Name"
-                    aria-describedby="char-name"
-                  />
-                  <InputButton
-                    btnText="Search character"
-                    btnAction={(e) => (e.preventDefault(), searchChar())}
-                  ></InputButton>
-                </div>
-              ) : null}
-              {isArtistCollection ? (
-                <div className="input-group mb-3">
-                  <span className="input-group-text" id="artist-name">
-                    Artist name
-                  </span>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={artistInputValue}
-                    onChange={handleArtistNameChange}
-                    placeholder="Artist"
-                    aria-label="Artist Name"
-                    aria-describedby="artist-name"
-                  />
-                  <InputButton
-                    btnText="Search artist"
-                    btnAction={(e: FormEvent) => (
-                      e.preventDefault(), searchArtist()
-                    )}
-                  ></InputButton>
-                </div>
-              ) : null}
             </div>
           </div>
-          <button
-            className={
-              isDesktop
-                ? "btn btn-secondary mt-5 mx-2 mb-3 h-25"
-                : "btn btn-secondary mt-2 mx-2 mb-3"
-            }
-            type="submit"
+          <div
+            style={isDesktop ? { height: "5rem", width: "5rem" } : {}}
+            className={isDesktop ? "mx-2 mt-1" : "mt-2 mx-2 mb-3"}
           >
-            {language?.lang_code.word_create}
-          </button>
+            <StandardButton
+              btnAction={handleSubmit}
+              disabled={
+                (isSetCollection && !pkmnSet) ||
+                (isCharCollection && charName === "") ||
+                (isArtistCollection && artistName === "") ||
+                !collectionName
+              }
+              btnText={`${language?.lang_code.word_create}`}
+            />
+          </div>
         </div>
-      </form>
+      </form>{" "}
+      {isLoading ? <LoadingModule /> : null}
       {notCorrectSetId ? (
         <>{language?.lang_code.collection_not_correct_set_id}</>
       ) : null}
       {pkmnSet && isSetCollection ? (
         <div style={{ marginLeft: "4.5rem" }}>
-          {setId} is {pkmnSet.name}
+          {setInputValue} is {pkmnSet.name}
         </div>
       ) : null}
       {notCorrectCharName ? (
-        <>There are no cards with {charName} in the name</>
+        <>There are no cards with "{charName}" in the name</>
       ) : null}
       {charLength && isCharCollection ? (
         <div style={{ marginLeft: "4.5rem" }}>
-          There are {charLength} cards found with {charName} in the name
+          There are {charLength} cards found with "{charName}" in the name
         </div>
       ) : null}
       {notCorrectArtistName ? (
-        <>There are no cards with {artistName} as an artist</>
+        <>There are no cards with "{artistName}" as an artist</>
       ) : null}
       {artistLength && isArtistCollection ? (
         <div style={{ marginLeft: "4.5rem" }}>
-          There are {artistLength} cards found with {artistName} as the artist
+          There are {artistLength} cards found with "{artistName}" as the artist
         </div>
       ) : null}
       {createdCollection ? (

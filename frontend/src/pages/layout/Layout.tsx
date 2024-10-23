@@ -1,13 +1,36 @@
 import { Outlet } from "react-router-dom";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
-import { useContext } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import "../../main.css";
 import { ContainerContext } from "../../globals/containerContext";
+
+export interface IMobileMenuParams {
+  isMobileMenuOpened: boolean;
+  changeIsMobileMenuOpen: (state: boolean) => void;
+}
 
 export const Layout = () => {
   const { container } = useContext(ContainerContext);
   const theme = container.theme;
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const mainRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const handleClick = (event: MouseEvent | TouchEvent) => {
+      if (mainRef.current && mainRef.current.contains(event.target as Node)) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClick);
+    document.addEventListener("touchstart", handleClick);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("touchstart", handleClick);
+    };
+  }, [mainRef]);
 
   return (
     <div
@@ -20,8 +43,11 @@ export const Layout = () => {
       }}
       className="d-flex flex-column"
     >
-      <Header />
-      <main className="mx-2 mb-1 p-2">
+      <Header
+        isMobileMenuOpened={isMobileMenuOpen}
+        changeIsMobileMenuOpen={(state: boolean) => setIsMobileMenuOpen(state)}
+      />
+      <main className="mx-2 mb-1 p-2" ref={mainRef}>
         <Outlet />
       </main>
       <Footer />

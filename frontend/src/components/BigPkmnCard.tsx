@@ -1,11 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { styled } from "styled-components";
-import { colorModes } from "../globals/theme";
 import { IPkmnCard } from "../interfaces/dataFromApi";
 import { getCardFromApi } from "../services/pkmnTcgApiServices";
 import { variables } from "../globals/variables";
 import { useMediaQuery } from "react-responsive";
-import { lang } from "../globals/language/language";
 import { ICard, ILSContainer } from "../interfaces/LSInterface";
 import { getMondexLs, updateMondexLs } from "../functions/LSFunctions";
 import { ContainerContext } from "../globals/containerContext";
@@ -25,6 +23,7 @@ export const BigPkmnCard = ({
 }: IProps) => {
   const { container, updateContainer } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
+  const isTablet = useMediaQuery({ query: variables.breakpoints.tablet });
   const [cardInfo, setCardInfo] = useState<IPkmnCard>();
   const [lsContainer, setLsContainer] = useState<ILSContainer>(container);
   const [hoverAddBtn, setHoverAddBtn] = useState<boolean>(false);
@@ -39,7 +38,7 @@ export const BigPkmnCard = ({
   useEffect(() => {
     if (card) {
       const getData = async () => {
-        await getCardFromApi(card.card.id).then((res) => {
+        await getCardFromApi(card.card.id, 1).then((res) => {
           setCardInfo(res as IPkmnCard);
         });
       };
@@ -84,7 +83,13 @@ export const BigPkmnCard = ({
             ))}
         </>
       ) : (
-        <p>No prices found</p>
+        <>
+          {language?.name === "English" ? (
+            <>No prices found</>
+          ) : (
+            <>Inga priser hittade</>
+          )}{" "}
+        </>
       )}
       <h6 className="pt-3 m-0">CardMarket</h6>
       {cardInfo.cardmarket && cardInfo.cardmarket.prices ? (
@@ -98,7 +103,13 @@ export const BigPkmnCard = ({
             ))}
         </>
       ) : (
-        <p>No prices found</p>
+        <>
+          {language?.name === "English" ? (
+            <>No prices found</>
+          ) : (
+            <>Inga priser hittade</>
+          )}{" "}
+        </>
       )}
     </>
   );
@@ -113,6 +124,7 @@ export const BigPkmnCard = ({
     background-color: ${theme?.primaryColors.background.hex};
     border-radius: 0.5rem;
     margin: 0 2rem;
+    padding: 0 1rem;
 
     @media (${variables.breakpoints.desktop}) {
       height: fit-content;
@@ -126,7 +138,7 @@ export const BigPkmnCard = ({
     justify-content: end;
     font-size: larger;
     font-weight: bolder;
-    padding: 2rem 2rem 0 0;
+    padding: ${isDesktop ? "2rem 2rem 0 0" : "1rem 1rem 0 0"};
   `;
   const BigCardBody = styled.main`
     height: 100%;
@@ -134,13 +146,26 @@ export const BigPkmnCard = ({
     display: flex;
     gap: 1rem;
     justify-content: space-evenly;
+    padding-bottom: ${isTablet ? "2rem" : "1em"};
 
+    @media (${variables.breakpoints.tablet}) {
+      padding: 0 0.5rem 2rem 0.5rem;
+    }
     @media (${variables.breakpoints.desktop}) {
       height: 90%;
     }
   `;
   const BigCardImg = styled.img`
     height: 30rem;
+    aspect-ratio: 3/4;
+    border-radius: 20px;
+    @media (${variables.breakpoints.mobile}) {
+      height: 10rem;
+      width: 100%;
+      object-fit: cover;
+      object-position: 0% 14%;
+      margin-top: 1rem;
+    }
   `;
   const BigCardInfo = styled.div`
     height: 90%;
@@ -165,6 +190,7 @@ export const BigPkmnCard = ({
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0.5rem;
+    flex-wrap: wrap;
   `;
   const BigCardValueContainer = styled.div`
     margin-top: ${isDesktop ? "auto" : "1rem"};
@@ -174,20 +200,25 @@ export const BigPkmnCard = ({
     border-radius: 0.5rem;
   `;
   const NationalDex = styled.span`
-    font-size: x-small;
+    font-size: small;
     display: flex;
     justify-content: end;
     align-self: end;
+    gap: 3px;
+    margin-bottom: 0.2rem;
+    margin-left: 0.5rem;
   `;
-  const BigCardLegalities = styled.div``;
+  const BigCardLegalities = styled.div`
+    width: max-content;
+  `;
   return (
     <BigCardContainer>
       <BigCardHeader>
         <i className="bi bi-x-lg" onClick={changeShowPkmnInfo}></i>
       </BigCardHeader>
       <BigCardBody>
-        {cardInfo && isDesktop && (
-          <BigCardImg className="rounded" src={cardInfo.images.large} />
+        {cardInfo && (isDesktop || isTablet) && (
+          <BigCardImg src={cardInfo.images.large} />
         )}
         <BigCardInfo>
           {cardInfo && (
@@ -199,7 +230,13 @@ export const BigPkmnCard = ({
                     NationalDex:{" "}
                     {cardInfo.nationalPokedexNumbers.map(
                       (nr: number, index: number) => (
-                        <span key={index}>{nr}</span>
+                        <span key={index}>
+                          {nr}
+                          {cardInfo.nationalPokedexNumbers.length !== 0 &&
+                            index !==
+                              cardInfo.nationalPokedexNumbers.length - 1 &&
+                            ","}
+                        </span>
                       )
                     )}
                   </NationalDex>
@@ -223,61 +260,75 @@ export const BigPkmnCard = ({
                 <span>Rarity: </span>
                 <span>{cardInfo.rarity}</span>
               </BigCardInfoRow>
-              <BigCardLegalities>
-                <h6 className="m-0 mt-3">TCG Legality </h6>
-                {cardInfo.legalities.standard && (
-                  <BigCardInfoRow>
-                    <span>Standard: </span>
-                    {cardInfo.legalities.standard}
-                  </BigCardInfoRow>
-                )}
-                {cardInfo.legalities.unlimited && (
-                  <BigCardInfoRow>
-                    <span>Unlimited: </span>
-                    {cardInfo.legalities.unlimited}
-                  </BigCardInfoRow>
-                )}
-                {cardInfo.legalities.expanded && (
-                  <BigCardInfoRow>
-                    <span>Expanded: </span>
-                    {cardInfo.legalities.expanded}
-                  </BigCardInfoRow>
-                )}
-              </BigCardLegalities>
-              {container.user &&
-              container.user.username !== "" &&
-              changeToAddPopup ? (
-                <span
-                  style={
-                    hoverAddBtn
-                      ? {
-                          backgroundColor: `rgba(${theme?.typeColors.grass.rgb},0.6)`,
-                          width: "35px",
-                          height: "35px",
-                          fontSize: "30px",
-                          alignSelf: "end",
-                          margin: "0.5rem",
-                        }
-                      : {
-                          backgroundColor: `rgba(${theme?.typeColors.grass.rgb},0.4)`,
-                          width: "35px",
-                          height: "35px",
-                          fontSize: "30px",
-                          alignSelf: "end",
-                          margin: "0.5rem",
-                        }
-                  }
-                  className="rounded-circle d-flex align-items-center justify-content-center"
-                  onMouseEnter={() => setHoverAddBtn(true)}
-                  onMouseLeave={() => setHoverAddBtn(false)}
-                  title="add card"
-                  onClick={() => {
-                    changeToAddPopup();
-                  }}
-                >
-                  <i className="bi bi-plus m-0 p-0"></i>
-                </span>
-              ) : null}
+              {cardInfo && !isDesktop && !isTablet && (
+                <BigCardImg className="rounded" src={cardInfo.images.large} />
+              )}
+              <div
+                className="m-0 mt-3"
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <BigCardLegalities>
+                  <h6>TCG Legality </h6>
+                  {cardInfo.legalities.standard && (
+                    <BigCardInfoRow>
+                      <span>Standard: </span>
+                      {cardInfo.legalities.standard}
+                    </BigCardInfoRow>
+                  )}
+                  {cardInfo.legalities.unlimited && (
+                    <BigCardInfoRow>
+                      <span>Unlimited: </span>
+                      {cardInfo.legalities.unlimited}
+                    </BigCardInfoRow>
+                  )}
+                  {cardInfo.legalities.expanded && (
+                    <BigCardInfoRow>
+                      <span>Expanded: </span>
+                      {cardInfo.legalities.expanded}
+                    </BigCardInfoRow>
+                  )}
+                </BigCardLegalities>
+                <div>
+                  {container.user &&
+                  container.user.username !== "" &&
+                  changeToAddPopup ? (
+                    <span
+                      style={
+                        hoverAddBtn
+                          ? {
+                              backgroundColor: `rgba(${theme?.typeColors.grass.rgb},0.6)`,
+                              width: "35px",
+                              height: "35px",
+                              fontSize: "30px",
+                              alignSelf: "end",
+                              margin: "0.5rem",
+                            }
+                          : {
+                              backgroundColor: `rgba(${theme?.typeColors.grass.rgb},0.4)`,
+                              width: "35px",
+                              height: "35px",
+                              fontSize: "30px",
+                              alignSelf: "end",
+                              margin: "0.5rem",
+                            }
+                      }
+                      className="rounded-circle d-flex align-items-center justify-content-center"
+                      onMouseEnter={() => setHoverAddBtn(true)}
+                      onMouseLeave={() => setHoverAddBtn(false)}
+                      title="add card"
+                      onClick={() => {
+                        changeToAddPopup();
+                      }}
+                    >
+                      <i className="bi bi-plus m-0 p-0"></i>
+                    </span>
+                  ) : null}
+                </div>
+              </div>
               <BigCardValueContainer>
                 {valueHTML(cardInfo)}
               </BigCardValueContainer>

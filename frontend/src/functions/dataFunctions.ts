@@ -1,8 +1,21 @@
 import { ICard, ICollection } from "../interfaces/LSInterface";
 
-export const getAmountOfCardsOwned = (collections: ICollection[]) => {
+export const getUniqueAmountOfCardsOwned = (collections: ICollection[]) => {
   const totalCardAmount = collections.reduce(
     (acc, item) => acc + (item.cards_in_collection || []).length,
+    0
+  );
+  return totalCardAmount;
+};
+export const getAmountOfCardsOwned = (collections: ICollection[]) => {
+  const totalCardAmount = collections.reduce(
+    (acc, item) =>
+      acc +
+      (item.cards_in_collection || []).reduce(
+        (sum, card) => sum + card.amount,
+        0
+      ) *
+        item.cards_in_collection.length,
     0
   );
   return totalCardAmount;

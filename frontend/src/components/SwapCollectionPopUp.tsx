@@ -4,6 +4,7 @@ import { styled } from "styled-components";
 import { ContainerContext } from "../globals/containerContext";
 import { ICard, ICollection } from "../interfaces/LSInterface";
 import { swapCardToOtherCollection } from "../functions/cardFunctions";
+import { StandardButton } from "./Buttons";
 interface IProps {
   changeShowSwapPopUp: () => void;
   cardToSwap: ICard | undefined;
@@ -147,14 +148,22 @@ export const SwapCollectionPopUp = ({
                       disabled={
                         coll.collection_name === collectionName ||
                         (coll.set?.id !== undefined &&
-                          cardToSwap.card.set.id !== coll.set?.id)
+                          cardToSwap.card.set.id !== coll.set.id) ||
+                        (coll.artist !== undefined &&
+                          cardToSwap.card.artist !== coll.artist) ||
+                        (coll.character !== undefined &&
+                          !cardToSwap.card.name.includes(coll.character))
                       }
-                    />
+                    />{" "}
                     <span
                       style={
                         coll.collection_name === collectionName ||
                         (coll.set?.id !== undefined &&
-                          cardToSwap.card.set.id !== coll.set?.id)
+                          cardToSwap.card.set.id !== coll.set.id) ||
+                        (coll.artist !== undefined &&
+                          cardToSwap.card.artist !== coll.artist) ||
+                        (coll.character !== undefined &&
+                          !cardToSwap.card.name.includes(coll.character))
                           ? {
                               color: theme?.primaryColors.breadcrumbText.hex,
                             }
@@ -167,26 +176,19 @@ export const SwapCollectionPopUp = ({
                 ))}
             </SwapForm>
             <div className="d-flex justify-content-around mt-3">
-              <button
-                className="btn"
-                onClick={changeShowSwapPopUp}
-                style={{
-                  border: `1px solid ${theme?.primaryColors.text.hex}`,
-                  color: theme?.primaryColors.text.hex,
-                }}
-              >
-                {language?.lang_code.word_cancel}
-              </button>
-              <button
-                className="btn"
-                onClick={handleSubmitToSwap}
-                style={{
-                  border: `1px solid ${theme?.primaryColors.text.hex}`,
-                  color: theme?.primaryColors.text.hex,
-                }}
-              >
-                {language?.lang_code.word_change}
-              </button>
+              <StandardButton
+                btnAction={changeShowSwapPopUp}
+                disabled={false}
+                btnText={`${language?.lang_code.word_cancel}`}
+              />
+              <StandardButton
+                btnAction={handleSubmitToSwap}
+                disabled={
+                  selectedCollectionName === "" ||
+                  selectedCollectionName === undefined
+                }
+                btnText={`${language?.lang_code.word_change}`}
+              />
             </div>
           </SwapFormContainer>
         </SwapMain>

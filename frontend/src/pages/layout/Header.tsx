@@ -5,8 +5,12 @@ import mondex from "../../assets/mondex.png";
 import { variables } from "../../globals/variables";
 import { useMediaQuery } from "react-responsive";
 import { ContainerContext } from "../../globals/containerContext";
+import { IMobileMenuParams } from "./Layout";
 
-export const Header = () => {
+export const Header = ({
+  isMobileMenuOpened,
+  changeIsMobileMenuOpen,
+}: IMobileMenuParams) => {
   const { container } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
 
@@ -27,18 +31,22 @@ export const Header = () => {
           style={{
             color: theme?.primaryColors.link.hex,
           }}
-          onClick={() =>
+          onClick={() => (
+            changeIsMobileMenuOpen(false),
             window.scrollTo({
               top: 0,
               behavior: "smooth",
             })
-          }
+          )}
         >
           <div id="main-logo" className="h-100 " style={{ width: "10rem" }}>
             <img src={mondex} alt="mondex logo" className="h-100 m-0 p-0" />
           </div>
         </Link>
-        <Menu />
+        <Menu
+          isMobileMenuOpened={isMobileMenuOpened}
+          changeIsMobileMenuOpen={changeIsMobileMenuOpen}
+        />
       </header>
     </>
   );
