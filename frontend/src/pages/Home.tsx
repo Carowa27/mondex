@@ -620,11 +620,40 @@ export const Home = () => {
                     container?.user.username === undefined ||
                     container.user.username === ""
                       ? { marginTop: "auto" }
-                      : {}
+                      : { marginTop: "auto" }
                   }
                 >
-                  Everything saved on this page is saved in your browser, if you
-                  want to delete all data, read more here
+                  {language?.name === "English" ? (
+                    <>
+                      Everything saved on this page is saved in your browser,
+                      {isDesktop && <br />}
+                      if you want to delete all data,{" "}
+                      <Link
+                        to={"./about"}
+                        className="text-decoration-none"
+                        style={{
+                          color: theme?.primaryColors.link.hex,
+                        }}
+                      >
+                        read more here
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      Allt som sparas på denna sida sparas i din webbläsare ,{" "}
+                      {isDesktop && <br />}
+                      om du vill radera all data
+                      <Link
+                        to={"./about"}
+                        className="text-decoration-none"
+                        style={{
+                          color: theme?.primaryColors.link.hex,
+                        }}
+                      >
+                        läs mer här
+                      </Link>
+                    </>
+                  )}
                 </i>
               </div>
             </>
