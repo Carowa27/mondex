@@ -38,7 +38,7 @@ export const BigPkmnCard = ({
   useEffect(() => {
     if (card) {
       const getData = async () => {
-        await getCardFromApi(card.card.id).then((res) => {
+        await getCardFromApi(card.card.id, 1).then((res) => {
           setCardInfo(res as IPkmnCard);
         });
       };
@@ -83,7 +83,13 @@ export const BigPkmnCard = ({
             ))}
         </>
       ) : (
-        <p>No prices found</p>
+        <>
+          {language?.name === "English" ? (
+            <>No prices found</>
+          ) : (
+            <>Inga priser hittade</>
+          )}{" "}
+        </>
       )}
       <h6 className="pt-3 m-0">CardMarket</h6>
       {cardInfo.cardmarket && cardInfo.cardmarket.prices ? (
@@ -97,7 +103,13 @@ export const BigPkmnCard = ({
             ))}
         </>
       ) : (
-        <p>No prices found</p>
+        <>
+          {language?.name === "English" ? (
+            <>No prices found</>
+          ) : (
+            <>Inga priser hittade</>
+          )}{" "}
+        </>
       )}
     </>
   );
