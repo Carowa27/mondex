@@ -292,7 +292,9 @@ export const Home = () => {
                 className={
                   isDesktop
                     ? "d-flex flex-row w-100 flex-wrap"
-                    : isTablet
+                    : isTablet && !container.lastOpenedCard
+                    ? "d-flex flex-row w-100 flex-wrap"
+                    : isTablet && container.lastOpenedCard
                     ? "d-flex flex-row w-50 flex-wrap"
                     : "d-flex flex-column w-50 align-items-center flex-fill"
                 }
