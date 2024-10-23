@@ -46,7 +46,20 @@ export const ListCollBanner = ({ collection }: IListProps) => {
         }}
       >
         <h5 style={{ display: "flex", justifyContent: "space-between" }}>
-          {collectionNameToShow}
+          <span className="d-flex flex-wrap pe-2">
+            {collectionNameToShow.length > 9 &&
+            !isDesktop &&
+            !isTablet &&
+            collection?.set ? (
+              <>
+                {collectionNameToShow.slice(0, 9)} -
+                <br />
+                {collectionNameToShow.slice(10, collectionNameToShow.length)}
+              </>
+            ) : (
+              collectionNameToShow
+            )}
+          </span>
           {collection.set?.id !== undefined && (
             <div>
               <img
