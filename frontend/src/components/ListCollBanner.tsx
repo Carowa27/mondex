@@ -55,6 +55,7 @@ export const ListCollBanner = ({ collection }: IListProps) => {
                 style={{
                   maxHeight: "1.5rem",
                   marginRight: "1rem",
+                  marginLeft: "1rem",
                 }}
               />
             </div>
@@ -71,7 +72,8 @@ export const ListCollBanner = ({ collection }: IListProps) => {
           )}
           <div style={{ display: "flex", alignItems: "center" }}>
             <span style={{ fontSize: "small" }}>
-              Value: ~{getValueOfCardsOwned([collection])}$
+              {container.language?.name === "English" ? <>Value</> : <>Värde</>}
+              : ~{getValueOfCardsOwned([collection])}$
             </span>
           </div>
         </h5>
@@ -79,11 +81,24 @@ export const ListCollBanner = ({ collection }: IListProps) => {
           <p style={{ margin: 0 }}>
             {collection.set ? (
               <>
-                Unique cards: {getUniqueAmountOfCardsOwned([collection])}/
+                {container.language?.name === "English" ? (
+                  <> Unique cards</>
+                ) : (
+                  <>Unika kort</>
+                )}
+                : {getUniqueAmountOfCardsOwned([collection])}/
                 {collection.set.total}
               </>
             ) : (
-              <>Cards in collection: {collection.cards_in_collection.length}</>
+              <>
+                {" "}
+                {container.language?.name === "English" ? (
+                  <>Cards in collection</>
+                ) : (
+                  <>Kort i kollektion</>
+                )}
+                : {collection.cards_in_collection.length}
+              </>
             )}
           </p>
         </div>
