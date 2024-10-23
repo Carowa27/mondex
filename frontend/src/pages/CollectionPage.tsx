@@ -12,6 +12,7 @@ import { ContainerContext } from "../globals/containerContext";
 import { ICard, ICollection } from "../interfaces/LSInterface";
 import { getMondexLs } from "../functions/LSFunctions";
 import { sortArtistorCharCollRes } from "../functions/cardFunctions";
+import { Link } from "react-router-dom";
 
 export const CollectionPage = () => {
   const { container } = useContext(ContainerContext);
@@ -191,12 +192,28 @@ export const CollectionPage = () => {
             !isTablet &&
             collection?.set ? (
               <>
+                <Link
+                  to="/userpage"
+                  className="text-decoration-none"
+                  style={{ color: "inherit" }}
+                >
+                  <i className="bi bi-chevron-left me-2"></i>
+                </Link>
                 {collectionNameToShow.slice(0, 9)} -
                 <br />
                 {collectionNameToShow.slice(10, collectionNameToShow.length)}
               </>
             ) : (
-              collectionNameToShow
+              <>
+                <Link
+                  to="/userpage"
+                  className="text-decoration-none"
+                  style={{ color: "inherit" }}
+                >
+                  <i className="bi bi-chevron-left me-2"></i>
+                </Link>{" "}
+                {collectionNameToShow}
+              </>
             )}
           </span>
           {collection?.set !== undefined && (
