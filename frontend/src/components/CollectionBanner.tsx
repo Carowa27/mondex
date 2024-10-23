@@ -126,9 +126,9 @@ export const CollectionBanner = (props: IProps) => {
                           >
                             <div
                               style={
-                                isDesktop
-                                  ? { aspectRatio: "3/4", height: "7.5rem" }
-                                  : { height: "8rem" }
+                                isDesktop || isTablet
+                                  ? { height: "8rem" }
+                                  : { height: "7.5rem" }
                               }
                             >
                               <img
