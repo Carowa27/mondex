@@ -117,7 +117,7 @@ export const Footer = () => {
         >
           Carowa27
         </Link>
-        )
+        ) V.1.2
       </div>
     </footer>
   );
