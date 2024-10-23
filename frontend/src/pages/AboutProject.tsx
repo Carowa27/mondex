@@ -60,10 +60,10 @@ export const AboutProject = () => {
                 cards from the TCG series. Search for the sets, cards, artists
                 and more. Create collections to see which cards you as a user
                 own and have left in your set or even create a collection with
-                your favorite Pokémon. <br /> <br /> Right now, all data saved
-                in your browser is collected, but you can delete the saved data
-                at any time via your pages. You can also export your data to a
-                csv file.
+                your favorite Pokémon. <br /> <br /> Right now, all data that is
+                saved is saved in your browser, but you can delete the saved
+                data at any time via your pages. You can also export your data
+                to a csv file.
               </>
             ) : (
               <>
