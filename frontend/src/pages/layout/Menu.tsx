@@ -206,7 +206,7 @@ export const Menu = ({
                 cursor: "pointer",
                 zIndex: "500",
                 minWidth: "fit-content",
-                width: "30%",
+                width: "40%",
                 gap: "0.3rem",
                 backgroundColor: `${theme?.primaryColors.background.hex}`,
                 borderLeft: `2px solid rgba(${theme?.typeColors.water.rgb},0.8)`,
@@ -336,9 +336,9 @@ export const Menu = ({
                 position: "absolute",
                 right: 0,
                 cursor: "pointer",
-                zIndex: "200",
+                zIndex: "500",
                 minWidth: "fit-content",
-                width: "30%", //"120px",
+                width: "40%", //"120px",
                 borderLeft: `2px solid rgba(${theme?.typeColors.water.rgb},0.8)`,
               }}
             >
@@ -356,7 +356,7 @@ export const Menu = ({
           <div
             id="main-menu-theme?-container"
             className="ps-3 pe-2 me-3 mt-2"
-            style={{ zIndex: 300, position: "absolute", right: 0 }}
+            style={{ zIndex: 600, position: "absolute", right: 0 }}
           >
             {theme?.name === "light" ? (
               <i
