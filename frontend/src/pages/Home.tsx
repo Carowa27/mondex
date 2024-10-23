@@ -370,7 +370,7 @@ export const Home = () => {
                       </span>
                       <br />
                       <span>
-                        <b>Release date: </b>
+                        <b>{language?.lang_code.word_release_date}: </b>
                         {mostValuableCard?.set.releaseDate}
                       </span>
                       <br />
@@ -568,8 +568,17 @@ export const Home = () => {
                   <>
                     {(!container.user || container.user.username === "") && (
                       <div>
-                        To add cards and collections, please start by adding
-                        your name or username
+                        {language?.name === "English" ? (
+                          <>
+                            To add cards and collections, please start by adding
+                            your name or username
+                          </>
+                        ) : (
+                          <>
+                            För att lägga till kort och samlingar, börja med att
+                            lägga till ditt namn eller användarnamn
+                          </>
+                        )}
                         <form
                           style={{
                             margin: "1rem",
@@ -586,7 +595,11 @@ export const Home = () => {
                               gap: "0.5rem",
                             }}
                           >
-                            Username:
+                            {language?.name === "English" ? (
+                              <>Username:</>
+                            ) : (
+                              <>Användarnamn:</>
+                            )}
                             <input
                               type="text"
                               id="username"
