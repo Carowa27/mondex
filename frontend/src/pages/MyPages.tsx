@@ -414,9 +414,9 @@ export const MyPages = () => {
                     {!isDesktop && !isTablet && (
                       <>
                         {isShowUserInfo ? (
-                          <i className="bi bi-chevron-compact-up ps-1"></i>
+                          <i className="bi bi-chevron-up ps-1"></i>
                         ) : (
-                          <i className="bi bi-chevron-compact-down ps-1"></i>
+                          <i className="bi bi-chevron-down ps-1"></i>
                         )}
                       </>
                     )}
@@ -560,9 +560,9 @@ export const MyPages = () => {
                       {!isDesktop && !isTablet && (
                         <>
                           {isShowValues ? (
-                            <i className="bi bi-chevron-compact-up ps-1"></i>
+                            <i className="bi bi-chevron-up ps-1"></i>
                           ) : (
-                            <i className="bi bi-chevron-compact-down ps-1"></i>
+                            <i className="bi bi-chevron-down ps-1"></i>
                           )}
                         </>
                       )}

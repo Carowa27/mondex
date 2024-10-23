@@ -122,7 +122,7 @@ export const Menu = ({
                     {" "}
                     {language?.lang_code.word_language}
                   </span>
-                  <i className="bi bi-chevron-compact-up ps-1"></i>
+                  <i className="bi bi-chevron-up ps-1"></i>
                 </div>
                 <div
                   className="d-flex flex-wrap justify-content-around p-2 rounded-bottom border-top-0 border-right-0"
@@ -173,7 +173,7 @@ export const Menu = ({
                 <span id="main-menu-language?">
                   {language?.lang_code.word_language}
                 </span>
-                <i className="bi bi-chevron-compact-down ps-1"></i>
+                <i className="bi bi-chevron-down ps-1"></i>
               </div>
             </>
           )}
@@ -217,7 +217,7 @@ export const Menu = ({
                 <span id="main-menu" className="ps-2">
                   Menu
                 </span>
-                <i className="bi bi-chevron-compact-up ps-2"></i>
+                <i className="bi bi-chevron-up ps-2"></i>
               </div>
 
               <Link
@@ -349,7 +349,7 @@ export const Menu = ({
                 }}
               >
                 <span id="main-menu">Menu</span>
-                <i className="bi bi-chevron-compact-down ps-2"></i>
+                <i className="bi bi-chevron-down ps-2"></i>
               </div>
             </div>
           )}
