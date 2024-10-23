@@ -172,7 +172,7 @@ export const Home = () => {
                   isDesktop
                     ? "d-flex flex-row w-100 flex-wrap"
                     : isTablet
-                    ? "d-flex flex-column w-50 h-100 justify-content-center align-items-center"
+                    ? "d-flex flex-column w-25 h-100 justify-content-center align-items-center"
                     : "d-flex flex-column w-50 align-items-center flex-fill"
                 }
               >
@@ -295,7 +295,7 @@ export const Home = () => {
                     : isTablet && !container.lastOpenedCard
                     ? "d-flex flex-row w-100 flex-wrap"
                     : isTablet && container.lastOpenedCard
-                    ? "d-flex flex-row w-50 flex-wrap"
+                    ? "d-flex flex-row w-75 flex-wrap ps-5"
                     : "d-flex flex-column w-50 align-items-center flex-fill"
                 }
               >
