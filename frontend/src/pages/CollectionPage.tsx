@@ -258,8 +258,8 @@ export const CollectionPage = () => {
             </span>
           )}
           {collection?.artist !== undefined && (
-            <span style={{ fontSize: "16px", margin: "0 1rem" }}>
-              {isDesktop ? (
+            <span style={{ fontSize: "16px", margin: "0.5rem 1rem 0 1rem" }}>
+              {isDesktop || isTablet ? (
                 <> Artist: {collection.artist}</>
               ) : (
                 <> {collection.artist}</>
