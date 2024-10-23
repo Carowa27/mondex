@@ -182,14 +182,15 @@ export const Home = () => {
                   </h5>
                 )}
                 {!isDesktop && !isTablet && (
-                  <h6
-                    className={
-                      isTablet || isDesktop
-                        ? "align-self-start mt-3 w-100"
-                        : "text-center"
-                    }
-                  >
-                    Last opened card
+                  <h6 className={"text-center"}>
+                    {language?.name === "English" ? (
+                      "Last searched card"
+                    ) : (
+                      <>
+                        Ditt senast sökta
+                        <br /> kort
+                      </>
+                    )}
                   </h6>
                 )}
                 {isDesktop && (
@@ -307,7 +308,9 @@ export const Home = () => {
                         : "text-center"
                     }
                   >
-                    {language?.lang_code.todays_valuable_card}
+                    {language?.name === "English"
+                      ? "Most Valuable Card"
+                      : "Mest värdefulla kortet"}
                   </h5>
                 )}
                 {!isDesktop && !isTablet && (
@@ -318,7 +321,9 @@ export const Home = () => {
                         : "text-center"
                     }
                   >
-                    {language?.lang_code.todays_valuable_card}
+                    {language?.name === "English"
+                      ? "Most Valuable Card"
+                      : "Mest värdefulla kortet"}
                   </h6>
                 )}
 
