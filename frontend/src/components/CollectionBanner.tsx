@@ -128,7 +128,9 @@ export const CollectionBanner = (props: IProps) => {
                               style={
                                 isDesktop || isTablet
                                   ? { height: "8rem" }
-                                  : { height: "7.5rem" }
+                                  : window.location.pathname === "/"
+                                  ? { height: "7.5rem" }
+                                  : { height: "8.5rem" }
                               }
                             >
                               <img
