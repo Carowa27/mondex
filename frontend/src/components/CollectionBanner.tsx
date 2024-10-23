@@ -74,6 +74,7 @@ export const CollectionBanner = (props: IProps) => {
                     style={{
                       maxHeight: "1.5rem",
                       marginRight: "1rem",
+                      marginLeft: "1rem",
                     }}
                   />
                 </div>
