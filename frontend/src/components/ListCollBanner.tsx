@@ -82,7 +82,13 @@ export const ListCollBanner = ({ collection }: IListProps) => {
               <span style={{ fontSize: "small" }}>{artistNameToShow}</span>
             </div>
           )}
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div
+            style={
+              isDesktop || isTablet
+                ? { display: "flex", alignItems: "center" }
+                : { display: "flex", alignItems: "top", marginTop: "0.2rem" }
+            }
+          >
             <span style={{ fontSize: "small" }}>
               {container.language?.name === "English" ? <>Value</> : <>Värde</>}
               : ~{getValueOfCardsOwned([collection])}$
