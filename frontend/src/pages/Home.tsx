@@ -172,7 +172,7 @@ export const Home = () => {
                   isDesktop
                     ? "d-flex flex-row w-100 flex-wrap"
                     : isTablet
-                    ? "d-flex flex-row w-50 justify-content-center flex-wrap"
+                    ? "d-flex flex-column w-50 h-100 justify-content-center align-items-center"
                     : "d-flex flex-column w-50 align-items-center flex-fill"
                 }
               >
