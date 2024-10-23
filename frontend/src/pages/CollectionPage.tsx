@@ -185,6 +185,11 @@ export const CollectionPage = () => {
           className={
             "m-0 d-flex align-items-center flex-fill justify-content-between"
           }
+          style={
+            !isDesktop && !isTablet
+              ? { display: "flex", justifyContent: "space-between" }
+              : {}
+          }
         >
           <span className="d-flex flex-wrap pe-2">
             {collectionNameToShow.length > 9 &&
@@ -216,17 +221,30 @@ export const CollectionPage = () => {
               </>
             )}
           </span>
+          {collection?.set !== undefined && !isDesktop && !isTablet && (
+            <div style={{}}>
+              <img
+                src={collection?.set?.images.symbol}
+                alt={`${collection?.set?.name} logo`}
+                style={{
+                  maxHeight: isDesktop ? "5rem" : isTablet ? "3rem" : "2rem",
+                }}
+              />
+            </div>
+          )}
           {collection?.set !== undefined && (
             <span
               style={{
                 fontSize: "16px",
                 margin:
-                  isDesktop || isTablet ? "0 2rem 0.5rem 0 " : "0 1rem 0 0",
+                  isDesktop || isTablet ? "0 2rem 0.5rem 0 " : "0 1.5rem 0 0",
                 alignSelf: isDesktop ? "end" : "",
               }}
             >
               {isDesktop ? (
                 <> Set id: {collection.set?.id.replace("pt", ".")}</>
+              ) : isTablet ? (
+                <>{collection.set?.id.replace("pt", ".")}</>
               ) : (
                 <>{collection.set?.id.replace("pt", ".")}</>
               )}
@@ -252,33 +270,41 @@ export const CollectionPage = () => {
           )}
         </h3>
         {collection?.set !== undefined && (
-          <div
-            style={{
-              alignSelf: "center",
-              zIndex: 40,
-              position: "absolute",
-              left: "50vw",
-              top:
-                collectionName.length > 9 && !isDesktop && !isTablet
-                  ? "5rem"
-                  : "4rem",
-              transform: "translate(-50%, -50%)",
-            }}
-          >
-            <img
-              src={collection?.set?.images.logo}
-              alt={`${collection?.set?.name} logo`}
-              style={{
-                maxHeight: isDesktop ? "5rem" : isTablet ? "3rem" : "2rem",
-              }}
-            />
-          </div>
+          <>
+            {isTablet || isDesktop ? (
+              <div
+                style={{
+                  alignSelf: "center",
+                  zIndex: 40,
+                  position: "absolute",
+                  left: "50vw",
+                  top:
+                    collectionName.length > 9 && !isDesktop && !isTablet
+                      ? "5rem"
+                      : "4rem",
+                  transform: "translate(-50%, -50%)",
+                }}
+              >
+                <img
+                  src={collection?.set?.images.logo}
+                  alt={`${collection?.set?.name} logo`}
+                  style={{
+                    maxHeight: isDesktop ? "5rem" : isTablet ? "3rem" : "2rem",
+                  }}
+                />
+              </div>
+            ) : null}
+          </>
         )}
         <div className="d-flex flex-column align-items-end">
           <BreadCrumbs pageParam="collection" collectionName={collectionName} />
           {collection?.collection_name !== `Main_Collection` ? (
             <h5
-              className="bi bi-trash3 pe-4 m-0"
+              className={
+                isDesktop
+                  ? "bi bi-trash3 pe-4 m-0"
+                  : "bi bi-trash3 pe-4 m-0 pt-2"
+              }
               onClick={() => setShowDeleteCollection(true)}
             ></h5>
           ) : null}
