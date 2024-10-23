@@ -14,6 +14,7 @@ import {
 } from "../functions/dataFunctions";
 import { StandardButton } from "../components/Buttons";
 import { Pagination } from "./layout/Pagination";
+import { convertObjectToCsv } from "../functions/exportFunctions";
 
 export const MyPages = () => {
   const { container, clearContainer } = useContext(ContainerContext);
@@ -58,9 +59,13 @@ export const MyPages = () => {
   };
   const exportData = () => {
     if (exportAll === true) {
-      console.log("export all");
+      convertObjectToCsv("all", container);
+      setExportAll(false);
+      setExportCollections(false);
     } else {
-      console.log("export collections only");
+      convertObjectToCsv("collections", container);
+      setExportAll(false);
+      setExportCollections(false);
     }
     setShowExportDataModal(false);
   };
@@ -140,7 +145,11 @@ export const MyPages = () => {
         >
           <div
             className={
-              isDesktop ? "w-25 px-4 py-3 rounded" : "w-75 px-4 py-3 rounded"
+              isDesktop
+                ? "w-25 px-4 py-3 rounded"
+                : isTablet
+                ? "w-50 px-4 py-3 rounded"
+                : "w-75 px-4 py-3 rounded"
             }
             style={{ backgroundColor: theme?.primaryColors.background.hex }}
           >
@@ -154,7 +163,10 @@ export const MyPages = () => {
               <div className="mb-4">
                 <h6>What do you want to export? </h6>
               </div>
-              <form action="exportData">
+              <form
+                action="exportData"
+                style={{ display: "flex", flexDirection: "column" }}
+              >
                 <label htmlFor="export-data-all">
                   <input
                     type="radio"
