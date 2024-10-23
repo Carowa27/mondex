@@ -260,7 +260,13 @@ export const MyPages = () => {
                 setShowCollections(false), setShowMyAccount(true)
               )}
             >
-              <h5 className={showMyAccount ? "m-0" : "m-0 fw-normal"}>
+              <h5
+                className={
+                  showMyAccount
+                    ? "m-0 d-flex align-items-center justify-content-center h-100"
+                    : "m-0 d-flex align-items-center justify-content-center h-100 fw-normal"
+                }
+              >
                 {language?.lang_code.my_pages_my_profile}
               </h5>
             </span>
@@ -404,7 +410,7 @@ export const MyPages = () => {
                   }}
                 >
                   <h4 onClick={() => setIsShowUserInfo(!isShowUserInfo)}>
-                    User{" "}
+                    {language?.name === "English" ? <>User</> : <>Användare</>}{" "}
                     {!isDesktop && !isTablet && (
                       <>
                         {isShowUserInfo ? (
@@ -417,12 +423,31 @@ export const MyPages = () => {
                   </h4>
                   {(isShowUserInfo || isDesktop || isTablet) && (
                     <>
-                      <h5>User information</h5>
+                      <h5>
+                        {language?.name === "English" ? (
+                          <>User information</>
+                        ) : (
+                          <>Användarinformation</>
+                        )}
+                      </h5>
                       <p style={{ marginLeft: "1rem" }}>
-                        <b>Username: </b>
+                        <b>
+                          {language?.name === "English" ? (
+                            <>Username</>
+                          ) : (
+                            <>Användarnman</>
+                          )}
+                          :{" "}
+                        </b>
                         {container.user?.username}
                       </p>
-                      <h5>Saved data information</h5>
+                      <h5>
+                        {language?.name === "English" ? (
+                          <>Saved data information</>
+                        ) : (
+                          <>Information om sparad data</>
+                        )}
+                      </h5>
                       <div
                         style={{
                           width: "max-content",
@@ -432,17 +457,37 @@ export const MyPages = () => {
                         }}
                       >
                         <div style={{ marginLeft: "1rem" }}>
-                          <h6>Export data</h6>
+                          <h6>
+                            {language?.name === "English" ? (
+                              <>Export data</>
+                            ) : (
+                              <>Exportera data</>
+                            )}
+                          </h6>
                           <StandardButton
-                            btnText={"Export your saved data"}
+                            btnText={
+                              language?.name === "English"
+                                ? "Export your saved data"
+                                : "Exportera din data"
+                            }
                             btnAction={() => setShowExportDataModal(true)}
                             disabled={false}
                           />
                         </div>
                         <div style={{ marginLeft: "1rem" }}>
-                          <h6>Delete data</h6>
+                          <h6>
+                            {language?.name === "English" ? (
+                              <>Delete data</>
+                            ) : (
+                              <>Radera data</>
+                            )}
+                          </h6>
                           <StandardButton
-                            btnText={"Remove all saved data"}
+                            btnText={
+                              language?.name === "English"
+                                ? "Remove all saved data"
+                                : "Radera all sparad data"
+                            }
                             btnAction={() => setShowRemoveDataModal(true)}
                             disabled={false}
                           />
@@ -469,23 +514,49 @@ export const MyPages = () => {
                       : { width: "auto", marginTop: "0.5rem" }
                   }
                 >
-                  <h4>Compilation of all collections</h4>
+                  <h4>
+                    {language?.name === "English" ? (
+                      <>Compilation of all collections</>
+                    ) : (
+                      <>Sammanställning av alla samlingar</>
+                    )}{" "}
+                  </h4>
                   <div>
-                    <h5>Numbers</h5>
+                    <h5>
+                      {language?.name === "English" ? (
+                        <>Numbers</>
+                      ) : (
+                        <>Nummer</>
+                      )}
+                    </h5>
                     <div style={{ marginLeft: "1rem" }}>
                       <p>
-                        <b>Nr of collections: </b>
+                        <b>
+                          {language?.name === "English" ? (
+                            <>Nr of collections</>
+                          ) : (
+                            <>Antal kollektioner</>
+                          )}
+                          :{" "}
+                        </b>
                         {collections?.length}
                       </p>
                       <p>
-                        <b>Total nr of cards: </b>
+                        <b>
+                          {language?.name === "English" ? (
+                            <>Total nr of cards</>
+                          ) : (
+                            <>Antal kort</>
+                          )}
+                          :{" "}
+                        </b>
                         {getAmountOfCardsOwned(collections!)}
                       </p>
                     </div>
                   </div>
                   <div>
                     <h5 onClick={() => setIsShowValues(!isShowValues)}>
-                      Values
+                      {language?.name === "English" ? <>Values</> : <>Värden</>}
                       {!isDesktop && !isTablet && (
                         <>
                           {isShowValues ? (
@@ -499,7 +570,13 @@ export const MyPages = () => {
                     {(isShowValues || isDesktop || isTablet) && (
                       <div style={{ marginLeft: "1rem" }}>
                         <div>
-                          <b>Value of collections: </b>
+                          <b>
+                            {language?.name === "English" ? (
+                              <>Value of collections:</>
+                            ) : (
+                              <>Värde av kollektioner</>
+                            )}{" "}
+                          </b>
                           <ul style={{ paddingLeft: "1.5rem" }}>
                             {collections?.map((coll) => {
                               return (
@@ -512,14 +589,26 @@ export const MyPages = () => {
                           </ul>
                         </div>
                         <p>
-                          <b>Total value of cards: </b>~
-                          {getValueOfCardsOwned(collections!)}$
+                          <b>
+                            {language?.name === "English" ? (
+                              <>Total value of cards:</>
+                            ) : (
+                              <>Totalt värde av alla kort</>
+                            )}{" "}
+                          </b>
+                          ~{getValueOfCardsOwned(collections!)}$
                         </p>
                       </div>
                     )}
                   </div>
                   <div style={isDesktop ? { marginTop: "2.5rem" } : {}}>
-                    <h5>Most valuable card in collection: </h5>
+                    <h5>
+                      {language?.name === "English" ? (
+                        <>Most valuable card in collection:</>
+                      ) : (
+                        <>Mest prisvärda kort i samlingen:</>
+                      )}{" "}
+                    </h5>
                     <div
                       style={{
                         marginLeft: isDesktop || isTablet ? "1rem" : "0",
@@ -569,7 +658,7 @@ export const MyPages = () => {
                               {mostValuableOwnedCard.card.set.name}
                             </p>
                             <p className={!isDesktop && !isTablet ? "m-0" : ""}>
-                              <b>Release date: </b>
+                              <b>{language?.lang_code.word_release_date}: </b>
                               {!isDesktop && !isTablet && <br />}
                               {mostValuableOwnedCard.card.set.releaseDate}
                             </p>
@@ -579,7 +668,14 @@ export const MyPages = () => {
                               {mostValuableOwnedCard.card.rarity}
                             </p>
                             <p className={!isDesktop && !isTablet ? "m-0" : ""}>
-                              <b>Value: </b>{" "}
+                              <b>
+                                {language?.name === "English" ? (
+                                  <>Value</>
+                                ) : (
+                                  <>Värde</>
+                                )}
+                                :{" "}
+                              </b>
                               {getValueOfCard(mostValuableOwnedCard)}$
                             </p>
                           </div>
