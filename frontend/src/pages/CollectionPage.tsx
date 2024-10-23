@@ -293,7 +293,7 @@ export const CollectionPage = () => {
                     className={
                       isDesktop
                         ? "d-flex flex-wrap p-0"
-                        : "d-flex flex-wrap justify-content-between p-0"
+                        : "d-flex flex-wrap justify-content-evenly p-0"
                     }
                     style={{ listStyle: "none", gap: "1rem" }}
                   >
