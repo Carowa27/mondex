@@ -52,7 +52,7 @@ export const ErrorPage = () => {
             <StandardButton
               btnAction={() => navigate("/", { replace: true })}
               disabled={false}
-              btnText="Home"
+              btnText={language?.name === "English" ? "Home" : "Startsida"}
             />
           </div>
           {/* </Link> */}
