@@ -182,9 +182,7 @@ export const CollectionPage = () => {
       ) : null}
       <div className="d-flex justify-content-between">
         <h3
-          className={
-            "m-0 d-flex align-items-center flex-fill justify-content-between"
-          }
+          className={"m-0 d-flex align-items-center flex-fill"}
           style={
             !isDesktop && !isTablet
               ? { display: "flex", justifyContent: "space-between" }
@@ -251,8 +249,8 @@ export const CollectionPage = () => {
             </span>
           )}
           {collection?.character !== undefined && (
-            <span style={{ fontSize: "16px", margin: "0 1rem" }}>
-              {isDesktop ? (
+            <span style={{ fontSize: "16px", margin: "0.5rem 1rem 0 1rem" }}>
+              {isDesktop || isTablet ? (
                 <> Character: {collection.character}</>
               ) : (
                 <> {collection.character}</>
