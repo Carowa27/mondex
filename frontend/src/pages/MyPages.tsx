@@ -14,7 +14,10 @@ import {
 } from "../functions/dataFunctions";
 import { StandardButton } from "../components/Buttons";
 import { Pagination } from "./layout/Pagination";
-import { convertObjectToCsv } from "../functions/exportFunctions";
+import {
+  convertObjectToCsv,
+  exportJsonObject,
+} from "../functions/exportFunctions";
 
 export const MyPages = () => {
   const { container, clearContainer } = useContext(ContainerContext);
@@ -60,14 +63,27 @@ export const MyPages = () => {
     }
   };
   const exportData = () => {
-    if (exportAll === true) {
-      convertObjectToCsv("all", container);
-      setExportAll(false);
-      setExportCollections(false);
-    } else {
-      convertObjectToCsv("collections", container);
-      setExportAll(false);
-      setExportCollections(false);
+    if (exportCsv) {
+      if (exportAll === true) {
+        convertObjectToCsv("all", container);
+        setExportAll(false);
+        setExportCsv(false);
+      } else {
+        convertObjectToCsv("collections", container);
+        setExportCollections(false);
+        setExportCsv(false);
+      }
+    }
+    if (exportJson) {
+      if (exportAll === true) {
+        exportJsonObject("all", container);
+        setExportAll(false);
+        setExportJson(false);
+      } else {
+        exportJsonObject("collections", container);
+        setExportCollections(false);
+        setExportJson(false);
+      }
     }
     setShowExportDataModal(false);
   };
