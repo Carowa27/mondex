@@ -10,7 +10,7 @@ export interface IDataExchange {
 export interface ICollectionDataExchange {
   id: string;
   cards_in_collection: { id: string; amount: number }[];
-  setId?: string;
+  set_id?: string;
   character?: string;
   artist?: string;
 }
