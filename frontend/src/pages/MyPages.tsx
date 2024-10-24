@@ -30,6 +30,8 @@ export const MyPages = () => {
     useState<boolean>(false);
   const [exportAll, setExportAll] = useState<boolean>(false);
   const [exportCollections, setExportCollections] = useState<boolean>(false);
+  const [exportCsv, setExportCsv] = useState<boolean>(false);
+  const [exportJson, setExportJson] = useState<boolean>(false);
   const [amountOfBanners, setAmountOfBanners] = useState<number>(3);
   const [page, setPage] = useState<number>(1);
   const [startBanner, setStartBanner] = useState<number>(0);
@@ -148,7 +150,7 @@ export const MyPages = () => {
               isDesktop
                 ? "w-25 px-4 py-3 rounded"
                 : isTablet
-                ? "w-50 px-4 py-3 rounded"
+                ? "w-75 px-4 py-3 rounded"
                 : "w-75 px-4 py-3 rounded"
             }
             style={{ backgroundColor: theme?.primaryColors.background.hex }}
@@ -165,32 +167,65 @@ export const MyPages = () => {
               </div>
               <form
                 action="exportData"
-                style={{ display: "flex", flexDirection: "column" }}
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: "1rem",
+                  justifyContent: "space-evenly",
+                }}
               >
-                <label htmlFor="export-data-all">
-                  <input
-                    type="radio"
-                    name="export-data"
-                    id="export-data-all"
-                    checked={exportAll === true}
-                    onChange={() => (
-                      setExportCollections(false), setExportAll(true)
-                    )}
-                  />{" "}
-                  Export all saved data
-                </label>
-                <label htmlFor="export-data-collections">
-                  <input
-                    type="radio"
-                    name="export-data"
-                    id="export-data-collections"
-                    checked={exportCollections === true}
-                    onChange={() => (
-                      setExportCollections(true), setExportAll(false)
-                    )}
-                  />{" "}
-                  Export saved collections
-                </label>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <label htmlFor="export-data-all">
+                    <input
+                      type="radio"
+                      name="export-data"
+                      id="export-data-all"
+                      checked={exportAll === true}
+                      onChange={() => (
+                        setExportCollections(false), setExportAll(true)
+                      )}
+                    />{" "}
+                    Export all saved data
+                  </label>
+                  <label htmlFor="export-data-collections">
+                    <input
+                      type="radio"
+                      name="export-data"
+                      id="export-data-collections"
+                      checked={exportCollections === true}
+                      onChange={() => (
+                        setExportCollections(true), setExportAll(false)
+                      )}
+                    />{" "}
+                    Export saved collections
+                  </label>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <label htmlFor="export-type-csv">
+                    <input
+                      type="radio"
+                      name="export-type"
+                      id="export-type-csv"
+                      checked={exportCsv === true}
+                      onChange={() => (
+                        setExportCsv(true), setExportJson(false)
+                      )}
+                    />{" "}
+                    Export in CSV
+                  </label>
+                  <label htmlFor="export-type-json">
+                    <input
+                      type="radio"
+                      name="export-type"
+                      id="export-type-json"
+                      checked={exportJson === true}
+                      onChange={() => (
+                        setExportCsv(false), setExportJson(true)
+                      )}
+                    />{" "}
+                    Export in JSON
+                  </label>
+                </div>
               </form>
               <div className="d-flex justify-content-around mt-3">
                 <StandardButton
