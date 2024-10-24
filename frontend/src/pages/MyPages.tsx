@@ -185,7 +185,7 @@ export const MyPages = () => {
                 action="exportData"
                 style={{
                   display: "flex",
-                  flexDirection: "row",
+                  flexDirection: isDesktop || isTablet ? "row" : "column",
                   gap: "1rem",
                   justifyContent: "space-evenly",
                 }}
