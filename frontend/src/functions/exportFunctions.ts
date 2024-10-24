@@ -97,7 +97,54 @@ const generateCSV = (csvData: string) => {
   if (link.download !== undefined) {
     const url = URL.createObjectURL(blob);
     link.setAttribute("href", url);
-    link.setAttribute("download", `testData.csv`);
+    link.setAttribute("download", `exportedDataFromMondex.csv`);
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+};
+
+export const exportJsonObject = (
+  whatToExport: "all" | "collections",
+  container: ILSContainer
+) => {
+  let exportedObject: IDataExchange = {
+    language: container.language?.name === "English" ? "English" : "Svenska",
+    theme: container.theme?.name === "light" ? "light" : "dark",
+    user: {
+      username: container.user?.username ? container.user.username : "",
+      collections:
+        container.user?.collections.map((coll) => {
+          return {
+            id: coll.id,
+            set_id: coll.set ? coll.set.id : "",
+            character: coll.character ? coll.character : "",
+            artist: coll.artist ? coll.artist : "",
+            cards_in_collection: coll.cards_in_collection.map((card) => {
+              return { id: card.card.id, amount: card.amount };
+            }),
+          };
+        }) || [],
+    },
+  };
+  if (whatToExport === "all") {
+    console.log("all");
+    generateJson(exportedObject);
+  } else {
+    generateJson(exportedObject.user.collections);
+  }
+};
+
+const generateJson = (jsonObject: object) => {
+  const blob = new Blob([JSON.stringify(jsonObject)], {
+    type: "application/json",
+  });
+  const link = document.createElement("a");
+  if (link.download !== undefined) {
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", `exportedDataFromMondex.json`);
     link.style.visibility = "hidden";
     document.body.appendChild(link);
     link.click();
