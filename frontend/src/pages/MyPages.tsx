@@ -282,20 +282,19 @@ export const MyPages = () => {
                       fontWeight: "600",
                       color: theme?.primaryColors.text.hex,
                       backgroundColor: `rgba(${theme?.typeColors.metal.rgb},0.1`,
-                      borderWidth: "2px",
-                      borderStyle: "solid solid none solid",
-                      borderColor: `rgba(${theme?.typeColors.metal.rgb},0.3)`,
                       borderRadius: "0.5rem 0.5rem 0 0",
+                      cursor: "pointer",
                     }
                   : {
                       color: theme?.primaryColors.text.hex,
                       borderWidth: "2px",
                       borderStyle: "solid solid none solid",
-                      borderColor: `rgba(${theme?.typeColors.metal.rgb},0.3)`,
+                      borderColor: `rgba(${theme?.typeColors.metal.rgb},0.1)`,
                       borderRadius: "0.5rem 0.5rem 0 0",
+                      cursor: "pointer",
                     }
               }
-              className={isDesktop ? "px-3 py-1 me-1" : "px-3 py-1 w-50"}
+              className={isDesktop ? "px-3 py-2 me-1" : "px-3 py-1 w-50"}
               onClick={() => (
                 setShowCollections(true), setShowMyAccount(false)
               )}
@@ -311,17 +310,16 @@ export const MyPages = () => {
                       fontWeight: "600",
                       color: theme?.primaryColors.text.hex,
                       backgroundColor: `rgba(${theme?.typeColors.metal.rgb},0.1`,
-                      borderWidth: "2px",
-                      borderStyle: "solid solid none solid",
-                      borderColor: `rgba(${theme?.typeColors.metal.rgb},0.3)`,
                       borderRadius: "0.5rem 0.5rem 0 0",
+                      cursor: "pointer",
                     }
                   : {
                       color: theme?.primaryColors.text.hex,
                       borderWidth: "2px",
                       borderStyle: "solid solid none solid",
-                      borderColor: `rgba(${theme?.typeColors.metal.rgb},0.3)`,
+                      borderColor: `rgba(${theme?.typeColors.metal.rgb},0.1)`,
                       borderRadius: "0.5rem 0.5rem 0 0",
+                      cursor: "pointer",
                     }
               }
               className={isDesktop ? "px-3 py-1 me-1" : "px-3 py-1 w-50"}
@@ -344,7 +342,10 @@ export const MyPages = () => {
         <main
           className="py-4"
           style={{
-            borderRadius: "0 0.5rem 0.5rem 0.5rem",
+            borderRadius:
+              isDesktop || isTablet
+                ? "0 0.5rem 0.5rem 0.5rem"
+                : "0 0rem 0.5rem 0.5rem",
             backgroundColor: `rgba(${theme?.typeColors.metal.rgb},0.1`,
           }}
         >

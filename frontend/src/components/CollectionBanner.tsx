@@ -45,7 +45,7 @@ export const CollectionBanner = (props: IProps) => {
             }
             style={{
               border: `1px solid ${theme?.primaryColors.text.hex}`,
-              width: isDesktop ? "max-content" : isTablet ? "41%" : "100%",
+              width: isDesktop ? "max-content" : isTablet ? "41%" : "95%",
               minWidth: "20%",
               display: "flex",
               flexDirection: "column",
