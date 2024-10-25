@@ -225,6 +225,7 @@ export const CreateCollectionPage = () => {
       <form
         action="saveCollection"
         style={{ display: "flex", flexDirection: "column" }}
+        onChange={() => setCreatedCollection(false)}
       >
         <label htmlFor="collName">
           Collection name:{" "}
