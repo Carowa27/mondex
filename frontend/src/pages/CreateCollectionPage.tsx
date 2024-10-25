@@ -421,7 +421,9 @@ export const CreateCollectionPage = () => {
               )}
             </p>
           )}
-          {!isLoading && <p>Here is an example of cards found</p>}
+          {!isLoading && foundCardsOnSearch.length !== 0 && (
+            <p>Here is an example of cards found</p>
+          )}
           <div style={{ display: "flex" }}>
             {foundCardsOnSearch.slice(0, 10).map((pkmn) => (
               <div style={{ width: "10rem" }}>
