@@ -401,9 +401,7 @@ export const MyPages = () => {
                           padding: isTablet ? "0 2rem" : "",
                           flexDirection: "row",
                           flexWrap: "wrap",
-                          justifyContent: isDesktop
-                            ? "space-between"
-                            : "space-evenly",
+                          justifyContent: isDesktop ? "start" : "space-evenly",
                           gap: "2rem",
                           width: isDesktop ? "85.5%" : "100%",
                         }}
