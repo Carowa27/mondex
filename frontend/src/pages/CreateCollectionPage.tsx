@@ -25,7 +25,9 @@ export const CreateCollectionPage = () => {
   const [pkmnSetId, setPkmnSetId] = useState<string>("");
   const [charName, setCharName] = useState<string>("");
   const [artistName, setArtistName] = useState<string>("");
-  const [foundCardsOnSearch, setFoundCardsOnSearch] = useState<IPkmnCard[]>([]);
+  const [foundCardsOnSearch, setFoundCardsOnSearch] = useState<
+    IPkmnCard[] | undefined
+  >(undefined);
   const [foundSetOnSearch, setFoundSetOnSearch] = useState<IPkmnSet>();
   const [notCorrectSetId, setNotCorrectSetId] = useState<boolean>(false);
   const [notCorrectArtist, setNotCorrectArtist] = useState<boolean>(false);
@@ -162,7 +164,7 @@ export const CreateCollectionPage = () => {
     setNotCorrectArtist(false);
     setNotCorrectSetId(false);
     setFoundSetOnSearch(undefined);
-    setFoundCardsOnSearch([]);
+    setFoundCardsOnSearch(undefined);
   };
 
   const searchForSet = async (setId: string) => {
@@ -230,7 +232,9 @@ export const CreateCollectionPage = () => {
             type="text"
             id="collName"
             value={collName}
-            onChange={(e) => setCollName(e.target.value)}
+            onChange={(e) => (
+              setCollName(e.target.value), setNameExists(false)
+            )}
           />
         </label>
         <div>
@@ -242,7 +246,9 @@ export const CreateCollectionPage = () => {
               value="collSetYes"
               checked={collType === "set"}
               name="collTypeSet"
-              onChange={() => (setCollType("set"), setFoundCardsOnSearch([]))}
+              onChange={() => (
+                setCollType("set"), setFoundCardsOnSearch(undefined)
+              )}
             />{" "}
             Yes
           </label>
@@ -253,7 +259,9 @@ export const CreateCollectionPage = () => {
               value="collSetNo"
               checked={collType !== "set"}
               name="collTypeSet"
-              onChange={() => (setCollType("none"), setFoundCardsOnSearch([]))}
+              onChange={() => (
+                setCollType("none"), setFoundCardsOnSearch(undefined)
+              )}
             />{" "}
             No
           </label>
@@ -273,7 +281,7 @@ export const CreateCollectionPage = () => {
                 onClick={(e) => (
                   searchForSet(pkmnSetId),
                   e.preventDefault(),
-                  setFoundCardsOnSearch([]),
+                  setFoundCardsOnSearch(undefined),
                   setFoundSetOnSearch(undefined)
                 )}
               >
@@ -292,7 +300,7 @@ export const CreateCollectionPage = () => {
               checked={collType === "artist"}
               name="collTypeArtist"
               onChange={() => (
-                setCollType("artist"), setFoundCardsOnSearch([])
+                setCollType("artist"), setFoundCardsOnSearch(undefined)
               )}
             />{" "}
             Yes
@@ -304,7 +312,9 @@ export const CreateCollectionPage = () => {
               value="collSetNo"
               checked={collType !== "artist"}
               name="collTypeArtist"
-              onChange={() => (setCollType("none"), setFoundCardsOnSearch([]))}
+              onChange={() => (
+                setCollType("none"), setFoundCardsOnSearch(undefined)
+              )}
             />{" "}
             No
           </label>
@@ -324,7 +334,7 @@ export const CreateCollectionPage = () => {
                 onClick={(e) => (
                   searchForCards("artist", artistName),
                   e.preventDefault(),
-                  setFoundCardsOnSearch([])
+                  setFoundCardsOnSearch(undefined)
                 )}
               >
                 Search artist
@@ -341,7 +351,9 @@ export const CreateCollectionPage = () => {
               value="collCharYes"
               checked={collType === "char"}
               name="collTypeChar"
-              onChange={() => (setCollType("char"), setFoundCardsOnSearch([]))}
+              onChange={() => (
+                setCollType("char"), setFoundCardsOnSearch(undefined)
+              )}
             />{" "}
             Yes
           </label>
@@ -352,7 +364,9 @@ export const CreateCollectionPage = () => {
               value="collCharNo"
               checked={collType !== "char"}
               name="collTypeChar"
-              onChange={() => (setCollType("none"), setFoundCardsOnSearch([]))}
+              onChange={() => (
+                setCollType("none"), setFoundCardsOnSearch(undefined)
+              )}
             />{" "}
             No
           </label>
@@ -393,6 +407,7 @@ export const CreateCollectionPage = () => {
               foundCardsOnSearch &&
               foundCardsOnSearch.length === 0)
           }
+          onClick={(e) => handleSubmit(e)}
         >
           Create
         </button>
@@ -426,7 +441,7 @@ export const CreateCollectionPage = () => {
           )}
           <div style={{ display: "flex" }}>
             {foundCardsOnSearch.slice(0, 10).map((pkmn) => (
-              <div style={{ width: "10rem" }}>
+              <div style={{ width: "10rem" }} key={pkmn.id}>
                 <img
                   className="rounded"
                   src={pkmn && pkmn.images.small}
@@ -445,11 +460,10 @@ export const CreateCollectionPage = () => {
       {createdCollection ? (
         <Link
           className="text-decoration-none"
-          to={
-            collName.includes(" ")
-              ? `/collection/${collName.replace(/ /g, "_")}`
-              : `/collection/${collName}`
-          }
+          to={`/collection/${
+            container.user?.collections[container.user?.collections.length - 1]
+              .collection_name
+          }`}
           style={{
             color: container.theme?.primaryColors.link.hex,
           }}
@@ -457,7 +471,11 @@ export const CreateCollectionPage = () => {
           <p>
             {container.language?.lang_code.collection_created}:{" "}
             <span className="text-decoration-underline fst-italic">
-              {collName}
+              {
+                container.user?.collections[
+                  container.user?.collections.length - 1
+                ].collection_name
+              }
             </span>
           </p>
         </Link>
