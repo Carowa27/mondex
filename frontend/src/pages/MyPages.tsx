@@ -299,7 +299,13 @@ export const MyPages = () => {
                 setShowCollections(true), setShowMyAccount(false)
               )}
             >
-              <h5 className={showCollections ? "m-0" : "m-0 fw-normal"}>
+              <h5
+                className={
+                  showCollections
+                    ? "m-0 d-flex align-items-center justify-content-center h-100"
+                    : "m-0 d-flex align-items-center justify-content-center h-100 fw-normal"
+                }
+              >
                 {language?.lang_code.my_pages_my_collections}
               </h5>
             </span>
