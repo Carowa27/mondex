@@ -377,7 +377,7 @@ export const MyPages = () => {
                         : "Se alla kollektioner"
                     }
                     btnAction={() =>
-                      navigate("/create-new-collection", { replace: true })
+                      navigate("/all-collections", { replace: true })
                     }
                     disabled={false}
                   />
@@ -435,9 +435,10 @@ export const MyPages = () => {
                 style={
                   isDesktop
                     ? {
-                        width: "70%",
+                        width: "100%",
                         display: "flex",
                         justifyContent: "center",
+                        margin: "0 2rem",
                       }
                     : isTablet
                     ? {
@@ -454,7 +455,7 @@ export const MyPages = () => {
               >
                 <div
                   style={{
-                    width: isDesktop ? "40%" : isTablet ? "40%" : "auto",
+                    width: isDesktop ? "25%" : isTablet ? "40%" : "auto",
                   }}
                 >
                   <h4 onClick={() => setIsShowUserInfo(!isShowUserInfo)}>
@@ -551,11 +552,11 @@ export const MyPages = () => {
                   style={
                     isDesktop
                       ? {
-                          width: "40%",
+                          width: "60%",
                           display: "flex",
                           flexDirection: "column",
                           flexWrap: "wrap",
-                          height: "60%",
+                          height: "80%",
                         }
                       : isTablet
                       ? { width: "55%" }
@@ -625,18 +626,42 @@ export const MyPages = () => {
                               <>Värde av kollektioner</>
                             )}{" "}
                           </b>
-                          <ul style={{ paddingLeft: "1.5rem" }}>
-                            {collections?.map((coll) => {
-                              return (
-                                <li key={coll.id}>
-                                  {coll.collection_name.replace(/_/g, " ")} ~
-                                  {getValueOfCardsOwned([coll])}$
-                                </li>
-                              );
-                            })}
+                          <ul
+                            style={{
+                              paddingLeft: "1.5rem",
+                              // margin: ,
+                            }}
+                          >
+                            {collections
+                              ?.slice(0, isDesktop ? 10 : 5)
+                              .map((coll) => {
+                                return (
+                                  <li key={coll.id}>
+                                    {coll.collection_name.replace(/_/g, " ")} ~
+                                    {getValueOfCardsOwned([coll])}$
+                                  </li>
+                                );
+                              })}
                           </ul>
+                          {collections && collections.length > 2 && (
+                            <Link
+                              to="/all-collections"
+                              className={
+                                isDesktop
+                                  ? "fst-italic"
+                                  : "fst-italic text-center"
+                              }
+                              style={{
+                                color: theme?.primaryColors.link.hex,
+                              }}
+                            >
+                              {language?.name === "English"
+                                ? "See all collections"
+                                : "Se alla kollektioner"}
+                            </Link>
+                          )}
                         </div>
-                        <p>
+                        <p className="my-3">
                           <b>
                             {language?.name === "English" ? (
                               <>Total value of cards:</>
