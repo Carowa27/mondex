@@ -89,11 +89,11 @@ export const MyPages = () => {
   };
   useEffect(() => {
     isDesktop
-      ? setAmountOfBanners(12)
-      : isTablet
       ? setAmountOfBanners(6)
+      : isTablet
+      ? setAmountOfBanners(4)
       : setAmountOfBanners(3);
-    isDesktop ? setEndBanner(12) : isTablet ? setEndBanner(6) : setEndBanner(3);
+    isDesktop ? setEndBanner(6) : isTablet ? setEndBanner(4) : setEndBanner(3);
   }, []);
   return (
     <>
@@ -353,6 +353,9 @@ export const MyPages = () => {
                 ? "0 0.5rem 0.5rem 0.5rem"
                 : "0 0rem 0.5rem 0.5rem",
             backgroundColor: `rgba(${theme?.typeColors.metal.rgb},0.1`,
+            minHeight: "80vh",
+            display: "flex",
+            flexDirection: "column",
           }}
         >
           {showCollections && (
@@ -407,7 +410,7 @@ export const MyPages = () => {
                           padding: isTablet ? "0 2rem" : "",
                           flexDirection: "row",
                           flexWrap: "wrap",
-                          justifyContent: isDesktop ? "start" : "space-evenly",
+                          justifyContent: "space-evenly",
                           gap: "2rem",
                           width: isDesktop ? "85.5%" : "100%",
                         }}
