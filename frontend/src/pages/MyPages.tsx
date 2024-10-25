@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
 import { BreadCrumbs } from "./layout/BreadCrumbs";
 import { LoadingModule } from "../components/LoadingModule";
 import { useMediaQuery } from "react-responsive";
@@ -335,29 +335,29 @@ export const MyPages = () => {
             </span>
           </div>
           {isDesktop && showCollections ? (
-            <div className={"mt-3 d-flex w-25"}>
-              <Link
-                to="/create-new-collection"
-                className="text-decoration-none me-5"
-                style={{
-                  color: theme?.primaryColors.link.hex,
-                }}
-              >
-                <h6 className={"m-0"}>
-                  {language?.lang_code.collection_create_new_collection}
-                </h6>
-              </Link>
-              <Link
-                className="fst-italic me-4"
-                to="/all-collections"
-                style={{
-                  color: theme?.primaryColors.link.hex,
-                }}
-              >
-                <h6 className={"m-0"}>
-                  {language?.lang_code.my_pages_see_all_collections}
-                </h6>
-              </Link>
+            <div
+              className={
+                "mt-3 d-flex w-75 justify-content-end align-items-center"
+              }
+            >
+              <div className="me-5">
+                <StandardButton
+                  btnText={`${language?.lang_code.collection_create_new_collection}`}
+                  btnAction={() =>
+                    navigate("/create-new-collection", { replace: true })
+                  }
+                  disabled={false}
+                />
+              </div>
+              <div className="me-4">
+                <StandardButton
+                  btnText={`${language?.lang_code.my_pages_see_all_collections}`}
+                  btnAction={() =>
+                    navigate("/create-new-collection", { replace: true })
+                  }
+                  disabled={false}
+                />
+              </div>
             </div>
           ) : null}
         </header>
@@ -372,28 +372,30 @@ export const MyPages = () => {
                       : "d-flex justify-content-between mb-3"
                   }
                 >
-                  <Link
-                    to="/create-new-collection"
-                    className="text-decoration-none"
-                    style={{
-                      color: theme?.primaryColors.link.hex,
-                    }}
-                  >
-                    <h6 className={isDesktop ? "me-5 mb-0 pt-3" : "m-0"}>
-                      {language?.lang_code.collection_create_new_collection}
-                    </h6>
-                  </Link>
-                  <Link
-                    className="fst-italic"
-                    to="/all-collections"
-                    style={{
-                      color: theme?.primaryColors.link.hex,
-                    }}
-                  >
-                    <h6 className={isDesktop ? "me-5 mb-0 pt-3" : "m-0"}>
-                      {language?.lang_code.my_pages_see_all_collections}
-                    </h6>
-                  </Link>
+                  <div className="me-5">
+                    <StandardButton
+                      btnText={
+                        language?.name === "English" ? "Create new" : "Skapa ny"
+                      }
+                      btnAction={() =>
+                        navigate("/create-new-collection", { replace: true })
+                      }
+                      disabled={false}
+                    />
+                  </div>
+                  <div className="me-4">
+                    <StandardButton
+                      btnText={
+                        language?.name === "English"
+                          ? "See all collections"
+                          : "Se alla kollektioner"
+                      }
+                      btnAction={() =>
+                        navigate("/create-new-collection", { replace: true })
+                      }
+                      disabled={false}
+                    />
+                  </div>
                 </div>
               ) : null}
               <div
