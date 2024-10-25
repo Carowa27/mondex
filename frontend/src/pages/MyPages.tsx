@@ -273,7 +273,7 @@ export const MyPages = () => {
           </h1>
           <BreadCrumbs pageParam="userpage" />
         </div>
-        <header className="d-flex justify-content-between align-items-center my-2">
+        <header className="d-flex justify-content-between align-items-center mt-2">
           <div style={{ width: "100%", display: "flex", gap: "0.5rem" }}>
             <span
               style={
@@ -281,18 +281,21 @@ export const MyPages = () => {
                   ? {
                       fontWeight: "600",
                       color: theme?.primaryColors.text.hex,
-                      backgroundColor: `rgba(${theme?.typeColors.metal.rgb},0.3)`,
+                      backgroundColor: `rgba(${theme?.typeColors.metal.rgb},0.1`,
+                      borderWidth: "2px",
+                      borderStyle: "solid solid none solid",
+                      borderColor: `rgba(${theme?.typeColors.metal.rgb},0.3)`,
+                      borderRadius: "0.5rem 0.5rem 0 0",
                     }
                   : {
                       color: theme?.primaryColors.text.hex,
-                      border: `1px solid rgba(${theme?.typeColors.metal.rgb},0.3)`,
+                      borderWidth: "2px",
+                      borderStyle: "solid solid none solid",
+                      borderColor: `rgba(${theme?.typeColors.metal.rgb},0.3)`,
+                      borderRadius: "0.5rem 0.5rem 0 0",
                     }
               }
-              className={
-                isDesktop
-                  ? "btn px-3 mb-2 py-1 me-1"
-                  : "btn px-3 mb-2 py-1 w-50"
-              }
+              className={isDesktop ? "px-3 py-1 me-1" : "px-3 py-1 w-50"}
               onClick={() => (
                 setShowCollections(true), setShowMyAccount(false)
               )}
@@ -307,18 +310,21 @@ export const MyPages = () => {
                   ? {
                       fontWeight: "600",
                       color: theme?.primaryColors.text.hex,
-                      backgroundColor: `rgba(${theme?.typeColors.metal.rgb},0.3)`,
+                      backgroundColor: `rgba(${theme?.typeColors.metal.rgb},0.1`,
+                      borderWidth: "2px",
+                      borderStyle: "solid solid none solid",
+                      borderColor: `rgba(${theme?.typeColors.metal.rgb},0.3)`,
+                      borderRadius: "0.5rem 0.5rem 0 0",
                     }
                   : {
                       color: theme?.primaryColors.text.hex,
-                      border: `1px solid rgba(${theme?.typeColors.metal.rgb},0.3)`,
+                      borderWidth: "2px",
+                      borderStyle: "solid solid none solid",
+                      borderColor: `rgba(${theme?.typeColors.metal.rgb},0.3)`,
+                      borderRadius: "0.5rem 0.5rem 0 0",
                     }
               }
-              className={
-                isDesktop
-                  ? "btn px-3 mb-2 pt-1 me-1"
-                  : "btn px-3 mb-2 py-1 w-50"
-              }
+              className={isDesktop ? "px-3 py-1 me-1" : "px-3 py-1 w-50"}
               onClick={() => (
                 setShowCollections(false), setShowMyAccount(true)
               )}
@@ -334,70 +340,48 @@ export const MyPages = () => {
               </h5>
             </span>
           </div>
-          {isDesktop && showCollections ? (
-            <div
-              className={
-                "mt-3 d-flex w-75 justify-content-end align-items-center"
-              }
-            >
-              <div className="me-5">
-                <StandardButton
-                  btnText={`${language?.lang_code.collection_create_new_collection}`}
-                  btnAction={() =>
-                    navigate("/create-new-collection", { replace: true })
-                  }
-                  disabled={false}
-                />
-              </div>
-              <div className="me-4">
-                <StandardButton
-                  btnText={`${language?.lang_code.my_pages_see_all_collections}`}
-                  btnAction={() =>
-                    navigate("/create-new-collection", { replace: true })
-                  }
-                  disabled={false}
-                />
-              </div>
-            </div>
-          ) : null}
         </header>
-        <main className="mt-1">
+        <main
+          className="py-4"
+          style={{
+            borderRadius: "0 0.5rem 0.5rem 0.5rem",
+            backgroundColor: `rgba(${theme?.typeColors.metal.rgb},0.1`,
+          }}
+        >
           {showCollections && (
             <>
-              {!isDesktop ? (
-                <div
-                  className={
-                    isDesktop
-                      ? "d-flex justify-content-end"
-                      : "d-flex justify-content-between mb-3"
-                  }
-                >
-                  <div className="me-5">
-                    <StandardButton
-                      btnText={
-                        language?.name === "English" ? "Create new" : "Skapa ny"
-                      }
-                      btnAction={() =>
-                        navigate("/create-new-collection", { replace: true })
-                      }
-                      disabled={false}
-                    />
-                  </div>
-                  <div className="me-4">
-                    <StandardButton
-                      btnText={
-                        language?.name === "English"
-                          ? "See all collections"
-                          : "Se alla kollektioner"
-                      }
-                      btnAction={() =>
-                        navigate("/create-new-collection", { replace: true })
-                      }
-                      disabled={false}
-                    />
-                  </div>
+              <div
+                className={
+                  isDesktop
+                    ? "d-flex justify-content-end mb-3"
+                    : "d-flex justify-content-between mx-4 mb-3"
+                }
+              >
+                <div className={isDesktop || isTablet ? "me-5" : ""}>
+                  <StandardButton
+                    btnText={
+                      language?.name === "English" ? "Create new" : "Skapa ny"
+                    }
+                    btnAction={() =>
+                      navigate("/create-new-collection", { replace: true })
+                    }
+                    disabled={false}
+                  />
                 </div>
-              ) : null}
+                <div className={isDesktop || isTablet ? "me-4" : ""}>
+                  <StandardButton
+                    btnText={
+                      language?.name === "English"
+                        ? "See all collections"
+                        : "Se alla kollektioner"
+                    }
+                    btnAction={() =>
+                      navigate("/create-new-collection", { replace: true })
+                    }
+                    disabled={false}
+                  />
+                </div>
+              </div>
               <div
                 className={
                   isDesktop
