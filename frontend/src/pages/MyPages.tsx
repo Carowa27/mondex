@@ -766,19 +766,19 @@ export const MyPages = () => {
               </div>
             </div>
           )}
+          {showCollections &&
+          collections &&
+          collections?.length > amountOfBanners ? (
+            <div className="d-flex justify-content-center mt-auto pt-3">
+              <Pagination
+                page={page}
+                pageSize={amountOfBanners}
+                totalCount={collections?.length ? collections?.length : 0}
+                updateSearch={updatePage}
+              />
+            </div>
+          ) : null}
         </main>
-        {showCollections &&
-        collections &&
-        collections?.length > amountOfBanners ? (
-          <div className="d-flex justify-content-center mt-auto pt-2">
-            <Pagination
-              page={page}
-              pageSize={amountOfBanners}
-              totalCount={collections?.length ? collections?.length : 0}
-              updateSearch={updatePage}
-            />
-          </div>
-        ) : null}
       </div>
     </>
   );
