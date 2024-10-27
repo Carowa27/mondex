@@ -16,17 +16,32 @@ export const getPkmnFromApi = async (
   page: number,
   pageSize: number
 ) => {
+  console.log("param", searchString);
   try {
-    const result = await get<IPkmnResponse>(
-      `https://api.pokemontcg.io/v2/cards/${searchString}&orderBy=number&pageSize=${pageSize}&page=${page}`
-    )
-      .then((res) => {
-        return res.data as IPkmnResponse;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    return result;
+    if (searchString.includes("artist") || searchString.includes("name")) {
+      const result = await get<IPkmnResponse>(
+        `https://api.pokemontcg.io/v2/cards/${searchString}&orderBy=set.releaseDate&pageSize=${pageSize}&page=${page}`
+      )
+        .then((res) => {
+          console.log(res.data.data[0]);
+          return res.data as IPkmnResponse;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      return result;
+    } else {
+      const result = await get<IPkmnResponse>(
+        `https://api.pokemontcg.io/v2/cards/${searchString}&orderBy=number&pageSize=${pageSize}&page=${page}`
+      )
+        .then((res) => {
+          return res.data as IPkmnResponse;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      return result;
+    }
   } catch (error) {
     console.error("An error has occurred: ", error);
   }
