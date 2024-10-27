@@ -4,7 +4,6 @@ import { BigPkmnCard } from "./BigPkmnCard";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { ContainerContext } from "../globals/containerContext";
-import { ICard } from "../interfaces/LSInterface";
 
 interface IProps {
   cardFromApi?: IPkmnCard;
