@@ -15,9 +15,10 @@ interface IInputButtonProps {
   btnAction: (e: FormEvent) => void;
   disabled: boolean;
 }
-interface ITextButtonProps {
+interface ITextToggleProps {
   btnText: string;
   btnAction: (e: FormEvent) => void;
+  toggleState: boolean;
   disabled?: boolean;
 }
 
@@ -95,7 +96,11 @@ export const CreateButton = ({
     </>
   );
 };
-export const OnlyTextButton = ({ btnText, btnAction }: ITextButtonProps) => {
+export const TextToggleButton = ({
+  btnText,
+  btnAction,
+  toggleState,
+}: ITextToggleProps) => {
   return (
     <button
       style={{
@@ -104,14 +109,18 @@ export const OnlyTextButton = ({ btnText, btnAction }: ITextButtonProps) => {
         fontSize: "inherit",
         width: "max-content",
         padding: "0.2rem 0.5rem",
-        margin: "0 2rem",
         borderRadius: "30px",
-        border: "1px solid lightgrey",
+        border: "none",
         cursor: "pointer",
       }}
       onClick={(e) => btnAction(e)}
     >
       {btnText}
+      {toggleState === true ? (
+        <i className="bi bi-chevron-up ps-1"></i>
+      ) : (
+        <i className="bi bi-chevron-down ps-1"></i>
+      )}
     </button>
   );
 };
