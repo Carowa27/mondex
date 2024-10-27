@@ -1,6 +1,4 @@
-import { CSSProperties, useContext, useEffect, useState } from "react";
-import { getPokemonFromApi } from "../services/pokeApiService";
-import { IPkmnCard, IPokeResponse } from "../interfaces/dataFromApi";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
@@ -15,7 +13,7 @@ export const ErrorPage = () => {
   const language = container.language;
   const theme = container.theme;
   const navigate = useNavigate();
-  const [errorCards, setErrorCards] = useState<IPkmnCard[]>(errorPageData);
+  const errorCards = errorPageData;
 
   return (
     <div

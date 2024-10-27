@@ -1,6 +1,5 @@
-import { FormEvent, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BreadCrumbs } from "./layout/BreadCrumbs";
-import { LoadingModule } from "../components/LoadingModule";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { Link, useNavigate } from "react-router-dom";
@@ -26,7 +25,7 @@ export const MyPages = () => {
 
   const [showCollections, setShowCollections] = useState<boolean>(true);
   const [showMyAccount, setShowMyAccount] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  // const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showRemoveDataModal, setShowRemoveDataModal] =
     useState<boolean>(false);
   const [showExportDataModal, setShowExportDataModal] =
@@ -413,36 +412,34 @@ export const MyPages = () => {
                     : "col-12 mb-3"
                 }
               >
-                {isLoading ? (
+                {/* {isLoading ? (
                   <LoadingModule />
-                ) : (
-                  <>
-                    {collections && collections.length !== 0 ? (
-                      <div
-                        style={{
-                          display: "flex",
-                          padding: isTablet ? "0 2rem" : "",
-                          flexDirection: "row",
-                          flexWrap: "wrap",
-                          justifyContent: "space-evenly",
-                          gap: "2rem",
-                          width: isDesktop ? "85.5%" : "100%",
-                        }}
-                      >
-                        {collections
-                          .slice(startBanner, endBanner)
-                          .map((coll) => (
-                            <CollectionBanner
-                              key={coll.id}
-                              collectionName={coll.collection_name}
-                            />
-                          ))}
-                      </div>
-                    ) : (
-                      <>{language?.lang_code.error_something_went_wrong}</>
-                    )}
-                  </>
-                )}
+                ) : ( */}
+                <>
+                  {collections && collections.length !== 0 ? (
+                    <div
+                      style={{
+                        display: "flex",
+                        padding: isTablet ? "0 2rem" : "",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        justifyContent: "space-evenly",
+                        gap: "2rem",
+                        width: isDesktop ? "85.5%" : "100%",
+                      }}
+                    >
+                      {collections.slice(startBanner, endBanner).map((coll) => (
+                        <CollectionBanner
+                          key={coll.id}
+                          collectionName={coll.collection_name}
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <>{language?.lang_code.error_something_went_wrong}</>
+                  )}
+                </>
+                {/* )} */}
               </div>
             </>
           )}

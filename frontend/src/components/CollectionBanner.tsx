@@ -97,7 +97,7 @@ export const CollectionBanner = (props: IProps) => {
               <div>
                 <ul
                   className={
-                    "d-flex flex-wrap justify-content-start align-items-end"
+                    "d-flex justify-content-start align-items-end overflow-hidden"
                   }
                   style={{ listStyle: "none", padding: 0, gap: "1rem" }}
                 >
@@ -109,8 +109,8 @@ export const CollectionBanner = (props: IProps) => {
                           window.location.pathname !== "/" && isDesktop
                             ? 7
                             : isDesktop
-                            ? 4
-                            : 3
+                            ? 6
+                            : 2
                         )
                         .map((card) => (
                           <li

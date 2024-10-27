@@ -48,4 +48,7 @@ export const ContainerContext = createContext<IContainerContext>({
   ) => {
     return;
   },
+  clearContainer: () => {
+    return;
+  },
 });

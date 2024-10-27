@@ -251,7 +251,7 @@ export const swapCardToOtherCollection = ({
   let cardFromApi: IPkmnCard | void;
   let allOwnedCards: ICardFromDB[] | void;
   const getData = async () => {
-    await getCardFromApi(cardToSwap.api_card_id).then((res) => {
+    await getCardFromApi(cardToSwap.api_card_id, 250).then((res) => {
       return (cardFromApi = res);
     });
     await getAllOwnedCards({ user }).then((res) => {

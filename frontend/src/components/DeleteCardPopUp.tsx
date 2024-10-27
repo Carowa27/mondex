@@ -6,7 +6,6 @@ import { ICard, ICollection } from "../interfaces/LSInterface";
 import { deleteCollection } from "../functions/collectionFunctions";
 import { useNavigate } from "react-router-dom";
 import { StandardButton } from "./Buttons";
-import { colorModes } from "../globals/theme";
 
 interface IProps {
   changeShowDeleteCardPopUp: () => void;

@@ -137,7 +137,7 @@ export const Home = () => {
                   backgroundColor: `rgba(${theme?.typeColors.fire.rgb},0.1)`,
                   minHeight: "90vh",
                   height: "auto",
-                  width: "27%",
+                  width: "47%",
                 }
               : {
                   height: "auto",
@@ -170,7 +170,7 @@ export const Home = () => {
               <div
                 className={
                   isDesktop
-                    ? "d-flex flex-row w-100 flex-wrap"
+                    ? "d-flex flex-row w-100 flex-wrap justify-content-center"
                     : isTablet
                     ? "d-flex flex-column w-25 h-100 justify-content-center align-items-center"
                     : "d-flex flex-column w-50 align-items-center flex-fill"
@@ -292,7 +292,7 @@ export const Home = () => {
               <div
                 className={
                   isDesktop
-                    ? "d-flex flex-row w-100 flex-wrap"
+                    ? "d-flex flex-row w-100 flex-wrap "
                     : isTablet && !container.lastOpenedCard
                     ? "d-flex flex-row w-100 flex-wrap"
                     : isTablet && container.lastOpenedCard
@@ -357,7 +357,7 @@ export const Home = () => {
                   }}
                 >
                   {isTablet || isDesktop ? (
-                    <p>
+                    <p style={isDesktop ? { marginLeft: "2rem" } : {}}>
                       <span>
                         <b>Card: </b>
                         {mostValuableCard?.name}
@@ -502,7 +502,7 @@ export const Home = () => {
             //       backgroundColor: `rgba(${theme.typeColors.grass.rgb},0.1)`,
             //     }:
             {
-              width: "27%",
+              width: "47%",
               border: `2px solid  rgba(${theme?.typeColors.grass.rgb},0.5)`,
               backgroundColor: `rgba(${theme?.typeColors.grass.rgb},0.1)`,
             }

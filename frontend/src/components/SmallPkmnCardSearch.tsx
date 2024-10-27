@@ -4,7 +4,6 @@ import { BigPkmnCard } from "./BigPkmnCard";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 import { ContainerContext } from "../globals/containerContext";
-import { ICard } from "../interfaces/LSInterface";
 
 interface IProps {
   cardFromApi?: IPkmnCard;
@@ -18,7 +17,6 @@ export const SmallPkmnCardSearch = ({ cardFromApi, addCard }: IProps) => {
   const [hoverPlusBtn, setHoverPlusBtn] = useState<boolean>(false);
   const [hoverInfoBtn, setHoverInfoBtn] = useState<boolean>(false);
   const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
-  const [infoCard, setInfoCard] = useState<ICard>();
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
   const [cardWidth, setCardWidth] = useState<number>(0);
   const theme = container.theme;
@@ -57,7 +55,7 @@ export const SmallPkmnCardSearch = ({ cardFromApi, addCard }: IProps) => {
           onClick={changeShowPkmnInfo}
         >
           <BigPkmnCard
-            card={infoCard}
+            card={undefined}
             pkmnCard={infoPkmnCard}
             changeShowPkmnInfo={changeShowPkmnInfo}
           />
