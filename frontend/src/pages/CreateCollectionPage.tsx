@@ -251,6 +251,7 @@ export const CreateCollectionPage = () => {
             onChange={(e) => (
               setCollName(e.target.value), setNameExists(false)
             )}
+            maxLength={15}
           />
         </label>
         <div className="form-radio-row">
