@@ -473,7 +473,7 @@ export const CreateCollectionPage = () => {
                   search for parts of a name add a star infront, after or both.
                 </p>
                 <p>
-                  <i>Example</i>: *char *char* char*
+                  <i>Example</i>: *char | *char* | char*
                 </p>
               </>
             )}
