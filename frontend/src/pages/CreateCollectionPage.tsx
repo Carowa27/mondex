@@ -296,7 +296,7 @@ export const CreateCollectionPage = () => {
                 <input
                   type="text"
                   id="collSetName"
-                  className="form-specific-input"
+                  className="form-specific-input-set"
                   value={pkmnSetId}
                   onChange={(e) => (
                     setPkmnSetId(e.target.value),
@@ -311,7 +311,7 @@ export const CreateCollectionPage = () => {
                     setFoundCardsOnSearch(undefined),
                     setFoundSetOnSearch(undefined)
                   )}
-                  btnText={"Search"}
+                  btnText={language?.name === "English" ? "Search" : "Sök"}
                 />
               </label>
             </>
@@ -374,7 +374,7 @@ export const CreateCollectionPage = () => {
                     e.preventDefault(),
                     setFoundCardsOnSearch(undefined)
                   )}
-                  btnText={"Search"}
+                  btnText={language?.name === "English" ? "Search" : "Sök"}
                 />
               </label>
             </>
@@ -440,7 +440,7 @@ export const CreateCollectionPage = () => {
                     e.preventDefault(),
                     setFoundCardsOnSearch([])
                   )}
-                  btnText={"Search"}
+                  btnText={language?.name === "English" ? "Search" : "Sök"}
                 />
               </label>
             </>
@@ -706,7 +706,7 @@ export const CreateCollectionPage = () => {
         <p>
           {language?.name === "English"
             ? "Collection name already exists, try another one"
-            : "Kollektions nemnet finns redan, pröva ett annat"}
+            : "Kollektions namnet finns redan, pröva ett annat"}
         </p>
       )}
     </div>

@@ -87,3 +87,10 @@ label {
 .form-specific-input {
   width: 70%;
 }
+.form-specific-input-set {
+  width: 70%;
+
+  @media only screen and (min-width: 1200px) {
+    width: 20%;
+  }
+}
