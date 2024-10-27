@@ -11,6 +11,7 @@ import { IPkmnCard, IPkmnSet } from "../interfaces/dataFromApi";
 import {
   CreateButton,
   InputButton,
+  OnlyTextButton,
   StandardButton,
 } from "../components/Buttons";
 import { LoadingModule } from "../components/LoadingModule";
@@ -39,6 +40,7 @@ export const CreateCollectionPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [createdCollection, setCreatedCollection] = useState<boolean>(false);
   const [nameExists, setNameExists] = useState<boolean>(false);
+  const [showSearchTips, setShowSearchTips] = useState<boolean>(false);
 
   const checkIfNameExists = () => {
     const foundCollName = container?.user?.collections.filter(
@@ -224,28 +226,6 @@ export const CreateCollectionPage = () => {
     });
   };
 
-  useState(() => {
-    if (collType === "none") {
-      setArtistName("");
-      setCharName("");
-      setPkmnSetId("");
-    } else {
-      if (collType === "artist") {
-        setCharName("");
-        setPkmnSetId("");
-      } else {
-        if (collType === "char") {
-          setArtistName("");
-          setPkmnSetId("");
-        } else {
-          if (collType === "set") {
-            setArtistName("");
-            setCharName("");
-          }
-        }
-      }
-    }
-  }, [collType]);
   return (
     <div style={{ minHeight: "90vh" }}>
       <form
@@ -458,7 +438,47 @@ export const CreateCollectionPage = () => {
             </>
           )}
         </div>
-
+        {collType !== "none" && (
+          <div style={{ width: isDesktop ? "50%" : "100%", padding: "0 1rem" }}>
+            <p
+              style={{
+                display: "flex",
+                alignItems: "center",
+                fontSize: "small",
+              }}
+            >
+              <i> Search tips </i>
+              <span style={{ fontSize: "smaller" }}>
+                {showSearchTips ? (
+                  <OnlyTextButton
+                    btnText={"HIDE"}
+                    btnAction={(e) => (
+                      setShowSearchTips(false), e.preventDefault()
+                    )}
+                  />
+                ) : (
+                  <OnlyTextButton
+                    btnText={"SHOW"}
+                    btnAction={(e) => (
+                      setShowSearchTips(true), e.preventDefault()
+                    )}
+                  />
+                )}
+              </span>
+            </p>
+            {showSearchTips && (
+              <>
+                <p>
+                  You can search on a cards complete name or parts of a name, to
+                  search for parts of a name add a star infront, after or both.
+                </p>
+                <p>
+                  <i>Example</i>: *char *char* char*
+                </p>
+              </>
+            )}
+          </div>
+        )}
         <CreateButton
           disabled={
             (collName === "" && collType === "none") ||

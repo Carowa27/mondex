@@ -3,17 +3,22 @@ import { ContainerContext } from "../globals/containerContext";
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
 
-interface IInputButtonProps {
-  btnText: string;
-  btnAction: (e: FormEvent) => void;
-  disabled: boolean;
-}
 interface IStandardButtonProps {
   btnText: string;
   btnAction: (e: FormEvent) => void;
   disabled: boolean;
   bgColor?: string;
   fontColor?: string;
+}
+interface IInputButtonProps {
+  btnText: string;
+  btnAction: (e: FormEvent) => void;
+  disabled: boolean;
+}
+interface ITextButtonProps {
+  btnText: string;
+  btnAction: (e: FormEvent) => void;
+  disabled?: boolean;
 }
 
 export const StandardButton = ({
@@ -88,5 +93,25 @@ export const CreateButton = ({
         {btnText}
       </button>
     </>
+  );
+};
+export const OnlyTextButton = ({ btnText, btnAction }: ITextButtonProps) => {
+  return (
+    <button
+      style={{
+        background: "none",
+        color: "inherit",
+        fontSize: "inherit",
+        width: "max-content",
+        padding: "0.2rem 0.5rem",
+        margin: "0 2rem",
+        borderRadius: "30px",
+        border: "1px solid lightgrey",
+        cursor: "pointer",
+      }}
+      onClick={(e) => btnAction(e)}
+    >
+      {btnText}
+    </button>
   );
 };
