@@ -11,7 +11,6 @@ import { IPkmnCard, IPkmnSet } from "../interfaces/dataFromApi";
 import {
   CreateButton,
   InputButton,
-  OnlyTextButton,
   StandardButton,
   TextToggleButton,
 } from "../components/Buttons";
@@ -446,7 +445,7 @@ export const CreateCollectionPage = () => {
             </>
           )}
         </div>
-        {collType !== "none" && (
+        {/* {collType !== "none" && (
           <div style={{ width: isDesktop ? "50%" : "100%", padding: "0 1rem" }}>
             <p
               style={{
@@ -481,7 +480,7 @@ export const CreateCollectionPage = () => {
               </>
             )}
           </div>
-        )}
+        )} */}
         <CreateButton
           disabled={
             (collName === "" && collType === "none") ||
@@ -545,20 +544,16 @@ export const CreateCollectionPage = () => {
               {language?.name === "English"
                 ? `There are ${foundCardsOnSearch.length} cards found with{" "}
               ${
-                collType === "artist" ? (
-                  <>"{artistName}" as the artist</>
-                ) : (
-                  <> "{charName}" in the name</>
-                )
-              }}`
-                : `Det finns ${foundCardsOnSearch.length} kort hittade med{" "}
+                collType === "artist"
+                  ? ` "${artistName}" as the artist`
+                  : `"${charName}" in the name`
+              }`
+                : `Det finns ${foundCardsOnSearch.length} kort hittade med
               ${
-                collType === "artist" ? (
-                  <>"{artistName}" som artist</>
-                ) : (
-                  <> "{charName}" i namnet</>
-                )
-              }}`}
+                collType === "artist"
+                  ? ` "${artistName}" som artist`
+                  : `"${charName}" i namnet`
+              }`}
             </p>
           )}
           {!isLoading && foundCardsOnSearch.length !== 0 && (
