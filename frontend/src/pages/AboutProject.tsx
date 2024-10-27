@@ -63,7 +63,7 @@ export const AboutProject = () => {
                 your favorite Pokémon. <br /> <br /> Right now, all data that is
                 saved is saved in your browser, but you can delete the saved
                 data at any time via your pages. You can also export your data
-                to a csv file.
+                to a text file.
               </>
             ) : (
               <>
@@ -80,7 +80,7 @@ export const AboutProject = () => {
                 <br /> <br />
                 Just nu samlas all data som sparas i din browser, men du kan
                 närsomhelst ta bort den sparade datan via dina sidor. Du kan
-                även exportera din data till en csv fil.
+                även exportera din data till en text fil.
               </>
             )}
           </p>

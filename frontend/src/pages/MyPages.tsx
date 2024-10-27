@@ -217,7 +217,7 @@ export const MyPages = () => {
                   </label>
                 </div>
                 <div style={{ display: "flex", flexDirection: "column" }}>
-                  <label htmlFor="export-type-csv">
+                  {/* <label htmlFor="export-type-csv">
                     <input
                       type="radio"
                       name="export-type"
@@ -228,7 +228,7 @@ export const MyPages = () => {
                       )}
                     />{" "}
                     Export in CSV
-                  </label>
+                  </label> */}
                   <label htmlFor="export-type-json">
                     <input
                       type="radio"
@@ -245,13 +245,27 @@ export const MyPages = () => {
               </form>
               <div className="d-flex justify-content-around mt-3">
                 <StandardButton
-                  btnAction={() => setShowExportDataModal(false)}
+                  btnAction={() => (
+                    setShowExportDataModal(false),
+                    setExportAll(false),
+                    setExportCollections(false),
+                    setExportJson(false),
+                    setExportCsv(false)
+                  )}
                   disabled={false}
                   btnText={`${language?.lang_code.word_cancel}`}
                 />
                 <StandardButton
                   btnAction={() => exportData()}
-                  disabled={false}
+                  disabled={
+                    (exportCsv !== true &&
+                      exportJson !== true &&
+                      exportCollections !== true &&
+                      exportAll !== true) ||
+                    (exportJson !== true &&
+                      (exportAll !== true || exportCollections !== true)) ||
+                    (exportAll !== true && exportCollections !== true)
+                  }
                   btnText={`Export data`}
                 />
               </div>
