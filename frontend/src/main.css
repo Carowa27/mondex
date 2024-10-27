@@ -47,3 +47,43 @@ body {
 a {
   text-underline-offset: 0.2rem;
 }
+input {
+  height: 2rem;
+}
+label {
+  width: max-content;
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+.form-radio-type {
+  width: 5.2rem;
+  min-width: max-content;
+  align-self: center;
+}
+.form-radio-row {
+  min-height: 2.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  @media only screen and (min-width: 1200px) {
+    flex-wrap: nowrap;
+  }
+}
+
+.form-radio-no {
+  margin-left: 2rem;
+}
+.form-specific-search {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  @media only screen and (min-width: 1200px) {
+    width: 50%;
+    margin-left: 4rem;
+    justify-content: start;
+  }
+}
+.form-specific-input {
+  width: 70%;
+}

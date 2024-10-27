@@ -8,7 +8,11 @@ import { getToday } from "../functions/dateFunctions";
 import { ICollection } from "../interfaces/LSInterface";
 import { updateMondexLs } from "../functions/LSFunctions";
 import { IPkmnCard, IPkmnSet } from "../interfaces/dataFromApi";
-import { InputButton, StandardButton } from "../components/Buttons";
+import {
+  CreateButton,
+  InputButton,
+  StandardButton,
+} from "../components/Buttons";
 import { LoadingModule } from "../components/LoadingModule";
 import { SmallPkmnCard } from "../components/SmallPkmnCard";
 import { SmallPkmnCardSearch } from "../components/SmallPkmnCardSearch";
@@ -220,11 +224,38 @@ export const CreateCollectionPage = () => {
     });
   };
 
+  useState(() => {
+    if (collType === "none") {
+      setArtistName("");
+      setCharName("");
+      setPkmnSetId("");
+    } else {
+      if (collType === "artist") {
+        setCharName("");
+        setPkmnSetId("");
+      } else {
+        if (collType === "char") {
+          setArtistName("");
+          setPkmnSetId("");
+        } else {
+          if (collType === "set") {
+            setArtistName("");
+            setCharName("");
+          }
+        }
+      }
+    }
+  }, [collType]);
   return (
-    <>
+    <div style={{ minHeight: "90vh" }}>
       <form
         action="saveCollection"
-        style={{ display: "flex", flexDirection: "column" }}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "0.5rem",
+          marginBottom: "1rem",
+        }}
         onChange={() => setCreatedCollection(false)}
       >
         <label htmlFor="collName">
@@ -238,8 +269,8 @@ export const CreateCollectionPage = () => {
             )}
           />
         </label>
-        <div>
-          Set:{" "}
+        <div className="form-radio-row">
+          <div className="form-radio-type">Set: </div>
           <label htmlFor="collSetYes">
             <input
               type="radio"
@@ -248,12 +279,15 @@ export const CreateCollectionPage = () => {
               checked={collType === "set"}
               name="collTypeSet"
               onChange={() => (
-                setCollType("set"), setFoundCardsOnSearch(undefined)
+                setCollType("set"),
+                setFoundCardsOnSearch(undefined),
+                setArtistName(""),
+                setCharName("")
               )}
             />{" "}
             Yes
           </label>
-          <label htmlFor="collSetNo">
+          <label htmlFor="collSetNo" className="form-radio-no">
             <input
               type="radio"
               id="collSetNo"
@@ -261,38 +295,46 @@ export const CreateCollectionPage = () => {
               checked={collType !== "set"}
               name="collTypeSet"
               onChange={() => (
-                setCollType("none"), setFoundCardsOnSearch(undefined)
+                setCollType("none"),
+                setFoundCardsOnSearch(undefined),
+                setCharName(""),
+                setArtistName(""),
+                setPkmnSetId("")
               )}
             />{" "}
             No
           </label>
+          {collType === "set" && (
+            <>
+              <label htmlFor="collSetName" className="form-specific-search">
+                Id{" "}
+                <input
+                  type="text"
+                  id="collSetName"
+                  className="form-specific-input"
+                  value={pkmnSetId}
+                  onChange={(e) => (
+                    setPkmnSetId(e.target.value),
+                    setFoundCardsOnSearch(undefined)
+                  )}
+                />
+                <InputButton
+                  disabled={pkmnSetId === ""}
+                  btnAction={(e) => (
+                    searchForSet(pkmnSetId),
+                    e.preventDefault(),
+                    setFoundCardsOnSearch(undefined),
+                    setFoundSetOnSearch(undefined)
+                  )}
+                  btnText={"Search"}
+                />
+              </label>
+            </>
+          )}
         </div>
-        {collType === "set" && (
-          <>
-            <label htmlFor="collSetName">
-              Set Id{" "}
-              <input
-                type="text"
-                id="collSetName"
-                value={pkmnSetId}
-                onChange={(e) => setPkmnSetId(e.target.value)}
-              />
-              <button
-                disabled={pkmnSetId === ""}
-                onClick={(e) => (
-                  searchForSet(pkmnSetId),
-                  e.preventDefault(),
-                  setFoundCardsOnSearch(undefined),
-                  setFoundSetOnSearch(undefined)
-                )}
-              >
-                Search set
-              </button>
-            </label>
-          </>
-        )}
-        <div>
-          Artist:{" "}
+
+        <div className="form-radio-row">
+          <div className="form-radio-type"> Artist: </div>
           <label htmlFor="collArtistYes">
             <input
               type="radio"
@@ -301,12 +343,15 @@ export const CreateCollectionPage = () => {
               checked={collType === "artist"}
               name="collTypeArtist"
               onChange={() => (
-                setCollType("artist"), setFoundCardsOnSearch(undefined)
+                setCollType("artist"),
+                setFoundCardsOnSearch(undefined),
+                setCharName(""),
+                setPkmnSetId("")
               )}
             />{" "}
             Yes
           </label>
-          <label htmlFor="collSetNo">
+          <label htmlFor="collSetNo" className="form-radio-no">
             <input
               type="radio"
               id="collSetNo"
@@ -314,37 +359,45 @@ export const CreateCollectionPage = () => {
               checked={collType !== "artist"}
               name="collTypeArtist"
               onChange={() => (
-                setCollType("none"), setFoundCardsOnSearch(undefined)
+                setCollType("none"),
+                setFoundCardsOnSearch(undefined),
+                setCharName(""),
+                setArtistName(""),
+                setPkmnSetId("")
               )}
             />{" "}
             No
           </label>
+          {collType === "artist" && (
+            <>
+              <label htmlFor="collArtistName" className="form-specific-search">
+                Name{" "}
+                <input
+                  type="text"
+                  id="collArtistName"
+                  className="form-specific-input"
+                  value={artistName}
+                  onChange={(e) => (
+                    setArtistName(e.target.value),
+                    setFoundCardsOnSearch(undefined)
+                  )}
+                />
+                <InputButton
+                  disabled={artistName === ""}
+                  btnAction={(e) => (
+                    searchForCards("artist", artistName),
+                    e.preventDefault(),
+                    setFoundCardsOnSearch(undefined)
+                  )}
+                  btnText={"Search"}
+                />
+              </label>
+            </>
+          )}
         </div>
-        {collType === "artist" && (
-          <>
-            <label htmlFor="collArtistName">
-              Artist Name{" "}
-              <input
-                type="text"
-                id="collArtistName"
-                value={artistName}
-                onChange={(e) => setArtistName(e.target.value)}
-              />
-              <button
-                disabled={artistName === ""}
-                onClick={(e) => (
-                  searchForCards("artist", artistName),
-                  e.preventDefault(),
-                  setFoundCardsOnSearch(undefined)
-                )}
-              >
-                Search artist
-              </button>
-            </label>
-          </>
-        )}
-        <div>
-          Character:{" "}
+
+        <div className="form-radio-row">
+          <div className="form-radio-type"> Character: </div>
           <label htmlFor="collCharYes">
             <input
               type="radio"
@@ -353,12 +406,15 @@ export const CreateCollectionPage = () => {
               checked={collType === "char"}
               name="collTypeChar"
               onChange={() => (
-                setCollType("char"), setFoundCardsOnSearch(undefined)
+                setCollType("char"),
+                setFoundCardsOnSearch(undefined),
+                setArtistName(""),
+                setPkmnSetId("")
               )}
             />{" "}
             Yes
           </label>
-          <label htmlFor="collCharNo">
+          <label htmlFor="collCharNo" className="form-radio-no">
             <input
               type="radio"
               id="collCharNo"
@@ -366,52 +422,61 @@ export const CreateCollectionPage = () => {
               checked={collType !== "char"}
               name="collTypeChar"
               onChange={() => (
-                setCollType("none"), setFoundCardsOnSearch(undefined)
+                setCollType("none"),
+                setFoundCardsOnSearch(undefined),
+                setCharName(""),
+                setArtistName(""),
+                setPkmnSetId("")
               )}
             />{" "}
             No
-          </label>
+          </label>{" "}
+          {collType === "char" && (
+            <>
+              <label htmlFor="collCharName" className="form-specific-search">
+                Name{" "}
+                <input
+                  type="text"
+                  id="collCharName"
+                  className="form-specific-input"
+                  value={charName}
+                  onChange={(e) => (
+                    setCharName(e.target.value),
+                    setFoundCardsOnSearch(undefined)
+                  )}
+                />
+                <InputButton
+                  disabled={charName === ""}
+                  btnAction={(e) => (
+                    searchForCards("char", charName),
+                    e.preventDefault(),
+                    setFoundCardsOnSearch([])
+                  )}
+                  btnText={"Search"}
+                />
+              </label>
+            </>
+          )}
         </div>
-        {collType === "char" && (
-          <>
-            <label htmlFor="collCharName">
-              Character Name{" "}
-              <input
-                type="text"
-                id="collCharName"
-                value={charName}
-                onChange={(e) => setCharName(e.target.value)}
-              />
-              <button
-                disabled={charName === ""}
-                onClick={(e) => (
-                  searchForCards("char", charName),
-                  e.preventDefault(),
-                  setFoundCardsOnSearch([])
-                )}
-              >
-                Search character
-              </button>
-            </label>
-          </>
-        )}
-        <button
+
+        <CreateButton
           disabled={
-            (!collName && collType === "none") ||
-            (collType === "set" &&
-              foundCardsOnSearch &&
+            (collName === "" && collType === "none") ||
+            (collName === "" &&
+              collType !== "none" &&
+              foundCardsOnSearch === undefined) ||
+            (collName === "" &&
+              collType !== "none" &&
+              foundCardsOnSearch !== undefined &&
               foundCardsOnSearch.length === 0) ||
-            (collType === "char" &&
-              foundCardsOnSearch &&
-              foundCardsOnSearch.length === 0) ||
-            (collType === "artist" &&
-              foundCardsOnSearch &&
+            (collType !== "none" && foundCardsOnSearch === undefined) ||
+            (collType !== "none" &&
+              foundCardsOnSearch !== undefined &&
               foundCardsOnSearch.length === 0)
           }
-          onClick={(e) => handleSubmit(e)}
-        >
-          Create
-        </button>
+          btnAction={(e) => handleSubmit(e)}
+          btnText={"Create"}
+        />
       </form>
 
       {notCorrectArtist && (
@@ -440,20 +505,117 @@ export const CreateCollectionPage = () => {
           {!isLoading && foundCardsOnSearch.length !== 0 && (
             <p>Here is an example of cards found</p>
           )}
-          <div style={{ display: "flex" }}>
-            {foundCardsOnSearch.slice(0, 10).map((pkmn) => (
-              <div style={{ width: "10rem" }} key={pkmn.id}>
-                <img
-                  className="rounded"
-                  src={pkmn && pkmn.images.small}
-                  alt={pkmn && pkmn.name}
-                  style={{
-                    width: "100%",
-                    opacity: container.theme?.name === "dark" ? "0.8" : "1",
-                  }}
-                />
+          <div
+            style={{
+              display: "flex",
+              gap: isDesktop || isTablet ? "0.5rem" : "0.2rem",
+              flexWrap: "wrap",
+            }}
+          >
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                gap: isDesktop || isTablet ? "0.5rem" : "0.2rem",
+              }}
+            >
+              {foundCardsOnSearch
+                .slice(0, isDesktop ? 10 : isTablet ? 7 : 5)
+                .map((pkmn) => (
+                  <div style={{ width: "10rem" }} key={pkmn.id}>
+                    <img
+                      className="rounded"
+                      src={pkmn && pkmn.images.small}
+                      alt={pkmn && pkmn.name}
+                      style={{
+                        width: "100%",
+                        opacity: container.theme?.name === "dark" ? "0.8" : "1",
+                      }}
+                    />
+                  </div>
+                ))}
+            </div>{" "}
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                gap: isDesktop || isTablet ? "0.5rem" : "0.2rem",
+              }}
+            >
+              {foundCardsOnSearch
+                .slice(
+                  isDesktop ? 10 : isTablet ? 7 : 5,
+                  isDesktop ? 20 : isTablet ? 14 : 10
+                )
+                .map((pkmn) => (
+                  <div style={{ width: "10rem" }} key={pkmn.id}>
+                    <img
+                      className="rounded"
+                      src={pkmn && pkmn.images.small}
+                      alt={pkmn && pkmn.name}
+                      style={{
+                        width: "100%",
+                        opacity: container.theme?.name === "dark" ? "0.8" : "1",
+                      }}
+                    />
+                  </div>
+                ))}
+            </div>{" "}
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                gap: isDesktop || isTablet ? "0.5rem" : "0.2rem",
+              }}
+            >
+              {foundCardsOnSearch
+                .slice(
+                  isDesktop ? 20 : isTablet ? 14 : 10,
+                  isDesktop ? 30 : isTablet ? 21 : 15
+                )
+                .map((pkmn) => (
+                  <div style={{ width: "10rem" }} key={pkmn.id}>
+                    <img
+                      className="rounded"
+                      src={pkmn && pkmn.images.small}
+                      alt={pkmn && pkmn.name}
+                      style={{
+                        width: "100%",
+                        opacity: container.theme?.name === "dark" ? "0.8" : "1",
+                      }}
+                    />
+                  </div>
+                ))}
+            </div>
+            {!isDesktop && (
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  gap: isDesktop || isTablet ? "0.5rem" : "0.2rem",
+                }}
+              >
+                {foundCardsOnSearch
+                  .slice(
+                    isDesktop ? 30 : isTablet ? 21 : 15,
+                    isDesktop ? 40 : isTablet ? 28 : 20
+                  )
+                  .map((pkmn) => (
+                    <div style={{ width: "10rem" }} key={pkmn.id}>
+                      <img
+                        className="rounded"
+                        src={pkmn && pkmn.images.small}
+                        alt={pkmn && pkmn.name}
+                        style={{
+                          width: "100%",
+                          opacity:
+                            container.theme?.name === "dark" ? "0.8" : "1",
+                        }}
+                      />
+                    </div>
+                  ))}
               </div>
-            ))}
+            )}
           </div>
         </>
       )}
@@ -482,6 +644,6 @@ export const CreateCollectionPage = () => {
         </Link>
       ) : null}
       {nameExists && <p>Collection name already exists, try another one</p>}
-    </>
+    </div>
   );
 };

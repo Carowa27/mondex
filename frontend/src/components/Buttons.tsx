@@ -1,5 +1,7 @@
 import { FormEvent, useContext } from "react";
 import { ContainerContext } from "../globals/containerContext";
+import { useMediaQuery } from "react-responsive";
+import { variables } from "../globals/variables";
 
 interface IInputButtonProps {
   btnText: string;
@@ -13,24 +15,7 @@ interface IStandardButtonProps {
   bgColor?: string;
   fontColor?: string;
 }
-export const InputButton = ({
-  btnText,
-  btnAction,
-  disabled,
-}: IInputButtonProps) => {
-  return (
-    <>
-      <button
-        style={{ border: "none", borderRadius: "0 10px 10px 0" }}
-        className={"btn btn-secondary"}
-        onClick={(e) => btnAction(e)}
-        disabled={disabled}
-      >
-        {btnText}
-      </button>
-    </>
-  );
-};
+
 export const StandardButton = ({
   btnText,
   btnAction,
@@ -53,6 +38,50 @@ export const StandardButton = ({
           fontWeight: fontColor ? "bolder" : "normal",
         }}
         className={"btn"}
+        onClick={(e) => btnAction(e)}
+        disabled={disabled}
+      >
+        {btnText}
+      </button>
+    </>
+  );
+};
+export const InputButton = ({
+  btnText,
+  btnAction,
+  disabled,
+}: IInputButtonProps) => {
+  return (
+    <>
+      <button
+        style={{
+          height: "2.5rem",
+          padding: "0rem 0.4rem",
+        }}
+        className={"btn btn-secondary"}
+        onClick={(e) => btnAction(e)}
+        disabled={disabled}
+      >
+        {btnText}
+      </button>
+    </>
+  );
+};
+export const CreateButton = ({
+  btnText,
+  btnAction,
+  disabled,
+}: IInputButtonProps) => {
+  const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
+  return (
+    <>
+      <button
+        style={{
+          height: "2.5rem",
+          padding: "0rem 0.4rem",
+          width: isDesktop ? "15rem" : "auto",
+        }}
+        className={"btn btn-secondary"}
         onClick={(e) => btnAction(e)}
         disabled={disabled}
       >
