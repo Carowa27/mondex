@@ -1,11 +1,8 @@
 import { FormEvent, useContext } from "react";
 import { ContainerContext } from "../globals/containerContext";
+import { useMediaQuery } from "react-responsive";
+import { variables } from "../globals/variables";
 
-interface IInputButtonProps {
-  btnText: string;
-  btnAction: (e: FormEvent) => void;
-  disabled: boolean;
-}
 interface IStandardButtonProps {
   btnText: string;
   btnAction: (e: FormEvent) => void;
@@ -13,24 +10,18 @@ interface IStandardButtonProps {
   bgColor?: string;
   fontColor?: string;
 }
-export const InputButton = ({
-  btnText,
-  btnAction,
-  disabled,
-}: IInputButtonProps) => {
-  return (
-    <>
-      <button
-        style={{ border: "none", borderRadius: "0 10px 10px 0" }}
-        className={"btn btn-secondary"}
-        onClick={(e) => btnAction(e)}
-        disabled={disabled}
-      >
-        {btnText}
-      </button>
-    </>
-  );
-};
+interface IInputButtonProps {
+  btnText: string;
+  btnAction: (e: FormEvent) => void;
+  disabled: boolean;
+}
+interface ITextToggleProps {
+  btnText: string;
+  btnAction: (e: FormEvent) => void;
+  toggleState: boolean;
+  disabled?: boolean;
+}
+
 export const StandardButton = ({
   btnText,
   btnAction,
@@ -59,5 +50,77 @@ export const StandardButton = ({
         {btnText}
       </button>
     </>
+  );
+};
+export const InputButton = ({
+  btnText,
+  btnAction,
+  disabled,
+}: IInputButtonProps) => {
+  return (
+    <>
+      <button
+        style={{
+          height: "2.5rem",
+          padding: "0rem 0.4rem",
+        }}
+        className={"btn btn-secondary"}
+        onClick={(e) => btnAction(e)}
+        disabled={disabled}
+      >
+        {btnText}
+      </button>
+    </>
+  );
+};
+export const CreateButton = ({
+  btnText,
+  btnAction,
+  disabled,
+}: IInputButtonProps) => {
+  const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
+  return (
+    <>
+      <button
+        style={{
+          height: "2.5rem",
+          padding: "0rem 0.4rem",
+          width: isDesktop ? "15rem" : "auto",
+        }}
+        className={"btn btn-secondary"}
+        onClick={(e) => btnAction(e)}
+        disabled={disabled}
+      >
+        {btnText}
+      </button>
+    </>
+  );
+};
+export const TextToggleButton = ({
+  btnText,
+  btnAction,
+  toggleState,
+}: ITextToggleProps) => {
+  return (
+    <button
+      style={{
+        background: "none",
+        color: "inherit",
+        fontSize: "inherit",
+        width: "max-content",
+        padding: "0.2rem 0.5rem",
+        borderRadius: "30px",
+        border: "none",
+        cursor: "pointer",
+      }}
+      onClick={(e) => btnAction(e)}
+    >
+      {btnText}
+      {toggleState === true ? (
+        <i className="bi bi-chevron-up ps-1"></i>
+      ) : (
+        <i className="bi bi-chevron-down ps-1"></i>
+      )}
+    </button>
   );
 };

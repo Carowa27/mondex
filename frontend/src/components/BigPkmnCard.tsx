@@ -261,7 +261,7 @@ export const BigPkmnCard = ({
                 <span>{cardInfo.rarity}</span>
               </BigCardInfoRow>
               {cardInfo && !isDesktop && !isTablet && (
-                <BigCardImg className="rounded" src={cardInfo.images.large} />
+                <BigCardImg className="rounded" src={cardInfo.images.small} />
               )}
               <div
                 className="m-0 mt-3"

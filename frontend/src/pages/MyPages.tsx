@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
 import { BreadCrumbs } from "./layout/BreadCrumbs";
 import { LoadingModule } from "../components/LoadingModule";
 import { useMediaQuery } from "react-responsive";
@@ -14,7 +14,10 @@ import {
 } from "../functions/dataFunctions";
 import { StandardButton } from "../components/Buttons";
 import { Pagination } from "./layout/Pagination";
-import { convertObjectToCsv } from "../functions/exportFunctions";
+import {
+  convertObjectToCsv,
+  exportJsonObject,
+} from "../functions/exportFunctions";
 
 export const MyPages = () => {
   const { container, clearContainer } = useContext(ContainerContext);
@@ -30,6 +33,8 @@ export const MyPages = () => {
     useState<boolean>(false);
   const [exportAll, setExportAll] = useState<boolean>(false);
   const [exportCollections, setExportCollections] = useState<boolean>(false);
+  const [exportCsv, setExportCsv] = useState<boolean>(false);
+  const [exportJson, setExportJson] = useState<boolean>(false);
   const [amountOfBanners, setAmountOfBanners] = useState<number>(3);
   const [page, setPage] = useState<number>(1);
   const [startBanner, setStartBanner] = useState<number>(0);
@@ -58,24 +63,37 @@ export const MyPages = () => {
     }
   };
   const exportData = () => {
-    if (exportAll === true) {
-      convertObjectToCsv("all", container);
-      setExportAll(false);
-      setExportCollections(false);
-    } else {
-      convertObjectToCsv("collections", container);
-      setExportAll(false);
-      setExportCollections(false);
+    if (exportCsv) {
+      if (exportAll === true) {
+        convertObjectToCsv("all", container);
+        setExportAll(false);
+        setExportCsv(false);
+      } else {
+        convertObjectToCsv("collections", container);
+        setExportCollections(false);
+        setExportCsv(false);
+      }
+    }
+    if (exportJson) {
+      if (exportAll === true) {
+        exportJsonObject("all", container);
+        setExportAll(false);
+        setExportJson(false);
+      } else {
+        exportJsonObject("collections", container);
+        setExportCollections(false);
+        setExportJson(false);
+      }
     }
     setShowExportDataModal(false);
   };
   useEffect(() => {
     isDesktop
-      ? setAmountOfBanners(12)
-      : isTablet
       ? setAmountOfBanners(6)
+      : isTablet
+      ? setAmountOfBanners(4)
       : setAmountOfBanners(3);
-    isDesktop ? setEndBanner(12) : isTablet ? setEndBanner(6) : setEndBanner(3);
+    isDesktop ? setEndBanner(6) : isTablet ? setEndBanner(4) : setEndBanner(3);
   }, []);
   return (
     <>
@@ -148,7 +166,7 @@ export const MyPages = () => {
               isDesktop
                 ? "w-25 px-4 py-3 rounded"
                 : isTablet
-                ? "w-50 px-4 py-3 rounded"
+                ? "w-75 px-4 py-3 rounded"
                 : "w-75 px-4 py-3 rounded"
             }
             style={{ backgroundColor: theme?.primaryColors.background.hex }}
@@ -165,32 +183,65 @@ export const MyPages = () => {
               </div>
               <form
                 action="exportData"
-                style={{ display: "flex", flexDirection: "column" }}
+                style={{
+                  display: "flex",
+                  flexDirection: isDesktop || isTablet ? "row" : "column",
+                  gap: "1rem",
+                  justifyContent: "space-evenly",
+                }}
               >
-                <label htmlFor="export-data-all">
-                  <input
-                    type="radio"
-                    name="export-data"
-                    id="export-data-all"
-                    checked={exportAll === true}
-                    onChange={() => (
-                      setExportCollections(false), setExportAll(true)
-                    )}
-                  />{" "}
-                  Export all saved data
-                </label>
-                <label htmlFor="export-data-collections">
-                  <input
-                    type="radio"
-                    name="export-data"
-                    id="export-data-collections"
-                    checked={exportCollections === true}
-                    onChange={() => (
-                      setExportCollections(true), setExportAll(false)
-                    )}
-                  />{" "}
-                  Export saved collections
-                </label>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <label htmlFor="export-data-all">
+                    <input
+                      type="radio"
+                      name="export-data"
+                      id="export-data-all"
+                      checked={exportAll === true}
+                      onChange={() => (
+                        setExportCollections(false), setExportAll(true)
+                      )}
+                    />{" "}
+                    Export all saved data
+                  </label>
+                  <label htmlFor="export-data-collections">
+                    <input
+                      type="radio"
+                      name="export-data"
+                      id="export-data-collections"
+                      checked={exportCollections === true}
+                      onChange={() => (
+                        setExportCollections(true), setExportAll(false)
+                      )}
+                    />{" "}
+                    Export saved collections
+                  </label>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <label htmlFor="export-type-csv">
+                    <input
+                      type="radio"
+                      name="export-type"
+                      id="export-type-csv"
+                      checked={exportCsv === true}
+                      onChange={() => (
+                        setExportCsv(true), setExportJson(false)
+                      )}
+                    />{" "}
+                    Export in CSV
+                  </label>
+                  <label htmlFor="export-type-json">
+                    <input
+                      type="radio"
+                      name="export-type"
+                      id="export-type-json"
+                      checked={exportJson === true}
+                      onChange={() => (
+                        setExportCsv(false), setExportJson(true)
+                      )}
+                    />{" "}
+                    Export in JSON
+                  </label>
+                </div>
               </form>
               <div className="d-flex justify-content-around mt-3">
                 <StandardButton
@@ -222,7 +273,7 @@ export const MyPages = () => {
           </h1>
           <BreadCrumbs pageParam="userpage" />
         </div>
-        <header className="d-flex justify-content-between align-items-center my-2">
+        <header className="d-flex justify-content-between align-items-center mt-2">
           <div style={{ width: "100%", display: "flex", gap: "0.5rem" }}>
             <span
               style={
@@ -230,23 +281,31 @@ export const MyPages = () => {
                   ? {
                       fontWeight: "600",
                       color: theme?.primaryColors.text.hex,
-                      backgroundColor: `rgba(${theme?.typeColors.metal.rgb},0.3)`,
+                      backgroundColor: `rgba(${theme?.typeColors.metal.rgb},0.1`,
+                      borderRadius: "0.5rem 0.5rem 0 0",
+                      cursor: "pointer",
                     }
                   : {
                       color: theme?.primaryColors.text.hex,
-                      border: `1px solid rgba(${theme?.typeColors.metal.rgb},0.3)`,
+                      borderWidth: "2px",
+                      borderStyle: "solid solid none solid",
+                      borderColor: `rgba(${theme?.typeColors.metal.rgb},0.1)`,
+                      borderRadius: "0.5rem 0.5rem 0 0",
+                      cursor: "pointer",
                     }
               }
-              className={
-                isDesktop
-                  ? "btn px-3 mb-2 py-1 me-1"
-                  : "btn px-3 mb-2 py-1 w-50"
-              }
+              className={isDesktop ? "px-3 py-2 me-1" : "px-3 py-1 w-50"}
               onClick={() => (
                 setShowCollections(true), setShowMyAccount(false)
               )}
             >
-              <h5 className={showCollections ? "m-0" : "m-0 fw-normal"}>
+              <h5
+                className={
+                  showCollections
+                    ? "m-0 d-flex align-items-center justify-content-center h-100"
+                    : "m-0 d-flex align-items-center justify-content-center h-100 fw-normal"
+                }
+              >
                 {language?.lang_code.my_pages_my_collections}
               </h5>
             </span>
@@ -256,18 +315,20 @@ export const MyPages = () => {
                   ? {
                       fontWeight: "600",
                       color: theme?.primaryColors.text.hex,
-                      backgroundColor: `rgba(${theme?.typeColors.metal.rgb},0.3)`,
+                      backgroundColor: `rgba(${theme?.typeColors.metal.rgb},0.1`,
+                      borderRadius: "0.5rem 0.5rem 0 0",
+                      cursor: "pointer",
                     }
                   : {
                       color: theme?.primaryColors.text.hex,
-                      border: `1px solid rgba(${theme?.typeColors.metal.rgb},0.3)`,
+                      borderWidth: "2px",
+                      borderStyle: "solid solid none solid",
+                      borderColor: `rgba(${theme?.typeColors.metal.rgb},0.1)`,
+                      borderRadius: "0.5rem 0.5rem 0 0",
+                      cursor: "pointer",
                     }
               }
-              className={
-                isDesktop
-                  ? "btn px-3 mb-2 pt-1 me-1"
-                  : "btn px-3 mb-2 py-1 w-50"
-              }
+              className={isDesktop ? "px-3 py-1 me-1" : "px-3 py-1 w-50"}
               onClick={() => (
                 setShowCollections(false), setShowMyAccount(true)
               )}
@@ -283,68 +344,54 @@ export const MyPages = () => {
               </h5>
             </span>
           </div>
-          {isDesktop && showCollections ? (
-            <div className={"mt-3 d-flex w-25"}>
-              <Link
-                to="/create-new-collection"
-                className="text-decoration-none me-5"
-                style={{
-                  color: theme?.primaryColors.link.hex,
-                }}
-              >
-                <h6 className={"m-0"}>
-                  {language?.lang_code.collection_create_new_collection}
-                </h6>
-              </Link>
-              <Link
-                className="fst-italic me-4"
-                to="/all-collections"
-                style={{
-                  color: theme?.primaryColors.link.hex,
-                }}
-              >
-                <h6 className={"m-0"}>
-                  {language?.lang_code.my_pages_see_all_collections}
-                </h6>
-              </Link>
-            </div>
-          ) : null}
         </header>
-        <main className="mt-1">
+        <main
+          className="py-4"
+          style={{
+            borderRadius:
+              isDesktop || isTablet
+                ? "0 0.5rem 0.5rem 0.5rem"
+                : "0 0rem 0.5rem 0.5rem",
+            backgroundColor: `rgba(${theme?.typeColors.metal.rgb},0.1`,
+            minHeight: "80vh",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           {showCollections && (
             <>
-              {!isDesktop ? (
-                <div
-                  className={
-                    isDesktop
-                      ? "d-flex justify-content-end"
-                      : "d-flex justify-content-between mb-3"
-                  }
-                >
-                  <Link
-                    to="/create-new-collection"
-                    className="text-decoration-none"
-                    style={{
-                      color: theme?.primaryColors.link.hex,
-                    }}
-                  >
-                    <h6 className={isDesktop ? "me-5 mb-0 pt-3" : "m-0"}>
-                      {language?.lang_code.collection_create_new_collection}
-                    </h6>
-                  </Link>
-                  <Link
-                    className="fst-italic"
-                    to="/all-collections"
-                    style={{
-                      color: theme?.primaryColors.link.hex,
-                    }}
-                  >
-                    <h6 className={isDesktop ? "me-5 mb-0 pt-3" : "m-0"}>
-                      {language?.lang_code.my_pages_see_all_collections}
-                    </h6>
-                  </Link>
+              <div
+                className={
+                  isDesktop
+                    ? "d-flex justify-content-end mb-3"
+                    : "d-flex justify-content-between mx-4 mb-3"
+                }
+              >
+                <div className={isDesktop || isTablet ? "me-5" : ""}>
+                  <StandardButton
+                    btnText={
+                      language?.name === "English" ? "Create new" : "Skapa ny"
+                    }
+                    btnAction={() =>
+                      navigate("/create-new-collection", { replace: true })
+                    }
+                    disabled={false}
+                  />
                 </div>
-              ) : null}
+                <div className={isDesktop || isTablet ? "me-4" : ""}>
+                  <StandardButton
+                    btnText={
+                      language?.name === "English"
+                        ? "See all collections"
+                        : "Se alla kollektioner"
+                    }
+                    btnAction={() =>
+                      navigate("/all-collections", { replace: true })
+                    }
+                    disabled={false}
+                  />
+                </div>
+              </div>
               <div
                 className={
                   isDesktop
@@ -363,9 +410,7 @@ export const MyPages = () => {
                           padding: isTablet ? "0 2rem" : "",
                           flexDirection: "row",
                           flexWrap: "wrap",
-                          justifyContent: isDesktop
-                            ? "space-between"
-                            : "space-evenly",
+                          justifyContent: "space-evenly",
                           gap: "2rem",
                           width: isDesktop ? "85.5%" : "100%",
                         }}
@@ -399,9 +444,10 @@ export const MyPages = () => {
                 style={
                   isDesktop
                     ? {
-                        width: "70%",
+                        width: "100%",
                         display: "flex",
                         justifyContent: "center",
+                        margin: "0 2rem",
                       }
                     : isTablet
                     ? {
@@ -418,7 +464,7 @@ export const MyPages = () => {
               >
                 <div
                   style={{
-                    width: isDesktop ? "40%" : isTablet ? "40%" : "auto",
+                    width: isDesktop ? "25%" : isTablet ? "40%" : "auto",
                   }}
                 >
                   <h4 onClick={() => setIsShowUserInfo(!isShowUserInfo)}>
@@ -515,11 +561,11 @@ export const MyPages = () => {
                   style={
                     isDesktop
                       ? {
-                          width: "40%",
+                          width: "60%",
                           display: "flex",
                           flexDirection: "column",
                           flexWrap: "wrap",
-                          height: "60%",
+                          height: "80%",
                         }
                       : isTablet
                       ? { width: "55%" }
@@ -589,18 +635,42 @@ export const MyPages = () => {
                               <>Värde av kollektioner</>
                             )}{" "}
                           </b>
-                          <ul style={{ paddingLeft: "1.5rem" }}>
-                            {collections?.map((coll) => {
-                              return (
-                                <li key={coll.id}>
-                                  {coll.collection_name.replace(/_/g, " ")} ~
-                                  {getValueOfCardsOwned([coll])}$
-                                </li>
-                              );
-                            })}
+                          <ul
+                            style={{
+                              paddingLeft: "1.5rem",
+                              // margin: ,
+                            }}
+                          >
+                            {collections
+                              ?.slice(0, isDesktop ? 10 : 5)
+                              .map((coll) => {
+                                return (
+                                  <li key={coll.id}>
+                                    {coll.collection_name.replace(/_/g, " ")} ~
+                                    {getValueOfCardsOwned([coll])}$
+                                  </li>
+                                );
+                              })}
                           </ul>
+                          {collections && collections.length > 2 && (
+                            <Link
+                              to="/all-collections"
+                              className={
+                                isDesktop
+                                  ? "fst-italic"
+                                  : "fst-italic text-center"
+                              }
+                              style={{
+                                color: theme?.primaryColors.link.hex,
+                              }}
+                            >
+                              {language?.name === "English"
+                                ? "See all collections"
+                                : "Se alla kollektioner"}
+                            </Link>
+                          )}
                         </div>
-                        <p>
+                        <p className="my-3">
                           <b>
                             {language?.name === "English" ? (
                               <>Total value of cards:</>
@@ -699,19 +769,19 @@ export const MyPages = () => {
               </div>
             </div>
           )}
+          {showCollections &&
+          collections &&
+          collections?.length > amountOfBanners ? (
+            <div className="d-flex justify-content-center mt-auto pt-3">
+              <Pagination
+                page={page}
+                pageSize={amountOfBanners}
+                totalCount={collections?.length ? collections?.length : 0}
+                updateSearch={updatePage}
+              />
+            </div>
+          ) : null}
         </main>
-        {showCollections &&
-        collections &&
-        collections?.length > amountOfBanners ? (
-          <div className="d-flex justify-content-center mt-auto pt-2">
-            <Pagination
-              page={page}
-              pageSize={amountOfBanners}
-              totalCount={collections?.length ? collections?.length : 0}
-              updateSearch={updatePage}
-            />
-          </div>
-        ) : null}
       </div>
     </>
   );
