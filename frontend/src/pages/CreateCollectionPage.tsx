@@ -13,6 +13,7 @@ import {
   InputButton,
   OnlyTextButton,
   StandardButton,
+  TextToggleButton,
 } from "../components/Buttons";
 import { LoadingModule } from "../components/LoadingModule";
 import { SmallPkmnCard } from "../components/SmallPkmnCard";
@@ -22,6 +23,7 @@ export const CreateCollectionPage = () => {
   const { container, updateContainer } = useContext(ContainerContext);
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const isTablet = useMediaQuery({ query: variables.breakpoints.tablet });
+  const language = container.language;
 
   const [collType, setCollType] = useState<"artist" | "set" | "char" | "none">(
     "none"
@@ -239,7 +241,10 @@ export const CreateCollectionPage = () => {
         onChange={() => setCreatedCollection(false)}
       >
         <label htmlFor="collName">
-          Collection name:{" "}
+          {language?.name === "English"
+            ? "Collection name"
+            : "Kollektions namn"}
+          :{" "}
           <input
             type="text"
             id="collName"
@@ -265,7 +270,7 @@ export const CreateCollectionPage = () => {
                 setCharName("")
               )}
             />{" "}
-            Yes
+            {language?.name === "English" ? "Yes" : "Ja"}
           </label>
           <label htmlFor="collSetNo" className="form-radio-no">
             <input
@@ -282,7 +287,7 @@ export const CreateCollectionPage = () => {
                 setPkmnSetId("")
               )}
             />{" "}
-            No
+            {language?.name === "English" ? "No" : "Nej"}
           </label>
           {collType === "set" && (
             <>
@@ -329,7 +334,7 @@ export const CreateCollectionPage = () => {
                 setPkmnSetId("")
               )}
             />{" "}
-            Yes
+            {language?.name === "English" ? "Yes" : "Ja"}
           </label>
           <label htmlFor="collSetNo" className="form-radio-no">
             <input
@@ -346,12 +351,12 @@ export const CreateCollectionPage = () => {
                 setPkmnSetId("")
               )}
             />{" "}
-            No
+            {language?.name === "English" ? "No" : "Nej"}
           </label>
           {collType === "artist" && (
             <>
               <label htmlFor="collArtistName" className="form-specific-search">
-                Name{" "}
+                {language?.name === "English" ? "Name" : "Namn"}{" "}
                 <input
                   type="text"
                   id="collArtistName"
@@ -377,7 +382,10 @@ export const CreateCollectionPage = () => {
         </div>
 
         <div className="form-radio-row">
-          <div className="form-radio-type"> Character: </div>
+          <div className="form-radio-type">
+            {" "}
+            {language?.name === "English" ? "Character" : "Karaktär"}:{" "}
+          </div>
           <label htmlFor="collCharYes">
             <input
               type="radio"
@@ -392,7 +400,7 @@ export const CreateCollectionPage = () => {
                 setPkmnSetId("")
               )}
             />{" "}
-            Yes
+            {language?.name === "English" ? "Yes" : "Ja"}
           </label>
           <label htmlFor="collCharNo" className="form-radio-no">
             <input
@@ -409,12 +417,12 @@ export const CreateCollectionPage = () => {
                 setPkmnSetId("")
               )}
             />{" "}
-            No
+            {language?.name === "English" ? "No" : "Nej"}
           </label>{" "}
           {collType === "char" && (
             <>
               <label htmlFor="collCharName" className="form-specific-search">
-                Name{" "}
+                {language?.name === "English" ? "Name" : "Namn"}{" "}
                 <input
                   type="text"
                   id="collCharName"
@@ -447,33 +455,28 @@ export const CreateCollectionPage = () => {
                 fontSize: "small",
               }}
             >
-              <i> Search tips </i>
-              <span style={{ fontSize: "smaller" }}>
-                {showSearchTips ? (
-                  <OnlyTextButton
-                    btnText={"HIDE"}
-                    btnAction={(e) => (
-                      setShowSearchTips(false), e.preventDefault()
-                    )}
-                  />
-                ) : (
-                  <OnlyTextButton
-                    btnText={"SHOW"}
-                    btnAction={(e) => (
-                      setShowSearchTips(true), e.preventDefault()
-                    )}
-                  />
-                )}
+              <span style={{ fontSize: "small" }}>
+                <TextToggleButton
+                  btnText={
+                    language?.name === "English" ? "Search tips" : "Sök tips"
+                  }
+                  btnAction={(e) => (
+                    setShowSearchTips(!showSearchTips), e.preventDefault()
+                  )}
+                  toggleState={showSearchTips}
+                />
               </span>
             </p>
             {showSearchTips && (
               <>
                 <p>
-                  You can search on a cards complete name or parts of a name, to
-                  search for parts of a name add a star infront, after or both.
+                  {language?.name === "English"
+                    ? `You can search on a cards complete name or parts of a name. To search for parts of a name add a star infront, after or both.`
+                    : `Du kan söka på ett korts fullständiga namn eller delar av ett namn. För att söka efter delar av ett namn lägg till en stjärna framför, efter eller båda.`}
                 </p>
                 <p>
-                  <i>Example</i>: *char | *char* | char*
+                  <i>{language?.name === "English" ? "Example" : "Exempel"}</i>:
+                  *char | *char* | char*
                 </p>
               </>
             )}
@@ -495,35 +498,75 @@ export const CreateCollectionPage = () => {
               foundCardsOnSearch.length === 0)
           }
           btnAction={(e) => handleSubmit(e)}
-          btnText={"Create"}
+          btnText={language?.name === "English" ? "Create" : "Skapa"}
         />
       </form>
 
       {notCorrectArtist && (
-        <>Nothing found with that artist, do you have a typo?</>
+        <>
+          {language?.name === "English"
+            ? "Nothing found with that artist, do you have a typo?"
+            : "Inget hittat med den artisten, har du ett stavfel?"}
+        </>
       )}
-      {notCorrectChar && <>Nothing found with that name, do you have a typo?</>}
-      {notCorrectSetId && <>Not correct set id, do you have a typo?</>}
+      {notCorrectChar && (
+        <>
+          {language?.name === "English"
+            ? "Nothing found with that name, do you have a typo?"
+            : "Inget hittat med den karaktären, har du ett stavfel?"}
+        </>
+      )}
+      {notCorrectSetId && (
+        <>
+          {language?.name === "English"
+            ? "Not correct set id, do you have a typo?"
+            : "Inte korrekt set-id, har du ett stavfel?"}
+        </>
+      )}
       {foundCardsOnSearch !== undefined && (
         <>
           {collType === "set" && foundSetOnSearch && (
             <p>
-              The set you searched for "{foundSetOnSearch.id.replace("pt", ".")}
-              " is named: {foundSetOnSearch.name}
+              {language?.name === "English"
+                ? ` The set you searched for "${foundSetOnSearch.id.replace(
+                    "pt",
+                    "."
+                  )}
+              " is named: ${foundSetOnSearch.name}`
+                : `Setet du sökte efter "${foundSetOnSearch.id.replace(
+                    "pt",
+                    "."
+                  )}
+              " har namnet: ${foundSetOnSearch.name}`}
             </p>
           )}
           {(collType === "artist" || collType === "char") && (
             <p>
-              There are {foundCardsOnSearch.length} cards found with{" "}
-              {collType === "artist" ? (
-                <>"{artistName}" as the artist</>
-              ) : (
-                <> "{charName}" in the name</>
-              )}
+              {language?.name === "English"
+                ? `There are ${foundCardsOnSearch.length} cards found with{" "}
+              ${
+                collType === "artist" ? (
+                  <>"{artistName}" as the artist</>
+                ) : (
+                  <> "{charName}" in the name</>
+                )
+              }}`
+                : `Det finns ${foundCardsOnSearch.length} kort hittade med{" "}
+              ${
+                collType === "artist" ? (
+                  <>"{artistName}" som artist</>
+                ) : (
+                  <> "{charName}" i namnet</>
+                )
+              }}`}
             </p>
           )}
           {!isLoading && foundCardsOnSearch.length !== 0 && (
-            <p>Here is an example of cards found</p>
+            <p>
+              {language?.name === "English"
+                ? "Here is an example of cards found"
+                : "Här är exempel av hittade kort"}
+            </p>
           )}
           <div
             style={{
@@ -663,7 +706,13 @@ export const CreateCollectionPage = () => {
           </p>
         </Link>
       ) : null}
-      {nameExists && <p>Collection name already exists, try another one</p>}
+      {nameExists && (
+        <p>
+          {language?.name === "English"
+            ? "Collection name already exists, try another one"
+            : "Kollektions nemnet finns redan, pröva ett annat"}
+        </p>
+      )}
     </div>
   );
 };
