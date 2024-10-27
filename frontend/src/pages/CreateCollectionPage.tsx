@@ -532,7 +532,7 @@ export const CreateCollectionPage = () => {
                     "."
                   )}
               " is named: ${foundSetOnSearch.name}`
-                : `Setet du sökte efter "${foundSetOnSearch.id.replace(
+                : `Det set du sökte efter "${foundSetOnSearch.id.replace(
                     "pt",
                     "."
                   )}
@@ -542,17 +542,17 @@ export const CreateCollectionPage = () => {
           {(collType === "artist" || collType === "char") && (
             <p>
               {language?.name === "English"
-                ? `There are ${foundCardsOnSearch.length} cards found with{" "}
+                ? `There are ${foundCardsOnSearch.length} cards found with
               ${
                 collType === "artist"
                   ? ` "${artistName}" as the artist`
-                  : `"${charName}" in the name`
+                  : ` "${charName}" in the name`
               }`
                 : `Det finns ${foundCardsOnSearch.length} kort hittade med
               ${
                 collType === "artist"
                   ? ` "${artistName}" som artist`
-                  : `"${charName}" i namnet`
+                  : ` "${charName}" i namnet`
               }`}
             </p>
           )}
