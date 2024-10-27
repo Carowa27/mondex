@@ -1,22 +1,14 @@
 import { useMediaQuery } from "react-responsive";
 import { variables } from "../globals/variables";
-import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
 import { getCardsFromApi, getSetFromApi } from "../services/pkmnTcgApiServices";
 import { Link } from "react-router-dom";
 import { ContainerContext } from "../globals/containerContext";
 import { getToday } from "../functions/dateFunctions";
 import { ICollection } from "../interfaces/LSInterface";
-import { updateMondexLs } from "../functions/LSFunctions";
 import { IPkmnCard, IPkmnSet } from "../interfaces/dataFromApi";
-import {
-  CreateButton,
-  InputButton,
-  StandardButton,
-  TextToggleButton,
-} from "../components/Buttons";
+import { CreateButton, InputButton } from "../components/Buttons";
 import { LoadingModule } from "../components/LoadingModule";
-import { SmallPkmnCard } from "../components/SmallPkmnCard";
-import { SmallPkmnCardSearch } from "../components/SmallPkmnCardSearch";
 
 export const CreateCollectionPage = () => {
   const { container, updateContainer } = useContext(ContainerContext);
@@ -41,7 +33,7 @@ export const CreateCollectionPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [createdCollection, setCreatedCollection] = useState<boolean>(false);
   const [nameExists, setNameExists] = useState<boolean>(false);
-  const [showSearchTips, setShowSearchTips] = useState<boolean>(false);
+  // const [showSearchTips, setShowSearchTips] = useState<boolean>(false);
 
   const checkIfNameExists = () => {
     const foundCollName = container?.user?.collections.filter(
