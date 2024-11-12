@@ -331,17 +331,14 @@ export const Home = () => {
                       </h5>
                     )}
                     {!isDesktop && !isTablet && (
-                      <h6
-                        className={
-                          isTablet || isDesktop
-                            ? "align-self-start mt-3 w-100"
-                            : "text-center"
-                        }
+                      <p
+                        className={"text-center fw-bold mb-1"}
+                        style={{ fontSize: "18px" }}
                       >
                         {language?.name === "English"
                           ? "Most Valuable Card"
                           : "Mest värdefulla kortet"}
-                      </h6>
+                      </p>
                     )}
 
                     <div
@@ -422,6 +419,7 @@ export const Home = () => {
                         </p>
                       ) : (
                         <p
+                          className="mt-1"
                           style={{
                             display: "flex",
                             justifyContent: "space-evenly",
