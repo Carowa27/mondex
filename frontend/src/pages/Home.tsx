@@ -471,7 +471,14 @@ export const Home = () => {
                         ))}
                       </div>
                     )}
-                    <span style={{ fontSize: "x-small", width: "100%" }}>
+                    <span
+                      style={{
+                        fontSize: "x-small",
+                        width: !isDesktop && !isTablet ? "auto" : "100%",
+                        marginLeft: !isDesktop && !isTablet ? "auto" : "",
+                        marginRight: "1rem",
+                      }}
+                    >
                       {language?.lang_code.last_updated_at}:{" "}
                       {mostValuableCard?.tcgplayer?.updatedAt}
                     </span>
