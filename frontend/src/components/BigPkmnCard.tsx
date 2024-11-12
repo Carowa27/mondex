@@ -138,7 +138,7 @@ export const BigPkmnCard = ({
     justify-content: end;
     font-size: larger;
     font-weight: bolder;
-    padding: ${isDesktop ? "2rem 2rem 0 0" : "1rem 1rem 0 0"};
+    padding: ${isDesktop ? "2rem 2rem 0 0" : "1rem 0 0 0"};
   `;
   const BigCardBody = styled.main`
     height: 100%;
