@@ -677,7 +677,7 @@ export const Home = () => {
                     </>
                   ) : (
                     <>
-                      Allt som sparas på denna sida sparas i din webbläsare ,{" "}
+                      Allt som sparas på denna sida sparas i din webbläsare,{" "}
                       {isDesktop && <br />}
                       om du vill radera all data
                       <Link
