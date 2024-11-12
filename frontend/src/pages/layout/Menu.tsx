@@ -215,7 +215,7 @@ export const Menu = ({
               }}
             >
               <div onClick={() => changeIsMobileMenuOpen(!isMobileMenuOpened)}>
-                <span id="main-menu" className="ps-2">
+                <span id="main-menu" className="ps-3">
                   Menu
                 </span>
                 <i className="bi bi-chevron-up ps-2"></i>
@@ -235,7 +235,7 @@ export const Menu = ({
                   color: theme?.primaryColors.link.hex,
                 }}
               >
-                <span id="main-menu-searchpage" className="ps-2">
+                <span id="main-menu-searchpage" className="ps-3">
                   {language?.lang_code.word_search}
                 </span>
               </Link>
@@ -253,7 +253,7 @@ export const Menu = ({
                   color: theme?.primaryColors.link.hex,
                 }}
               >
-                <span id="main-menu-about" className="ps-2">
+                <span id="main-menu-about" className="ps-3">
                   {language?.lang_code.about_about_project}
                 </span>
               </Link>
@@ -274,7 +274,7 @@ export const Menu = ({
                         color: theme?.primaryColors.link.hex,
                       }}
                     >
-                      <span id="main-menu-mypages" className="ps-2">
+                      <span id="main-menu-mypages" className="ps-3">
                         {language?.lang_code.my_pages_my_pages}
                       </span>
                     </Link>
@@ -331,7 +331,7 @@ export const Menu = ({
             </div>
           ) : (
             <div
-              className="d-flex flex-column pe-4 ps-2"
+              className="d-flex flex-column pe-4 ps-3"
               style={{
                 marginTop: "10px",
                 color: `${theme?.primaryColors.link.hex}`,
