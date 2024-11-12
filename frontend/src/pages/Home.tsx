@@ -195,16 +195,16 @@ export const Home = () => {
                   </h5>
                 )}
                 {!isDesktop && !isTablet && (
-                  <h6 className={"text-center"}>
+                  <p
+                    className={"text-center fw-bold mb-1"}
+                    style={{ fontSize: "18px" }}
+                  >
                     {language?.name === "English" ? (
-                      "Last searched card"
+                      "Last opened"
                     ) : (
-                      <>
-                        Ditt senast sökta
-                        <br /> kort
-                      </>
+                      <>Senast öppnade</>
                     )}
-                  </h6>
+                  </p>
                 )}
                 {isDesktop && (
                   <div
@@ -336,8 +336,8 @@ export const Home = () => {
                         style={{ fontSize: "18px" }}
                       >
                         {language?.name === "English"
-                          ? "Most Valuable Card"
-                          : "Mest värdefulla kortet"}
+                          ? "Most Valuable"
+                          : "Mest värdefull"}
                       </p>
                     )}
 
