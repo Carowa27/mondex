@@ -662,7 +662,7 @@ export const Home = () => {
                 >
                   {language?.name === "English" ? (
                     <>
-                      Everything saved on this page is saved in your browser,
+                      Everything saved on this page is saved in your browser,{" "}
                       {isDesktop && <br />}
                       if you want to delete all data,{" "}
                       <Link
