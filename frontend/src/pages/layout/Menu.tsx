@@ -208,7 +208,7 @@ export const Menu = ({
                 zIndex: "500",
                 minWidth: "fit-content",
                 width: "40%",
-                gap: "0.3rem",
+                gap: "0.8rem",
                 backgroundColor: `${theme?.primaryColors.background.hex}`,
                 borderLeft: `2px solid rgba(${theme?.typeColors.water.rgb},0.8)`,
                 borderBottom: `1px solid rgba(${theme?.typeColors.water.rgb},0.8)`,
