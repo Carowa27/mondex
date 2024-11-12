@@ -200,6 +200,7 @@ export const Menu = ({
               id="main-menu-container"
               className="d-flex flex-column pe-4 mt-2 rounded-bottom"
               style={{
+                marginTop: "10px",
                 color: `${theme?.primaryColors.link.hex}`,
                 position: "absolute",
                 right: 0,
@@ -330,8 +331,9 @@ export const Menu = ({
             </div>
           ) : (
             <div
-              className="d-flex flex-column pe-4 ps-2 mt-2"
+              className="d-flex flex-column pe-4 ps-2"
               style={{
+                marginTop: "10px",
                 color: `${theme?.primaryColors.link.hex}`,
                 position: "absolute",
                 right: 0,
