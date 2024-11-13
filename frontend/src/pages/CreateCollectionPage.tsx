@@ -172,6 +172,7 @@ export const CreateCollectionPage = () => {
       (res) => {
         if (res === undefined) {
           setNotCorrectSetId(true);
+          setIsLoading(false);
         } else {
           setFoundSetOnSearch(res);
           searchForCards("set", setId);
@@ -294,7 +295,8 @@ export const CreateCollectionPage = () => {
                   value={pkmnSetId}
                   onChange={(e) => (
                     setPkmnSetId(e.target.value),
-                    setFoundCardsOnSearch(undefined)
+                    setFoundCardsOnSearch(undefined),
+                    setNotCorrectSetId(false)
                   )}
                 />
                 <InputButton
