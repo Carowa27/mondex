@@ -182,7 +182,7 @@ export const SmallPkmnCard = ({
             width: "100%",
             height: "100vh",
             position: "fixed",
-            zIndex: "400",
+            zIndex: 600,
           }}
           className="d-flex justify-content-center align-items-center"
           onClick={changeShowDeleteCardPopUp}
@@ -205,7 +205,7 @@ export const SmallPkmnCard = ({
             width: "100%",
             height: "100vh",
             position: "fixed",
-            zIndex: "400",
+            zIndex: 600,
           }}
           className="d-flex justify-content-center align-items-center"
           onClick={changeShowPkmnInfo}
@@ -227,7 +227,7 @@ export const SmallPkmnCard = ({
             width: "100%",
             height: "100vh",
             position: "fixed",
-            zIndex: "400",
+            zIndex: 600,
           }}
           className="d-flex justify-content-center align-items-center"
           onClick={changeShowPkmnInfo}

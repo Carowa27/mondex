@@ -105,7 +105,7 @@ export const MyPages = () => {
             width: "100%",
             height: "100vh",
             position: "fixed",
-            zIndex: 400,
+            zIndex: 600,
           }}
           className="d-flex justify-content-center align-items-center"
           onClick={() => setShowRemoveDataModal(false)}
@@ -156,7 +156,7 @@ export const MyPages = () => {
             width: "100%",
             height: "100vh",
             position: "fixed",
-            zIndex: 400,
+            zIndex: 600,
           }}
           className="d-flex justify-content-center align-items-center"
         >
