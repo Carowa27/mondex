@@ -129,7 +129,9 @@ export const CreateCollectionPage = () => {
         } else {
           const newCollection = {
             id: collName.replace(/ /g, "_") + "-" + getToday(),
-            collection_name: collName.replace(/ /g, "_"),
+            collection_name: collName.endsWith(" ")
+              ? collName.slice(0, collName.length - 1).replace(/ /g, "_")
+              : collName.replace(/ /g, "_"),
             cards_in_collection: [],
             created_date: getToday(),
           };
