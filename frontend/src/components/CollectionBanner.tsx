@@ -97,9 +97,13 @@ export const CollectionBanner = (props: IProps) => {
               <div>
                 <ul
                   className={
-                    "d-flex justify-content-start align-items-end overflow-hidden"
+                    "d-flex justify-content-evenly align-items-end overflow-hidden"
                   }
-                  style={{ listStyle: "none", padding: 0, gap: "1rem" }}
+                  style={{
+                    listStyle: "none",
+                    padding: 0,
+                    gap: "2vw",
+                  }}
                 >
                   <>
                     {cards &&
@@ -110,7 +114,7 @@ export const CollectionBanner = (props: IProps) => {
                             ? 7
                             : isDesktop
                             ? 6
-                            : 2
+                            : 3
                         )
                         .map((card) => (
                           <li

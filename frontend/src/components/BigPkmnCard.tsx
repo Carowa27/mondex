@@ -73,7 +73,7 @@ export const BigPkmnCard = ({
       <h5 style={{ margin: 0 }}>{language?.lang_code.word_market_value}</h5>
       <h6 style={{ margin: 0 }}>TCG Player</h6>
       {cardInfo.tcgplayer && cardInfo.tcgplayer.prices ? (
-        <>
+        <div style={{ paddingLeft: "0.75rem" }}>
           {cardValuesTCG &&
             cardValuesTCG.map((val) => (
               <BigCardInfoRow key={`${val.type}-${val.value}`}>
@@ -81,7 +81,7 @@ export const BigPkmnCard = ({
                 <span>{val.value}$</span>
               </BigCardInfoRow>
             ))}
-        </>
+        </div>
       ) : (
         <>
           {language?.name === "English" ? (
@@ -93,7 +93,7 @@ export const BigPkmnCard = ({
       )}
       <h6 className="pt-3 m-0">CardMarket</h6>
       {cardInfo.cardmarket && cardInfo.cardmarket.prices ? (
-        <>
+        <div style={{ paddingLeft: "0.75rem" }}>
           {cardValuesCardmarket &&
             cardValuesCardmarket.map((val) => (
               <BigCardInfoRow key={`${val.type}-${val.value}`}>
@@ -101,7 +101,7 @@ export const BigPkmnCard = ({
                 <span>{val.value}$</span>
               </BigCardInfoRow>
             ))}
-        </>
+        </div>
       ) : (
         <>
           {language?.name === "English" ? (
@@ -138,7 +138,7 @@ export const BigPkmnCard = ({
     justify-content: end;
     font-size: larger;
     font-weight: bolder;
-    padding: ${isDesktop ? "2rem 2rem 0 0" : "1rem 1rem 0 0"};
+    padding: ${isDesktop ? "2rem 2rem 0 0" : "1rem 0 0 0"};
   `;
   const BigCardBody = styled.main`
     height: 100%;
@@ -176,7 +176,18 @@ export const BigPkmnCard = ({
     }
   `;
   const BigCardInfoRow = styled.div`
+    display: flex;
     margin-left: 0.5rem;
+    :first-child {
+      font-weight: bold;
+      padding-right: 0.5rem;
+    }
+    :nth-child(even) {
+      padding-right: 0.5rem;
+    }
+  `;
+  const BigCardInfoRowLegality = styled.div`
+    margin-left: 1.75rem;
     :first-child {
       font-weight: bold;
       padding-right: 0.5rem;
@@ -195,7 +206,7 @@ export const BigPkmnCard = ({
   const BigCardValueContainer = styled.div`
     margin-top: ${isDesktop ? "auto" : "1rem"};
     margin-bottom: 0.5rem;
-    padding: 1rem 2rem;
+    padding: 1rem;
     border: 3px solid goldenrod;
     border-radius: 0.5rem;
   `;
@@ -210,6 +221,7 @@ export const BigPkmnCard = ({
   `;
   const BigCardLegalities = styled.div`
     width: max-content;
+    margin-left: 0.5rem;
   `;
   return (
     <BigCardContainer>
@@ -250,7 +262,9 @@ export const BigPkmnCard = ({
               <BigCardInfoRow>
                 <span>Set: </span>
                 <span>{cardInfo.set.name}</span>
-                <span>Nr: {cardInfo.number}</span>
+                <span style={{ marginLeft: "auto" }}>
+                  Nr: {cardInfo.number}/{cardInfo.set.printedTotal}
+                </span>
               </BigCardInfoRow>
               <BigCardInfoRow>
                 <span>{language?.lang_code.word_release_date}: </span>
@@ -272,24 +286,29 @@ export const BigPkmnCard = ({
                 }}
               >
                 <BigCardLegalities>
-                  <h6>TCG Legality </h6>
+                  <p
+                    style={{ fontSize: "18px", fontWeight: "bold" }}
+                    className="m-0"
+                  >
+                    TCG Legality
+                  </p>
                   {cardInfo.legalities.standard && (
-                    <BigCardInfoRow>
+                    <BigCardInfoRowLegality>
                       <span>Standard: </span>
                       {cardInfo.legalities.standard}
-                    </BigCardInfoRow>
+                    </BigCardInfoRowLegality>
                   )}
                   {cardInfo.legalities.unlimited && (
-                    <BigCardInfoRow>
+                    <BigCardInfoRowLegality>
                       <span>Unlimited: </span>
                       {cardInfo.legalities.unlimited}
-                    </BigCardInfoRow>
+                    </BigCardInfoRowLegality>
                   )}
                   {cardInfo.legalities.expanded && (
-                    <BigCardInfoRow>
+                    <BigCardInfoRowLegality>
                       <span>Expanded: </span>
                       {cardInfo.legalities.expanded}
-                    </BigCardInfoRow>
+                    </BigCardInfoRowLegality>
                   )}
                 </BigCardLegalities>
                 <div>

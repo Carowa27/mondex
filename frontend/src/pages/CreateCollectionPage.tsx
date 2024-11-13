@@ -129,7 +129,9 @@ export const CreateCollectionPage = () => {
         } else {
           const newCollection = {
             id: collName.replace(/ /g, "_") + "-" + getToday(),
-            collection_name: collName.replace(/ /g, "_"),
+            collection_name: collName.endsWith(" ")
+              ? collName.slice(0, collName.length - 1).replace(/ /g, "_")
+              : collName.replace(/ /g, "_"),
             cards_in_collection: [],
             created_date: getToday(),
           };
@@ -168,14 +170,17 @@ export const CreateCollectionPage = () => {
 
   const searchForSet = async (setId: string) => {
     setIsLoading(true);
-    await getSetFromApi(setId.replace(/[.,]/g, "pt")).then((res) => {
-      if (res === undefined) {
-        setNotCorrectSetId(true);
-      } else {
-        setFoundSetOnSearch(res);
-        searchForCards("set", setId);
+    await getSetFromApi(setId.toLowerCase().replace(/[.,]/g, "pt")).then(
+      (res) => {
+        if (res === undefined) {
+          setNotCorrectSetId(true);
+          setIsLoading(false);
+        } else {
+          setFoundSetOnSearch(res);
+          searchForCards("set", setId);
+        }
       }
-    });
+    );
   };
   const searchForCards = async (
     type: "artist" | "char" | "set",
@@ -184,10 +189,10 @@ export const CreateCollectionPage = () => {
     setIsLoading(true);
     await getCardsFromApi(
       type === "artist"
-        ? `?q=artist:"${name}"`
+        ? `?q=artist:"${name.toLowerCase()}"`
         : type === "char"
-        ? `?q=name:"${name}"`
-        : `?q=set.id:"${name.replace(/[.,]/g, "pt")}"`,
+        ? `?q=name:"${name.toLowerCase()}"`
+        : `?q=set.id:"${name.toLowerCase().replace(/[.,]/g, "pt")}"`,
       250
     ).then((res) => {
       if (type === "artist") {
@@ -292,7 +297,8 @@ export const CreateCollectionPage = () => {
                   value={pkmnSetId}
                   onChange={(e) => (
                     setPkmnSetId(e.target.value),
-                    setFoundCardsOnSearch(undefined)
+                    setFoundCardsOnSearch(undefined),
+                    setNotCorrectSetId(false)
                   )}
                 />
                 <InputButton
@@ -685,11 +691,9 @@ export const CreateCollectionPage = () => {
           <p>
             {container.language?.lang_code.collection_created}:{" "}
             <span className="text-decoration-underline fst-italic">
-              {
-                container.user?.collections[
-                  container.user?.collections.length - 1
-                ].collection_name
-              }
+              {container.user?.collections[
+                container.user?.collections.length - 1
+              ].collection_name.replaceAll("_", " ")}
             </span>
           </p>
         </Link>

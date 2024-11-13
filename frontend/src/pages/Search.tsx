@@ -204,7 +204,7 @@ export const Search = () => {
             width: "100%",
             height: "100vh",
             position: "fixed",
-            zIndex: "400",
+            zIndex: 600,
           }}
           className="d-flex justify-content-center align-items-center"
         >
@@ -224,7 +224,7 @@ export const Search = () => {
             width: "100%",
             height: "100vh",
             position: "fixed",
-            zIndex: 400,
+            zIndex: 600,
           }}
           className="d-flex justify-content-center align-items-center"
           onClick={changeShowPkmnInfo}
@@ -249,9 +249,10 @@ export const Search = () => {
         >
           <div>
             <div className="d-flex justify-content-around">
-              <label htmlFor="search_text" className="pt-2 m-0">
+              <label htmlFor="search_text" className="pt-2 m-0 w-auto">
                 {language?.lang_code.search_word}:{" "}
                 <input
+                  style={{ width: "100%" }}
                   type="text"
                   id="search_text"
                   value={searchValue}

@@ -167,7 +167,7 @@ export const CollectionPage = () => {
             width: "100%",
             height: "100vh",
             position: "fixed",
-            zIndex: "400",
+            zIndex: 600,
           }}
           className="d-flex justify-content-center align-items-center"
           onClick={changeShowDeleteCardPopUp}
@@ -197,14 +197,16 @@ export const CollectionPage = () => {
               <>
                 <Link
                   to="/userpage"
-                  className="text-decoration-none"
+                  className="text-decoration-none mt-2"
                   style={{ color: "inherit" }}
                 >
                   <i className="bi bi-chevron-left me-2"></i>
                 </Link>
-                {collectionNameToShow.slice(0, 9)} -
-                <br />
-                {collectionNameToShow.slice(10, collectionNameToShow.length)}
+                <span style={{ fontSize: "20px" }}>
+                  {collectionNameToShow.slice(0, 9)} -
+                  <br />
+                  {collectionNameToShow.slice(9, collectionNameToShow.length)}
+                </span>
               </>
             ) : (
               <>
@@ -243,9 +245,7 @@ export const CollectionPage = () => {
                 <> Set id: {collection.set?.id.replace("pt", ".")}</>
               ) : isTablet ? (
                 <>{collection.set?.id.replace("pt", ".")}</>
-              ) : (
-                <>{collection.set?.id.replace("pt", ".")}</>
-              )}
+              ) : null}
             </span>
           )}
           {collection?.character !== undefined && (
@@ -346,6 +346,7 @@ export const CollectionPage = () => {
                             ? "pt-2 px-1"
                             : "pt-2 d-flex justify-content-center"
                         }
+                        style={{ width: "fit-content" }}
                       >
                         {isDesktop && (
                           <p className="fw-semibold ps-1 m-0">
@@ -378,13 +379,13 @@ export const CollectionPage = () => {
                             ? "pt-2 px-1"
                             : "pt-2 d-flex justify-content-center"
                         }
+                        style={{ width: "fit-content" }}
                       >
                         {isDesktop && (
                           <p className="fw-semibold ps-1 m-0">
                             {cardFromApi.name}
                           </p>
                         )}
-
                         <SmallPkmnCard
                           cardFromApi={cardFromApi}
                           collectionName={collectionName}

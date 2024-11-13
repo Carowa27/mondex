@@ -166,7 +166,11 @@ export const BreadCrumbs = ({ pageParam, collectionName }: IProps) => {
                   color: theme?.primaryColors.breadcrumbText.hex,
                 }}
               >
-                <span>{language?.lang_code.collection_all_collections}</span>
+                <span>
+                  {language?.name === "English"
+                    ? "Collections"
+                    : "Kollektioner"}
+                </span>
               </Link>
             </p>
           ) : null}

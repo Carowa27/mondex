@@ -19,7 +19,8 @@ export const Home = () => {
   const isTablet = useMediaQuery({ query: variables.breakpoints.tablet });
   const [seeBigCard, setSeeBigCard] = useState<boolean>(false);
   const [infoPkmnCard, setInfoPkmnCard] = useState<IPkmnCard>();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoadingUser, setIsLoadingUser] = useState<boolean>(false);
+  const [isLoadingValuable, setIsLoadingValuable] = useState<boolean>(false);
   const [username, setUsername] = useState<string>("");
   const language = container.language;
   const theme = container.theme;
@@ -38,17 +39,24 @@ export const Home = () => {
     let userData = getMondexLs();
     if (userData !== undefined) {
       updateContainer(userData, "containerObject");
-      setIsLoading(false);
+      setIsLoadingUser(false);
     } else {
-      setIsLoading(false);
+      if (mostValuableCard !== undefined) {
+        setIsLoadingValuable(false);
+      } else {
+        setIsLoadingValuable(true);
+      }
+      setIsLoadingUser(true);
     }
     if (userData?.mostValuableCard === undefined) {
-      setIsLoading(true);
+      setIsLoadingValuable(true);
       getValuableCard();
     } else {
       if (userData?.mostValuableCard.savedOn !== today) {
-        setIsLoading(true);
+        setIsLoadingValuable(true);
         getValuableCard();
+      } else {
+        setIsLoadingValuable(false);
       }
     }
   };
@@ -58,7 +66,7 @@ export const Home = () => {
       if (res) {
         updateContainer({ cards: res, savedOn: today }, "valuableCard");
       }
-      setIsLoading(false);
+      setIsLoadingValuable(false);
     });
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,7 +91,8 @@ export const Home = () => {
     );
   };
   useEffect(() => {
-    setIsLoading(true);
+    setIsLoadingUser(true);
+    setIsLoadingValuable(true);
     getLSData();
   }, []);
 
@@ -102,7 +111,7 @@ export const Home = () => {
             width: "100%",
             height: "100vh",
             position: "fixed",
-            zIndex: 400,
+            zIndex: 600,
           }}
           className="d-flex justify-content-center align-items-center"
           onClick={changeShowPkmnInfo}
@@ -165,7 +174,11 @@ export const Home = () => {
               {language?.lang_code.search_new_sets_might_be_unavailable}.
             </span>
           )}
-          <div className={isDesktop ? "mt-auto" : "d-flex "}>
+          <div
+            className={
+              isDesktop ? (isLoadingValuable ? "" : "mt-auto") : "d-flex "
+            }
+          >
             {container.lastOpenedCard ? (
               <div
                 className={
@@ -182,16 +195,16 @@ export const Home = () => {
                   </h5>
                 )}
                 {!isDesktop && !isTablet && (
-                  <h6 className={"text-center"}>
+                  <p
+                    className={"text-center fw-bold mb-1"}
+                    style={{ fontSize: "18px" }}
+                  >
                     {language?.name === "English" ? (
-                      "Last searched card"
+                      "Last opened"
                     ) : (
-                      <>
-                        Ditt senast sökta
-                        <br /> kort
-                      </>
+                      <>Senast öppnade</>
                     )}
-                  </h6>
+                  </p>
                 )}
                 {isDesktop && (
                   <div
@@ -288,201 +301,214 @@ export const Home = () => {
                 )}
               </div>
             ) : null}
-            {container.mostValuableCard ? (
-              <div
-                className={
-                  isDesktop
-                    ? "d-flex flex-row w-100 flex-wrap "
-                    : isTablet && !container.lastOpenedCard
-                    ? "d-flex flex-row w-100 flex-wrap"
-                    : isTablet && container.lastOpenedCard
-                    ? "d-flex flex-row w-75 flex-wrap ps-5"
-                    : "d-flex flex-column w-50 align-items-center flex-fill"
-                }
-              >
-                {(isTablet || isDesktop) && (
-                  <h5
+            {isLoadingValuable ? (
+              <LoadingModule />
+            ) : (
+              <>
+                {container.mostValuableCard ? (
+                  <div
                     className={
-                      isTablet || isDesktop
-                        ? "align-self-start mt-3 w-100"
-                        : "text-center"
+                      isDesktop
+                        ? "d-flex flex-row w-100 flex-wrap "
+                        : isTablet && !container.lastOpenedCard
+                        ? "d-flex flex-row w-100 flex-wrap"
+                        : isTablet && container.lastOpenedCard
+                        ? "d-flex flex-row w-75 flex-wrap ps-5"
+                        : "d-flex flex-column w-50 align-items-center flex-fill"
                     }
                   >
-                    {language?.name === "English"
-                      ? "Most Valuable Card"
-                      : "Mest värdefulla kortet"}
-                  </h5>
-                )}
-                {!isDesktop && !isTablet && (
-                  <h6
-                    className={
-                      isTablet || isDesktop
-                        ? "align-self-start mt-3 w-100"
-                        : "text-center"
-                    }
-                  >
-                    {language?.name === "English"
-                      ? "Most Valuable Card"
-                      : "Mest värdefulla kortet"}
-                  </h6>
-                )}
-
-                <div
-                  className={isDesktop ? "" : "d-flex justify-content-center"}
-                  style={{
-                    width: isTablet || isDesktop ? "12.5rem" : "80%",
-                  }}
-                  onClick={() => {
-                    setSeeBigCard(true);
-                    setInfoPkmnCard(mostValuableCard);
-                  }}
-                >
-                  <img
-                    className="rounded"
-                    style={{
-                      width: isTablet || isDesktop ? "100%" : "100%",
-                    }}
-                    src={mostValuableCard?.images.small}
-                    alt={mostValuableCard?.name}
-                  />
-                </div>
-                <div
-                  className={
-                    isTablet || isDesktop
-                      ? "m-0 ps-3 pt-3"
-                      : "w-100 d-flex flex-column justify-content-evenly m-0"
-                  }
-                  style={{
-                    width: isDesktop ? "50%" : isTablet ? "auto" : "auto",
-                  }}
-                >
-                  {isTablet || isDesktop ? (
-                    <p style={isDesktop ? { marginLeft: "2rem" } : {}}>
-                      <span>
-                        <b>Card: </b>
-                        {mostValuableCard?.name}
-                      </span>
-
-                      <br />
-                      <span>
-                        <b>Artist: </b>
-                        {mostValuableCard?.artist}
-                      </span>
-                      <br />
-                      <span>
-                        <b>Set: </b>
-                        {mostValuableCard?.set.name}
-                      </span>
-                      <br />
-                      <span>
-                        <b>{language?.lang_code.word_release_date}: </b>
-                        {mostValuableCard?.set.releaseDate}
-                      </span>
-                      <br />
-                      <span>
-                        <b>Rarity: </b>
-                        {mostValuableCard?.rarity}
-                      </span>
-                      <br />
-                      <span
-                        style={{
-                          fontSize: "48px",
-                          display: "flex",
-                          justifyContent: isDesktop ? "center" : "start",
-                          alignItems: "center",
-                          height: "53%",
-                        }}
+                    {(isTablet || isDesktop) && (
+                      <h5
+                        className={
+                          isTablet || isDesktop
+                            ? "align-self-start mt-3 w-100"
+                            : "text-center"
+                        }
                       >
-                        {mostValuableCard &&
-                          getValueOfCard({
-                            card: mostValuableCard,
-                            amount: 1,
-                          })}
-                        $
-                      </span>
-                    </p>
-                  ) : (
-                    <p
+                        {language?.name === "English"
+                          ? "Most Valuable Card"
+                          : "Mest värdefulla kortet"}
+                      </h5>
+                    )}
+                    {!isDesktop && !isTablet && (
+                      <p
+                        className={"text-center fw-bold mb-1"}
+                        style={{ fontSize: "18px" }}
+                      >
+                        {language?.name === "English"
+                          ? "Most Valuable"
+                          : "Mest värdefull"}
+                      </p>
+                    )}
+
+                    <div
+                      className={
+                        isDesktop ? "" : "d-flex justify-content-center"
+                      }
                       style={{
-                        display: "flex",
-                        justifyContent: "space-evenly",
+                        width: isTablet || isDesktop ? "12.5rem" : "80%",
+                      }}
+                      onClick={() => {
+                        setSeeBigCard(true);
+                        setInfoPkmnCard(mostValuableCard);
                       }}
                     >
-                      <span>{mostValuableCard?.name}</span>
-                      {!container.lastOpenedCard && (
-                        <span>{mostValuableCard?.set.name}</span>
-                      )}
-                      <span className={"align-self-end"}>
-                        {mostValuableCard &&
-                          getValueOfCard({
-                            card: mostValuableCard,
-                            amount: 1,
-                          })}
-                        $
-                      </span>
-                    </p>
-                  )}
-                </div>
-                {isTablet && !container.lastOpenedCard && (
-                  <div
-                    style={{
-                      display: "flex",
-                      flexWrap: "wrap",
-                      justifyContent: "space-evenly",
-                      gap: "1rem",
-                      width: "40%",
-                      marginTop: "0.5rem",
-                      marginLeft: "auto",
-                    }}
-                  >
-                    {nextValuableCard?.map((card) => (
                       <img
-                        key={card.id}
+                        className="rounded"
                         style={{
-                          width: "6rem",
-                          aspectRatio: "3/4",
-                          // height: "auto",
-                          // alignSelf: "end",
+                          width: isTablet || isDesktop ? "100%" : "100%",
                         }}
-                        src={card.images.small}
-                        alt={`${card.name} card`}
-                        onClick={() => {
-                          setSeeBigCard(true);
-                          setInfoPkmnCard(card);
-                        }}
+                        src={mostValuableCard?.images.small}
+                        alt={mostValuableCard?.name}
                       />
-                    ))}
-                  </div>
-                )}
-                <span style={{ fontSize: "x-small", width: "100%" }}>
-                  {language?.lang_code.last_updated_at}:{" "}
-                  {mostValuableCard?.tcgplayer?.updatedAt}
-                </span>
-                {isDesktop && (
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-evenly",
-                      width: "100%",
-                      marginTop: "0.5rem",
-                    }}
-                  >
-                    {nextValuableCard?.map((card) => (
-                      <img
-                        key={card.id}
-                        style={{ width: "4rem" }}
-                        src={card.images.small}
-                        alt={`${card.name} card`}
-                        onClick={() => {
-                          setSeeBigCard(true);
-                          setInfoPkmnCard(card);
+                    </div>
+                    <div
+                      className={
+                        isTablet || isDesktop
+                          ? "m-0 ps-3 pt-3"
+                          : "w-100 d-flex flex-column justify-content-evenly m-0"
+                      }
+                      style={{
+                        width: isDesktop ? "50%" : isTablet ? "auto" : "auto",
+                      }}
+                    >
+                      {isTablet || isDesktop ? (
+                        <p style={isDesktop ? { marginLeft: "2rem" } : {}}>
+                          <span>
+                            <b>Card: </b>
+                            {mostValuableCard?.name}
+                          </span>
+
+                          <br />
+                          <span>
+                            <b>Artist: </b>
+                            {mostValuableCard?.artist}
+                          </span>
+                          <br />
+                          <span>
+                            <b>Set: </b>
+                            {mostValuableCard?.set.name}
+                          </span>
+                          <br />
+                          <span>
+                            <b>{language?.lang_code.word_release_date}: </b>
+                            {mostValuableCard?.set.releaseDate}
+                          </span>
+                          <br />
+                          <span>
+                            <b>Rarity: </b>
+                            {mostValuableCard?.rarity}
+                          </span>
+                          <br />
+                          <span
+                            style={{
+                              fontSize: "48px",
+                              display: "flex",
+                              justifyContent: isDesktop ? "center" : "start",
+                              alignItems: "center",
+                              height: "53%",
+                            }}
+                          >
+                            {mostValuableCard &&
+                              getValueOfCard({
+                                card: mostValuableCard,
+                                amount: 1,
+                              })}
+                            $
+                          </span>
+                        </p>
+                      ) : (
+                        <p
+                          className="mt-1"
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-evenly",
+                          }}
+                        >
+                          <span>{mostValuableCard?.name}</span>
+                          {!container.lastOpenedCard && (
+                            <span>{mostValuableCard?.set.name}</span>
+                          )}
+                          <span className={"align-self-end"}>
+                            {mostValuableCard &&
+                              getValueOfCard({
+                                card: mostValuableCard,
+                                amount: 1,
+                              })}
+                            $
+                          </span>
+                        </p>
+                      )}
+                    </div>
+                    {isTablet && !container.lastOpenedCard && (
+                      <div
+                        style={{
+                          display: "flex",
+                          flexWrap: "wrap",
+                          justifyContent: "space-evenly",
+                          gap: "1rem",
+                          width: "40%",
+                          marginTop: "0.5rem",
+                          marginLeft: "auto",
                         }}
-                      />
-                    ))}
+                      >
+                        {nextValuableCard?.map((card) => (
+                          <img
+                            key={card.id}
+                            style={{
+                              width: "6rem",
+                              aspectRatio: "3/4",
+                              // height: "auto",
+                              // alignSelf: "end",
+                            }}
+                            src={card.images.small}
+                            alt={`${card.name} card`}
+                            onClick={() => {
+                              setSeeBigCard(true);
+                              setInfoPkmnCard(card);
+                            }}
+                          />
+                        ))}
+                      </div>
+                    )}
+                    <span
+                      style={{
+                        fontSize: "x-small",
+                        width: !isDesktop && !isTablet ? "auto" : "100%",
+                        marginLeft: !isDesktop && !isTablet ? "auto" : "",
+                        marginRight: "1rem",
+                      }}
+                    >
+                      {language?.lang_code.last_updated_at}:{" "}
+                      {mostValuableCard?.tcgplayer?.updatedAt}
+                    </span>
+                    {isDesktop && (
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-evenly",
+                          width: "100%",
+                          marginTop: "0.5rem",
+                        }}
+                      >
+                        {nextValuableCard?.map((card) => (
+                          <img
+                            key={card.id}
+                            style={{ width: "4rem" }}
+                            src={card.images.small}
+                            alt={`${card.name} card`}
+                            onClick={() => {
+                              setSeeBigCard(true);
+                              setInfoPkmnCard(card);
+                            }}
+                          />
+                        ))}
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            ) : null}
+                ) : null}
+              </>
+            )}
           </div>
         </div>
         {/* user column */}
@@ -508,7 +534,7 @@ export const Home = () => {
             }
           }
         >
-          {isLoading ? (
+          {isLoadingUser ? (
             <LoadingModule />
           ) : (
             <>
@@ -643,7 +669,7 @@ export const Home = () => {
                 >
                   {language?.name === "English" ? (
                     <>
-                      Everything saved on this page is saved in your browser,
+                      Everything saved on this page is saved in your browser,{" "}
                       {isDesktop && <br />}
                       if you want to delete all data,{" "}
                       <Link
@@ -658,9 +684,9 @@ export const Home = () => {
                     </>
                   ) : (
                     <>
-                      Allt som sparas på denna sida sparas i din webbläsare ,{" "}
+                      Allt som sparas på denna sida sparas i din webbläsare,{" "}
                       {isDesktop && <br />}
-                      om du vill radera all data
+                      om du vill radera all data{" "}
                       <Link
                         to={"./about"}
                         className="text-decoration-none"
