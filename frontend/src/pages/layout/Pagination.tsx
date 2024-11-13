@@ -51,7 +51,7 @@ export const Pagination = ({
       <div
         className={
           totalCount > pageSize
-            ? "w-100 d-flex justify-content-center justify-self-center align-items-center"
+            ? "w-100 d-flex justify-content-center justify-self-center align-items-center mt-2"
             : "d-none"
         }
       >

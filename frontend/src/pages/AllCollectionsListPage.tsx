@@ -13,9 +13,10 @@ export const AllCollectionsListPage = () => {
   const isDesktop = useMediaQuery({ query: variables.breakpoints.desktop });
   const isTablet = useMediaQuery({ query: variables.breakpoints.tablet });
   const { container } = useContext(ContainerContext);
+  const pageSize = isDesktop ? 24 : isTablet ? 14 : 7;
   const [page, setPage] = useState<number>(1);
   const [start, setStart] = useState<number>(0);
-  const [end, setEnd] = useState<number>(isDesktop ? 24 : isTablet ? 14 : 7);
+  const [end, setEnd] = useState<number>(pageSize);
   // const [isLoading, setIsLoading] = useState<boolean>(false);
   const language = container.language;
   const theme = container.theme;
@@ -23,32 +24,12 @@ export const AllCollectionsListPage = () => {
 
   const updateSearch = (newPage: number) => {
     setPage(newPage);
-    if (isDesktop) {
-      if (newPage === 1) {
-        setStart(0);
-        setEnd(24);
-      } else {
-        setStart(24 * newPage - 24);
-        setEnd(24 * newPage);
-      }
+    if (newPage === 1) {
+      setStart(0);
+      setEnd(pageSize);
     } else {
-      if (isTablet) {
-        if (newPage === 1) {
-          setStart(0);
-          setEnd(14);
-        } else {
-          setStart(14 * newPage - 14);
-          setEnd(14 * newPage);
-        }
-      } else {
-        if (newPage === 1) {
-          setStart(0);
-          setEnd(7);
-        } else {
-          setStart(7 * newPage - 7);
-          setEnd(7 * newPage);
-        }
-      }
+      setStart(pageSize * newPage - pageSize);
+      setEnd(pageSize * newPage);
     }
   };
 
@@ -101,13 +82,15 @@ export const AllCollectionsListPage = () => {
             >
               {collections && collections.length !== 0 ? (
                 <div
-                  style={{ gap: "1.5rem" }}
+                  style={{ gap: isDesktop || isTablet ? "1.5rem" : "2vh" }}
                   className={
                     isDesktop
                       ? "w-100 rounded d-flex mx-3 mt-2 pt-3 flex-wrap justify-content-center"
                       : isTablet
                       ? "w-100 rounded d-flex flex-row flex-wrap justify-content-between mt-3"
-                      : "w-100 rounded d-flex flex-column mt-3"
+                      : collections.length - start > 7
+                      ? "w-100 h-100 rounded d-flex flex-column mt-3 justify-content-between"
+                      : "w-100 h-100 rounded d-flex flex-column mt-3 justify-content-start"
                   }
                 >
                   {collections.slice(start, end).map((coll: ICollection) => (
@@ -120,7 +103,7 @@ export const AllCollectionsListPage = () => {
             </div>
             {collections && (
               <Pagination
-                pageSize={isDesktop ? 21 : 7}
+                pageSize={pageSize}
                 totalCount={collections.length}
                 page={page}
                 updateSearch={updateSearch}
