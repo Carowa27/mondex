@@ -298,7 +298,7 @@ export const Menu = ({
                 //     {language?.lang_code.account_login}
                 //   </span>)
               }
-              <div className="d-flex justify-content-around pt-1 pb-1">
+              <div className="d-flex justify-content-around mb-2">
                 <span
                   id="main-menu-language-se"
                   className={
