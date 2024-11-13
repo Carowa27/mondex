@@ -315,8 +315,8 @@ export const MyPages = () => {
               <h5
                 className={
                   showCollections
-                    ? "m-0 d-flex align-items-center justify-content-center h-100"
-                    : "m-0 d-flex align-items-center justify-content-center h-100 fw-normal"
+                    ? "m-0 py-1 d-flex align-items-center justify-content-center h-100"
+                    : "m-0 py-1 d-flex align-items-center justify-content-center h-100 fw-normal"
                 }
               >
                 {language?.lang_code.my_pages_my_collections}
@@ -349,8 +349,8 @@ export const MyPages = () => {
               <h5
                 className={
                   showMyAccount
-                    ? "m-0 d-flex align-items-center justify-content-center h-100"
-                    : "m-0 d-flex align-items-center justify-content-center h-100 fw-normal"
+                    ? "m-0 py-1 d-flex align-items-center justify-content-center h-100"
+                    : "m-0 py-1 d-flex align-items-center justify-content-center h-100 fw-normal"
                 }
               >
                 {language?.lang_code.my_pages_my_profile}
