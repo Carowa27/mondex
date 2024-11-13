@@ -197,14 +197,16 @@ export const CollectionPage = () => {
               <>
                 <Link
                   to="/userpage"
-                  className="text-decoration-none"
+                  className="text-decoration-none mt-2"
                   style={{ color: "inherit" }}
                 >
                   <i className="bi bi-chevron-left me-2"></i>
                 </Link>
-                {collectionNameToShow.slice(0, 9)} -
-                <br />
-                {collectionNameToShow.slice(10, collectionNameToShow.length)}
+                <span style={{ fontSize: "20px" }}>
+                  {collectionNameToShow.slice(0, 9)} -
+                  <br />
+                  {collectionNameToShow.slice(9, collectionNameToShow.length)}
+                </span>
               </>
             ) : (
               <>
@@ -243,9 +245,7 @@ export const CollectionPage = () => {
                 <> Set id: {collection.set?.id.replace("pt", ".")}</>
               ) : isTablet ? (
                 <>{collection.set?.id.replace("pt", ".")}</>
-              ) : (
-                <>{collection.set?.id.replace("pt", ".")}</>
-              )}
+              ) : null}
             </span>
           )}
           {collection?.character !== undefined && (
