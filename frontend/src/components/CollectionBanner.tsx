@@ -110,7 +110,7 @@ export const CollectionBanner = (props: IProps) => {
                             ? 7
                             : isDesktop
                             ? 6
-                            : 2
+                            : 3
                         )
                         .map((card) => (
                           <li
