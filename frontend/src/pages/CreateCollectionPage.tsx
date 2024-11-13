@@ -689,11 +689,9 @@ export const CreateCollectionPage = () => {
           <p>
             {container.language?.lang_code.collection_created}:{" "}
             <span className="text-decoration-underline fst-italic">
-              {
-                container.user?.collections[
-                  container.user?.collections.length - 1
-                ].collection_name
-              }
+              {container.user?.collections[
+                container.user?.collections.length - 1
+              ].collection_name.replaceAll("_", " ")}
             </span>
           </p>
         </Link>
