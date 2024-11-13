@@ -52,7 +52,7 @@ input {
   height: min-content;
 }
 label {
-  width: max-content;
+  width: fit-content;
   display: flex;
   gap: 0.4rem;
   align-items: center;
