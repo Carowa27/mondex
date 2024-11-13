@@ -48,7 +48,8 @@ a {
   text-underline-offset: 0.2rem;
 }
 input {
-  height: 2rem;
+  min-height: 2.5rem;
+  height: min-content;
 }
 label {
   width: max-content;

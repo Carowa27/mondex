@@ -249,9 +249,10 @@ export const Search = () => {
         >
           <div>
             <div className="d-flex justify-content-around">
-              <label htmlFor="search_text" className="pt-2 m-0">
+              <label htmlFor="search_text" className="pt-2 m-0 w-auto">
                 {language?.lang_code.search_word}:{" "}
                 <input
+                  style={{ width: "100%" }}
                   type="text"
                   id="search_text"
                   value={searchValue}
