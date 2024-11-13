@@ -72,7 +72,13 @@ export const AllCollectionsListPage = () => {
           <>
             <div className="d-flex justify-content-between">
               <h2>{language?.lang_code.collection_all_collections}</h2>
-              <div className="d-flex flex-column align-items-end">
+              <div
+                className={
+                  isDesktop || isTablet
+                    ? "d-flex flex-column align-items-end"
+                    : "d-flex flex-column align-items-end justify-content-center"
+                }
+              >
                 <BreadCrumbs pageParam="allCollections" />
                 <Link
                   to="/create-new-collection"
