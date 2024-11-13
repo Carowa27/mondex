@@ -694,88 +694,103 @@ export const MyPages = () => {
                       </div>
                     )}
                   </div>
-                  <div style={isDesktop ? { marginTop: "2.5rem" } : {}}>
-                    <h5>
-                      {language?.name === "English" ? (
-                        <>Most valuable card in collection:</>
-                      ) : (
-                        <>Mest prisvärda kort i samlingen:</>
-                      )}{" "}
-                    </h5>
-                    <div
-                      style={{
-                        marginLeft: isDesktop || isTablet ? "1rem" : "0",
-                      }}
-                    >
-                      {mostValuableOwnedCard !== undefined && (
-                        <div
-                          className={
-                            isDesktop || isTablet
-                              ? "d-flex flex-row w-100 flex-wrap"
-                              : "d-flex flex-row w-100 align-items-center flex-fill mt-3"
-                          }
-                        >
-                          <div style={{ width: "12.5rem" }}>
-                            <img
-                              className="rounded"
-                              style={{
-                                width: isDesktop || isTablet ? "100%" : "100%",
-                              }}
-                              src={mostValuableOwnedCard.card.images.small}
-                              alt={mostValuableOwnedCard.card.name}
-                            />
-                          </div>
+                  {getAmountOfCardsOwned(collections!) !== 0 && (
+                    <div style={isDesktop ? { marginTop: "2.5rem" } : {}}>
+                      <h5>
+                        {language?.name === "English" ? (
+                          <>Most valuable card in collection:</>
+                        ) : (
+                          <>Mest prisvärda kort i samlingen:</>
+                        )}{" "}
+                      </h5>
+                      <div
+                        style={{
+                          marginLeft: isDesktop || isTablet ? "1rem" : "0",
+                        }}
+                      >
+                        {mostValuableOwnedCard !== undefined && (
                           <div
                             className={
                               isDesktop || isTablet
-                                ? "m-0 w-50 ps-3 pt-3"
-                                : "w-auto d-flex flex-column justify-content-evenly m-0 ms-3"
+                                ? "d-flex flex-row w-100 flex-wrap"
+                                : "d-flex flex-row w-100 align-items-center flex-fill mt-3"
                             }
-                            style={{
-                              gap: isDesktop || isTablet ? "1rem" : "0.3rem",
-                            }}
                           >
-                            <p className={!isDesktop && !isTablet ? "m-0" : ""}>
-                              <b>Card: </b>
-                              {!isDesktop && !isTablet && <br />}
-                              {mostValuableOwnedCard.card.name}
-                            </p>
-                            <p className={!isDesktop && !isTablet ? "m-0" : ""}>
-                              <b>Artist: </b>
-                              {!isDesktop && !isTablet && <br />}
-                              {mostValuableOwnedCard.card.artist}
-                            </p>
-                            <p className={!isDesktop && !isTablet ? "m-0" : ""}>
-                              <b>Set: </b>
-                              {!isDesktop && !isTablet && <br />}
-                              {mostValuableOwnedCard.card.set.name}
-                            </p>
-                            <p className={!isDesktop && !isTablet ? "m-0" : ""}>
-                              <b>{language?.lang_code.word_release_date}: </b>
-                              {!isDesktop && !isTablet && <br />}
-                              {mostValuableOwnedCard.card.set.releaseDate}
-                            </p>
-                            <p className={!isDesktop && !isTablet ? "m-0" : ""}>
-                              <b>Rarity: </b>
-                              {!isDesktop && !isTablet && <br />}
-                              {mostValuableOwnedCard.card.rarity}
-                            </p>
-                            <p className={!isDesktop && !isTablet ? "m-0" : ""}>
-                              <b>
-                                {language?.name === "English" ? (
-                                  <>Value</>
-                                ) : (
-                                  <>Värde</>
-                                )}
-                                :{" "}
-                              </b>
-                              {getValueOfCard(mostValuableOwnedCard)}$
-                            </p>
+                            <div style={{ width: "12.5rem" }}>
+                              <img
+                                className="rounded"
+                                style={{
+                                  width:
+                                    isDesktop || isTablet ? "100%" : "100%",
+                                }}
+                                src={mostValuableOwnedCard.card.images.small}
+                                alt={mostValuableOwnedCard.card.name}
+                              />
+                            </div>
+                            <div
+                              className={
+                                isDesktop || isTablet
+                                  ? "m-0 w-50 ps-3 pt-3"
+                                  : "w-auto d-flex flex-column justify-content-evenly m-0 ms-3"
+                              }
+                              style={{
+                                gap: isDesktop || isTablet ? "1rem" : "0.3rem",
+                              }}
+                            >
+                              <p
+                                className={!isDesktop && !isTablet ? "m-0" : ""}
+                              >
+                                <b>Card: </b>
+                                {!isDesktop && !isTablet && <br />}
+                                {mostValuableOwnedCard.card.name}
+                              </p>
+                              <p
+                                className={!isDesktop && !isTablet ? "m-0" : ""}
+                              >
+                                <b>Artist: </b>
+                                {!isDesktop && !isTablet && <br />}
+                                {mostValuableOwnedCard.card.artist}
+                              </p>
+                              <p
+                                className={!isDesktop && !isTablet ? "m-0" : ""}
+                              >
+                                <b>Set: </b>
+                                {!isDesktop && !isTablet && <br />}
+                                {mostValuableOwnedCard.card.set.name}
+                              </p>
+                              <p
+                                className={!isDesktop && !isTablet ? "m-0" : ""}
+                              >
+                                <b>{language?.lang_code.word_release_date}: </b>
+                                {!isDesktop && !isTablet && <br />}
+                                {mostValuableOwnedCard.card.set.releaseDate}
+                              </p>
+                              <p
+                                className={!isDesktop && !isTablet ? "m-0" : ""}
+                              >
+                                <b>Rarity: </b>
+                                {!isDesktop && !isTablet && <br />}
+                                {mostValuableOwnedCard.card.rarity}
+                              </p>
+                              <p
+                                className={!isDesktop && !isTablet ? "m-0" : ""}
+                              >
+                                <b>
+                                  {language?.name === "English" ? (
+                                    <>Value</>
+                                  ) : (
+                                    <>Värde</>
+                                  )}
+                                  :{" "}
+                                </b>
+                                {getValueOfCard(mostValuableOwnedCard)}$
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>
