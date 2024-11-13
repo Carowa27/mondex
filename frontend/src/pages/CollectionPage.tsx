@@ -378,13 +378,13 @@ export const CollectionPage = () => {
                             ? "pt-2 px-1"
                             : "pt-2 d-flex justify-content-center"
                         }
+                        style={{ width: "fit-content" }}
                       >
                         {isDesktop && (
                           <p className="fw-semibold ps-1 m-0">
                             {cardFromApi.name}
                           </p>
                         )}
-
                         <SmallPkmnCard
                           cardFromApi={cardFromApi}
                           collectionName={collectionName}
